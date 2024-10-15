@@ -1,13 +1,14 @@
-
 class User {
   final String accessToken;
   final String expiresIn;
   final String refreshToken;
   final String refreshExpiresIn;
 
-
-  User({required this.accessToken, required this.expiresIn, required this.refreshToken,required this.refreshExpiresIn,
-  
+  User({
+    required this.accessToken,
+    required this.expiresIn,
+    required this.refreshToken,
+    required this.refreshExpiresIn,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -16,7 +17,6 @@ class User {
       expiresIn: json['expiresIn'],
       refreshToken: json['refreshToken'],
       refreshExpiresIn: json['refreshExpiresIn'],
-
     );
   }
 
@@ -27,10 +27,10 @@ class User {
       'refreshToken': refreshToken,
       'refreshExpiresIn': refreshExpiresIn,
       //'profile': profile?.toJson(),
-
     };
   }
 }
+
 // Profile class
 class HostProfile {
   final String name;
@@ -54,10 +54,10 @@ class BookProfile {
   final int eventNumber;
   final int hostNumber;
   final int adventureNumber;
-  final int tourRating;
-  final int eventRating;
-  final int hostRating;
-  final int adventureRating;
+  final double tourRating;
+  final double eventRating;
+  final double hostRating;
+  final double adventureRating;
 
   BookProfile({
     required this.id,
@@ -82,10 +82,19 @@ class BookProfile {
       eventNumber: json['eventNumber'] ?? 0,
       hostNumber: json['hostNumber'] ?? 0,
       adventureNumber: json['adventureNumber'] ?? 0,
-      tourRating: json['tourRating'] ?? 0,
-      eventRating: json['eventRating'] ?? 0,
-      hostRating: json['hostRating'] ?? 0,
-      adventureRating: json['adventureRating'] ?? 0,
+      tourRating: (json['tourRating'] is int)
+          ? (json['tourRating'] as int).toDouble()
+          : (json['tourRating'] as double? ?? 0.0),
+      eventRating: (json['eventRating'] is int)
+          ? (json['eventRating'] as int).toDouble()
+          : (json['eventRating'] as double? ?? 0.0),
+      hostRating: (json['hostRating'] is int)
+          ? (json['hostRating'] as int).toDouble()
+          : (json['hostRating'] as double? ?? 0.0),
+      adventureRating: (json['adventureRating'] is int)
+          ? (json['adventureRating'] as int).toDouble()
+          : (json['adventureRating'] as double? ?? 0.0),
+    
     );
   }
 
@@ -105,11 +114,3 @@ class BookProfile {
     };
   }
 }
-
-
-
-
-
-
-
-

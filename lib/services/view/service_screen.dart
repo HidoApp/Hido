@@ -1,5 +1,6 @@
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/tourist/controller/advertisement_controller.dart';
 import 'package:ajwad_v4/profile/view/ticket_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
@@ -37,6 +38,7 @@ class _ServiceScreenState extends State<ServiceScreen>
   final _srvicesController = Get.put(HospitalityController());
   final _regionsController = Get.put(RegionsController());
   final ProfileController _profileController = Get.put(ProfileController());
+  final _AdverController = Get.put(AdvertisementController());
 
   @override
   void initState() {
@@ -45,6 +47,9 @@ class _ServiceScreenState extends State<ServiceScreen>
         length: 3,
         vsync: this,
         initialIndex: _srvicesController.tabIndex.value);
+
+    // _AdverController.getAllAdvertisement(context: context);
+
     // getReg();
   }
 
@@ -253,7 +258,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                     bottomRight: Radius.circular(width * 0.05)),
                 child: Obx(
                   () => Image.asset(
-                    'assets/images/${_srvicesController.tabIndex.value == 0 ? 'service_hospitality_cover.png' : _srvicesController.tabIndex.value == 1 ? 'service_adventures_cover.png' : _srvicesController.tabIndex.value == 2 ? 'service_events_cover.png' : 'service_restaurants_cover.png'}',
+                    'assets/images/${_srvicesController.tabIndex.value == 0 ? 'service_hospitality_cover_1.png' : _srvicesController.tabIndex.value == 1 ? 'service_adventures_cover.png' : _srvicesController.tabIndex.value == 2 ? 'service_events_cover.png' : 'service_restaurants_cover.png'}',
                     //  width: width,
                     fit: BoxFit.cover,
                   ),
@@ -302,27 +307,31 @@ class _ServiceScreenState extends State<ServiceScreen>
                                 // !AppUtil.rtlDirection(context) ? 15 : 5),
                                 AppUtil.rtlDirection2(context)
                                     ? width * 0.038
-                                    : width * 0.012),
+                                    : width * 0.012
+                                    ),
                         child: Container(
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(width * 0.03),
                                   topRight: Radius.circular(width * 0.03))),
-                          child: CustomText(
-                            text: "hospitality".tr,
-                            color: _srvicesController.tabIndex.value == 0
-                                ? black
-                                : Colors.white,
-                            fontWeight: _srvicesController.tabIndex.value == 0
-                                ? FontWeight.w500
-                                : FontWeight.w400,
-                            fontSize: _srvicesController.tabIndex.value == 0
-                                ? width * 0.033
-                                : width * 0.033,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
+                          child:Padding(
+                            padding: const EdgeInsets.only(bottom:8.0),
+                            child: CustomText(
+                              text: "hospitality".tr,
+                              color: _srvicesController.tabIndex.value == 0
+                                  ? black
+                                  : Colors.white,
+                              fontWeight: _srvicesController.tabIndex.value == 0
+                                  ? FontWeight.w500
+                                  : FontWeight.w400,
+                              fontSize: _srvicesController.tabIndex.value == 0
+                                  ? width * 0.033
+                                  : width * 0.033,
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                            ),
                           ),
                         ),
                       ),
@@ -356,20 +365,23 @@ class _ServiceScreenState extends State<ServiceScreen>
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(width * 0.03),
                                   topRight: Radius.circular(width * 0.03))),
-                          child: CustomText(
-                            text: "adventures".tr,
-                            color: _srvicesController.tabIndex.value == 1
-                                ? black
-                                : Colors.white,
-                            fontWeight: _srvicesController.tabIndex.value == 1
-                                ? FontWeight.w500
-                                : FontWeight.w400,
-                            fontSize: _srvicesController.tabIndex.value == 1
-                                ? width * 0.033
-                                : width * 0.033,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
+                          child:Padding(
+                            padding: const EdgeInsets.only(bottom:8.0),
+                            child: CustomText(
+                              text: "adventures".tr,
+                              color: _srvicesController.tabIndex.value == 1
+                                  ? black
+                                  : Colors.white,
+                              fontWeight: _srvicesController.tabIndex.value == 1
+                                  ? FontWeight.w500
+                                  : FontWeight.w400,
+                              fontSize: _srvicesController.tabIndex.value == 1
+                                  ? width * 0.033
+                                  : width * 0.033,
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                            ),
                           ),
                         ),
                       ),
@@ -402,20 +414,23 @@ class _ServiceScreenState extends State<ServiceScreen>
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(width * 0.03),
                                   topRight: Radius.circular(width * 0.03))),
-                          child: CustomText(
-                            text: "events".tr,
-                            color: _srvicesController.tabIndex.value == 2
-                                ? black
-                                : Colors.white,
-                            fontWeight: _srvicesController.tabIndex.value == 2
-                                ? FontWeight.w500
-                                : FontWeight.w400,
-                            fontSize: _srvicesController.tabIndex.value == 2
-                                ? width * 0.033
-                                : width * 0.033,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom:8.0),
+                            child: CustomText(
+                              text: "events".tr,
+                              color: _srvicesController.tabIndex.value == 2
+                                  ? black
+                                  : Colors.white,
+                              fontWeight: _srvicesController.tabIndex.value == 2
+                                  ? FontWeight.w500
+                                  : FontWeight.w400,
+                              fontSize: _srvicesController.tabIndex.value == 2
+                                  ? width * 0.033
+                                  : width * 0.033,
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                            ),
                           ),
                         ),
                       ),
@@ -437,26 +452,51 @@ class _ServiceScreenState extends State<ServiceScreen>
             //   excludeHeaderSemantics: true,
             //   automaticallyImplyLeading: false,
             //   shadowColor: Colors.black,
-            //   toolbarHeight: width * 0.36,
+            //   toolbarHeight: width * 0.4,
             //   forceMaterialTransparency: true,
             //   pinned: false,
             //   centerTitle: true,
             //   // titleSpacing: 30,
             //   title: AdCards(),
             // ),
-            SliverAppBar(
-              leadingWidth: double.infinity,
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.white,
-              surfaceTintColor: Colors.white,
-              floating: true,
-              automaticallyImplyLeading: false,
-              expandedHeight: 0,
-              toolbarHeight: width * 0.22,
-              pinned: true,
-              stretch: true,
-              //  pinned: true,
-              leading: Padding(
+            Obx(() {
+              if (_AdverController.advertisementList.isNotEmpty) {
+                return SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 28,
+                      left: 16,
+                      right: 16,
+                      bottom: 0,
+                    ), 
+                    child: Center(
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: AdCards(), 
+                      ),
+                    ),
+                  ),
+                );
+              } else {
+                  return SliverToBoxAdapter(child: SizedBox(height: width * 0.12,));
+
+              }
+            }),
+
+            SliverToBoxAdapter(
+              // leadingWidth: double.infinity,
+              // backgroundColor: Colors.white,
+              // foregroundColor: Colors.white,
+              // surfaceTintColor: Colors.white,
+              // floating: true,
+              // automaticallyImplyLeading: false,
+              // expandedHeight: 0,
+              // toolbarHeight: width * 0.22,
+              // pinned: true,
+              // stretch: true,
+              // //  pinned: true,
+              // leading:
+              child: Padding(
                 padding: AppUtil.rtlDirection2(context)
                     ? EdgeInsets.only(right: width * 0.041)
                     : EdgeInsets.only(left: width * 0.041),

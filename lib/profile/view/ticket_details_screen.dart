@@ -61,6 +61,7 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
   // final _hospitalityController = Get.put(HospitalityController());
   Booking? profileBooking;
   void getBooking() async {
+    
     profileBooking = await _touristExploreController.getTouristBookingById(
         context: context, bookingId: widget.booking?.id ?? "");
   }
@@ -102,7 +103,7 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                   widget.hospitality == null &&
                   !widget.isTour!) ...[
                 if (widget.booking!.orderStatus == 'ACCEPTED') ...[
-                  if (widget.booking!.bookingType != 'event')
+                  if (widget.booking!.bookingType != 'event' && widget.booking!.bookingType != 'hospitality'&& widget.booking!.bookingType != 'adventure')
                     Obx(
                       () => Skeletonizer(
                         enabled: _touristExploreController
@@ -124,7 +125,7 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                                     rating: profileBooking?.offers?.first.user!
                                             .profile.tourRating
                                             .toDouble() ??
-                                        0,
+                                        0.0,
                                     tripNumber: profileBooking?.offers?.first
                                             .user!.profile.tourNumber ??
                                         0,
@@ -347,9 +348,7 @@ class TicketData extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: CustomText(
-              text: AppUtil.rtlDirection2(context)
-                  ? "تم النسخ إلى الحافظة "
-                  : 'Copied tp clipboard',
+              text:'Copied'.tr,
               color: Colors.white,
               fontFamily:
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',

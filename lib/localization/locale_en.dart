@@ -655,7 +655,7 @@ const localeEn = {
   'seeMore': 'See more',
   'Yourservices': 'Your services',
   'summary': 'Summary',
-  'Copied': 'Copied tp clipboard',
+  'Copied': 'Copied to clipboard',
   'Experiencetitle': 'Experience title',
   'regionChoose': 'Choose your Region',
   'pendingProgress': "Your tour is going to start soon ",
@@ -691,5 +691,7 @@ const localeEn = {
   'vehiclePlate': 'Vehicle plates',
   'vehicleType': 'Vehicle type',
   'invaildId': "Invaild id",
-  'hidoVer': 'Hido Ver'
+  'hidoVer': 'Hido Ver',
+  'Language':'Language',
+  'preferLang': 'Which language do you prefer',
 };

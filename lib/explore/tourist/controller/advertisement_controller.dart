@@ -17,7 +17,7 @@ import 'package:image_picker/image_picker.dart';
 
 class AdvertisementController extends GetxController {
   
-  var isAdvertisementLoading = true.obs;
+  var isAdvertisementLoading = false.obs;
   var upcommingTicket = <Hospitality>[].obs;
   var pastTicket = <Hospitality>[].obs;
  
@@ -35,6 +35,7 @@ class AdvertisementController extends GetxController {
       if (data != null) {
        advertisementList(data);
       }
+      isAdvertisementLoading(false);
       return advertisementList;
     } catch (e) {
       isAdvertisementLoading(false);

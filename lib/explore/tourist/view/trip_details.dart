@@ -40,12 +40,12 @@ class TripDetails extends StatefulWidget {
     Key? key,
     this.fromAjwady = true,
     this.place,
-    required this.distance,
+    this.distance,
     this.userLocation,
   }) : super(key: key);
   final bool fromAjwady;
   final Place? place;
-  final double distance;
+  final double? distance;
   final UserLocation? userLocation;
 
   @override

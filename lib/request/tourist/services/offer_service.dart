@@ -218,7 +218,7 @@ class OfferService {
           'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body));
-
+     log(response.statusCode.toString());
     if (response.statusCode == 200) {
       log('inter 200');
       return true;
