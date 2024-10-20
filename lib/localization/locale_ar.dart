@@ -686,8 +686,6 @@ const localeAr = {
   'hidoVer': "هايدو نسخة", 'invalidCoupon': 'غير صالح',
   'couponMiSpend': "هذا الرمز صالح للمبالغ التي تبلغ",
   'orAbove': "أو أكثر",
-  'hidoVer': "هايدو نسخة",
-  'Language':'اللغة',
-  'preferLang':'وش اللغة اللي تفضلها؟',
-
+  'Language': 'اللغة',
+  'preferLang': 'وش اللغة اللي تفضلها؟',
 };
