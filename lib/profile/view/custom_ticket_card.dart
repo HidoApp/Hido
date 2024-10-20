@@ -41,8 +41,13 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-
-        return '${placemark.locality}, ${placemark.subLocality}';
+        if(placemark.subLocality!.isEmpty){
+         if (placemark.administrativeArea!.isEmpty)
+         return '${placemark.thoroughfare}';
+         else
+          return '${placemark.administrativeArea}';
+         } else
+        return '${placemark.subLocality}';
       }
     } catch (e) {}
     return '';
@@ -248,7 +253,32 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                             width: width * 0.01,
                           ),
                           CustomText(
-                            text: address,
+                            text: address.isNotEmpty
+                            ? AppUtil.rtlDirection2(context)
+                                            ? '${widget.booking.bookingType == "place"
+                                      ? widget.booking.place!.regionAr!
+                                      : widget.booking.bookingType ==
+                                              "hospitality"
+                                          ? widget.booking.hospitality!.regionAr
+                                          : widget.booking.bookingType ==
+                                                  'event'
+                                              ? widget.booking.event!.regionAr
+                                              : widget.booking.adventure!
+                                                      .regionAr ??
+                                                  ''}, ${address}'
+                                            : '${widget.booking.bookingType == "place"
+                                      ? widget.booking.place!.regionEn!
+                                      : widget.booking.bookingType ==
+                                              "hospitality"
+                                          ? widget.booking.hospitality!.regionEn
+                                          : widget.booking.bookingType ==
+                                                  'event'
+                                              ? widget.booking.event!.regionEn
+                                              : widget.booking.adventure!
+                                                      .regionEn ??
+                                                  'Riyadh'}, ${address}'
+                                      :"",
+                            
 
                             //  AppUtil.rtlDirection2(context)
                             //     ? widget.booking.bookingType == "place"

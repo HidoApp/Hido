@@ -685,5 +685,9 @@ const localeAr = {
   'invaildId': "رقم الهوية غير صالح",
   'hidoVer': "هايدو نسخة", 'invalidCoupon': 'غير صالح',
   'couponMiSpend': "هذا الرمز صالح للمبالغ التي تبلغ",
-  'orAbove': "أو أكثر"
+  'orAbove': "أو أكثر",
+  'hidoVer': "هايدو نسخة",
+  'Language':'اللغة',
+  'preferLang':'وش اللغة اللي تفضلها؟',
+
 };

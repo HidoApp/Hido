@@ -50,9 +50,7 @@ class AdventureTicketData extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: Text(
-              AppUtil.rtlDirection2(context)
-                  ? "تم النسخ إلى الحافظة "
-                  : 'Copied tp clipboard',
+             'Copied'.tr,
               style: TextStyle(
                 color: Colors.white,
                 fontFamily:

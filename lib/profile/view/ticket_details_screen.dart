@@ -61,6 +61,7 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
   // final _hospitalityController = Get.put(HospitalityController());
   Booking? profileBooking;
   void getBooking() async {
+    
     profileBooking = await _touristExploreController.getTouristBookingById(
         context: context, bookingId: widget.booking?.id ?? "");
   }
@@ -103,79 +104,75 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: width * 0.051),
-              if (widget.booking != null)
-                if (widget.adventure == null &&
-                    widget.event == null &&
-                    widget.hospitality == null &&
-                    !widget.isTour!) ...[
-                  if (widget.booking!.orderStatus == 'ACCEPTED') ...[
-                    if (widget.booking!.bookingType != 'event' &&
-                        widget.booking!.bookingType != 'hospitality' &&
-                        widget.booking!.bookingType != 'adventure')
-                      Obx(
-                        () => Skeletonizer(
-                          enabled: _touristExploreController
-                              .isBookingByIdLoading.value,
-                          child: Padding(
-                            padding:
-                                EdgeInsets.symmetric(horizontal: width * 0.041),
-                            child: GestureDetector(
-                              onTap: () {
-                                Get.to(() => LocalOfferInfo(
-                                      image: profileBooking?.offers?.first.user!
-                                              .profile.image ??
-                                          "",
-                                      name: profileBooking?.offers?.first.user!
-                                              .profile.name ??
-                                          "",
-                                      price: int.parse(
-                                          profileBooking?.cost ?? "0"),
-                                      rating: profileBooking?.offers?.first
-                                              .user!.profile.tourRating
-                                              .toDouble() ??
-                                          0,
-                                      tripNumber: profileBooking?.offers?.first
-                                              .user!.profile.tourNumber ??
-                                          0,
-                                      place: null,
-                                      userId:
-                                          profileBooking!.offers!.first.userId,
-                                      profileId:
-                                          profileBooking!.offers!.first.userId,
-                                    ));
-                              },
-                              child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: width * 0.041,
-                                      horizontal: width * 0.051),
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color: lightGrey),
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(16)),
-                                  height: 70,
-                                  child: Row(
-                                    children: [
-                                      CircleAvatar(
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          child: profileBooking?.offers?.first
-                                                      .user!.profile.image !=
-                                                  null
-                                              ? ImageCacheWidget(
-                                                  height: width * 0.097,
-                                                  width: width * 0.097,
-                                                  image: profileBooking
-                                                          ?.offers
-                                                          ?.first
-                                                          .user!
-                                                          .profile
-                                                          .image ??
-                                                      "")
-                                              : Image.asset(
-                                                  'assets/images/profile_image.png'),
-                                        ),
+
+              if (widget.adventure == null &&
+                  widget.event == null &&
+                  widget.hospitality == null &&
+                  !widget.isTour!) ...[
+                if (widget.booking!.orderStatus == 'ACCEPTED') ...[
+                  if (widget.booking!.bookingType != 'event' && widget.booking!.bookingType != 'hospitality'&& widget.booking!.bookingType != 'adventure')
+                    Obx(
+                      () => Skeletonizer(
+                        enabled: _touristExploreController
+                            .isBookingByIdLoading.value,
+                        child: Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: width * 0.041),
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.to(() => LocalOfferInfo(
+                                    image: profileBooking?.offers?.first.user!
+                                            .profile.image ??
+                                        "",
+                                    name: profileBooking?.offers?.first.user!
+                                            .profile.name ??
+                                        "",
+                                    price:
+                                        int.parse(profileBooking?.cost ?? "0"),
+                                    rating: profileBooking?.offers?.first.user!
+                                            .profile.tourRating
+                                            .toDouble() ??
+                                        0.0,
+                                    tripNumber: profileBooking?.offers?.first
+                                            .user!.profile.tourNumber ??
+                                        0,
+                                    place: null,
+                                    userId:
+                                        profileBooking!.offers!.first.userId,
+                                    profileId:
+                                        profileBooking!.offers!.first.userId,
+                                  ));
+                            },
+                            child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: width * 0.041,
+                                    horizontal: width * 0.051),
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: lightGrey),
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(16)),
+                                height: 70,
+                                child: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(30),
+                                        child: profileBooking?.offers?.first
+                                                    .user!.profile.image !=
+                                                null
+                                            ? ImageCacheWidget(
+                                                height: width * 0.097,
+                                                width: width * 0.097,
+                                                image: profileBooking
+                                                        ?.offers
+                                                        ?.first
+                                                        .user!
+                                                        .profile
+                                                        .image ??
+                                                    "")
+                                            : Image.asset(
+                                                'assets/images/profile_image.png'),
                                       ),
                                       SizedBox(
                                         width: width * 0.0205,
@@ -357,9 +354,7 @@ class TicketData extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: CustomText(
-              text: AppUtil.rtlDirection2(context)
-                  ? "تم النسخ إلى الحافظة "
-                  : 'Copied tp clipboard',
+              text:'Copied'.tr,
               color: Colors.white,
               fontFamily:
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',

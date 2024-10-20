@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/driving_license.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/explore/widget/language_sheet.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/bookmark_screen.dart';
@@ -301,6 +302,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Expanded(
                   child: Column(
                     children: [
+                      CustomListTile(
+                        title: "Language".tr,
+                        leading: "assets/icons/language.svg",
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(24),
+                                topRight: Radius.circular(24),
+                              ),
+                            ),
+                            builder: (context) {
+                              return const LanguageSheet();
+                            },
+                          );
+                        },
+                      ),
                       CustomListTile(
                         title: "terms".tr,
                         leading: "assets/icons/help_icon.svg",

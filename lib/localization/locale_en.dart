@@ -655,7 +655,7 @@ const localeEn = {
   'seeMore': 'See more',
   'Yourservices': 'Your services',
   'summary': 'Summary',
-  'Copied': 'Copied tp clipboard',
+  'Copied': 'Copied to clipboard',
   'Experiencetitle': 'Experience title',
   'regionChoose': 'Choose your Region',
   'pendingProgress': "Your tour is going to start soon ",
@@ -694,5 +694,7 @@ const localeEn = {
   'hidoVer': 'Hido Ver',
   'invalidCoupon': 'Invalid',
   'couponMiSpend': "This code is for amounts of",
-  'orAbove': "or above"
+  'orAbove': "or above",
+  'Language':'Language',
+  'preferLang': 'Which language do you prefer',
 };
