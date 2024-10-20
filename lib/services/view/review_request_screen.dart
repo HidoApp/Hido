@@ -208,6 +208,30 @@ class _ReviewRequestState extends State<ReviewRequest> {
                           offerController: widget.offerController,
                           place: widget.place!,
                         ),
+                        if (paymentController.validateType.value ==
+                            'applied') ...[
+                          SizedBox(
+                            height: width * 0.0102,
+                          ),
+                          Row(
+                            children: [
+                              CustomText(
+                                text: 'discount'.tr,
+                                fontSize: width * 0.038,
+                                fontFamily: AppUtil.SfFontType(context),
+                                color: starGreyColor,
+                              ),
+                              const Spacer(),
+                              CustomText(
+                                text:
+                                    '${"sar".tr} ${paymentController.discountPrice.toString()}-',
+                                fontSize: width * 0.038,
+                                fontFamily: AppUtil.SfFontType(context),
+                                color: starGreyColor,
+                              )
+                            ],
+                          ),
+                        ],
                         SizedBox(
                           height: width * 0.02,
                         ),
@@ -229,15 +253,19 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                   }
                                   Get.to(
                                     () => PaymentType(
-                                      price: (widget.offerController!.totalPrice
-                                                  .value *
-                                              widget
-                                                  .offerController!
-                                                  .offerDetails
-                                                  .value
-                                                  .booking!
-                                                  .guestNumber!)
-                                          .toDouble(),
+                                      price: paymentController
+                                                  .validateType.value ==
+                                              'applied'
+                                          ? paymentController.finalPrice.value
+                                          : (widget.offerController!.totalPrice
+                                                      .value *
+                                                  widget
+                                                      .offerController!
+                                                      .offerDetails
+                                                      .value
+                                                      .booking!
+                                                      .guestNumber!)
+                                              .toDouble(),
                                       type: 'tour',
                                       offerController: widget.offerController,
                                       booking: widget.booking,

@@ -39,7 +39,6 @@ class _PromocodeFieldState extends State<PromocodeField> {
     );
     _paymentController.couponId(coupon.id);
     log(_paymentController.couponId.value);
-
     log(_paymentController.discountPrice.value.toString());
     log(_paymentController.finalPrice.value.toString());
   }
