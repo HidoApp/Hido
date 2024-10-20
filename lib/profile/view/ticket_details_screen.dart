@@ -61,7 +61,6 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
   // final _hospitalityController = Get.put(HospitalityController());
   Booking? profileBooking;
   void getBooking() async {
-    
     profileBooking = await _touristExploreController.getTouristBookingById(
         context: context, bookingId: widget.booking?.id ?? "");
   }
@@ -110,7 +109,9 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                   widget.hospitality == null &&
                   !widget.isTour!) ...[
                 if (widget.booking!.orderStatus == 'ACCEPTED') ...[
-                  if (widget.booking!.bookingType != 'event' && widget.booking!.bookingType != 'hospitality'&& widget.booking!.bookingType != 'adventure')
+                  if (widget.booking!.bookingType != 'event' &&
+                      widget.booking!.bookingType != 'hospitality' &&
+                      widget.booking!.bookingType != 'adventure')
                     Obx(
                       () => Skeletonizer(
                         enabled: _touristExploreController
@@ -174,37 +175,38 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                                             : Image.asset(
                                                 'assets/images/profile_image.png'),
                                       ),
-                                      SizedBox(
-                                        width: width * 0.0205,
-                                      ),
-                                      CustomText(
-                                        fontFamily: AppUtil.SfFontType(context),
-                                        fontSize: width * 0.038,
-                                        fontWeight: FontWeight.w500,
-                                        text: AppUtil.capitalizeFirstLetter(
-                                            profileBooking?.offers?.first.user!
-                                                    .profile.name ??
-                                                "Name"),
-                                      ),
-                                      // const Spacer(),
-                                      // SizedBox(
-                                      //   width: width * 0.233,
-                                      //   child: CustomButton(
-                                      //     title: 'chat'.tr,
-                                      //     onPressed: () {},
-                                      //   ),
-                                      // )
-                                    ],
-                                  )),
-                            ),
+                                    ),
+                                    SizedBox(
+                                      width: width * 0.0205,
+                                    ),
+                                    CustomText(
+                                      fontFamily: AppUtil.SfFontType(context),
+                                      fontSize: width * 0.038,
+                                      fontWeight: FontWeight.w500,
+                                      text: AppUtil.capitalizeFirstLetter(
+                                          profileBooking?.offers?.first.user!
+                                                  .profile.name ??
+                                              "Name"),
+                                    ),
+                                    // const Spacer(),
+                                    // SizedBox(
+                                    //   width: width * 0.233,
+                                    //   child: CustomButton(
+                                    //     title: 'chat'.tr,
+                                    //     onPressed: () {},
+                                    //   ),
+                                    // )
+                                  ],
+                                )),
                           ),
                         ),
                       ),
-                    SizedBox(
-                      height: width * 0.03,
                     ),
-                  ]
-                ],
+                  SizedBox(
+                    height: width * 0.03,
+                  ),
+                ]
+              ],
               Align(
                 alignment: Alignment.topCenter,
                 child: TicketWidget(
@@ -354,7 +356,7 @@ class TicketData extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: CustomText(
-              text:'Copied'.tr,
+              text: 'Copied'.tr,
               color: Colors.white,
               fontFamily:
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
