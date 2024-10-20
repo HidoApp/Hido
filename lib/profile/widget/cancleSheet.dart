@@ -154,7 +154,7 @@ class _CancelSheetState extends State<CancelSheet> {
               const SizedBox(height: 28),
               Obx(
                 () => offerController.isBookingCancelLoading.value
-                    ? Center(child: CircularProgressIndicator.adaptive())
+                    ? const Center(child: CircularProgressIndicator.adaptive())
                     : CustomButton(
                         onPressed: () async {
                           log("End Trip Taped ${widget.bookId}");
@@ -169,7 +169,7 @@ class _CancelSheetState extends State<CancelSheet> {
                           if (bookingCancel) {
                             int notificationId = int.tryParse(bookID!) ?? 0;
                             await flutterLocalNotificationsPlugin
-                                .cancel(int.tryParse(widget.bookId)??0);
+                                .cancel(int.tryParse(widget.bookId) ?? 0);
 
                             AmplitudeService.amplitude.track(BaseEvent(
                                 'Booking Successfully canceled after payment',
@@ -182,7 +182,6 @@ class _CancelSheetState extends State<CancelSheet> {
                               AppUtil.successToast(context, 'EndTrip'.tr);
                               await Future.delayed(const Duration(seconds: 1));
                             }
-                            // Get.offAll(const TouristBottomBar());
                             Get.back();
                             Get.back();
                             Get.back();

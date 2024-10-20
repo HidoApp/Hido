@@ -72,8 +72,14 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
     if (widget.event != null) {
       return;
     }
-    if (widget.booking!.bookingType != 'event') {
-      getBooking();
+    if (widget.hospitality == null &&
+        widget.adventure == null &&
+        widget.event == null) {
+      if (widget.booking!.bookingType != 'event' &&
+          widget.booking!.bookingType != 'hospitality' &&
+          widget.booking!.bookingType != 'adventure') {
+        getBooking();
+      }
     }
   }
 
@@ -98,6 +104,7 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: width * 0.051),
+
               if (widget.adventure == null &&
                   widget.event == null &&
                   widget.hospitality == null &&
@@ -167,38 +174,37 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                                             : Image.asset(
                                                 'assets/images/profile_image.png'),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: width * 0.0205,
-                                    ),
-                                    CustomText(
-                                      fontFamily: AppUtil.SfFontType(context),
-                                      fontSize: width * 0.038,
-                                      fontWeight: FontWeight.w500,
-                                      text: AppUtil.capitalizeFirstLetter(
-                                          profileBooking?.offers?.first.user!
-                                                  .profile.name ??
-                                              "Name"),
-                                    ),
-                                    // const Spacer(),
-                                    // SizedBox(
-                                    //   width: width * 0.233,
-                                    //   child: CustomButton(
-                                    //     title: 'chat'.tr,
-                                    //     onPressed: () {},
-                                    //   ),
-                                    // )
-                                  ],
-                                )),
+                                      SizedBox(
+                                        width: width * 0.0205,
+                                      ),
+                                      CustomText(
+                                        fontFamily: AppUtil.SfFontType(context),
+                                        fontSize: width * 0.038,
+                                        fontWeight: FontWeight.w500,
+                                        text: AppUtil.capitalizeFirstLetter(
+                                            profileBooking?.offers?.first.user!
+                                                    .profile.name ??
+                                                "Name"),
+                                      ),
+                                      // const Spacer(),
+                                      // SizedBox(
+                                      //   width: width * 0.233,
+                                      //   child: CustomButton(
+                                      //     title: 'chat'.tr,
+                                      //     onPressed: () {},
+                                      //   ),
+                                      // )
+                                    ],
+                                  )),
+                            ),
                           ),
                         ),
                       ),
+                    SizedBox(
+                      height: width * 0.03,
                     ),
-                  SizedBox(
-                    height: width * 0.03,
-                  ),
-                ]
-              ],
+                  ]
+                ],
               Align(
                 alignment: Alignment.topCenter,
                 child: TicketWidget(

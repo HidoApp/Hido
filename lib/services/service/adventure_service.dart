@@ -73,6 +73,8 @@ class AdventureService {
         if (token != '') 'Authorization': 'Bearer $token',
       },
     );
+    log(response.statusCode.toString());
+    log(response.body.toString());
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
 
@@ -90,6 +92,7 @@ class AdventureService {
       {required BuildContext context,
       required String adventureID,
       String? invoiceId,
+      String? couponId,
       required int personNumber}) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
@@ -105,7 +108,10 @@ class AdventureService {
     Map<String, dynamic> queryParameters = {
       'paymentId': invoiceId,
       'adventureId': adventureID,
+      if (couponId != '') 'codeId': couponId
     };
+    log('COupon id');
+    log(couponId ?? "No Coupon");
     final response = await http.post(
         Uri.parse('$baseUrl/adventure/booking/$adventureID')
             .replace(queryParameters: queryParameters),

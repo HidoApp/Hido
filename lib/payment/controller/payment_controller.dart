@@ -1,6 +1,8 @@
+import 'package:ajwad_v4/payment/model/coupon.dart';
 import 'package:ajwad_v4/payment/model/credit_card.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/model/payment_result.dart';
+import 'package:ajwad_v4/payment/service/coupon_service.dart';
 
 import 'package:ajwad_v4/payment/service/payment_service.dart';
 import 'package:ajwad_v4/request/tourist/models/schedule.dart';
@@ -15,14 +17,22 @@ class PaymentController extends GetxController {
   var isPaymentGatewayLoading = false.obs;
   var isApplePayEmbeddedLoading = false.obs;
   var isApplePayExecuteLoading = false.obs;
- 
+  var isCouponByCodeLoading = false.obs;
+
   var showCvv = false.obs;
   var isNameValid = true.obs;
   var isCardNumberValid = true.obs;
   var isCvvValid = true.obs;
   var isDateValid = true.obs;
-  var isApplied = false.obs;
 
+  var coupon = Coupon().obs;
+  var isApplied = false.obs;
+  var isUnderMinSpend = false.obs;
+  var validateType = ''.obs;
+  RxDouble finalPrice = 0.0.obs;
+  var minSpend = 0.obs;
+  var couponId = ''.obs;
+  var discountPrice = 0.0.obs;
   Future<PaymentResult?> payWithCreditCard({
     required BuildContext context,
     required String requestId,
@@ -62,7 +72,7 @@ class PaymentController extends GetxController {
     required BuildContext context,
     //required String description,
     // required int amount,
-    required int InvoiceValue,
+    required double InvoiceValue,
   }) async {
     try {
       isPaymenInvoiceLoading(true);
@@ -84,7 +94,7 @@ class PaymentController extends GetxController {
     required BuildContext context,
     required String language,
     required String paymentMethod,
-    required int price,
+    required double price,
   }) async {
     try {
       isPaymentGatewayLoading(true);
@@ -153,7 +163,7 @@ class PaymentController extends GetxController {
   }
 
   Future<Invoice?> applePayEmbedded(
-      {required BuildContext context, required int invoiceValue}) async {
+      {required BuildContext context, required double invoiceValue}) async {
     try {
       isApplePayEmbeddedLoading(true);
 
@@ -188,7 +198,7 @@ class PaymentController extends GetxController {
 
   Future<Invoice?> creditCardEmbedded({
     required BuildContext context,
-    required int price,
+    required double price,
   }) async {
     try {
       isCreditCardPaymentLoading(true);
@@ -200,6 +210,26 @@ class PaymentController extends GetxController {
       return null;
     } finally {
       isCreditCardPaymentLoading(false);
+    }
+  }
+
+  Future<Coupon?> getCouponByCode(
+      {required BuildContext context,
+      required String code,
+      required String type}) async {
+    try {
+      isCouponByCodeLoading(true);
+      final data = await CouponService.getCouponByCode(
+          context: context, code: code, type: type);
+      if (data != null) {
+        coupon(data);
+        return data;
+      }
+    } catch (e) {
+      isCouponByCodeLoading(false);
+      return null;
+    } finally {
+      isCouponByCodeLoading(false);
     }
   }
 }

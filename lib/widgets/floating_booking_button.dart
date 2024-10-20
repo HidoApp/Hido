@@ -475,17 +475,22 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                                       ))!
                                                   .then(
                                                 (value) {
-                                                  // person = 0;
-                                                  //
+                                                  setState(() => person = 0);
+
                                                   // Get.back();
                                                 },
                                               );
                                               AmplitudeService.amplitude.track(
-                                                  BaseEvent( 'Review Adventure Booking',
+                                                  BaseEvent(
+                                                      'Review Adventure Booking',
                                                       eventProperties: {
                                                     'adventureTime':
-                                                       '${widget.adventure.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.startTime)).join(', ')} - ${widget.adventure.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.endTime)).join(', ')}',
-                                                    'adventureDate':  AppUtil.formatBookingDate(context,  widget.adventure.date!),
+                                                        '${widget.adventure.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.startTime)).join(', ')} - ${widget.adventure.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.endTime)).join(', ')}',
+                                                    'adventureDate': AppUtil
+                                                        .formatBookingDate(
+                                                            context,
+                                                            widget.adventure
+                                                                .date!),
                                                     'PersonNo': person,
                                                   }));
                                             }

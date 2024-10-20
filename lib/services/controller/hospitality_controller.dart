@@ -111,29 +111,29 @@ class HospitalityController extends GetxController {
 
   Future<bool> checkAndBookHospitality({
     required BuildContext context,
-    required bool check,
     String? paymentId,
+    String? couponId,
     required String hospitalityId,
     required String date,
     required String dayId,
     required int numOfMale,
     required int numOfFemale,
-    required int cost,
+    required double cost,
   }) async {
     try {
       isCheckAndBookLoading(true);
       print(
-          '  \ncheck: $check, \n hospitalityId:$hospitalityId, paymentId: $paymentId,\n ,date: $date,dayId: $dayId, numOfFemale: $numOfFemale, numOfMale: $numOfMale, cost: $cost');
+          '   \n hospitalityId:$hospitalityId, paymentId: $paymentId,\n ,date: $date,dayId: $dayId, numOfFemale: $numOfFemale, numOfMale: $numOfMale, cost: $cost');
 
       final data = await HospitalityService.checkAndBookHospitality(
           context: context,
-          check: check,
           hospitalityId: hospitalityId,
           paymentId: paymentId,
           date: date,
           dayId: dayId,
           numOfFemale: numOfFemale,
           numOfMale: numOfMale,
+          couponId: couponId,
           cost: cost);
 
       return data;
