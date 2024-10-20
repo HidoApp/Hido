@@ -219,6 +219,29 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                         )
                       ],
                     ),
+                    if (paymentController.validateType.value == 'applied') ...[
+                      SizedBox(
+                        height: width * 0.0102,
+                      ),
+                      Row(
+                        children: [
+                          CustomText(
+                            text: 'discount'.tr,
+                            fontSize: width * 0.038,
+                            fontFamily: AppUtil.SfFontType(context),
+                            color: starGreyColor,
+                          ),
+                          const Spacer(),
+                          CustomText(
+                            text:
+                                '${"sar".tr} ${paymentController.discountPrice.toString()}-',
+                            fontSize: width * 0.038,
+                            fontFamily: AppUtil.SfFontType(context),
+                            color: starGreyColor,
+                          )
+                        ],
+                      ),
+                    ],
                     SizedBox(
                       height: width * 0.051,
                     ),
@@ -232,7 +255,11 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                               onPressed: (() async {
                                 Get.to(
                                   () => PaymentType(
-                                    price: finalCost,
+                                    price:
+                                        paymentController.validateType.value ==
+                                                'applied'
+                                            ? paymentController.finalPrice.value
+                                            : finalCost,
                                     type: "hospitality",
                                     hospitality: widget.hospitality,
                                     servicesController:

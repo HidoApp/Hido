@@ -1,7 +1,9 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
+import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/models/schedule.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -42,99 +44,64 @@ class _TotalWidgetState extends State<TotalWidget> {
     //     'Additional charges total: ${widget.offerController!.totalPrice.value}');
 //
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomText(
-                  text: 'total'.tr,
-                  textAlign: TextAlign.right,
-                  color: black,
-                  fontSize: width * 0.05,
-                  fontFamily: 'HT Rakik',
-                  fontWeight: FontWeight.w500,
-                ),
-              ],
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomText(
+              text: 'total'.tr,
+              textAlign: TextAlign.right,
+              color: black,
+              fontSize: width * 0.05,
+              fontFamily: 'HT Rakik',
+              fontWeight: FontWeight.w500,
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Obx(
-              () => Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Total
-                  Text.rich(
+          ],
+        ),
+        Obx(
+          () => Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Total
+              Text.rich(
+                TextSpan(
+                  children: [
                     TextSpan(
-                      children: [
-                        TextSpan(
-                          text:
-                              // ' ${(widget.place.price! * widget.offerController!.offerDetails.value.booking!.guestNumber!) + (widget.offerController!.totalPrice.value * widget.offerController!.offerDetails.value.booking!.guestNumber!)} ',
-                              // '${(widget.place?.price ?? 0) * (widget.offerController?.offerDetails.value?.booking?.guestNumber ?? 0) + (widget.offerController?.totalPrice.value ?? 0) * (widget.offerController?.offerDetails.value?.booking?.guestNumber ?? 0)}',
-                              '${(widget.offerController?.totalPrice.value ?? 0) * (widget.offerController?.offerDetails.value.booking?.guestNumber ?? 0)}',
-                          style: TextStyle(
-                            color: black,
-                            fontSize: width * 0.05,
-                            fontFamily: 'HT Rakik',
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        TextSpan(text: '  '),
-                        TextSpan(
-                          text: 'sar'.tr,
-                          style: TextStyle(
-                            color: black,
-                            fontSize: width * 0.05,
-                            fontFamily: 'HT Rakik',
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
+                      text:
+                          // ' ${(widget.place.price! * widget.offerController!.offerDetails.value.booking!.guestNumber!) + (widget.offerController!.totalPrice.value * widget.offerController!.offerDetails.value.booking!.guestNumber!)} ',
+                          // '${(widget.place?.price ?? 0) * (widget.offerController?.offerDetails.value?.booking?.guestNumber ?? 0) + (widget.offerController?.totalPrice.value ?? 0) * (widget.offerController?.offerDetails.value?.booking?.guestNumber ?? 0)}',
+                          '${(widget.offerController?.totalPrice.value ?? 0) * (widget.offerController?.offerDetails.value.booking?.guestNumber ?? 0)}',
+                      style: TextStyle(
+                        color: black,
+                        fontSize: width * 0.05,
+                        fontFamily: 'HT Rakik',
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  // Discount
-                  // const Text.rich(
-                  //   TextSpan(
-                  //     children: [
-                  //       TextSpan(
-                  //         text: ' 00.00 ',
-                  //         style: TextStyle(
-                  //           color: Color(0xFF9E9E9E),
-                  //           fontSize: 14,
-                  //           fontFamily: 'HT Rakik',
-                  //           fontWeight: FontWeight.w300,
-                  //         ),
-                  //       ),
-                  //       TextSpan(
-                  //         text: 'ريال سعودي',
-                  //         style: TextStyle(
-                  //           color: Color(0xFF9E9E9E),
-                  //           fontSize: 10,
-                  //           fontFamily: 'HT Rakik',
-                  //           fontWeight: FontWeight.w300,
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  //   textAlign: TextAlign.right,
-                  // )
-                ],
+                    TextSpan(text: '  '),
+                    TextSpan(
+                      text: 'sar'.tr,
+                      style: TextStyle(
+                        color: black,
+                        fontSize: width * 0.05,
+                        fontFamily: 'HT Rakik',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          )
-        ],
-      ),
+              //   const SizedBox(height: 4),
+            ],
+          ),
+        )
+      ],
     );
   }
 }

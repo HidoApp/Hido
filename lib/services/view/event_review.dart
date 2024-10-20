@@ -167,6 +167,29 @@ class _EventReviewState extends State<EventReview> {
                         )
                       ],
                     ),
+                    if (paymentController.validateType.value == 'applied') ...[
+                      SizedBox(
+                        height: width * 0.0102,
+                      ),
+                      Row(
+                        children: [
+                          CustomText(
+                            text: 'discount'.tr,
+                            fontSize: width * 0.038,
+                            fontFamily: AppUtil.SfFontType(context),
+                            color: starGreyColor,
+                          ),
+                          const Spacer(),
+                          CustomText(
+                            text:
+                                '${"sar".tr} ${paymentController.discountPrice.toString()}-',
+                            fontSize: width * 0.038,
+                            fontFamily: AppUtil.SfFontType(context),
+                            color: starGreyColor,
+                          )
+                        ],
+                      ),
+                    ],
                     SizedBox(
                       height: width * 0.051,
                     ),
@@ -180,8 +203,11 @@ class _EventReviewState extends State<EventReview> {
                                   event: widget.event,
                                   type: 'event',
                                   personNumber: widget.person,
-                                  price: (widget.event.price! * widget.person)
-                                      .toDouble(),
+                                  price: paymentController.validateType.value ==
+                                          'applied'
+                                      ? paymentController.finalPrice.value
+                                      : (widget.event.price! * widget.person)
+                                          .toDouble(),
                                   eventController: _eventController,
                                 ),
                               );
