@@ -110,6 +110,8 @@ class AdventureService {
       'adventureId': adventureID,
       if (couponId != '') 'codeId': couponId
     };
+    log('COupon id');
+    log(couponId ?? "No Coupon");
     final response = await http.post(
         Uri.parse('$baseUrl/adventure/booking/$adventureID')
             .replace(queryParameters: queryParameters),

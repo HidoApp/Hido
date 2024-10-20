@@ -1220,7 +1220,6 @@ class _ReservaationDetailsAdventureWidgetState
                                             .serviceController
                                             .checkAndBookHospitality(
                                                 context: context,
-                                                check: false,
                                                 hospitalityId:
                                                     widget.hospitality!.id,
                                                 date: widget.serviceController
@@ -1277,7 +1276,6 @@ class _ReservaationDetailsAdventureWidgetState
                                                     .serviceController
                                                     .checkAndBookHospitality(
                                                         context: context,
-                                                        check: true,
                                                         cost: (widget
                                                                     .hospitality!
                                                                     .price *

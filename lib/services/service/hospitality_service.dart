@@ -91,8 +91,8 @@ class HospitalityService {
 
   static Future<bool> checkAndBookHospitality({
     required BuildContext context,
-    required bool check,
     String? paymentId,
+    String? couponId,
     required String hospitalityId,
     required String date,
     required String dayId,
@@ -113,9 +113,9 @@ class HospitalityService {
     }
 
     Map<String, dynamic> queryParameters = {
-      'check': check.toString(),
       'hospitalityId': hospitalityId,
       'paymentId': paymentId,
+      if (couponId != '') 'codeId': couponId
     };
 
     Map<String, dynamic> body = {
@@ -125,7 +125,7 @@ class HospitalityService {
         'male': numOfMale,
         'female': numOfFemale
       },
-      'cost': cost,
+      // 'cost': cost,
     };
 
     final response = await http.post(

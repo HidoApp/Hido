@@ -120,6 +120,7 @@ class OfferService {
     required BuildContext context,
     required String offerId,
     required String invoiceId,
+    String? couponId,
     required List<Schedule> schedules,
   }) async {
     log("jwtToken");
@@ -143,6 +144,7 @@ class OfferService {
         queryParameters: {
           'paymentId': invoiceId,
           'offerId': offerId,
+          if (couponId != '') 'codeId': couponId
         },
       ),
       headers: {

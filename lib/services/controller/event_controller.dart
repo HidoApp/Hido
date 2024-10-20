@@ -280,6 +280,7 @@ class EventController extends GetxController {
       required double cost,
       required String dayId,
       required int person,
+      String? couponId,
       required String date}) async {
     try {
       ischeckBookingLoading(true);
@@ -290,6 +291,7 @@ class EventController extends GetxController {
           cost: cost,
           dayId: dayId,
           person: person,
+          couponId: couponId,
           date: date);
       return data;
     } catch (e) {

@@ -562,7 +562,6 @@ void showReservationDetailsSheet({
                                         final isSuccess = await serviceController
                                             .checkAndBookHospitality(
                                                 context: context,
-                                                check: false,
                                                 hospitalityId: hospitality.id,
                                                 date: serviceController
                                                     .selectedDate.value,

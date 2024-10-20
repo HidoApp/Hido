@@ -66,6 +66,7 @@ class OfferController extends GetxController {
     required BuildContext context,
     required String offerId,
     required String invoiceId,
+    String? couponId,
     required List<Schedule> schedules,
   }) async {
     try {
@@ -74,6 +75,7 @@ class OfferController extends GetxController {
         context: context,
         offerId: offerId,
         invoiceId: invoiceId,
+        couponId: couponId,
         schedules: schedules,
       );
       acceptedOffer(data);
@@ -105,7 +107,6 @@ class OfferController extends GetxController {
           type: type,
           reason: reason ?? '');
 
-  
       return data;
 
       // return isBookingCancel.value;
@@ -180,25 +181,27 @@ class OfferController extends GetxController {
         updateScheduleList.add(schedule);
 
         scheduleState.value = false;
-          // Track activity addition
-      AmplitudeService.amplitude.track(BaseEvent(
-        'Select Tour Activity',
-        eventProperties: {
-          'activityName': schedule.scheduleName, // Assuming schedule has activityName
-          'price': schedule.price,
-          'activityTime': schedule.scheduleTime,
-        },
-      ));
+        // Track activity addition
+        AmplitudeService.amplitude.track(BaseEvent(
+          'Select Tour Activity',
+          eventProperties: {
+            'activityName':
+                schedule.scheduleName, // Assuming schedule has activityName
+            'price': schedule.price,
+            'activityTime': schedule.scheduleTime,
+          },
+        ));
       }
     } else {
       totalPrice -= schedule.price ?? 0;
 
       updateScheduleList.remove(schedule);
 
-        AmplitudeService.amplitude.track(BaseEvent(
+      AmplitudeService.amplitude.track(BaseEvent(
         'Remove Tour Activity',
         eventProperties: {
-          'activityName': schedule.scheduleName, // Assuming schedule has activityName
+          'activityName':
+              schedule.scheduleName, // Assuming schedule has activityName
           'price': schedule.price,
           'activityTime': schedule.scheduleTime,
         },
