@@ -73,6 +73,7 @@ class AdventureService {
         if (token != '') 'Authorization': 'Bearer $token',
       },
     );
+    log(response.body);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
 

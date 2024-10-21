@@ -216,7 +216,7 @@ class _TripDetailsState extends State<TripDetails> {
                                   title: AppUtil.rtlDirection2(context)
                                       ? "طلبك"
                                       : "Your Request",
-                                  icon: !AppUtil.rtlDirection(context)
+                                  icon: AppUtil.rtlDirection2(context)
                                       ? const Icon(
                                           Icons.arrow_back_ios,
                                           size: 20,
@@ -253,7 +253,7 @@ class _TripDetailsState extends State<TripDetails> {
                               title: AppUtil.rtlDirection2(context)
                                   ? "العروض"
                                   : "View Offers",
-                              icon: !AppUtil.rtlDirection(context)
+                              icon: AppUtil.rtlDirection2(context)
                                   ? const Icon(
                                       Icons.arrow_back_ios,
                                       size: 20,
@@ -314,7 +314,7 @@ class _TripDetailsState extends State<TripDetails> {
                           title: AppUtil.rtlDirection2(context)
                               ? "اطلب"
                               : "Request",
-                          icon: !AppUtil.rtlDirection(context)
+                          icon: AppUtil.rtlDirection2(context)
                               ? const Icon(
                                   Icons.arrow_back_ios,
                                   size: 20,
@@ -377,13 +377,13 @@ class _TripDetailsState extends State<TripDetails> {
                   child: Column(
                     children: [
                       Align(
-                          alignment: !AppUtil.rtlDirection(context)
+                          alignment: AppUtil.rtlDirection2(context)
                               ? Alignment.centerRight
                               : Alignment.centerLeft,
                           child: CustomText(
                             text: widget.place == null
                                 ? 'tuwaik'.tr
-                                : !AppUtil.rtlDirection(context)
+                                : AppUtil.rtlDirection2(context)
                                     ? widget.place!.nameAr!
                                     : widget.place!.nameEn!,
                             color: Color(0xFF070708),
@@ -404,7 +404,7 @@ class _TripDetailsState extends State<TripDetails> {
                           ),
                           CustomText(
                             text: widget.place != null
-                                ? !AppUtil.rtlDirection(context)
+                                ? AppUtil.rtlDirection2(context)
                                     ? widget.place!.regionAr! +
                                         ", المملكة العربية السعودية"
                                     : widget.place!.regionEn! + ", Saudi Arabia"
@@ -443,7 +443,7 @@ class _TripDetailsState extends State<TripDetails> {
                         height: width * 0.046,
                       ),
                       Align(
-                          alignment: !AppUtil.rtlDirection(context)
+                          alignment: AppUtil.rtlDirection2(context)
                               ? Alignment.centerRight
                               : Alignment.centerLeft,
                           child: CustomText(
@@ -482,7 +482,7 @@ class _TripDetailsState extends State<TripDetails> {
                               fontWeight: FontWeight.w400,
                               text: widget.place == null
                                   ? "******"
-                                  : !AppUtil.rtlDirection(context)
+                                  : AppUtil.rtlDirection2(context)
                                       ? widget.place!.descriptionAr!
                                       : widget.place!.descriptionEn!),
                         ),
@@ -848,7 +848,7 @@ class _TripDetailsState extends State<TripDetails> {
             Positioned(
               top: height * 0.066,
               right:
-                  !AppUtil.rtlDirection(context) ? width * 0.85 : width * 0.09,
+                  AppUtil.rtlDirection2(context) ? width * 0.85 : width * 0.09,
               height: 40,
               child: Obx(
                 () => GestureDetector(

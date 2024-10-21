@@ -56,7 +56,7 @@ class _SelectAjwadySheet extends State<SelectAjwadySheet> {
                   height: 20,
                 ),
                 Align(
-                  alignment: !AppUtil.rtlDirection(context)
+                  alignment: AppUtil.rtlDirection2(context)
                       ? Alignment.centerRight
                       : Alignment.centerLeft,
                   child: CustomText(

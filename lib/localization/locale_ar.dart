@@ -686,5 +686,6 @@ const localeAr = {
   'hidoVer': "هايدو نسخة",
   'Language':'اللغة',
   'preferLang':'وش اللغة اللي تفضلها؟',
+  'wallet':'المحفظة'
 
 };

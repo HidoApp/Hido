@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/view/edit_hospitality.dart';
 import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
@@ -87,14 +89,10 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
   void getHospitalityById() async {
     hospitalityObj = (await _servicesController.getHospitalityById(
         context: context, id: widget.hospitalityId));
-    if (!AppUtil.isGuest()) {
-      _profileController.bookmarkList(BookmarkService.getBookmarks());
-      _profileController.isHospitaltyBookmarked(_profileController.bookmarkList
-          .any((bookmark) => bookmark.id == hospitalityObj!.id));
-    }
 
-    if (hospitalityObj!.booking != null) {
-      hideLocation = hospitalityObj!.booking!.isEmpty;
+     if (!widget.isLocal) {
+      _fetchAddress(hospitalityObj!.coordinate.latitude ?? '',
+          hospitalityObj!.coordinate.longitude ?? '');
     }
     for (var day in hospitalityObj!.daysInfo) {
       if (AppUtil.isDateTimeBefore24Hours(day.startTime))
@@ -104,11 +102,19 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
           ),
         );
     }
-
-    if (!widget.isLocal) {
-      _fetchAddress(hospitalityObj!.coordinate.latitude ?? '',
-          hospitalityObj!.coordinate.longitude ?? '');
+    
+    if (!AppUtil.isGuest()) {
+      _profileController.bookmarkList(BookmarkService.getBookmarks());
+      _profileController.isHospitaltyBookmarked(_profileController.bookmarkList
+          .any((bookmark) => bookmark.id == hospitalityObj!.id));
     }
+
+    if (hospitalityObj!.booking != null) {
+      hideLocation = hospitalityObj!.booking!.isEmpty;
+    }
+    
+
+   
   }
 
   Future<String> _getAddressFromLatLng(
@@ -134,7 +140,6 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
     } catch (e) {}
     return '';
   }
-
   Future<void> _fetchAddress(String position1, String position2) async {
     try {
       String result = await _getAddressFromLatLng(
@@ -142,6 +147,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
       setState(() {
         address = result;
       });
+      log(address);
     } catch (e) {
       // Handle error if necessary
     }
@@ -257,7 +263,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       ? Alignment.centerRight
                                       : Alignment.centerLeft,
                                   child: CustomText(
-                                    text: !AppUtil.rtlDirection(context)
+                                    text: AppUtil.rtlDirection2(context)
                                         ? hospitalityObj!.titleAr
                                         : hospitalityObj!.titleEn,
                                     fontSize: width * 0.07,
@@ -279,7 +285,10 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                   ),
                                   CustomText(
                                     text: !widget.isLocal
-                                        ? address
+                                        ? address.isEmpty? AppUtil.rtlDirection2(context)
+                                            ? '${hospitalityObj!.regionAr}'
+                                            : '${hospitalityObj!.regionEn}'
+                                        : address
                                         : AppUtil.rtlDirection2(context)
                                             ? '${hospitalityObj!.regionAr}, ${widget.address}'
                                             : '${hospitalityObj!.regionEn}, ${widget.address}',
@@ -385,7 +394,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       fontWeight: FontWeight.w400,
                                       fontSize: width * 0.038,
                                       color: starGreyColor,
-                                      text: !AppUtil.rtlDirection(context)
+                                      text: AppUtil.rtlDirection2(context)
                                           ? hospitalityObj!.bioAr
                                           : hospitalityObj!.bioEn),
                                 ),
@@ -563,7 +572,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                   onTap: () => Get.bottomSheet(
                                       const CustomPloicySheet()),
                                   child: Align(
-                                      alignment: !AppUtil.rtlDirection(context)
+                                      alignment: AppUtil.rtlDirection2(context)
                                           ? Alignment.centerRight
                                           : Alignment.centerLeft,
                                       child: Row(

@@ -85,6 +85,20 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
   void getEventById() async {
     event = (await _eventController.getEventById(
         context: context, id: widget.eventId));
+
+
+     if (!widget.isLocal) {
+      _fetchAddress(event!.coordinates!.latitude ?? '',
+          event!.coordinates!.longitude ?? '');
+    }
+    for (var day in event!.daysInfo!) {
+      if (AppUtil.isDateTimeBefore24Hours(day.startTime))
+        avilableDate.add(
+          DateTime.parse(
+            day.startTime.substring(0, 10),
+          ),
+        );
+    }
     if (!AppUtil.isGuest() &&
         _profileController.profile.id != null &&
         !widget.isLocal) {
@@ -94,18 +108,8 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
           .any((bookmark) => bookmark.id == event!.id));
     }
 
-    for (var day in event!.daysInfo!) {
-      if (AppUtil.isDateTimeBefore24Hours(day.startTime))
-        avilableDate.add(
-          DateTime.parse(
-            day.startTime.substring(0, 10),
-          ),
-        );
-    }
-    if (!widget.isLocal) {
-      _fetchAddress(event!.coordinates!.latitude ?? '',
-          event!.coordinates!.longitude ?? '');
-    }
+    
+   
   }
 
   Future<String> _getAddressFromLatLng(
@@ -443,7 +447,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                 height: width * 0.025,
                               ),
                               Align(
-                                  alignment: !AppUtil.rtlDirection(context)
+                                  alignment: AppUtil.rtlDirection2(context)
                                       ? Alignment.centerRight
                                       : Alignment.centerLeft,
                                   child: CustomText(
@@ -532,7 +536,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                     );
                                   },
                                   child: Align(
-                                      alignment: !AppUtil.rtlDirection(context)
+                                      alignment: AppUtil.rtlDirection2(context)
                                           ? Alignment.centerRight
                                           : Alignment.centerLeft,
                                       child: Row(

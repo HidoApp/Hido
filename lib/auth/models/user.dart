@@ -83,18 +83,31 @@ class BookProfile {
       hostNumber: json['hostNumber'] ?? 0,
       adventureNumber: json['adventureNumber'] ?? 0,
       tourRating: (json['tourRating'] is int)
-          ? (json['tourRating'] as int).toDouble()
-          : (json['tourRating'] as double? ?? 0.0),
+          ? double.parse(
+              (json['tourRating'] as int).toDouble().toStringAsFixed(1))
+          : double.parse(
+              (json['tourRating'] as double? ?? 0.0).toStringAsFixed(1)),
+
       eventRating: (json['eventRating'] is int)
-          ? (json['eventRating'] as int).toDouble()
-          : (json['eventRating'] as double? ?? 0.0),
+          ? double.parse(
+              (json['eventRating'] as int).toDouble().toStringAsFixed(1))
+          : double.parse(
+              (json['eventRating'] as double? ?? 0.0).toStringAsFixed(1)),
+
       hostRating: (json['hostRating'] is int)
-          ? (json['hostRating'] as int).toDouble()
-          : (json['hostRating'] as double? ?? 0.0),
+          ? double.parse(
+              (json['hostRating'] as int).toDouble().toStringAsFixed(1))
+          : double.parse(
+              (json['hostRating'] as double? ?? 0.0).toStringAsFixed(1)),
+
       adventureRating: (json['adventureRating'] is int)
-          ? (json['adventureRating'] as int).toDouble()
-          : (json['adventureRating'] as double? ?? 0.0),
-    
+          ? double.parse(
+              (json['adventureRating'] as int).toDouble().toStringAsFixed(1))
+          : double.parse(
+              (json['adventureRating'] as double? ?? 0.0).toStringAsFixed(1)),
+      // adventureRating: (json['adventureRating'] is int)
+      //     ? (json['adventureRating'] as int).toDouble()
+      //     : (json['adventureRating'] as double? ?? 0.0),
     );
   }
 

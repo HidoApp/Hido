@@ -115,7 +115,7 @@ class AdventureBooking {
   final String timeToGo;
   final String timeToReturn;
   final int guestNumber;
-  final int cost;
+  final double cost;
   final String status;
   final String orderStatus;
   final DateTime created;
@@ -145,10 +145,15 @@ class AdventureBooking {
       timeToGo: json['timeToGo']??'',
       timeToReturn: json['timeToReturn']??'',
       guestNumber: json['guestNumber']??0,
-      cost: json['cost']??0,
       status: json['status']??'',
       orderStatus: json['orderStatus']??'',
       created: DateTime.parse(json['created']),
+      cost: (json['cost'] is int)
+          ? double.parse(
+              (json['cost'] as int).toDouble().toStringAsFixed(1))
+          : double.parse(
+              (json['cost'] as double? ?? 0.0).toStringAsFixed(1)),
+
 
     );
   }

@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:ajwad_v4/explore/ajwadi/model/wallet.dart';
 import 'package:ajwad_v4/payment/model/credit_card.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/model/payment_result.dart';
@@ -15,6 +18,9 @@ class PaymentController extends GetxController {
   var isPaymentGatewayLoading = false.obs;
   var isApplePayEmbeddedLoading = false.obs;
   var isApplePayExecuteLoading = false.obs;
+  var isWalletLoading = false.obs;
+  var wallet = Wallet().obs;  
+
  
   var showCvv = false.obs;
   var isNameValid = true.obs;
@@ -202,4 +208,24 @@ class PaymentController extends GetxController {
       isCreditCardPaymentLoading(false);
     }
   }
+
+  Future<Wallet?> getWallet({
+    required BuildContext context,
+  }) async {
+    try {
+      isWalletLoading(true);
+      final data =
+          await PaymentService.getWallet(context: context);
+       if (data != null) {
+      return wallet(data);  // Update the observable wallet with fetched data
+      }
+    } catch (e) {
+       isWalletLoading(false);
+       log(e.toString());
+      return null;
+    } finally {
+      isWalletLoading(false);
+    }
+  }
+
 }

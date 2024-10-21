@@ -33,7 +33,12 @@ class EventSummary {
               .toList()
           : [],
     
-      cost: (json['cost'] ?? 0).toDouble(),
+      // cost: (json['cost'] ?? 0).toDouble(),
+      cost: (json['cost'] is int)
+          ? double.parse(
+              (json['cost'] as int).toDouble().toStringAsFixed(1))
+          : double.parse(
+              (json['cost'] as double? ?? 0.0).toStringAsFixed(1)),
       guestNumber: json['guestNumber'] ?? 0,
       
      touristList: json['touristList'] != null

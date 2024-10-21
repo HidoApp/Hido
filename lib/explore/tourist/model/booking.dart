@@ -18,6 +18,10 @@ class Booking {
   final int? guestNumber;
   final GuestInfo? guestInfo;
   final RequestName? requestName;
+   final String? titleAr;
+  final String? titleEn;
+    final String? nameAr;
+  final String? nameEn;
   final String? vehicleType;
   final String? orderStatus;
   final Coordinate? coordinates;
@@ -55,7 +59,12 @@ class Booking {
       this.profileId,
       this.event,
       this.user,
-      this.requestName
+      this.requestName,
+      this.titleAr,
+      this.titleEn,
+        this.nameAr,
+      this.nameEn,
+
       // this.event,
       });
 
@@ -83,6 +92,10 @@ class Booking {
           ? null
           : Coordinate.fromJson(json['coordinates']),
       bookingType: json['bookingType'] ?? '',
+      titleAr: json['titleAr'] ?? '',
+      titleEn: json['titleEn'] ?? '',
+      nameAr: json['nameAr'] ?? '',
+      nameEn: json['nameEn'] ?? '',
       place: json['place'] == null ? null : Place.fromJson(json['place']),
       event: json['event'] == null ? null : Event.fromJson(json['event']),
       hospitality: json['hospitality'] == null
@@ -115,6 +128,10 @@ class Booking {
       'offers': offers?.map((offer) => offer.toJson()).toList(),
       'guestInfo': guestInfo?.toJson(),
       'profileId': profileId,
+      'nameEn':nameEn,
+      'nameAr':nameAr,
+      'titleAr':titleAr,
+      'titleEn':titleEn
 //     this.profileId
     };
   }

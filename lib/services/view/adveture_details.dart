@@ -86,6 +86,12 @@ class _AdventureDetailsState extends State<AdventureDetails> {
   void getAdventureById() async {
     adventure = (await _adventureController.getAdvdentureById(
         context: context, id: widget.adventureId));
+
+     if (!widget.isLocal) {
+      _fetchAddress(adventure!.coordinates!.latitude ?? '',
+          adventure!.coordinates!.longitude ?? '');
+    }
+
     if (!AppUtil.isGuest() &&
         _profileController.profile.id != null &&
         !widget.isLocal) {
@@ -94,10 +100,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
           .any((bookmark) => bookmark.id == adventure!.id));
     }
 
-    if (!widget.isLocal) {
-      _fetchAddress(adventure!.coordinates!.latitude ?? '',
-          adventure!.coordinates!.longitude ?? '');
-    }
+   
   }
 
   Future<String> _getAddressFromLatLng(
@@ -437,7 +440,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 height: width * 0.025,
                               ),
                               Align(
-                                  alignment: !AppUtil.rtlDirection(context)
+                                  alignment: AppUtil.rtlDirection2(context)
                                       ? Alignment.centerRight
                                       : Alignment.centerLeft,
                                   child: CustomText(
@@ -526,7 +529,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                     );
                                   },
                                   child: Align(
-                                      alignment: !AppUtil.rtlDirection(context)
+                                      alignment: AppUtil.rtlDirection2(context)
                                           ? Alignment.centerRight
                                           : Alignment.centerLeft,
                                       child: Row(

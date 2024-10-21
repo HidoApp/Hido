@@ -280,7 +280,7 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
                           Get.back();
                         },
                         title: "confirmLocation".tr,
-                        icon: !AppUtil.rtlDirection(context)
+                        icon: AppUtil.rtlDirection2(context)
                             ? Icon(
                                 Icons.arrow_back_ios,
                                 size: 20,

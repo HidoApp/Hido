@@ -76,7 +76,7 @@ class _LocalSignInState extends State<LocalSignIn> {
                 text: 'welcomeBack'.tr,
                 fontWeight: FontWeight.w500,
                 fontSize: width * 0.051,
-                textAlign: !AppUtil.rtlDirection(context)
+                textAlign: AppUtil.rtlDirection2(context)
                     ? TextAlign.right
                     : TextAlign.left,
               ),

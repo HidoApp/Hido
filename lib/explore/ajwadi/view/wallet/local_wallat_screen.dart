@@ -1,10 +1,11 @@
-
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/trip_controller.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/widget/wallet_details_card.dart';
+import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
+import 'package:ajwad_v4/widgets/custom_card%20_widget.dart';
 import 'package:ajwad_v4/widgets/custom_wallet_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,6 +25,7 @@ class _LocalWalletScreenState extends State<LocalWalletScreen> {
 
   final _profileController = Get.put(ProfileController());
   final _tripController = Get.put(TripController());
+  final _paymentController = Get.put(PaymentController());
 
   @override
   void initState() {
@@ -38,7 +40,7 @@ class _LocalWalletScreenState extends State<LocalWalletScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
-        'wallet',
+        'wallet'.tr,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -47,8 +49,8 @@ class _LocalWalletScreenState extends State<LocalWalletScreen> {
             children: [
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 24,top:10),
-                  child: CustomWalletCard(),
+                  padding: const EdgeInsets.only(bottom: 24, top: 10),
+                  child: CustomCard(),
                 ),
               ),
               SizedBox(height: 25),
@@ -71,15 +73,62 @@ class _LocalWalletScreenState extends State<LocalWalletScreen> {
                     ),
                   ),
                   SizedBox(height: 30),
-
-                  WalletDetailsCard(),
-
-
-                ],        
-          ),
+                  if (_paymentController.wallet.value.transactions!.isNotEmpty)
+                    SingleChildScrollView(
+                      child: Obx(()=>
+                        ListView.separated(
+                          shrinkWrap: true,
+                          itemCount:
+                              _paymentController.wallet.value.transactions!.length,
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(
+                              height: 11,
+                            );
+                          },
+                          itemBuilder: (context, index) {
+                            final transaction = _paymentController
+                                .wallet.value.transactions![index];
+                                          
+                            if ( transaction.details!.placeId!.isNotEmpty) {
+                              return WalletDetailsCard(
+                                  transaction: transaction,
+                                  icon: 'tour_category',
+                                  date:'tour',
+                                  color: const Color(0xFFECF9F1));
+                            }
+                            if ( transaction.details!.adventureId!.isNotEmpty) {
+                              return WalletDetailsCard(
+                                 transaction: transaction,
+                                icon: 'adventure_category',
+                                date:'adve',
+                                color: const Color(0xFFF9F4EC),
+                              );
+                            }
+                            if ( transaction.details!.hospitalityId!.isNotEmpty) {
+                              return WalletDetailsCard(
+                                transaction: transaction,
+                                icon: 'host_category',
+                                date: 'host',
+                                color: const Color(0xFFF5F2F8),
+                              );
+                            }
+                            if ( transaction.details!.eventId!.isNotEmpty) {
+                              return WalletDetailsCard(
+                                transaction: transaction,
+                                icon: 'event_category',
+                                color: const Color(0xFFFEFDF1),
+                                date: 'event',
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ],
+          ),
         ),
-      ),
       ),
     );
   }

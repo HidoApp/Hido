@@ -694,4 +694,6 @@ const localeEn = {
   'hidoVer': 'Hido Ver',
   'Language':'Language',
   'preferLang': 'Which language do you prefer',
+  'wallet':'Wallet',
+
 };
