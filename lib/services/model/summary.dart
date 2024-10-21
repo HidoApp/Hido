@@ -24,8 +24,12 @@ class Summary {
       id: json['id'] ?? '',
       titleAr: json['titleAr'] ?? '',
       titleEn: json['titleEn'] ?? '',
-    
-      cost: (json['cost'] ?? 0).toDouble(),
+      cost: (json['cost'] is int)
+          ? double.parse(
+              (json['cost'] as int).toDouble().toStringAsFixed(1))
+          : double.parse(
+              (json['cost'] as double? ?? 0.0).toStringAsFixed(1)),
+      // cost: (json['cost'] ?? 0).toDouble(),
       guestNumber: json['guestNumber'] ?? 0,
           daysInfo: json['daysInfo'] != null
           ? (json['daysInfo'] as List)

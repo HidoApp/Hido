@@ -28,7 +28,7 @@ class LocalTile extends StatelessWidget {
               CustomText(
                 fontSize:width*0.038,
                 fontWeight: FontWeight.w500,
-                text:(tripNumber?.toString() ?? tripRate?.toStringAsFixed(1).toString()),
+                text:(tripNumber?.toString() ?? tripRate?.toString()),
                 color: black,
                 fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
         

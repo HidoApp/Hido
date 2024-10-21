@@ -108,7 +108,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           fontWeight: FontWeight.w500,
                           fontSize: width * 0.0435,
                           color: starGreyColor,
-                          textAlign: !AppUtil.rtlDirection(context)
+                          textAlign: AppUtil.rtlDirection2(context)
                               ? TextAlign.right
                               : TextAlign.left,
                         ),

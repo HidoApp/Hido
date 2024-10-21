@@ -1363,7 +1363,7 @@ class _ReservaationDetailsAdventureWidgetState
                                         }
                                       }
                                     },
-                                    icon: !AppUtil.rtlDirection(context)
+                                    icon: AppUtil.rtlDirection2(context)
                                         ? const Icon(Icons.arrow_back_ios)
                                         : const Icon(Icons.arrow_forward_ios),
                                     customWidth: width * 0.5,

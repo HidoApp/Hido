@@ -83,7 +83,7 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                       .adventureList[index].image![0],
                                   date: _adventureController
                                       .adventureList[index].date!,
-                                  title: !AppUtil.rtlDirection(context)
+                                  title: AppUtil.rtlDirection2(context)
                                       ? _adventureController
                                           .adventureList[index].nameAr!
                                       : _adventureController

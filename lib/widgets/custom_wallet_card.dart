@@ -1,3 +1,8 @@
+import 'dart:developer';
+
+import 'package:ajwad_v4/explore/ajwadi/model/wallet.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/wallet/local_wallat_screen.dart';
+import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -6,219 +11,124 @@ import 'package:get/get.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:intl/intl.dart' as intel;
+import 'package:skeletonizer/skeletonizer.dart';
 
-class CustomWalletCard extends StatelessWidget {
-  //  CustomWalletCard({
-  //   super.key, required BuildContext context,
-  //   // required this.booking,
-
-  // });
-
-  // final Booking booking;
+class CustomWalletCard extends StatefulWidget {
+  const CustomWalletCard({super.key});
 
   @override
+  _CustomWalletCardState createState() => _CustomWalletCardState();
+}
+
+class _CustomWalletCardState extends State<CustomWalletCard> {
+  // You can initialize variables here
+  TouristExploreController  _touristExploreController = Get.put(TouristExploreController());
+   PaymentController  _paymentController = Get.put(PaymentController());
+    Wallet? wallet;
+
+
+  @override
+  void initState() {
+    super.initState();
+    getWallet();
+ 
+  }
+ void getWallet() async {
+    
+  wallet = await _paymentController.getWallet(
+        context:context);
+
+  }
+  @override
   Widget build(BuildContext context) {
-    final TouristExploreController _touristExploreController =
-        Get.put(TouristExploreController());
     Place? thePlace;
 
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return InkWell(
-      onTap: () {
-        // Get.to(() => LocalWalletScreen());
-      },
-      child: Container(
-        width: double.infinity,
-        //  height: 152,
-        height: 137,
-
-        decoration: ShapeDecoration(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-          ),
-          color: Colors.white,
-          shadows: [
-            BoxShadow(
-              color: Color(0x3FC7C7C7),
-              blurRadius: 15,
-              offset: Offset(0, 0),
-              spreadRadius: 0,
-            )
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Container(
-                  width: 36,
-                  height: 36,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color.fromARGB(228, 233, 235, 246),
-                  ),
-                  alignment: Alignment.center,
-                  child: SvgPicture.asset('assets/icons/Finance_icon.svg'),
-                ),
+    return  Obx(
+      () => Skeletonizer(
+        enabled: _paymentController.isWalletLoading.value,
+        child: InkWell(
+          onTap: () {
+           // Get.to(() => LocalWalletScreen());
+          },
+          child: Container(
+            width: double.infinity,
+            height: 137,
+            decoration: ShapeDecoration(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
-              CustomText(
-                text: AppUtil.rtlDirection2(context)
-                    ? "إجمالي المحفظة"
-                    : 'Total balance',
-                color: Color(0xFFB9B8C1),
-                fontSize: 13,
-                fontFamily:
-                    AppUtil.rtlDirection2(context) ? "SF Arabic" : 'SF Pro',
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-              SizedBox(
-                width: 4,
-              ),
-              MediaQuery(
-                data: MediaQuery.of(context)
-                    .copyWith(textScaleFactor:1.0),
-                child: Text.rich(TextSpan(children: [
-                  TextSpan(
-                    text: AppUtil.rtlDirection2(context) ? "00.00 " : '00.00 ',
-                    style: TextStyle(
-                      color: Color(0xFF070708),
-                      fontSize: AppUtil.rtlDirection(context) ? 28 : 28,
-                      fontFamily: 'HT Rakik',
-                      fontWeight: FontWeight.w500,
+              color: Colors.white,
+              shadows: [
+                BoxShadow(
+                  color: Color(0x3FC7C7C7),
+                  blurRadius: 15,
+                  offset: Offset(0, 0),
+                  spreadRadius: 0,
+                )
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color.fromARGB(228, 233, 235, 246),
+                      ),
+                      alignment: Alignment.center,
+                      child: SvgPicture.asset('assets/icons/Finance_icon.svg'),
                     ),
                   ),
-                  TextSpan(
-                    text: AppUtil.rtlDirection2(context) ? "ر.س" : 'SAR',
-                    style: TextStyle(
-                      color: Color(0xFFB9B8C1),
-                      fontSize: 20,
-                      fontFamily: 'HT Rakik',
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.80,
-                    ),
-                  )
-                ])),
-              )
-              //   SizedBox(
-              //     width: 8,
-              //   ),
-              //   Expanded(
-              //     child: Column(
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       mainAxisAlignment: MainAxisAlignment.start,
-              //       children: [
-              //         Padding(
-              //           padding: const EdgeInsets.only(top: 1),
-              //           child: Row(
-              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //             children: [
-              //               CustomText(
-              //                  text:
-              //                 AppUtil.rtlDirection(context)
-              //                     ?booking.bookingType =="place" ? booking.place!.nameEn! :booking.bookingType =="hospitality"? booking.hospitality!.titleEn:booking.adventure!.nameEn??''
-              //                     :booking.bookingType =="place" ? booking.place!.nameAr! : booking.bookingType =="hospitality"?booking.hospitality!.titleAr:booking.adventure!.nameAr??'',
-              //                 fontSize: 19,
-              //                 fontWeight: FontWeight.w700,
-              //                 fontFamily:  AppUtil.rtlDirection(context)?'SF Pro':'SF Arabic',
-
-              //               ),
-              //               Row(
-              //                 textDirection: AppUtil.rtlDirection2(context)?TextDirection.rtl:TextDirection.ltr,
-              //                 children: [
-              //                   SvgPicture.asset(
-              //                  'assets/icons/${booking.bookingType! == 'place'?'place.svg' :booking.bookingType! == 'hospitality' ? 'hospitality.svg' : 'adventure.svg'}',
-              //                     ),
-              //                   const SizedBox(
-              //                     width: 4,
-              //                   ),
-              //                   CustomText(
-              //                     text: getBookingTypeText(context, booking.bookingType!),
-              //                     fontSize: 13,
-              //                     fontWeight: FontWeight.w500,
-              //                     color: black,
-              //                   ),
-              //                 ],
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //         const SizedBox(
-              //           height: 2,
-              //         ),
-              //         Row(
-
-              //           children: [
-              //             SvgPicture.asset('assets/icons/map_pin.svg'
-
-              //             ),
-              //             const SizedBox(
-              //               width: 4,
-              //             ),
-              //             CustomText(
-              //               text:
-              //               AppUtil.rtlDirection2(context)
-              //                   ?booking.bookingType =="place" ? booking.place!.regionAr!:booking.bookingType! == 'hospitality' ?booking.hospitality!.regionAr!:booking.adventure!.regionAr??''
-              //                   :booking.bookingType =="place" ? booking.place!.regionEn!:booking.bookingType! == 'hospitality' ?booking.hospitality!.regionEn:booking.adventure!.regionEn??'' ,
-              //               fontSize: 12,
-              //               fontWeight: FontWeight.w500,
-              //               color: textGreyColor,
-              //             ),
-              //           ],
-              //         ),
-              //         const SizedBox(
-              //           height: 2,
-              //         ),
-              //         Row(
-              //           children: [
-              //             SvgPicture.asset(
-              //               'assets/icons/grey_calender.svg',
-              //             ),
-              //             const SizedBox(
-              //               width: 5,
-              //             ),
-              //             CustomText(
-              //              // text:intel.DateFormat.yMMMMd().format(DateTime.parse(booking.date!)),
-              //              text:formatBookingDate(context, booking.date),
-              //               fontSize: 12,
-              //               fontWeight: FontWeight.w500,
-              //               color: textGreyColor,
-              //             ),
-              //              ],
-              //         ),
-
-              //            SizedBox(
-              //                height: 5,
-              //            ),
-              //            Row(
-              //             crossAxisAlignment: CrossAxisAlignment.end,
-              //       mainAxisAlignment: MainAxisAlignment.end,
-
-              //             children:[
-
-              //             SvgPicture.asset(
-              //               'assets/icons/${booking.orderStatus! == 'ACCEPTED' ||  booking.orderStatus! == 'Finished' ? 'confirmed.svg' : booking.orderStatus! == 'CANCELED'? 'canceled.svg' : 'waiting.svg'}',
-              //             ),
-              //             const SizedBox(
-              //               width: 4,
-              //             ),
-
-              //             CustomText(
-              //               text: getOrderStatusText(context, booking.orderStatus!),
-              //               //text:booking.orderStatus!,
-              //               fontSize: 13,
-              //               fontWeight: FontWeight.w500,
-              //               color: booking.orderStatus! == 'ACCEPTED' ||  booking.orderStatus! == 'Finished'  ? colorGreen : booking.orderStatus! == 'CANCELED'? Color(0xFFDC362E) : colorDarkGrey,
-              //             ),
-              //         ],
-              //          ),
-              //       ],
-              //     ),
-            ],
+                  CustomText(
+                    text: AppUtil.rtlDirection2(context)
+                        ? "إجمالي المحفظة"
+                        : 'Total balance',
+                    color: Color(0xFFB9B8C1),
+                    fontSize: 13,
+                    fontFamily:
+                        AppUtil.rtlDirection2(context) ? "SF Arabic" : 'SF Pro',
+                    fontWeight: FontWeight.w500,
+                    height: 0,
+                  ),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  MediaQuery(
+                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    child: Text.rich(TextSpan(children: [
+                      TextSpan(
+                        text: wallet?.totalInitiatedAmount.toString()??'0.0',
+                        style: TextStyle(
+                          color: Color(0xFF070708),
+                          fontSize: AppUtil.rtlDirection(context) ? 28 : 28,
+                          fontFamily: 'HT Rakik',
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      TextSpan(
+                        text: AppUtil.rtlDirection2(context) ? " ر.س " : ' SAR',
+                        style: TextStyle(
+                          color: Color(0xFFB9B8C1),
+                          fontSize: 20,
+                          fontFamily: 'HT Rakik',
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0.80,
+                        ),
+                      )
+                    ])),
+                  ),
+                  // The rest of your widget tree can go here...
+                ],
+              ),
+            ),
           ),
         ),
       ),

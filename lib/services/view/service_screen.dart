@@ -48,7 +48,7 @@ class _ServiceScreenState extends State<ServiceScreen>
         vsync: this,
         initialIndex: _srvicesController.tabIndex.value);
 
-    // _AdverController.getAllAdvertisement(context: context);
+    _AdverController.getAllAdvertisement(context: context);
 
     // getReg();
   }

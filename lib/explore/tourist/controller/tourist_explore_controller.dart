@@ -155,6 +155,8 @@ class TouristExploreController extends GetxController {
 
       return date;
     } catch (e) {
+     isBookingByIdLoading(false);
+
       return null;
     } finally {
       isBookingByIdLoading(false);

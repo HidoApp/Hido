@@ -27,8 +27,12 @@ class AdventureSummary {
       nameEn: json['nameEn'] ?? '',
       date: json['date'] ?? '',
 
-    
-      cost: (json['cost'] ?? 0).toDouble(),
+     cost: (json['cost'] is int)
+          ? double.parse(
+              (json['cost'] as int).toDouble().toStringAsFixed(1))
+          : double.parse(
+              (json['cost'] as double? ?? 0.0).toStringAsFixed(1)),
+      // cost: (json['cost'] ?? 0).toDouble(),
       guestNumber: json['guestNumber'] ?? 0,
        times: json['times'] != null
           ? (json['times'] as List)

@@ -45,7 +45,7 @@ class CustomOnBoardingWidget extends StatelessWidget {
                         text: text,
                         fontStyle: FontStyle.normal,
                         color: Colors.white,
-                        fontSize: !AppUtil.rtlDirection(context)
+                        fontSize: AppUtil.rtlDirection2(context)
                             ? size.width * 0.164
                             : size.width * 0.12,
                         fontWeight: FontWeight.w500,
@@ -74,7 +74,7 @@ class CustomOnBoardingWidget extends StatelessWidget {
                   left: size.width * 0.04, right: size.width * 0.04),
               child: CustomText(
                 maxlines: 4,
-                textAlign: !AppUtil.rtlDirection(context)
+                textAlign: AppUtil.rtlDirection2(context)
                     ? TextAlign.right
                     : TextAlign.left,
                 text: description,

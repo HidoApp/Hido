@@ -142,7 +142,7 @@ class _LocalTripCardState extends State<LocalTripCard> {
                     padding: const EdgeInsets.only(bottom: 8),
                     child: ElevatedButton(
                       onPressed: () {
-                        Get.to(ChatScreen(chatId: widget.trip.booking!.chatId));
+                        Get.to(ChatScreen(chatId: widget.trip.booking!.chatId, isTourist: false,));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: colorGreen,

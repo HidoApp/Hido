@@ -61,7 +61,7 @@ class CustomRequestTextField extends StatelessWidget {
                 ),
               )
             : null,
-        suffixIcon: hasPrefixIcon && !AppUtil.rtlDirection(context)
+        suffixIcon: hasPrefixIcon && AppUtil.rtlDirection2(context)
             ? Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 14,

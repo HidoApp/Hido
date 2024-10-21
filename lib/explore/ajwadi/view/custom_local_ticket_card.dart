@@ -288,7 +288,11 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                               onPressed: () {
                                 Get.to(() => ChatScreen(
                                     chatId: _tripController
-                                        .nextTrip.value.booking!.chatId));
+                                        .nextTrip.value.booking!.chatId,
+                                        isTourist: false,
+                                        
+                                        
+                                        ));
                               },
                               style: ButtonStyle(
                                 padding: MaterialStateProperty.all(

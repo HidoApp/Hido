@@ -697,4 +697,6 @@ const localeEn = {
   'orAbove': "or above",
   'Language':'Language',
   'preferLang': 'Which language do you prefer',
+  'wallet':'Wallet',
+
 };
