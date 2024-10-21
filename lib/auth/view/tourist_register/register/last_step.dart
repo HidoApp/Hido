@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
+import 'package:intl_phone_number_field/intl_phone_number_field.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:searchfield/searchfield.dart';
 
@@ -47,6 +48,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
   String _selectedNationality = "";
   bool isNatSelected = true;
   List<ValueItem> countries = [];
+  TextEditingController controller = TextEditingController();
 
   var _number = '';
 
@@ -65,6 +67,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    controller.dispose();
     widget.authController.isAgreeForTerms(true);
   }
 
@@ -154,6 +157,119 @@ class _LastStepScreenState extends State<LastStepScreen> {
                       return null;
                     },
                     onChanged: (number) => _number = number,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                InternationalPhoneNumberInput(
+                  height: 48,
+                  controller: controller,
+                  inputFormatters: const [],
+                  formatter: MaskedInputFormatter('## ### ####'),
+                  initCountry: CountryCodeModel(
+                      name: "SA", dial_code: "+966", code: "SA"),
+                  betweenPadding: 0,
+                  onInputChanged: (phone) {
+                    print(phone.code);
+                    print(phone.dial_code);
+                    print(phone.number);
+                    print(phone.rawFullNumber);
+                    print(phone.rawNumber);
+                    print(phone.rawDialCode);
+                  },
+                  dialogConfig: DialogConfig(
+                    backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
+                    searchBoxBackgroundColor: almostGrey.withOpacity(0.4),
+                    searchHintText: 'search'.tr,
+                    searchBoxIconColor: const Color(0xFFFAFAFA),
+                    countryItemHeight: 55,
+                    topBarColor: borderGrey,
+                    selectedItemColor: Colors.transparent,
+                    selectedIcon: Padding(
+                      padding: const EdgeInsets.only(left: 0),
+                      child: Image.asset(
+                        "assets/check.png",
+                        width: 20,
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ),
+                    textStyle: TextStyle(
+                        color: black.withOpacity(0.7),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600),
+                    searchBoxTextStyle: TextStyle(
+                        color: black.withOpacity(0.7),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600),
+                    titleStyle: TextStyle(
+                        color: Color(0xFFFAFAFA),
+                        fontSize: 17,
+                        fontFamily: AppUtil.SfFontType(context),
+                        fontWeight: FontWeight.w500),
+                    searchBoxHintStyle: TextStyle(
+                        color: const Color(0xFFFAFAFA).withOpacity(0.7),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  countryConfig: CountryConfig(
+                      flagSize: 20,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: borderGrey),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(8),
+                          bottomLeft: Radius.circular(8),
+                        ),
+                      ),
+                      noFlag: true,
+                      textStyle: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600)),
+                  validator: (number) {
+                    if (number.number.isEmpty) {
+                      return 'fieldRequired'.tr;
+                    }
+                    return null;
+                  },
+                  phoneConfig: PhoneConfig(
+                    focusedColor: Colors.transparent,
+                    enabledColor: Colors.transparent,
+                    errorColor: colorRed,
+                    hintText: 'phoneHint'.tr,
+                    borderWidth: 1,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          0,
+                        ),
+                        border: Border.all(color: borderGrey)),
+                    showCursor: true,
+                    textInputAction: TextInputAction.done,
+                    // autovalidateMode: AutovalidateMode.disabled,
+                    errorTextMaxLength: 2,
+                    errorPadding:
+                        EdgeInsets.symmetric(horizontal: width * 0.341),
+                    errorStyle: TextStyle(
+                      color: colorRed,
+                      fontSize: width * 0.028,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                    ),
+                    textStyle: TextStyle(
+                      color: black,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                    ),
+                    hintStyle: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.038,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                        color: Graytext,
+                        fontWeight: FontWeight.w400),
                   ),
                 ),
                 const SizedBox(
@@ -289,8 +405,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
                 Obx(
                   () => widget.authController.isRegisterLoading.value
                       ? const Center(
-                          child: CircularProgressIndicator.adaptive()
-                        )
+                          child: CircularProgressIndicator.adaptive())
                       : CustomButton(
                           title: 'signUp'.tr,
                           onPressed: () async {

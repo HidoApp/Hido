@@ -57,6 +57,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.8.3"
+  base58check:
+    dependency: transitive
+    description:
+      name: base58check
+      sha256: "6c300dfc33e598d2fe26319e13f6243fea81eaf8204cb4c6b69ef20a625319a5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
+  bech32:
+    dependency: transitive
+    description:
+      name: bech32
+      sha256: "156cbace936f7720c79a79d16a03efad343b1ef17106716e04b8b8e39f99f7f7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -153,6 +169,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.4"
+  convert:
+    dependency: transitive
+    description:
+      name: convert
+      sha256: b30acd5944035672bc15c6b7a8b47d773e41e2f17de064350988c5d02adb1c68
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.2"
+  country_flags:
+    dependency: transitive
+    description:
+      name: country_flags
+      sha256: dbc4f76e7c801619b2d841023e0327191ba00663f1f1b4770394e9bc6632c444
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
   cross_file:
     dependency: transitive
     description:
@@ -539,6 +571,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_multi_formatter:
+    dependency: transitive
+    description:
+      name: flutter_multi_formatter
+      sha256: "68274ade17e836e7de9080ad354aa4322906baee2abf49afb1f6fec99ff17aea"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.13.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -861,6 +901,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.19.0"
+  intl_phone_number_field:
+    dependency: "direct main"
+    description:
+      name: intl_phone_number_field
+      sha256: "39459625297755ee7d781113de81d2fd5effe3d8f65e26cb0866edb72007d4a5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   jhijri:
     dependency: "direct main"
     description:
@@ -869,6 +917,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  jovial_misc:
+    dependency: transitive
+    description:
+      name: jovial_misc
+      sha256: f6e64f789ee311025bb367be9c9afe9759f76dd8209070b7f38e735b5f529eb1
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.8.5"
+  jovial_svg:
+    dependency: transitive
+    description:
+      name: jovial_svg
+      sha256: adbc985f89a9e9c601d29aebb9fc17dd0a5db05b67af7e6c21da91eeb13dacb7
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.23"
   js:
     dependency: transitive
     description:
@@ -1157,6 +1221,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.10.0"
+  pointycastle:
+    dependency: transitive
+    description:
+      name: pointycastle
+      sha256: "4be0097fcf3fd3e8449e53730c631200ebc7b88016acecab2b0da2f0149222fe"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.9.1"
   rxdart:
     dependency: transitive
     description:
@@ -1667,5 +1739,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.3.0 <4.0.0"
+  dart: ">=3.4.0 <4.0.0"
   flutter: ">=3.18.0-18.0.pre.54"
