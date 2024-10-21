@@ -72,7 +72,7 @@ class PaymentService {
     required BuildContext context,
     // required String description,
     // required int amount,
-    required int InvoiceValue,
+    required double InvoiceValue,
   }) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
@@ -170,7 +170,7 @@ class PaymentService {
     required BuildContext context,
     required String language,
     required String paymentMethod,
-    required int price,
+    required double price,
   }) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
@@ -213,7 +213,7 @@ class PaymentService {
 
   static Future<Invoice?> creditCardEmbedded({
     required BuildContext context,
-    required int price,
+    required double price,
   }) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
@@ -329,7 +329,7 @@ class PaymentService {
   }
 
   static Future<Invoice?> applePayEmbedded(
-      {required BuildContext context, required int invoiceValue}) async {
+      {required BuildContext context, required double invoiceValue}) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
     if (JwtDecoder.isExpired(token)) {

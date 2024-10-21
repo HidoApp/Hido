@@ -461,6 +461,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                 // text field and icons
                 CupertinoTypeAheadField<Place>(
                   decorationBuilder: (context, child) => Container(
+                    height: width * 1.02,
                     padding: const EdgeInsets.only(
                       top: 12,
                       // left: 16,

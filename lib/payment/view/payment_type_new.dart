@@ -48,7 +48,7 @@ class PaymentType extends StatefulWidget {
       this.event,
       this.eventController,
       this.female});
-  final int price;
+  final double price;
   final String type;
   final int? personNumber;
   final int? male;
@@ -74,21 +74,7 @@ class _PaymentTypeState extends State<PaymentType> {
   final _paymentController = Get.put(PaymentController());
   final _RequestController = Get.put(RequestController());
 
-  Future<bool> checkHospitality(bool check) async {
-    return await widget.servicesController!.checkAndBookHospitality(
-        context: context,
-        check: check,
-        hospitalityId: widget.hospitality!.id,
-        date: widget.servicesController!.selectedDate.value,
-        dayId: widget.hospitality!
-            .daysInfo[widget.servicesController!.selectedDateIndex.value].id,
-        numOfMale: widget.male!,
-        numOfFemale: widget.female!,
-        cost: widget.price);
-  }
-
   Future<void> selectPaymentType(PaymentMethod paymentMethod) async {
-    bool check = false;
     switch (paymentMethod) {
       case PaymentMethod.appelpay:
         AmplitudeService.amplitude.track(BaseEvent(
@@ -97,17 +83,8 @@ class _PaymentTypeState extends State<PaymentType> {
 
         invoice = await _paymentController.applePayEmbedded(
             context: context, invoiceValue: widget.price);
-        if (widget.type == "hospitality") {
-          check = await checkHospitality(false);
-          log('before success');
-          log(check.toString());
-          if (check) {
-            applePayWebView();
-          }
-          log('after success');
-        } else {
-          applePayWebView();
-        }
+
+        applePayWebView();
 
         break;
       case PaymentMethod.stcpay:
@@ -121,20 +98,7 @@ class _PaymentTypeState extends State<PaymentType> {
           paymentMethod: 'STC_PAY',
           price: widget.price,
         );
-        if (widget.type == "hospitality") {
-          check = await checkHospitality(false);
-        }
-        log('before success');
-        log(check.toString());
-        if (widget.type == 'hospitality') {
-          if (check) {
-            paymentWebViewStcPay();
-          }
-        } else {
-          paymentWebViewStcPay();
-        }
-        log('after success');
-
+        paymentWebViewStcPay();
         break;
       case PaymentMethod.creditCard:
         AmplitudeService.amplitude.track(BaseEvent(
@@ -146,19 +110,8 @@ class _PaymentTypeState extends State<PaymentType> {
           price: widget.price,
         );
 
-        if (widget.type == "hospitality") {
-          check = await checkHospitality(false);
-        }
-        log('before success');
-        log(check.toString());
-        if (widget.type == 'hospitality') {
-          if (check) {
-            paymentWebView();
-          }
-        } else {
-          paymentWebView();
-        }
-        log('after success');
+        paymentWebView();
+
         break;
       default:
         AppUtil.errorToast(context, 'PickMethod'.tr);
@@ -473,6 +426,7 @@ class _PaymentTypeState extends State<PaymentType> {
   void tourBooking(Invoice checkInvoice) async {
     await widget.offerController!.acceptOffer(
       context: context,
+      couponId: _paymentController.couponId.value,
       offerId: widget.offerController!.offerDetails.value.id!,
       invoiceId: checkInvoice.id,
       schedules: widget.offerController!.updateScheduleList,
@@ -537,7 +491,6 @@ class _PaymentTypeState extends State<PaymentType> {
     // if paid the check flag will change to true
     isSuccess = await widget.servicesController!.checkAndBookHospitality(
         context: context,
-        check: true,
         paymentId: checkInvoice.id,
         hospitalityId: widget.hospitality!.id,
         date: widget.servicesController!.selectedDate.value,
@@ -545,6 +498,7 @@ class _PaymentTypeState extends State<PaymentType> {
             .daysInfo[widget.servicesController!.selectedDateIndex.value].id,
         numOfMale: widget.male!,
         numOfFemale: widget.female!,
+        couponId: _paymentController.couponId.value,
         cost: widget.price);
     if (!mounted) return;
 
@@ -607,6 +561,7 @@ class _PaymentTypeState extends State<PaymentType> {
         paymentId: checkInvoice.id,
         eventId: widget.event!.id,
         cost: widget.price,
+        couponId: _paymentController.couponId.value,
         dayId: widget.event!
             .daysInfo![widget.eventController!.selectedDateIndex.value].id,
         person: widget.personNumber!,
@@ -666,6 +621,7 @@ class _PaymentTypeState extends State<PaymentType> {
       adventureID: widget.adventure!.id,
       context: context,
       personNumber: widget.personNumber!,
+      couponId: _paymentController.couponId.value,
       invoiceId: checkInvoice.id,
     );
     if (!mounted) return;
@@ -700,14 +656,14 @@ class _PaymentTypeState extends State<PaymentType> {
       Get.back();
       Get.back();
       log("inside adventure");
-      log("${updatedAdventure!.booking?.last.id}");
+     // log("${updatedAdventure!.booking?.last.id}");
       log(widget.adventure!.date!);
       log(widget.adventure!.nameEn!);
       log(widget.adventure!.nameAr!);
 
       LocalNotification().showAdventureNotification(
           context,
-          updatedAdventure.booking?.last.id,
+          updatedAdventure!.booking?.last.id,
           updatedAdventure.date,
           updatedAdventure.nameEn,
           updatedAdventure.nameAr);
@@ -767,6 +723,7 @@ class _PaymentTypeState extends State<PaymentType> {
 
   @override
   Widget build(BuildContext context) {
+    log(widget.price.toString());
     final width = MediaQuery.of(context).size.width;
     return Obx(
       () => Scaffold(

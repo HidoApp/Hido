@@ -61,7 +61,6 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
   // final _hospitalityController = Get.put(HospitalityController());
   Booking? profileBooking;
   void getBooking() async {
-    
     profileBooking = await _touristExploreController.getTouristBookingById(
         context: context, bookingId: widget.booking?.id ?? "");
   }
@@ -72,8 +71,14 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
     if (widget.event != null) {
       return;
     }
-    if (widget.booking!.bookingType != 'event') {
-      getBooking();
+    if (widget.hospitality == null &&
+        widget.adventure == null &&
+        widget.event == null) {
+      if (widget.booking!.bookingType != 'event' &&
+          widget.booking!.bookingType != 'hospitality' &&
+          widget.booking!.bookingType != 'adventure') {
+        getBooking();
+      }
     }
   }
 
@@ -98,12 +103,15 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: width * 0.051),
+
               if (widget.adventure == null &&
                   widget.event == null &&
                   widget.hospitality == null &&
                   !widget.isTour!) ...[
                 if (widget.booking!.orderStatus == 'ACCEPTED') ...[
-                  if (widget.booking!.bookingType != 'event' && widget.booking!.bookingType != 'hospitality'&& widget.booking!.bookingType != 'adventure')
+                  if (widget.booking!.bookingType != 'event' &&
+                      widget.booking!.bookingType != 'hospitality' &&
+                      widget.booking!.bookingType != 'adventure')
                     Obx(
                       () => Skeletonizer(
                         enabled: _touristExploreController
@@ -348,7 +356,7 @@ class TicketData extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: CustomText(
-              text:'Copied'.tr,
+              text: 'Copied'.tr,
               color: Colors.white,
               fontFamily:
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',

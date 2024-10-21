@@ -28,6 +28,7 @@ class CustomTextField extends StatelessWidget {
       this.validator = true,
       this.readOnly = false,
       this.validatorHandle,
+      this.onFieldSubmitted,
       this.expand = false,
       this.textInputAction = TextInputAction.search,
       this.verticalHintPadding = 0,
@@ -58,6 +59,7 @@ class CustomTextField extends StatelessWidget {
   final bool expand;
   final TextInputAction? textInputAction;
   final double verticalHintPadding;
+  final void Function(String)? onFieldSubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -68,8 +70,7 @@ class CustomTextField extends StatelessWidget {
       child: MediaQuery(
         data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
         child: TextFormField(
-          onFieldSubmitted: (value) {
-          },
+          onFieldSubmitted: onFieldSubmitted,
           focusNode: focusNode,
           expands: expand,
           initialValue: initialValue,

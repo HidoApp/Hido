@@ -396,9 +396,10 @@ class EventService {
       {required BuildContext context,
       required String paymentId,
       required String eventId,
-      required int cost,
+      required double cost,
       required String dayId,
       required int person,
+      String? couponId,
       required String date}) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
@@ -413,7 +414,11 @@ class EventService {
     }
     final response = await http.post(
         Uri.parse("$baseUrl/event/booking/$eventId").replace(
-          queryParameters: {'paymentId': paymentId, 'eventId': eventId},
+          queryParameters: {
+            'paymentId': paymentId,
+            'eventId': eventId,
+            if (couponId != '') 'codeId': couponId
+          },
         ),
         headers: {
           'Accept': 'application/json',
@@ -426,7 +431,7 @@ class EventService {
             'dayId': dayId.toString(),
             "guestNumber": person,
           },
-          'cost': cost,
+          // 'cost': cost,
         }));
     log(response.statusCode.toString());
     log(response.body);

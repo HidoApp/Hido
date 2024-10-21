@@ -89,6 +89,7 @@ class AdventureController extends GetxController {
       {required BuildContext context,
       required String adventureID,
       String? invoiceId,
+      String? couponId,
       required int personNumber}) async {
     try {
       ischeckBookingLoading(true);
@@ -96,6 +97,7 @@ class AdventureController extends GetxController {
           context: context,
           adventureID: adventureID,
           personNumber: personNumber,
+          couponId: couponId,
           invoiceId: invoiceId);
 
       return data;

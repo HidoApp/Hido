@@ -32,12 +32,9 @@ class Booking {
   final Adventure? adventure;
   final Event? event;
   final BookUser? user;
-
   // final Event? event;
-
   final String? profileId;
   final String? cost;
-
   Booking(
       {required this.id,
       this.placeId,
@@ -226,7 +223,6 @@ class Offer {
         'orderStatus': orderStatus,
         'schedule': schedule!.map((v) => v.toJson()).toList(),
         'user': user?.toJson(),
-        
       };
 }
 
@@ -241,8 +237,7 @@ class BookUser {
     );
   }
   Map<String, dynamic> toJson() => {
-        'profile':profile.toJson(),
-        
+        'profile': profile.toJson(),
       };
 }
 

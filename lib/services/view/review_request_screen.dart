@@ -81,9 +81,8 @@ class _ReviewRequestState extends State<ReviewRequest> {
     final width = MediaQuery.of(context).size.width;
     return Obx(
       () => _RequestController.isBookingLoading.value
-          ? Scaffold(
-              body: Center(
-                  child: CircularProgressIndicator.adaptive()))
+          ? const Scaffold(
+              body: Center(child: CircularProgressIndicator.adaptive()))
           : GestureDetector(
               onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
               child: Scaffold(
@@ -172,7 +171,22 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                 ),
 
                                 // discount widget
-                                const PromocodeField(),
+                                PromocodeField(
+                                  price: (widget.offerController!.totalPrice
+                                              .value *
+                                          widget.offerController!.offerDetails
+                                              .value.booking!.guestNumber!)
+                                      .toDouble(),
+                                  type: 'PLACE',
+                                ),
+                                if (paymentController.isUnderMinSpend.value)
+                                  CustomText(
+                                    text:
+                                        '${'couponMiSpend'.tr}  ${paymentController.coupon.value.minSpend} ${'orAbove'.tr}',
+                                    fontSize: width * 0.028,
+                                    color: starGreyColor,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 SizedBox(
                                   height: width * 0.071,
                                 ),
@@ -194,6 +208,30 @@ class _ReviewRequestState extends State<ReviewRequest> {
                           offerController: widget.offerController,
                           place: widget.place!,
                         ),
+                        if (paymentController.validateType.value ==
+                            'applied') ...[
+                          SizedBox(
+                            height: width * 0.0102,
+                          ),
+                          Row(
+                            children: [
+                              CustomText(
+                                text: 'discount'.tr,
+                                fontSize: width * 0.038,
+                                fontFamily: AppUtil.SfFontType(context),
+                                color: starGreyColor,
+                              ),
+                              const Spacer(),
+                              CustomText(
+                                text:
+                                    '${"sar".tr} ${paymentController.discountPrice.toString()}-',
+                                fontSize: width * 0.038,
+                                fontFamily: AppUtil.SfFontType(context),
+                                color: starGreyColor,
+                              )
+                            ],
+                          ),
+                        ],
                         SizedBox(
                           height: width * 0.02,
                         ),
@@ -215,10 +253,19 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                   }
                                   Get.to(
                                     () => PaymentType(
-                                      price: (widget.offerController!.totalPrice
-                                              .value *
-                                          widget.offerController!.offerDetails
-                                              .value.booking!.guestNumber!),
+                                      price: paymentController
+                                                  .validateType.value ==
+                                              'applied'
+                                          ? paymentController.finalPrice.value
+                                          : (widget.offerController!.totalPrice
+                                                      .value *
+                                                  widget
+                                                      .offerController!
+                                                      .offerDetails
+                                                      .value
+                                                      .booking!
+                                                      .guestNumber!)
+                                              .toDouble(),
                                       type: 'tour',
                                       offerController: widget.offerController,
                                       booking: widget.booking,

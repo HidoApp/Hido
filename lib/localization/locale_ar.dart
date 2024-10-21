@@ -683,9 +683,12 @@ const localeAr = {
   'vehiclePlate': 'لوحة المركبة',
   'vehicleType': 'نوع المركبة',
   'invaildId': "رقم الهوية غير صالح",
-  'hidoVer': "هايدو نسخة",
-  'Language':'اللغة',
-  'preferLang':'وش اللغة اللي تفضلها؟',
-  'wallet':'المحفظة'
 
+  'wallet':'المحفظة',
+
+  'hidoVer': "هايدو نسخة", 'invalidCoupon': 'غير صالح',
+  'couponMiSpend': "هذا الرمز صالح للمبالغ التي تبلغ",
+  'orAbove': "أو أكثر",
+  'Language': 'اللغة',
+  'preferLang': 'وش اللغة اللي تفضلها؟',
 };

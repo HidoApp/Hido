@@ -562,7 +562,6 @@ void showReservationDetailsSheet({
                                         final isSuccess = await serviceController
                                             .checkAndBookHospitality(
                                                 context: context,
-                                                check: false,
                                                 hospitalityId: hospitality.id,
                                                 date: serviceController
                                                     .selectedDate.value,
@@ -574,7 +573,7 @@ void showReservationDetailsSheet({
                                                 numOfMale: maleGuestNum,
                                                 numOfFemale: femaleGuestNum,
                                                 cost: (hospitality.price *
-                                                    guestNum));
+                                                    guestNum).toDouble());
 
                                         if (isSuccess) {
                                           // Get.to(() => GeneralCheckOutScreen(
