@@ -13,6 +13,8 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:ajwad_v4/widgets/screen_padding.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
+import 'package:country_code_picker/country_code_picker.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -47,8 +49,10 @@ class _LastStepScreenState extends State<LastStepScreen> {
   String _selectedNationality = "";
   bool isNatSelected = true;
   List<ValueItem> countries = [];
+  TextEditingController controller = TextEditingController();
 
   var _number = '';
+  var _countryCode = '+966';
 
   @override
   void initState() {
@@ -65,10 +69,12 @@ class _LastStepScreenState extends State<LastStepScreen> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    controller.dispose();
     widget.authController.isAgreeForTerms(true);
   }
 
   final _controller = MultiSelectController();
+
   void generateCountries() {
     countries = List.generate(
         widget.countries.length,
@@ -137,10 +143,59 @@ class _LastStepScreenState extends State<LastStepScreen> {
                 Form(
                   key: _formKey,
                   child: CustomTextField(
+                    prefixIcon: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CountryCodePicker(
+                          initialSelection: 'SA',
+                          searchStyle: TextStyle(
+                              fontSize: width * 0.038,
+                              fontFamily: AppUtil.SfFontType(context),
+                              color: black,
+                              fontWeight: FontWeight.w400),
+                          searchDecoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8)),
+                                borderSide:
+                                    BorderSide(color: borderGrey, width: 1)),
+                          ),
+                          // optional. Shows only country name and flag
+                          showCountryOnly: true,
+                          // optional. Shows only country name and flag when popup is closed.
+                          showOnlyCountryWhenClosed: false,
+                          showFlag: false,
+                          onChanged: (value) {
+                            _countryCode = value.dialCode!;
+                            log(_countryCode);
+                          },
+                          // optional. aligns the flag and the Text left
+                          alignLeft: false, padding: EdgeInsets.zero,
+                          textStyle: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.038,
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                              color: Graytext,
+                              fontWeight: FontWeight.w400),
+                        ),
+                        SizedBox(
+                          height: width * 0.123,
+                          child: const VerticalDivider(
+                            color: borderGrey,
+                          ),
+                        ),
+                      ],
+                    ),
                     hintText: 'phoneHint'.tr,
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(10)
+                      _countryCode == '+966'
+                          ? LengthLimitingTextInputFormatter(9)
+                          : LengthLimitingTextInputFormatter(15)
                     ],
                     keyboardType: TextInputType.number,
                     validator: false,
@@ -148,10 +203,14 @@ class _LastStepScreenState extends State<LastStepScreen> {
                       if (number == null || number!.isEmpty) {
                         return 'fieldRequired'.tr;
                       }
-                      if (!number.startsWith('05') || number.length != 10) {
+                      if (_countryCode == '+966') {
+                        if (!number.startsWith('5') || number.length != 9) {
+                          return 'invalidPhone'.tr;
+                        }
+                      }
+                      if (number.length < 9) {
                         return 'invalidPhone'.tr;
                       }
-                      return null;
                     },
                     onChanged: (number) => _number = number,
                   ),
@@ -289,8 +348,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
                 Obx(
                   () => widget.authController.isRegisterLoading.value
                       ? const Center(
-                          child: CircularProgressIndicator.adaptive()
-                        )
+                          child: CircularProgressIndicator.adaptive())
                       : CustomButton(
                           title: 'signUp'.tr,
                           onPressed: () async {
@@ -311,12 +369,13 @@ class _LastStepScreenState extends State<LastStepScreen> {
                             }
 
                             if (numberValid && isNatSelected) {
+                              log(_countryCode + _number);
                               bool isSuccess = await widget.authController
                                   .touristRegister(
                                       email: widget.email,
                                       password: widget.password,
                                       name: widget.name,
-                                      phoneNumber: _number,
+                                      phoneNumber: _countryCode + _number,
                                       nationality: _selectedNationality,
                                       rememberMe: true,
                                       context: context);
