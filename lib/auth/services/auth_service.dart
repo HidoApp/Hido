@@ -85,7 +85,7 @@ class AuthService {
           "email": email.trim(),
           "password": password.trim(),
           "name": name,
-          "phoneNumber": phoneNumber.trim().substring(1),
+          "phoneNumber": phoneNumber,
           "nationality": nationality,
         }));
 

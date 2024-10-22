@@ -8,6 +8,7 @@ import 'package:ajwad_v4/firebase_api.dart';
 import 'package:ajwad_v4/firebase_options.dart';
 import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
 import 'package:ajwad_v4/widgets/error_screen_widget.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -100,6 +101,9 @@ class _MyAppState extends State<MyApp> {
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       child: GetMaterialApp(
+        localizationsDelegates: const [
+          CountryLocalizations.delegate,
+        ],
         translations: LocaleString(),
         locale: local != "en" && local != "ar"
             ? const Locale('en', "US")
