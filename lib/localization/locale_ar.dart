@@ -691,4 +691,5 @@ const localeAr = {
   'orAbove': "أو أكثر",
   'Language': 'اللغة',
   'preferLang': 'وش اللغة اللي تفضلها؟',
+  'vehicleInfo': 'معلومات المركبة ',
 };

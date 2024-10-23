@@ -12,6 +12,7 @@ class Booking {
   final String? id;
   final String? placeId;
   final String? chatId;
+  final String? localId;
   final String date;
   final String timeToGo;
   final String timeToReturn;
@@ -43,6 +44,7 @@ class Booking {
       required this.timeToGo,
       required this.timeToReturn,
       this.guestNumber,
+      this.localId,
       this.cost,
       this.vehicleType,
       this.coordinates,
@@ -70,6 +72,7 @@ class Booking {
       id: json['id'] ?? '',
       placeId: json['placeId'] ?? '',
       chatId: json['chatId'] ?? '',
+      localId: json['localId'] ?? '',
       date: json['date'] ?? '',
       orderStatus: json['orderStatus'],
       timeToGo: json['timeToGo'] ?? '',
@@ -128,7 +131,8 @@ class Booking {
       'nameEn':nameEn,
       'nameAr':nameAr,
       'titleAr':titleAr,
-      'titleEn':titleEn
+      'titleEn':titleEn,
+      'localId':localId
 //     this.profileId
     };
   }

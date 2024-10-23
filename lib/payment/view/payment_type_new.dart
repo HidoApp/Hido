@@ -504,9 +504,9 @@ class _PaymentTypeState extends State<PaymentType> {
 
     final updatedHospitality = await widget.servicesController!
         .getHospitalityById(context: context, id: widget.hospitality!.id);
-    log(updatedHospitality!.booking!.first.guestInfo.male.toString());
-    log(updatedHospitality.booking!.first.guestInfo.female.toString());
-    log(updatedHospitality.booking!.first.guestInfo.dayId.toString());
+    log(updatedHospitality!.booking!.last.guestInfo.male.toString());
+    log(updatedHospitality.booking!.last.guestInfo.female.toString());
+    log(updatedHospitality.booking!.last.guestInfo.dayId.toString());
     if (!mounted) return;
     showDialog(
       context: context,
@@ -547,7 +547,7 @@ class _PaymentTypeState extends State<PaymentType> {
     });
     LocalNotification().showHospitalityNotification(
         context,
-        updatedHospitality.booking?.first.id,
+        updatedHospitality.booking?.last.id,
         widget.servicesController!.selectedDate.value,
         updatedHospitality.mealTypeEn,
         updatedHospitality.mealTypeAr,

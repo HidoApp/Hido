@@ -52,13 +52,24 @@ class _MessagesScreenState extends State<MessagesScreen> {
                   Skeletonizer(
                       enabled: widget.profileController.isChatLoading.value,
                       child: widget.profileController.chatList.isEmpty
-                          ? Center(
-                              child: CustomEmptyWidget(
-                                title: 'noMessages'.tr,
-                                image: 'noCommunication',
-                                subtitle: 'noMessagesSub'.tr,
-                              ),
-                            )
+                          ? Column(
+                             crossAxisAlignment: CrossAxisAlignment.center,
+                             mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(
+                              height:width*0.5,),
+                              Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal:18.0),
+                                    child: CustomEmptyWidget(
+                                      title: 'noMessages'.tr,
+                                      image: 'noCommunication',
+                                      subtitle: 'noMessagesSub'.tr,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          )
                           : ListView.separated(
                               shrinkWrap: true,
                               itemCount:
