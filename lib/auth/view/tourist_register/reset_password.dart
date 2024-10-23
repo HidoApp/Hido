@@ -40,14 +40,16 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         appBar: const CustomAppBar(""),
         body: Padding(
           padding: EdgeInsets.only(
-              top: width * 0.030, right: width * 0.041, left: width * 0.041),
+              top: width * 0.02, right: width * 0.041, left: width * 0.041),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomText(
                 text: "resetPassword".tr,
                 fontWeight: FontWeight.w500,
                 fontSize: width * 0.051,
               ),
+              SizedBox(height: width*0.03,),
               CustomText(
                 text: "passwordReset".tr,
                 fontWeight: FontWeight.w500,

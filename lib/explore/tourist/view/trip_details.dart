@@ -625,7 +625,7 @@ class _TripDetailsState extends State<TripDetails> {
                           Get.bottomSheet(const CustomPloicySheet());
                         },
                         child: Align(
-                            alignment: !AppUtil.rtlDirection(context)
+                            alignment: AppUtil.rtlDirection2(context)
                                 ? Alignment.centerRight
                                 : Alignment.centerLeft,
                             child: Row(

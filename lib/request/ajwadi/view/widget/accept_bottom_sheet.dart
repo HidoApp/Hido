@@ -177,7 +177,7 @@ Future<void> showAcceptBottomSheet(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold,
                                             fontFamily:
-                                                AppUtil.rtlDirection(context)
+                                                AppUtil.rtlDirection2(context)
                                                     ? 'Noto Kufi Arabic'
                                                     : 'Kufam'),
                                         hintText: 'adventureName'.tr,
@@ -211,7 +211,7 @@ Future<void> showAcceptBottomSheet(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold,
                                             fontFamily:
-                                                AppUtil.rtlDirection(context)
+                                                AppUtil.rtlDirection2(context)
                                                     ? 'Noto Kufi Arabic'
                                                     : 'Kufam'),
                                         onChanged: (value) {
@@ -276,7 +276,7 @@ Future<void> showAcceptBottomSheet(
                                               fontSize: 14,
                                               fontWeight: FontWeight.bold,
                                               fontFamily:
-                                                  AppUtil.rtlDirection(context)
+                                                  AppUtil.rtlDirection2(context)
                                                       ? 'Noto Kufi Arabic'
                                                       : 'Kufam'),
                                           onChanged: (value) {
@@ -331,7 +331,7 @@ Future<void> showAcceptBottomSheet(
                                               fontSize: 14,
                                               fontWeight: FontWeight.bold,
                                               fontFamily:
-                                                  AppUtil.rtlDirection(context)
+                                                  AppUtil.rtlDirection2(context)
                                                       ? 'Noto Kufi Arabic'
                                                       : 'Kufam'),
                                           onChanged: (value) {

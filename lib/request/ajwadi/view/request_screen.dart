@@ -155,7 +155,7 @@ class _RequestScreenState extends State<RequestScreen> {
                                       senderName: _requestController
                                               .requestList[index].senderName ??
                                           "",
-                                      requestName: AppUtil.rtlDirection(context)
+                                      requestName: AppUtil.rtlDirection2(context)
                                           ? _requestController
                                                   .requestList[index]
                                                   .requestName!

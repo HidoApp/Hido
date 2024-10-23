@@ -33,7 +33,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    setInternetConnection();
+    // setInternetConnection();
   }
 
   StreamSubscription? _internetConnection;

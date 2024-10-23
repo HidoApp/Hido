@@ -24,7 +24,7 @@ class CustomTextArea extends StatelessWidget {
           fontWeight: FontWeight.w400,
           color: colorDarkGrey,
           fontFamily:
-              AppUtil.rtlDirection(context) ? 'Noto Kufi Arabic' : 'Kufam',
+              AppUtil.rtlDirection2(context) ? 'Noto Kufi Arabic' : 'Kufam',
         ),
         border: const OutlineInputBorder(
           borderSide: BorderSide(

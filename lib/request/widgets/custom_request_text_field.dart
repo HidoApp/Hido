@@ -78,7 +78,7 @@ class CustomRequestTextField extends StatelessWidget {
                 color: isWhiteHintText ? Colors.white : Colors.grey,
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
-                fontFamily: AppUtil.rtlDirection(context)
+                fontFamily: AppUtil.rtlDirection2(context)
                     ? 'Noto Kufi Arabic'
                     : 'Kufam'),
         border: OutlineInputBorder(

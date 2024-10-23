@@ -137,7 +137,8 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                                     () => ServicesLocalInfo(
                                         isHospitality: true,
                                         profileId:
-                                            profileBooking?.localId ?? ''),
+                                            profileBooking?.localId ?? '',
+                                            isFromTicket: true,),
                                   );
                                 }
                               } else if (widget.booking!.bookingType ==
@@ -146,7 +147,8 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                                   Get.to(
                                     () => ServicesLocalInfo(
                                         profileId:
-                                            profileBooking?.localId ?? ''),
+                                            profileBooking?.localId ?? '',
+                                               isFromTicket: true),
                                   );
                                 }
                               } else {
@@ -180,7 +182,7 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                                     horizontal: width * 0.051),
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: lightGrey),
+                                    //border: Border.all(color: lightGrey),
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(16)),
                                 height: 70,
@@ -188,7 +190,7 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                                   children: [
                                     CircleAvatar(
                                       child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(30),
+                                         borderRadius: BorderRadius.circular(60),
                                         child: profileBooking?.offers?.first
                                                         .user!.profile.image !=
                                                     null ||
@@ -196,8 +198,8 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                                                         .profile.profileImage !=
                                                     null
                                             ? ImageCacheWidget(
-                                                height: width * 0.097,
-                                                width: width * 0.097,
+                                                height: width * 0.093,
+                                                width: width * 0.093,
                                                 image: (widget.booking!
                                                                 .bookingType ==
                                                             'hospitality' ||
@@ -213,7 +215,7 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                                                             .user!
                                                             .profile
                                                             .image ??
-                                                        "")
+                                                        "", fit: BoxFit.cover,)
                                             : Image.asset('assets/images/profile_image.png'),
                                       ),
                                     ),

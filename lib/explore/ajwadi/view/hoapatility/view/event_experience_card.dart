@@ -64,7 +64,7 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
    log(difference.toString());
    log((difference.inHours <= 24).toString());
    
-    return difference.inHours <= 24;
+    return difference.inHours <= 24 && !difference.inHours.isNegative;
     // return difference.inHours <= 24 && difference.inHours > 0;
   }
 
