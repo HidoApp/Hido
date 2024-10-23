@@ -34,16 +34,15 @@ class _AdCardsState extends State<AdCards> {
     'assets/images/holiday.png',
   ];
 
-  final CarouselController _carouselController = CarouselController();
+  final CarouselSliderController _carouselController =
+      CarouselSliderController();
   final _srvicesController = Get.put(AdvertisementController());
 
-  
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     //  _srvicesController.getAllAdvertisement(context: context);
-
   }
 
   OverlayEntry? _overlayEntry;
@@ -72,7 +71,6 @@ class _AdCardsState extends State<AdCards> {
               text: AppUtil.rtlDirection2(context)
                   ? "تم نسخ الكوبون بنجاح"
                   : 'Coupon copied to clipboard',
-
               color: Colors.white,
               fontFamily:
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
@@ -95,110 +93,129 @@ class _AdCardsState extends State<AdCards> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return  Obx(()=>
-                Skeletonizer(
-                  enabled: _srvicesController.isAdvertisementLoading.value,
-                  child: _srvicesController.advertisementList.isEmpty
-                  ? Container()
-           : Stack(
-          children: [
-            Column(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.9, // Ensure widt
-                  child:
-                   SizedBox(
-                    height:133, // Set the desired height for the card
-                      child: CarouselSlider.builder(
-                        carouselController: _carouselController,
-                        options: CarouselOptions(
-                          // height: 200, // Add explicit height here
-                          viewportFraction: 1,
-                          autoPlay:_srvicesController.advertisementList.length==1?false: true,
-                          // enableInfiniteScroll: true,
-                          // animateToClosest: true,
-                          onPageChanged: (i, reason) {
-                            setState(() {
-                              _currentIndex = i;
-                            });
-                          },
-                        ),
-                        itemCount: _srvicesController.advertisementList.length,
-                        itemBuilder: (context, index, realIndex) {
-                          return GestureDetector(
-                            onTap: () {
-                              // Get.to();
-                              if (_srvicesController.advertisementList[index].type ==
-                                  'COUPON') {
-                                Clipboard.setData(ClipboardData(text:_srvicesController.advertisementList[index].content ));
-                                _showOverlay(context);
-                              } else if (_srvicesController
-                                      .advertisementList[index].type ==
-                                  'EVENT') {
-                                    Get.to(()=>(LocalEventDetails(eventId:_srvicesController.advertisementList[index].content)));
-                                
-                              } else if (_srvicesController
-                                      .advertisementList[index].type ==
-                                  'PLACE') {
-                                    final TouristExploreController _touristExploreController =
-                                     Get.put(TouristExploreController());
-                                
-                                     _touristExploreController.getPlaceById(id:_srvicesController.advertisementList[index].content , context: context).then((value) {
-                                       Get.to(()=>(TripDetails(place:_touristExploreController.thePlace.value)));
-                                
-                                
-                                     });
-                                
-                              } else if (_srvicesController
-                                      .advertisementList[index].type ==
-                                  'HOSPITALITY') {
-                                    Get.to(()=>(HospitalityDetails(hospitalityId:_srvicesController.advertisementList[index].content)));
-                                
-                              } else if (_srvicesController
-                                      .advertisementList[index].type ==
-                                  'HOSPITALITY') {
-                                    Get.to(()=>(AdventureDetails(adventureId:_srvicesController.advertisementList[index].content)));
-                                
-                              }
-                               else if (_srvicesController
-                                      .advertisementList[index].type ==
-                                  'GENERAL') {}
+    return Obx(
+      () => Skeletonizer(
+        enabled: _srvicesController.isAdvertisementLoading.value,
+        child: _srvicesController.advertisementList.isEmpty
+            ? Container()
+            : Stack(
+                children: [
+                  Column(
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width *
+                            0.9, // Ensure widt
+                        child: SizedBox(
+                          height: 133, // Set the desired height for the card
+                          child: CarouselSlider.builder(
+                            carouselController: _carouselController,
+                            options: CarouselOptions(
+                              // height: 200, // Add explicit height here
+                              viewportFraction: 1,
+                              autoPlay:
+                                  _srvicesController.advertisementList.length ==
+                                          1
+                                      ? false
+                                      : true,
+                              // enableInfiniteScroll: true,
+                              // animateToClosest: true,
+                              onPageChanged: (i, reason) {
+                                setState(() {
+                                  _currentIndex = i;
+                                });
+                              },
+                            ),
+                            itemCount:
+                                _srvicesController.advertisementList.length,
+                            itemBuilder: (context, index, realIndex) {
+                              return GestureDetector(
+                                onTap: () {
+                                  // Get.to();
+                                  if (_srvicesController
+                                          .advertisementList[index].type ==
+                                      'COUPON') {
+                                    Clipboard.setData(ClipboardData(
+                                        text: _srvicesController
+                                            .advertisementList[index].content));
+                                    _showOverlay(context);
+                                  } else if (_srvicesController
+                                          .advertisementList[index].type ==
+                                      'EVENT') {
+                                    Get.to(() => (LocalEventDetails(
+                                        eventId: _srvicesController
+                                            .advertisementList[index]
+                                            .content)));
+                                  } else if (_srvicesController
+                                          .advertisementList[index].type ==
+                                      'PLACE') {
+                                    final TouristExploreController
+                                        _touristExploreController =
+                                        Get.put(TouristExploreController());
+
+                                    _touristExploreController
+                                        .getPlaceById(
+                                            id: _srvicesController
+                                                .advertisementList[index]
+                                                .content,
+                                            context: context)
+                                        .then((value) {
+                                      Get.to(() => (TripDetails(
+                                          place: _touristExploreController
+                                              .thePlace.value)));
+                                    });
+                                  } else if (_srvicesController
+                                          .advertisementList[index].type ==
+                                      'HOSPITALITY') {
+                                    Get.to(() => (HospitalityDetails(
+                                        hospitalityId: _srvicesController
+                                            .advertisementList[index]
+                                            .content)));
+                                  } else if (_srvicesController
+                                          .advertisementList[index].type ==
+                                      'HOSPITALITY') {
+                                    Get.to(() => (AdventureDetails(
+                                        adventureId: _srvicesController
+                                            .advertisementList[index]
+                                            .content)));
+                                  } else if (_srvicesController
+                                          .advertisementList[index].type ==
+                                      'GENERAL') {}
+                                },
+                                child: ImagesSliderWidget(
+                                    image: _srvicesController
+                                        .advertisementList[index]
+                                        .imageUrls!
+                                        .first),
+                              );
                             },
-                            child: ImagesSliderWidget(
-                                image: _srvicesController
-                                    .advertisementList[index].imageUrls!.first),
-                          );
-                        },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Center(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            top: height * 0.138,
+                            bottom: height *
+                                0.047), // Set the top padding to control vertical position
+                        child: AnimatedSmoothIndicator(
+                            effect: WormEffect(
+                              // dotColor: starGreyColor,
+                              dotWidth: width * 0.0205,
+                              dotHeight: width * 0.0205,
+                              activeDotColor: Colors.white,
+                              dotColor: babyGray,
+                            ),
+                            activeIndex: _currentIndex,
+                            count: _srvicesController.advertisementList.length),
                       ),
                     ),
-                  
-                ),
-              ],
-            ),
-              Center(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      top: height * 0.138,
-                      bottom: height * 0.047
-                    ), // Set the top padding to control vertical position
-                    child: AnimatedSmoothIndicator(
-                        effect: WormEffect(
-                          // dotColor: starGreyColor,
-                          dotWidth: width * 0.0205,
-                          dotHeight: width * 0.0205,
-                          activeDotColor: Colors.white,
-                          dotColor: babyGray,
-                        ),
-                        activeIndex: _currentIndex,
-                        count: _srvicesController.advertisementList.length),
                   ),
-                ),
+                ],
               ),
-            
-          ],
-        ),
       ),
     );
   }

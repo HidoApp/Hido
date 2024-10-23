@@ -207,9 +207,8 @@ class _LastStepScreenState extends State<LastStepScreen> {
                       hintText: 'phoneHint'.tr,
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
-                        _countryCode == '+966'
-                            ? LengthLimitingTextInputFormatter(9)
-                            : LengthLimitingTextInputFormatter(15)
+                        if (_countryCode.value == '+966')
+                          LengthLimitingTextInputFormatter(9)
                       ],
                       keyboardType: TextInputType.number,
                       validator: false,
@@ -217,12 +216,14 @@ class _LastStepScreenState extends State<LastStepScreen> {
                         if (number == null || number!.isEmpty) {
                           return 'fieldRequired'.tr;
                         }
+                        var fullNumber = _countryCode + number;
                         if (_countryCode == '+966') {
                           if (!number.startsWith('5') || number.length != 9) {
                             return 'invalidPhone'.tr;
                           }
                         }
-                        if (number.length < 9 || number.length >= 15) {
+                        if (fullNumber.length < 9 || fullNumber.length > 15) {
+                          log('length issue');
                           return 'invalidPhone'.tr;
                         }
                       },

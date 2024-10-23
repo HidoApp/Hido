@@ -37,7 +37,7 @@ dependencies:
   # floating_draggable_advn: ^1.0.6
   cupertino_icons: ^1.0.2
   flutter_svg:
-  carousel_slider: ^4.2.1
+  carousel_slider: ^5.0.0
   file_picker: ^5.0.1
   smooth_page_indicator: ^1.1.0
   # google_maps_flutter: ^2.9.0
@@ -59,7 +59,7 @@ dependencies:
   image_picker: ^1.0.4
   flutter_datetime_picker_bdaya: ^3.0.2
   geocoding: ^2.1.1
-  url_launcher: ^6.2.4
+  url_launcher: ^6.3.1
   easy_localization: ^3.0.3
   webview_flutter: ^4.4.4
   flutter_local_notifications: ^17.1.1
