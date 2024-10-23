@@ -52,7 +52,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
   TextEditingController controller = TextEditingController();
 
   var _number = '';
-  var _countryCode = '+966';
+  var _countryCode = '+966'.obs;
 
   @override
   void initState() {
@@ -140,79 +140,94 @@ class _LastStepScreenState extends State<LastStepScreen> {
                 SizedBox(
                   height: width * .0205,
                 ),
-                Form(
-                  key: _formKey,
-                  child: CustomTextField(
-                    prefixIcon: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CountryCodePicker(
-                          initialSelection: 'SA',
-                          searchStyle: TextStyle(
-                              fontSize: width * 0.038,
-                              fontFamily: AppUtil.SfFontType(context),
-                              color: black,
-                              fontWeight: FontWeight.w400),
-                          searchDecoration: const InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8)),
-                                borderSide:
-                                    BorderSide(color: borderGrey, width: 1)),
+                Obx(
+                  () => Form(
+                    key: _formKey,
+                    child: CustomTextField(
+                      prefixIcon: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CountryCodePicker(
+                            initialSelection: 'SA',
+                            showFlagDialog: true,
+
+                            searchStyle: TextStyle(
+                                fontSize: width * 0.038,
+                                fontFamily: AppUtil.SfFontType(context),
+                                color: black,
+                                fontWeight: FontWeight.w400),
+                            searchDecoration: InputDecoration(
+                              hintText: 'search'.tr,
+                              enabledBorder: const OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                  borderSide:
+                                      BorderSide(color: borderGrey, width: 1)),
+                              focusedBorder: const OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                  borderSide:
+                                      BorderSide(color: borderGrey, width: 1)),
+                              border: const OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
+                                  borderSide:
+                                      BorderSide(color: borderGrey, width: 1)),
+                            ),
+                            // optional. Shows only country name and flag
+                            showCountryOnly: true,
+                            // optional. Shows only country name and flag when popup is closed.
+                            showOnlyCountryWhenClosed: false,
+                            showFlag: false,
+                            onChanged: (value) {
+                              _countryCode.value = value.dialCode!;
+                              log(_countryCode.value);
+                            },
+                            // optional. aligns the flag and the Text left
+                            alignLeft: false, padding: EdgeInsets.zero,
+                            textStyle: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.038,
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
+                                color: Graytext,
+                                fontWeight: FontWeight.w400),
                           ),
-                          // optional. Shows only country name and flag
-                          showCountryOnly: true,
-                          // optional. Shows only country name and flag when popup is closed.
-                          showOnlyCountryWhenClosed: false,
-                          showFlag: false,
-                          onChanged: (value) {
-                            _countryCode = value.dialCode!;
-                            log(_countryCode);
-                          },
-                          // optional. aligns the flag and the Text left
-                          alignLeft: false, padding: EdgeInsets.zero,
-                          textStyle: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.038,
-                              fontFamily: AppUtil.rtlDirection2(context)
-                                  ? 'SF Arabic'
-                                  : 'SF Pro',
-                              color: Graytext,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        SizedBox(
-                          height: width * 0.123,
-                          child: const VerticalDivider(
-                            color: borderGrey,
+                          SizedBox(
+                            height: width * 0.123,
+                            child: const VerticalDivider(
+                              color: borderGrey,
+                            ),
                           ),
-                        ),
+                        ],
+                      ),
+                      hintText: 'phoneHint'.tr,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        _countryCode == '+966'
+                            ? LengthLimitingTextInputFormatter(9)
+                            : LengthLimitingTextInputFormatter(15)
                       ],
-                    ),
-                    hintText: 'phoneHint'.tr,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      _countryCode == '+966'
-                          ? LengthLimitingTextInputFormatter(9)
-                          : LengthLimitingTextInputFormatter(15)
-                    ],
-                    keyboardType: TextInputType.number,
-                    validator: false,
-                    validatorHandle: (number) {
-                      if (number == null || number!.isEmpty) {
-                        return 'fieldRequired'.tr;
-                      }
-                      if (_countryCode == '+966') {
-                        if (!number.startsWith('5') || number.length != 9) {
+                      keyboardType: TextInputType.number,
+                      validator: false,
+                      validatorHandle: (number) {
+                        if (number == null || number!.isEmpty) {
+                          return 'fieldRequired'.tr;
+                        }
+                        if (_countryCode == '+966') {
+                          if (!number.startsWith('5') || number.length != 9) {
+                            return 'invalidPhone'.tr;
+                          }
+                        }
+                        if (number.length < 9 || number.length >= 15) {
                           return 'invalidPhone'.tr;
                         }
-                      }
-                      if (number.length < 9) {
-                        return 'invalidPhone'.tr;
-                      }
-                    },
-                    onChanged: (number) => _number = number,
+                      },
+                      onChanged: (number) => _number = number,
+                    ),
                   ),
                 ),
                 const SizedBox(

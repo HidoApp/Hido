@@ -31,9 +31,12 @@ class MapMarker extends StatelessWidget {
             image: DecorationImage(
               fit: BoxFit.cover,
               image: CachedNetworkImageProvider(
-                  errorListener: (p0) =>
-                      Image.asset('assets/images/Placeholder.png'),
-                  image),
+                maxHeight: 10,
+                maxWidth: 10,
+                errorListener: (p0) =>
+                    Image.asset('assets/images/Placeholder.png'),
+                image,
+              ),
             ),
             border: Border.all(color: Colors.white, width: 2)),
       ),

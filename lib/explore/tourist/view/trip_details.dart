@@ -94,7 +94,7 @@ class _TripDetailsState extends State<TripDetails> {
     addCustomIcon();
     // AmplitudeService.initializeAmplitude();
 
-    if (!AppUtil.isGuest() && _profileController.profile.id != null) {
+    if (!AppUtil.isGuest() && _profileController.profile.id != '') {
       getOfferinfo();
       _profileController.bookmarkList(BookmarkService.getBookmarks());
       _profileController.isTourBookmarked(_profileController.bookmarkList
