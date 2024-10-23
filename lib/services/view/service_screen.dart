@@ -307,16 +307,15 @@ class _ServiceScreenState extends State<ServiceScreen>
                                 // !AppUtil.rtlDirection(context) ? 15 : 5),
                                 AppUtil.rtlDirection2(context)
                                     ? width * 0.038
-                                    : width * 0.012
-                                    ),
+                                    : width * 0.012),
                         child: Container(
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(width * 0.03),
                                   topRight: Radius.circular(width * 0.03))),
-                          child:Padding(
-                            padding: const EdgeInsets.only(bottom:8.0),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
                             child: CustomText(
                               text: "hospitality".tr,
                               color: _srvicesController.tabIndex.value == 0
@@ -365,8 +364,8 @@ class _ServiceScreenState extends State<ServiceScreen>
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(width * 0.03),
                                   topRight: Radius.circular(width * 0.03))),
-                          child:Padding(
-                            padding: const EdgeInsets.only(bottom:8.0),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
                             child: CustomText(
                               text: "adventures".tr,
                               color: _srvicesController.tabIndex.value == 1
@@ -415,7 +414,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                                   topLeft: Radius.circular(width * 0.03),
                                   topRight: Radius.circular(width * 0.03))),
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom:8.0),
+                            padding: const EdgeInsets.only(bottom: 8.0),
                             child: CustomText(
                               text: "events".tr,
                               color: _srvicesController.tabIndex.value == 2
@@ -468,18 +467,20 @@ class _ServiceScreenState extends State<ServiceScreen>
                       left: 16,
                       right: 16,
                       bottom: 0,
-                    ), 
+                    ),
                     child: Center(
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.9,
-                        child: AdCards(), 
+                        child: const AdCards(),
                       ),
                     ),
                   ),
                 );
               } else {
-                  return SliverToBoxAdapter(child: SizedBox(height: width * 0.12,));
-
+                return SliverToBoxAdapter(
+                    child: SizedBox(
+                  height: width * 0.12,
+                ));
               }
             }),
 

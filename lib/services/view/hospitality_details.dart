@@ -90,7 +90,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
     hospitalityObj = (await _servicesController.getHospitalityById(
         context: context, id: widget.hospitalityId));
 
-     if (!widget.isLocal) {
+    if (!widget.isLocal) {
       _fetchAddress(hospitalityObj!.coordinate.latitude ?? '',
           hospitalityObj!.coordinate.longitude ?? '');
     }
@@ -102,8 +102,10 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
           ),
         );
     }
-    
-    if (!AppUtil.isGuest()) {
+
+    if (!AppUtil.isGuest() &&
+        _profileController.profile.id != '' &&
+        !widget.isLocal) {
       _profileController.bookmarkList(BookmarkService.getBookmarks());
       _profileController.isHospitaltyBookmarked(_profileController.bookmarkList
           .any((bookmark) => bookmark.id == hospitalityObj!.id));
@@ -112,9 +114,6 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
     if (hospitalityObj!.booking != null) {
       hideLocation = hospitalityObj!.booking!.isEmpty;
     }
-    
-
-   
   }
 
   Future<String> _getAddressFromLatLng(
@@ -125,21 +124,22 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-         if(placemark.subLocality!.isNotEmpty && placemark.locality!.isNotEmpty){
-        return '${placemark.locality}, ${placemark.subLocality}';
-        }
-        else{
-        if(placemark.locality!.isNotEmpty)
-        return '${placemark.locality}, ${placemark.administrativeArea}';
-        else if(placemark.subLocality!.isNotEmpty)
-       return '${placemark.subLocality}, ${placemark.administrativeArea}';
-       else
-        return '${placemark.administrativeArea}, ${placemark.thoroughfare}';
+        if (placemark.subLocality!.isNotEmpty &&
+            placemark.locality!.isNotEmpty) {
+          return '${placemark.locality}, ${placemark.subLocality}';
+        } else {
+          if (placemark.locality!.isNotEmpty)
+            return '${placemark.locality}, ${placemark.administrativeArea}';
+          else if (placemark.subLocality!.isNotEmpty)
+            return '${placemark.subLocality}, ${placemark.administrativeArea}';
+          else
+            return '${placemark.administrativeArea}, ${placemark.thoroughfare}';
         }
       }
     } catch (e) {}
     return '';
   }
+
   Future<void> _fetchAddress(String position1, String position2) async {
     try {
       String result = await _getAddressFromLatLng(
@@ -285,10 +285,11 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                   ),
                                   CustomText(
                                     text: !widget.isLocal
-                                        ? address.isEmpty? AppUtil.rtlDirection2(context)
-                                            ? '${hospitalityObj!.regionAr}'
-                                            : '${hospitalityObj!.regionEn}'
-                                        : address
+                                        ? address.isEmpty
+                                            ? AppUtil.rtlDirection2(context)
+                                                ? '${hospitalityObj!.regionAr}'
+                                                : '${hospitalityObj!.regionEn}'
+                                            : address
                                         : AppUtil.rtlDirection2(context)
                                             ? '${hospitalityObj!.regionAr}, ${widget.address}'
                                             : '${hospitalityObj!.regionEn}, ${widget.address}',

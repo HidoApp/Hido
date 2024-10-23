@@ -87,20 +87,18 @@ class _AdventureDetailsState extends State<AdventureDetails> {
     adventure = (await _adventureController.getAdvdentureById(
         context: context, id: widget.adventureId));
 
-     if (!widget.isLocal) {
+    if (!widget.isLocal) {
       _fetchAddress(adventure!.coordinates!.latitude ?? '',
           adventure!.coordinates!.longitude ?? '');
     }
 
     if (!AppUtil.isGuest() &&
-        _profileController.profile.id != null &&
+        _profileController.profile.id != '' &&
         !widget.isLocal) {
       _profileController.bookmarkList(BookmarkService.getBookmarks());
       _profileController.isAdventureBookmarked(_profileController.bookmarkList
           .any((bookmark) => bookmark.id == adventure!.id));
     }
-
-   
   }
 
   Future<String> _getAddressFromLatLng(
@@ -111,16 +109,16 @@ class _AdventureDetailsState extends State<AdventureDetails> {
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        if(placemark.subLocality!.isNotEmpty && placemark.locality!.isNotEmpty){
-        return '${placemark.locality}, ${placemark.subLocality}';
-        }
-        else{
-        if(placemark.locality!.isNotEmpty)
-        return '${placemark.locality}, ${placemark.administrativeArea}';
-        else if(placemark.subLocality!.isNotEmpty)
-       return '${placemark.subLocality}, ${placemark.administrativeArea}';
-       else
-        return '${placemark.administrativeArea}, ${placemark.thoroughfare}';
+        if (placemark.subLocality!.isNotEmpty &&
+            placemark.locality!.isNotEmpty) {
+          return '${placemark.locality}, ${placemark.subLocality}';
+        } else {
+          if (placemark.locality!.isNotEmpty)
+            return '${placemark.locality}, ${placemark.administrativeArea}';
+          else if (placemark.subLocality!.isNotEmpty)
+            return '${placemark.subLocality}, ${placemark.administrativeArea}';
+          else
+            return '${placemark.administrativeArea}, ${placemark.thoroughfare}';
         }
       }
     } catch (e) {}

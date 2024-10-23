@@ -511,7 +511,7 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                           ).then((value) {
                             person = 0;
                             showErrorGuests = false;
-                            _adventureController.showErrorMaxGuest(false);
+                            // _adventureController.showErrorMaxGuest(false);
                           });
                   },
                   iconColor: darkPurple,

@@ -26,34 +26,37 @@ class _PromocodeFieldState extends State<PromocodeField> {
   final _paymentController = Get.put(PaymentController());
   void couponDiscountPercentage(String code, Coupon coupon) async {
     _paymentController.validateType.value = 'applied';
-    _paymentController.discountPrice.value =
-        AppUtil.couponPercentageCalculating(
+    double discountPrice = AppUtil.couponPercentageCalculating(
       hidoPercentage: widget.type == 'HOSPITALITY' ? 0.25 : 0.3,
       couponPercentage: coupon.discountPercentage!,
       price: widget.price,
     );
+    _paymentController.discountPrice.value = discountPrice > coupon.maxDiscount!
+        ? coupon.maxDiscount!.toDouble()
+        : discountPrice;
+
     _paymentController.finalPrice(
-      _paymentController.discountPrice.value >= coupon.maxDiscount!
-          ? coupon.maxDiscount!.toDouble()
-          : widget.price - _paymentController.discountPrice.value,
+      widget.price - _paymentController.discountPrice.value,
     );
     _paymentController.couponId(coupon.id);
-    log(_paymentController.couponId.value);
-    log(_paymentController.discountPrice.value.toString());
-    log(_paymentController.finalPrice.value.toString());
+    // log(_paymentController.couponId.value);
+    // log(_paymentController.discountPrice.value.toString());
+    // log(_paymentController.finalPrice.value.toString());
   }
 
   void couponDiscountAmount(String code, Coupon coupon) async {
     _paymentController.validateType.value = 'applied';
-    _paymentController.discountPrice.value = AppUtil.couponAmountCalculating(
+    var discountAmount = AppUtil.couponAmountCalculating(
       hidoPercentage: widget.type == 'HOSPITALITY' ? 0.25 : 0.3,
       couponAmount: coupon.discountAmount!,
       price: widget.price,
     );
+    _paymentController.discountPrice.value =
+        discountAmount > coupon.maxDiscount!
+            ? coupon.maxDiscount!.toDouble()
+            : discountAmount;
     _paymentController.finalPrice(
-      _paymentController.discountPrice.value >= coupon.maxDiscount!
-          ? coupon.maxDiscount!.toDouble()
-          : widget.price - _paymentController.discountPrice.value,
+      widget.price - _paymentController.discountPrice.value,
     );
     _paymentController.couponId(coupon.id);
     log(_paymentController.couponId.value);
@@ -77,6 +80,7 @@ class _PromocodeFieldState extends State<PromocodeField> {
     return Obx(
       () => Form(
         child: CustomTextField(
+          textInputAction: TextInputAction.done,
           height: width * 0.14,
           hintText: 'addpromocode'.tr,
           onFieldSubmitted: (code) async {

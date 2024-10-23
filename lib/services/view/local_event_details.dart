@@ -86,8 +86,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
     event = (await _eventController.getEventById(
         context: context, id: widget.eventId));
 
-
-     if (!widget.isLocal) {
+    if (!widget.isLocal) {
       _fetchAddress(event!.coordinates!.latitude ?? '',
           event!.coordinates!.longitude ?? '');
     }
@@ -100,16 +99,13 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
         );
     }
     if (!AppUtil.isGuest() &&
-        _profileController.profile.id != null &&
+        _profileController.profile.id != '' &&
         !widget.isLocal) {
       _profileController.bookmarkList(BookmarkService.getBookmarks());
 
       _profileController.isEventBookmarked(_profileController.bookmarkList
           .any((bookmark) => bookmark.id == event!.id));
     }
-
-    
-   
   }
 
   Future<String> _getAddressFromLatLng(
@@ -120,16 +116,16 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-         if(placemark.subLocality!.isNotEmpty && placemark.locality!.isNotEmpty){
-        return '${placemark.locality}, ${placemark.subLocality}';
-        }
-        else{
-        if(placemark.locality!.isNotEmpty)
-        return '${placemark.locality}, ${placemark.administrativeArea}';
-        else if(placemark.subLocality!.isNotEmpty)
-       return '${placemark.subLocality}, ${placemark.administrativeArea}';
-       else
-        return '${placemark.administrativeArea}, ${placemark.thoroughfare}';
+        if (placemark.subLocality!.isNotEmpty &&
+            placemark.locality!.isNotEmpty) {
+          return '${placemark.locality}, ${placemark.subLocality}';
+        } else {
+          if (placemark.locality!.isNotEmpty)
+            return '${placemark.locality}, ${placemark.administrativeArea}';
+          else if (placemark.subLocality!.isNotEmpty)
+            return '${placemark.subLocality}, ${placemark.administrativeArea}';
+          else
+            return '${placemark.administrativeArea}, ${placemark.thoroughfare}';
         }
       }
     } catch (e) {}
