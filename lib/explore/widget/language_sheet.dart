@@ -128,9 +128,11 @@ class _LanguageSheetState extends State<LanguageSheet> {
                   if (_selectedLanguage == 'English') {
                     // Update to English Locale
                     Get.updateLocale(const Locale('en', 'US'));
+                    Get.back();
                   } else if (_selectedLanguage == 'Arabic') {
                     // Update to Arabic Locale
                     Get.updateLocale(const Locale('ar', 'SA'));
+                    Get.back();
                   }
                 }
               }

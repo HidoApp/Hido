@@ -84,7 +84,7 @@ class HostTicketData extends StatelessWidget {
                   Clipboard.setData(
                       ClipboardData(text:  hospitality == null?
                        booking!.id!.substring(0, 7):
-                     hospitality!.booking!.first.id.substring(0, 7) ));
+                     hospitality!.booking!.last.id.substring(0, 7) ));
                   _showOverlay(context);
                 },
                 child: SvgPicture.asset(
@@ -96,7 +96,7 @@ class HostTicketData extends StatelessWidget {
             Text(
               '#${hospitality == null?
                        booking!.id!.substring(0, 7):
-                     hospitality!.booking!.first.id.substring(0, 7)}',
+                     hospitality!.booking!.last.id.substring(0, 7)}',
               style: TextStyle(
                 color: Color(0xFFB9B8C1),
                 fontSize: 13,
@@ -166,7 +166,7 @@ class HostTicketData extends StatelessWidget {
                   hospitality == null
                       ? AppUtil.formatBookingDate(context, booking!.date)
                       : AppUtil.formatBookingDate(
-                          context, hospitality!.booking!.first.date),
+                          context, hospitality!.booking!.last.date),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: black,
@@ -209,7 +209,7 @@ class HostTicketData extends StatelessWidget {
                       hospitality == null
                           ? AppUtil.formatStringTime(context, booking!.timeToGo)
                           : AppUtil.formatTimeOnly(
-                              context, hospitality!.daysInfo.first.startTime),
+                              context, hospitality!.daysInfo.last.startTime),
                       style: TextStyle(
                         color: black,
                         fontSize: width * 0.038,
@@ -248,7 +248,7 @@ class HostTicketData extends StatelessWidget {
                               ? AppUtil.formatStringTime(
                                   context, booking!.timeToReturn)
                               : AppUtil.formatTimeOnly(
-                                  context, hospitality!.daysInfo.first.endTime),
+                                  context, hospitality!.daysInfo.last.endTime),
                           style: TextStyle(
                             color: black,
                             fontSize: width * 0.038,

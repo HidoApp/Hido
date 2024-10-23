@@ -62,9 +62,9 @@ class ProfileService {
     );
 
     log(response.statusCode.toString());
-    log(response.body.toString());
 
     if (response.statusCode == 200) {
+          log(response.body.toString());
       var profile = jsonDecode(response.body);
 
       return Profile.fromJson(profile);

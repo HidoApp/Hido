@@ -339,7 +339,7 @@ const localeEn = {
       " It's a pleasure to accompany you, This is the itinerary that I suggested to you. Select what you want and create a memorable day! ",
   "showOffer": "View offer",
   "noMessages": "No New Message",
-  "noMessagesSub": "'All your messages with local guides appear here",
+  "noMessagesSub": "All your messages with local guides appear here",
   "approximateLocation":
       "Approximate location , The exact location will be revealed after booking",
   "checkingForPayment": 'Checking for payment',
@@ -698,5 +698,7 @@ const localeEn = {
   'Language':'Language',
   'preferLang': 'Which language do you prefer',
   'wallet':'Wallet',
+  'vehicleInfo': 'Vehicle Info',
+
 
 };
