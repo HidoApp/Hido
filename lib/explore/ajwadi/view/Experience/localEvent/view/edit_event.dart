@@ -171,7 +171,7 @@ class _EditEventState extends State<EditEvent> {
     });
   }
 
-  final CarouselController _carouselController = CarouselController();
+  final CarouselSliderController _carouselController = CarouselSliderController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _guestsController = TextEditingController();
   List<String> imageUrls = [];
