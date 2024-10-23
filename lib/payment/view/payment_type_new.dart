@@ -531,9 +531,7 @@ class _PaymentTypeState extends State<PaymentType> {
         );
       },
     ).then((_) {
-      Get.back();
-      Get.back();
-      Get.back();
+      Get.offAll(() => const TouristBottomBar());
 
       Get.to(() => TicketDetailsScreen(
             hospitality: updatedHospitality,
@@ -594,8 +592,7 @@ class _PaymentTypeState extends State<PaymentType> {
         );
       },
     ).then((_) {
-      Get.back();
-      Get.back();
+      Get.offAll(() => const TouristBottomBar());
       log("inside adventure");
       log("${updatedEvent!.booking?.last.id}");
       LocalNotification().showEventNotification(
@@ -653,10 +650,10 @@ class _PaymentTypeState extends State<PaymentType> {
         );
       },
     ).then((_) {
-      Get.back();
-      Get.back();
+      Get.offAll(() => const TouristBottomBar());
+
       log("inside adventure");
-     // log("${updatedAdventure!.booking?.last.id}");
+      // log("${updatedAdventure!.booking?.last.id}");
       log(widget.adventure!.date!);
       log(widget.adventure!.nameEn!);
       log(widget.adventure!.nameAr!);
