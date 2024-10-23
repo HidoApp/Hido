@@ -517,22 +517,17 @@ class _ChatScreenState extends State<ChatScreen> {
                                                   [] ||
                                               chatController
                                                   .chat.messages!.isEmpty)
-                                          ? Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 16.0),
-                                              child: Center(
-                                                child: CustomText(
-                                                  text: 'StartChat'.tr,
-                                                  fontSize: width * 0.03,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily:
-                                                      AppUtil.SfFontType(
-                                                          context),
-                                                  color: Graytext,
-                                                ),
-                                              ),
-                                            )
+                                          ? Center(
+                                            child: CustomText(
+                                              text: 'StartChat'.tr,
+                                              fontSize: width * 0.03,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily:
+                                                  AppUtil.SfFontType(
+                                                      context),
+                                              color: Graytext,
+                                            ),
+                                          )
                                           : RefreshIndicator(
                                               color: Colors.green,
                                               onRefresh: () async {

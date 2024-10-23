@@ -6,6 +6,8 @@ import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LanguageSheet extends StatefulWidget {
@@ -16,7 +18,9 @@ class LanguageSheet extends StatefulWidget {
 }
 
 class _LanguageSheetState extends State<LanguageSheet> {
-  String? _selectedLanguage; // To store the selected language
+  String _selectedLanguage = Get.locale?.languageCode == 'ar'
+      ? 'Arabic'
+      : 'English'; // To store the selected language
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +67,31 @@ class _LanguageSheetState extends State<LanguageSheet> {
             ),
           ),
           SizedBox(height: 8),
+          Row(
+            children: [
+              Radio<String>(
+                value: 'Arabic',
+                groupValue: _selectedLanguage,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedLanguage = value!;
+                  });
+                },
+                activeColor: Colors.green,
+              ),
+              SizedBox(width: 4),
+              Text(
+                'arabic'.tr,
+                style: TextStyle(
+                  color: black,
+                  fontSize: width * 0.044,
+                  fontFamily: AppUtil.SfFontType(context),
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+
           // English option
           Row(
             children: [
@@ -89,49 +118,28 @@ class _LanguageSheetState extends State<LanguageSheet> {
             ],
           ),
 
-          // Arabic option
-          Row(
-            children: [
-              Radio<String>(
-                value: 'Arabic',
-                groupValue: _selectedLanguage,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedLanguage = value!;
-                  });
-                },
-                activeColor: Colors.green,
-              ),
-              SizedBox(width: 4),
-              Text(
-                'arabic'.tr,
-                style: TextStyle(
-                  color: black,
-                  fontSize: width * 0.044,
-                  fontFamily: AppUtil.SfFontType(context),
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ],
-          ),
-
           const Spacer(),
           // Confirm button
           Center(
               child: CustomButton(
             title: 'confirm'.tr,
             onPressed: (() async {
-              if (_selectedLanguage != null) {
+              if (_selectedLanguage.isNotEmpty) {
+               
+
                 if (Platform.isIOS) {
                   openAppSettings();
                 } else {
                   if (_selectedLanguage == 'English') {
                     // Update to English Locale
                     Get.updateLocale(const Locale('en', 'US'));
+                    GetStorage().write('language', 'en');
                     Get.back();
                   } else if (_selectedLanguage == 'Arabic') {
                     // Update to Arabic Locale
                     Get.updateLocale(const Locale('ar', 'SA'));
+                   GetStorage().write('language', 'ar');
+
                     Get.back();
                   }
                 }

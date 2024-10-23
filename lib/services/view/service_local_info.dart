@@ -12,9 +12,10 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 class ServicesLocalInfo extends StatefulWidget {
   const ServicesLocalInfo(
-      {super.key, required this.profileId, this.isHospitality = false});
+      {super.key, required this.profileId, this.isHospitality = false,this.isFromTicket=false});
   final String profileId;
   final bool isHospitality;
+  final bool isFromTicket;
   @override
   State<ServicesLocalInfo> createState() => _ServicesLocalInfoState();
 }
@@ -29,7 +30,9 @@ class _ServicesLocalInfoState extends State<ServicesLocalInfo> {
   @override
   void initState() {
     super.initState();
-    getProfile();
+    if(!widget.isFromTicket) {
+      getProfile();
+    }
   }
 
   @override

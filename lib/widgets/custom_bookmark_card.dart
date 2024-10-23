@@ -63,7 +63,7 @@ class _CustomBookmarkCardState extends State<CustomBookmarkCard> {
                       width: 4,
                     ),
                     CustomText(
-                      text: AppUtil.rtlDirection(context)
+                      text: AppUtil.rtlDirection2(context)
                           ? 'الرياض، المملكة العربية السعودية'
                           : 'Riyadh, Saudi Arabia',
                       fontSize: 10,

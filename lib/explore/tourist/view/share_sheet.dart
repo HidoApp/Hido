@@ -51,7 +51,7 @@ class _ShareSheetState extends State<ShareSheet> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Align(
-                            alignment: AppUtil.rtlDirection(context)
+                            alignment: AppUtil.rtlDirection2(context)
                                 ? Alignment.centerRight
                                 : Alignment.centerLeft,
                             child: CustomText(
@@ -59,7 +59,7 @@ class _ShareSheetState extends State<ShareSheet> {
                               color: widget.fromAjwady
                                   ? Colors.white
                                   : Colors.black,
-                              textDirection: AppUtil.rtlDirection(context)
+                              textDirection: AppUtil.rtlDirection2(context)
                                   ? TextDirection.rtl
                                   : TextDirection.ltr,
                               fontSize: 24,

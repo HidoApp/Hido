@@ -190,7 +190,7 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CustomText(
-                              text: AppUtil.rtlDirection(context)
+                              text: !AppUtil.rtlDirection2(context)
                                   ? widget.booking.bookingType == "place"
                                       ? widget.booking.place!.nameEn!
                                       : widget.booking.bookingType ==
@@ -216,7 +216,7 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                                                   '',
                               fontSize: width * 0.041,
                               fontWeight: FontWeight.w500,
-                              fontFamily: AppUtil.rtlDirection(context)
+                              fontFamily: AppUtil.rtlDirection2(context)
                                   ? 'SF Pro'
                                   : 'SF Arabic',
                             ),

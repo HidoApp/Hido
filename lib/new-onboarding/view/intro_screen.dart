@@ -380,7 +380,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
             ),
           ),
           if (_currentIndex == 0)
-           LanguageDropdown(),
+           const LanguageDropdown(),
         ],
       ),
     );
