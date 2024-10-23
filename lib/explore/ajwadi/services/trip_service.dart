@@ -195,6 +195,7 @@ class TripService {
 
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
+      log(response.body);
 
       return data.map((experience) => Experience.fromJson(experience)).toList();
     } else {

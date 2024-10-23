@@ -60,7 +60,10 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
     //   return true;
     // }
     Duration difference = parsedDateInRiyadh.difference(currentDateInRiyadh);
-
+   log('deference ${widget.experience.nameEn}');
+   log(difference.toString());
+   log((difference.inHours <= 24).toString());
+   
     return difference.inHours <= 24;
     // return difference.inHours <= 24 && difference.inHours > 0;
   }
@@ -75,6 +78,7 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
     DateTime parsedDate = DateTime.parse(date);
     final parsedDateInRiyadh =
         tz.TZDateTime.from(parsedDate, location).subtract(Duration(hours: 3));
+    log(widget.experience.nameAr.toString());
     log(parsedDate.toString());
     log(parsedDateInRiyadh.toString());
     log(currentDateInRiyadh.toString());
