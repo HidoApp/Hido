@@ -53,9 +53,9 @@ class _AdCardsState extends State<AdCards> {
 
     _overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-        top: 270,
+        top: 260,
         left: AppUtil.rtlDirection2(context)
-            ? MediaQuery.of(context).size.width * 0.298
+            ? MediaQuery.of(context).size.width * 0.332
             : null,
         right: AppUtil.rtlDirection2(context)
             ? null

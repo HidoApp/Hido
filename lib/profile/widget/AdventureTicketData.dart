@@ -85,7 +85,7 @@ class AdventureTicketData extends StatelessWidget {
                   Clipboard.setData(ClipboardData(
                       text: adventure == null
                           ? booking!.id!.substring(0, 7)
-                          : adventure!.booking!.first.id.substring(0, 7)));
+                          : adventure!.booking!.last.id.substring(0, 7)));
                   _showOverlay(context);
                 },
                 child: SvgPicture.asset(
@@ -95,7 +95,7 @@ class AdventureTicketData extends StatelessWidget {
                 )),
             const SizedBox(width: 8),
             Text(
-              '#${adventure == null ? booking!.id!.substring(0, 7) : adventure!.booking!.first.id.substring(0, 7)}',
+              '#${adventure == null ? booking!.id!.substring(0, 7) : adventure!.booking!.last.id.substring(0, 7)}',
               style: TextStyle(
                 color: Color(0xFFB9B8C1),
                 fontSize: 13,

@@ -22,6 +22,7 @@ class Profile {
   final String? descriptionAboutMe;
   final List<String>? userInterests;
   final List<String>? spokenLanguage;
+  final Vehicle? vehicle;
   final String? nationality;
   final String? accountType;
   final String? tourGuideLicense;
@@ -54,7 +55,8 @@ class Profile {
       this.accountType,
       this.iban,
       this.drivingLicenseExpiryDate,
-      this.vehicleIdNumber
+      this.vehicleIdNumber,
+      this.vehicle
 
       //this.image,
       });
@@ -89,6 +91,9 @@ class Profile {
       spokenLanguage: json["spokenLanguage"] == null
           ? []
           : List<String>.from(json["spokenLanguage"]!.map((x) => x)),
+       vehicle: json['vehicle'] == null
+          ? null
+          : Vehicle.fromJson(json['vehicle']),
     );
   }
 
@@ -114,7 +119,49 @@ class Profile {
       'nationality': nationality,
       "spokenLanguage": spokenLanguage!.map((x) => x).toList(),
       //'userRole': userRole,
-      "accountType": accountType
+      "accountType": accountType,
+      "vehicle":  vehicle
+    };
+  }
+}
+class Vehicle {
+  final String plateText1;
+  final String plateText2;
+  final String plateText3;
+  final int plateNumber;
+  final String vehicleClassDescEn;
+  final String vehicleSequenceNumber;
+
+  Vehicle({
+    required this.plateText1,
+    required this.plateText2,
+    required this.plateText3,
+    required this.plateNumber,
+    required this.vehicleClassDescEn,
+    required this.vehicleSequenceNumber,
+  });
+
+  // Factory constructor to create a Vehicle instance from JSON
+  factory Vehicle.fromJson(Map<String, dynamic> json) {
+    return Vehicle(
+      plateText1: json['plateText1'] ?? '',
+      plateText2: json['plateText2'] ?? '',
+      plateText3: json['plateText3'] ?? '',
+      plateNumber: json['plateNumber'] ?? 0,
+      vehicleClassDescEn: json['vehicleClassDescEn'] ?? '',
+      vehicleSequenceNumber: json['vehicleSequenceNumber'] ?? '',
+    );
+  }
+
+  // Method to convert Vehicle instance to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'plateText1': plateText1,
+      'plateText2': plateText2,
+      'plateText3': plateText3,
+      'plateNumber': plateNumber,
+      'vehicleClassDescEn': vehicleClassDescEn,
+      'vehicleSequenceNumber': vehicleSequenceNumber,
     };
   }
 }

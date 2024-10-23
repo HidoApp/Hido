@@ -16,13 +16,17 @@ class Bookmark {
   });
 
   factory Bookmark.fromJson(Map<String, dynamic> json) {
+     if (json == null) {
+    throw ArgumentError('The JSON object provided is null');
+  }
+
     return Bookmark(
-      id: json['id'],
-      isBookMarked: json['isBookMarked'],
-      titleEn: json['titleEn'],
-      titleAr: json['titleAr'],
-      image: json['image'],
-      type: json['type'],
+      id: json['id']??'',
+      isBookMarked: json['isBookMarked']??false,
+      titleEn: json['titleEn']??'',
+      titleAr: json['titleAr']??'',
+      image: json['image']??'',
+      type: json['type']??'',
     );
   }
 

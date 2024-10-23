@@ -104,8 +104,13 @@ class _AdventureDetailsState extends State<AdventureDetails> {
   Future<String> _getAddressFromLatLng(
       double position1, double position2) async {
     try {
+      
+    String languageCode = Get.locale?.languageCode == 'ar' ? 'ar' : 'en';
+    String countryCode = languageCode == 'ar' ? 'SA' : 'US'; // Assuming Saudi Arabia for Arabic and US for English
+    String lang = '${languageCode}_$countryCode';
+   
       List<Placemark> placemarks =
-          await placemarkFromCoordinates(position1, position2);
+          await placemarkFromCoordinates(position1, position2,localeIdentifier:lang);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;

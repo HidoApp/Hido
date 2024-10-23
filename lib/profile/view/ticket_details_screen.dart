@@ -1,11 +1,13 @@
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
+import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/widget/AdventureTicketData.dart';
 import 'package:ajwad_v4/profile/widget/cancleSheet.dart';
 import 'package:ajwad_v4/profile/widget/event_ticket_data.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
+import 'package:ajwad_v4/services/view/service_local_info.dart';
 import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
@@ -59,10 +61,21 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
   // final _offerController = Get.put(OfferController());
   final _touristExploreController = Get.put(TouristExploreController());
   // final _hospitalityController = Get.put(HospitalityController());
+  final _profileController = Get.put(ProfileController());
+
   Booking? profileBooking;
   void getBooking() async {
     profileBooking = await _touristExploreController.getTouristBookingById(
         context: context, bookingId: widget.booking?.id ?? "");
+    if (widget.booking!.bookingType == 'hospitality' ||
+        widget.booking!.bookingType == 'adventure') {
+      getProfile();
+    }
+  }
+
+  void getProfile() async {
+    await _profileController.getProfile(
+        context: context, profileId: profileBooking!.localId ?? '');
   }
 
   @override
@@ -74,9 +87,7 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
     if (widget.hospitality == null &&
         widget.adventure == null &&
         widget.event == null) {
-      if (widget.booking!.bookingType != 'event' &&
-          widget.booking!.bookingType != 'hospitality' &&
-          widget.booking!.bookingType != 'adventure') {
+      if (widget.booking!.bookingType != 'event') {
         getBooking();
       }
     }
@@ -109,40 +120,59 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                   widget.hospitality == null &&
                   !widget.isTour!) ...[
                 if (widget.booking!.orderStatus == 'ACCEPTED') ...[
-                  if (widget.booking!.bookingType != 'event' &&
-                      widget.booking!.bookingType != 'hospitality' &&
-                      widget.booking!.bookingType != 'adventure')
+                  if (widget.booking!.bookingType != 'event')
                     Obx(
                       () => Skeletonizer(
                         enabled: _touristExploreController
-                            .isBookingByIdLoading.value,
+                            .isBookingByIdLoading.value || _profileController.isProfileLoading.value,
                         child: Padding(
                           padding:
                               EdgeInsets.symmetric(horizontal: width * 0.041),
                           child: GestureDetector(
                             onTap: () {
-                              Get.to(() => LocalOfferInfo(
-                                    image: profileBooking?.offers?.first.user!
-                                            .profile.image ??
-                                        "",
-                                    name: profileBooking?.offers?.first.user!
-                                            .profile.name ??
-                                        "",
-                                    price:
-                                        int.parse(profileBooking?.cost ?? "0"),
-                                    rating: profileBooking?.offers?.first.user!
-                                            .profile.tourRating
-                                            .toDouble() ??
-                                        0.0,
-                                    tripNumber: profileBooking?.offers?.first
-                                            .user!.profile.tourNumber ??
-                                        0,
-                                    place: null,
-                                    userId:
-                                        profileBooking!.offers!.first.userId,
-                                    profileId:
-                                        profileBooking!.offers!.first.userId,
-                                  ));
+                              if (widget.booking!.bookingType ==
+                                      'hospitality' ) {
+                                if (profileBooking!.localId!.isNotEmpty) {
+                                  Get.to(
+                                    () => ServicesLocalInfo(
+                                        isHospitality: true,
+                                        profileId:
+                                            profileBooking?.localId ?? ''),
+                                  );
+                                }
+                              } else if (widget.booking!.bookingType ==
+                                  'adventure') {
+                                if (profileBooking!.localId!.isNotEmpty) {
+                                  Get.to(
+                                    () => ServicesLocalInfo(
+                                        profileId:
+                                            profileBooking?.localId ?? ''),
+                                  );
+                                }
+                              } else {
+                                Get.to(() => LocalOfferInfo(
+                                      image: profileBooking?.offers?.first.user!
+                                              .profile.image ??
+                                          "",
+                                      name: profileBooking?.offers?.first.user!
+                                              .profile.name ??
+                                          "",
+                                      price: int.parse(
+                                          profileBooking?.cost ?? "0"),
+                                      rating: profileBooking?.offers?.first
+                                              .user!.profile.tourRating
+                                              .toDouble() ??
+                                          0.0,
+                                      tripNumber: profileBooking?.offers?.first
+                                              .user!.profile.tourNumber ??
+                                          0,
+                                      place: null,
+                                      userId:
+                                          profileBooking!.offers!.first.userId,
+                                      profileId:
+                                          profileBooking!.offers!.first.userId,
+                                    ));
+                              }
                             },
                             child: Container(
                                 padding: EdgeInsets.symmetric(
@@ -160,20 +190,31 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(30),
                                         child: profileBooking?.offers?.first
-                                                    .user!.profile.image !=
-                                                null
+                                                        .user!.profile.image !=
+                                                    null ||
+                                                _profileController
+                                                        .profile.profileImage !=
+                                                    null
                                             ? ImageCacheWidget(
                                                 height: width * 0.097,
                                                 width: width * 0.097,
-                                                image: profileBooking
-                                                        ?.offers
-                                                        ?.first
-                                                        .user!
-                                                        .profile
-                                                        .image ??
-                                                    "")
-                                            : Image.asset(
-                                                'assets/images/profile_image.png'),
+                                                image: (widget.booking!
+                                                                .bookingType ==
+                                                            'hospitality' ||
+                                                        widget.booking!
+                                                                .bookingType ==
+                                                            'adventure')
+                                                    ? _profileController.profile
+                                                            .profileImage ??
+                                                        ''
+                                                    : profileBooking
+                                                            ?.offers
+                                                            ?.first
+                                                            .user!
+                                                            .profile
+                                                            .image ??
+                                                        "")
+                                            : Image.asset('assets/images/profile_image.png'),
                                       ),
                                     ),
                                     SizedBox(
@@ -183,10 +224,17 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                                       fontFamily: AppUtil.SfFontType(context),
                                       fontSize: width * 0.038,
                                       fontWeight: FontWeight.w500,
-                                      text: AppUtil.capitalizeFirstLetter(
-                                          profileBooking?.offers?.first.user!
-                                                  .profile.name ??
-                                              "Name"),
+                                      text: widget.booking!.bookingType ==
+                                                  'hospitality' ||
+                                              widget.booking!.bookingType ==
+                                                  'adventure'
+                                          ? AppUtil.capitalizeFirstLetter(
+                                              _profileController.profile.name ??
+                                                  "Name")
+                                          : AppUtil.capitalizeFirstLetter(
+                                              profileBooking?.offers?.first
+                                                      .user!.profile.name ??
+                                                  "Name"),
                                     ),
                                     // const Spacer(),
                                     // SizedBox(

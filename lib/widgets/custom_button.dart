@@ -102,7 +102,7 @@ class CustomButton extends StatelessWidget {
                 shape: BoxShape.circle,
                 // color: iconColor ?? colorDarkGreen,
               ),
-              child: icon,
+              //child: icon,
             ),
           if (title == "") const Spacer(),
         ],

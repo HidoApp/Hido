@@ -99,7 +99,7 @@ class _EventTicketDataState extends State<EventTicketData> {
                   Clipboard.setData(ClipboardData(
                       text: widget.event == null
                           ? widget.booking!.id!.substring(0, 7)
-                          : widget.event!.booking!.first.id!.substring(0, 7)));
+                          : widget.event!.booking!.last.id!.substring(0, 7)));
                   _showOverlay(context);
                 },
                 child: RepaintBoundary(
@@ -111,7 +111,7 @@ class _EventTicketDataState extends State<EventTicketData> {
                 )),
             const SizedBox(width: 8),
             Text(
-              '#${widget.event == null ? widget.booking!.id!.substring(0, 7) : widget.event!.booking!.first.id!.substring(0, 7)}',
+              '#${widget.event == null ? widget.booking!.id!.substring(0, 7) : widget.event!.booking!.last.id!.substring(0, 7)}',
               style: TextStyle(
                 color: Color(0xFFB9B8C1),
                 fontSize: 13,
@@ -181,7 +181,7 @@ class _EventTicketDataState extends State<EventTicketData> {
                   widget.event == null
                       ? AppUtil.formatBookingDate(context, widget.booking!.date)
                       : AppUtil.formatBookingDate(
-                          context, widget.event!.booking!.first.date),
+                          context, widget.event!.booking!.last.date),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: black,
@@ -225,7 +225,7 @@ class _EventTicketDataState extends State<EventTicketData> {
                             ? formatTimeWithLocale(
                                 context, widget.booking!.timeToGo)
                             : AppUtil.formatTimeOnly(context,
-                                widget.event!.daysInfo!.first.startTime),
+                                widget.event!.daysInfo!.last.startTime),
                         style: TextStyle(
                           color: black,
                           fontSize: width * 0.038,
@@ -264,7 +264,7 @@ class _EventTicketDataState extends State<EventTicketData> {
                                 ? formatTimeWithLocale(
                                     context, widget.booking!.timeToReturn)
                                 : AppUtil.formatTimeOnly(context,
-                                    widget.event!.daysInfo!.first.endTime),
+                                    widget.event!.daysInfo!.last.endTime),
                             style: TextStyle(
                               color: black,
                               fontSize: width * 0.038,
@@ -295,7 +295,7 @@ class _EventTicketDataState extends State<EventTicketData> {
             Text(
               widget.event == null
                   ? '${widget.booking?.guestNumber} ${'person'.tr}'
-                  : '${widget.event!.booking!.first.guestInfo!.guestNumber} ${'person'.tr}',
+                  : '${widget.event!.booking!.last.guestInfo!.guestNumber} ${'person'.tr}',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: black,

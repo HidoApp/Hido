@@ -853,6 +853,7 @@ class _TripDetailsState extends State<TripDetails> {
               child: Obx(
                 () => GestureDetector(
                   onTap: () {
+                    
                     _profileController.isTourBookmarked(
                         !_profileController.isTourBookmarked.value);
                     if (_profileController.isTourBookmarked.value) {
