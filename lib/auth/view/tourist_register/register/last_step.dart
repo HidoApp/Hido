@@ -151,7 +151,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
                         children: [
                           CountryCodePicker(
                             initialSelection: 'SA',
-                            showFlagDialog: true,
+                            showFlagDialog: false,
 
                             searchStyle: TextStyle(
                                 fontSize: width * 0.038,
@@ -176,9 +176,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
                                   borderSide:
                                       BorderSide(color: borderGrey, width: 1)),
                             ),
-                            // optional. Shows only country name and flag
-                            showCountryOnly: true,
-                            // optional. Shows only country name and flag when popup is closed.
+                            showCountryOnly: false,
                             showOnlyCountryWhenClosed: false,
                             showFlag: false,
                             onChanged: (value) {
@@ -193,7 +191,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
                                     : 'SF Pro',
-                                color: Graytext,
+                                color: colorGreen,
                                 fontWeight: FontWeight.w400),
                           ),
                           SizedBox(
@@ -207,8 +205,10 @@ class _LastStepScreenState extends State<LastStepScreen> {
                       hintText: 'phoneHint'.tr,
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
-                        if (_countryCode.value == '+966')
-                          LengthLimitingTextInputFormatter(9)
+                        _countryCode.value == '+966'
+                            ? LengthLimitingTextInputFormatter(9)
+                            : LengthLimitingTextInputFormatter(
+                                15 - _countryCode.value.length)
                       ],
                       keyboardType: TextInputType.number,
                       validator: false,
@@ -217,7 +217,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
                           return 'fieldRequired'.tr;
                         }
                         var fullNumber = _countryCode + number;
-                        if (_countryCode == '+966') {
+                        if (_countryCode.value == '+966') {
                           if (!number.startsWith('5') || number.length != 9) {
                             return 'invalidPhone'.tr;
                           }

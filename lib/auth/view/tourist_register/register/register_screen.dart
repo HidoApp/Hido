@@ -205,7 +205,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 : CustomButton(
                                     icon: const Icon(Icons.keyboard_arrow_right,
                                         color: Colors.white),
-                                    title: 'signUp'.tr,
+                                    title: 'next'.tr,
                                     onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
                                         if (!AppUtil.isEmailValidate(
