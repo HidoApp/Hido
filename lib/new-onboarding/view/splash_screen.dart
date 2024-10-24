@@ -128,14 +128,14 @@ class _SplashScreenState extends State<SplashScreen>
               },
             ),
           ),
-          // Positioned(
-          //   bottom: 40,
-          //   left: 155,
-          //   // right: MediaQuery.of(context).size.width / 2,
-          //   child: const Center(
-          //     child: VersionText(),
-          //   ),
-          // )
+          Positioned(
+            bottom: MediaQuery.of(context).size.width * 0.102,
+            left: MediaQuery.of(context).size.width * 0.397,
+            // right: MediaQuery.of(context).size.width / 2,
+            child: const Center(
+              child: VersionText(),
+            ),
+          )
         ],
       ),
     );

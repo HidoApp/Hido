@@ -32,6 +32,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -95,7 +96,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   bool isSendTapped = false;
   //bool showSheet = true;
   bool isNew = false;
-
+  var userCountry = '';
   void getActivityProgress() async {
     await _touristExploreController
         .getActivityProgress(context: context)
@@ -157,8 +158,22 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
       return;
     }
     if (mounted && userLocation != null) {
-      _animateCamera(
-          latitude: userLocation!.latitude, longitude: userLocation!.longitude);
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+          userLocation!.latitude, userLocation!.longitude);
+      Placemark place = placemarks[0];
+
+      setState(() {
+        userCountry = place.isoCountryCode ?? '';
+      });
+
+      // Check if the user is outside Saudi Arabia (ISO Country Code: "SA")
+      if (userCountry == 'SA') {
+        _animateCamera(
+            latitude: userLocation!.latitude,
+            longitude: userLocation!.longitude);
+      } else {
+        _animateCamera(latitude: 24.7136, longitude: 46.6753);
+      }
     } else if (mounted) {
       _animateCamera(latitude: 24.7136, longitude: 46.6753);
     }
@@ -408,7 +423,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                       markers: storage.read<List<Marker>>('markers')!.toSet(),
                       initialCameraPosition: CameraPosition(
                         target: _touristExploreController.currentLocation.value,
-                        zoom: 10,
+                        zoom: 6,
                       ),
                       mapType: MapType.normal,
                       onMapCreated: (controller) {
@@ -437,7 +452,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                     myLocationButtonEnabled: false,
                     initialCameraPosition: CameraPosition(
                       target: _touristExploreController.currentLocation.value,
-                      zoom: 10,
+                      zoom: 6,
                     ),
                     markers: markers,
                     mapType: MapType.normal,
