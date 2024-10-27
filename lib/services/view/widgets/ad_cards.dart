@@ -182,10 +182,17 @@ class _AdCardsState extends State<AdCards> {
                                       'GENERAL') {}
                                 },
                                 child: ImagesSliderWidget(
-                                    image: _srvicesController
+                                    image:AppUtil.rtlDirection2(context)
+                                    ? _srvicesController
                                         .advertisementList[index]
                                         .imageUrls!
-                                        .first),
+                                        .last
+                                        
+                                    :  _srvicesController
+                                        .advertisementList[index]
+                                        .imageUrls!
+                                        .first    
+                                        ),
                               );
                             },
                           ),
