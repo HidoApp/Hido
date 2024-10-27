@@ -138,7 +138,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
       final GoogleMapController controller = await _controller.future;
       CameraPosition newCameraPosition = CameraPosition(
         target: LatLng(latitude, longitude),
-        zoom: 10,
+        zoom: 6,
       );
       controller
           .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
