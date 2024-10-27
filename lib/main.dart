@@ -93,7 +93,8 @@ class _MyAppState extends State<MyApp> {
     token = _getStorage.read('accessToken') ?? '';
     log('token $token');
 
-    local = GetStorage().read('language')?? Platform.localeName.toLocale().languageCode;
+    local = GetStorage().read('language') ??
+        Platform.localeName.toLocale().languageCode;
   }
 
   @override

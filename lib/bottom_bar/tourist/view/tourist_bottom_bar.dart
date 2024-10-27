@@ -60,7 +60,6 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _pageController.dispose();
     _internetConnection!.cancel();
