@@ -41,10 +41,7 @@ class _ViewTripImagesState extends State<ViewTripImages> {
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
             padding: EdgeInsets.all(6),
-            child: Image.asset(
-              url,
-              fit: BoxFit.fill,
-            ),
+            child: ImageCacheWidget(image: url),
           ),
         )
         .toList();

@@ -265,8 +265,7 @@ class _TripDetailsState extends State<TripDetails> {
                             ))
                       : CustomButton(
                           onPressed: () {
-                            //
-                            //
+                      
                             if (AppUtil.isGuest()) {
                               showModalBottomSheet(
                                   context: context,
@@ -350,7 +349,7 @@ class _TripDetailsState extends State<TripDetails> {
                       }),
                   itemCount: widget.place!.image!.length,
                   itemBuilder: (context, index, realIndex) {
-                    return Container(
+                    return SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: ClipRRect(
                         borderRadius: const BorderRadius.only(
@@ -438,7 +437,6 @@ class _TripDetailsState extends State<TripDetails> {
                           ),
                         ],
                       ),
-
                       SizedBox(
                         height: width * 0.046,
                       ),
@@ -543,7 +541,6 @@ class _TripDetailsState extends State<TripDetails> {
                                 ),
                               ),
                             ),
-
                       SizedBox(
                         height: width * 0.026,
                       ),
@@ -675,176 +672,16 @@ class _TripDetailsState extends State<TripDetails> {
                         color: lightGrey,
                         thickness: 1,
                       ),
-
                       SizedBox(
                         height: width * 0.064,
                       ),
-                      // Row(
-                      //   children: [
-                      //     CustomText(
-                      //       text: "startFrom".tr,
-                      //       fontSize: 12,
-                      //       fontWeight: FontWeight.w400,
-                      //       color: almostGrey,
-                      //     ),
-                      //     const SizedBox(
-                      //       width: 2,
-                      //     ),
-                      //     const CustomText(
-                      //       text: " / ",
-                      //       fontWeight: FontWeight.w700,
-                      //       fontSize: 20,
-                      //     ),
-                      //     CustomText(
-                      //       text: widget.place == null
-                      //           ? '0${'sar'.tr}'
-                      //           : '${widget.place!.price} ${'sar'.tr}',
-                      //       fontWeight: FontWeight.w700,
-                      //       fontSize: 20,
-                      //     ),
-                      //   ],
-                      // ),
-
-                      // Obx(() => _RequestController.isBookingLoading.value
-                      //     ? const CircularProgressIndicator.adaptive()
-                      //     : !AppUtil.isGuest() && isViewBooking.value
-                      //         ? (isHasOffers.value
-                      //             ? _RequestController
-                      //                     .isRequestAcceptLoading.value
-                      //                 ? const CircularProgressIndicator
-                      //                     .adaptive()
-                      //                 : CustomButton(
-                      //                     onPressed: () async {
-                      //                       theBooking =
-                      //                           await _RequestController
-                      //                               .getBookingById(
-                      //                         context: context,
-                      //                         bookingId:
-                      //                             thePlace!.booking!.first.id ??
-                      //                                 '',
-                      //                       );
-                      //
-
-                      //                       Get.to(
-                      //                         () => LocalOfferInfo(
-                      //                           place: thePlace!,
-                      //                           image:
-                      //                               theProfile?.profileImage ??
-                      //                                   '',
-                      //                           name: theProfile?.name ?? '',
-                      //                           profileId: theProfile?.id ?? '',
-                      //                           rating:
-                      //                               theProfile?.tourRating ?? 0,
-                      //                           price: 0,
-                      //                           tripNumber:
-                      //                               theProfile?.tourNumber ?? 0,
-                      //                           booking: theBooking,
-                      //                         ),
-                      //                       );
-                      //                     },
-                      //                     title: AppUtil.rtlDirection2(context)
-                      //                         ? "طلبك"
-                      //                         : "Your Request",
-                      //                     icon: !AppUtil.rtlDirection(context)
-                      //                         ? const Icon(
-                      //                             Icons.arrow_back_ios,
-                      //                             size: 20,
-                      //                           )
-                      //                         : const Icon(
-                      //                             Icons.arrow_forward_ios,
-                      //                             size: 20,
-                      //                           ),
-                      //                   )
-                      //             : CustomButton(
-                      //                 onPressed: () async {
-                      //                   // Place? thePlace =
-                      //                   //     await _touristExploreController
-                      //                   //         .getPlaceById(
-                      //                   //             id: widget.place!.id!,
-                      //                   //             context: context);
-                      //                   // getOfferinfo();
-                      //                   Get.to(
-                      //                     () => FindAjwady(
-                      //                       booking: thePlace!.booking!.first,
-                      //                       place: widget.place!,
-                      //                       placeId: thePlace?.id ?? '',
-                      //                     ),
-                      //                   )?.then((value) async {
-                      //                     return getOfferinfo();
-                      //                   });
-                      //                 },
-                      //                 title: AppUtil.rtlDirection2(context)
-                      //                     ? "العروض"
-                      //                     : "View Offers",
-                      //                 icon: !AppUtil.rtlDirection(context)
-                      //                     ? const Icon(
-                      //                         Icons.arrow_back_ios,
-                      //                         size: 20,
-                      //                       )
-                      //                     : const Icon(
-                      //                         Icons.arrow_forward_ios,
-                      //                         size: 20,
-                      //                       ),
-                      //               ))
-                      //         : CustomButton(
-                      //             onPressed: () {
-                      //               //
-                      //               //
-                      //               AppUtil.isGuest()
-                      //                   ? Get.to(
-                      //                       () => const SignInScreen(),
-                      //                     )
-                      //                   : showModalBottomSheet(
-                      //                       useRootNavigator: true,
-                      //                       isScrollControlled: true,
-                      //                       backgroundColor: Colors.transparent,
-                      //                       shape: const RoundedRectangleBorder(
-                      //                         borderRadius: BorderRadius.only(
-                      //                           topRight: Radius.circular(30),
-                      //                           topLeft: Radius.circular(30),
-                      //                         ),
-                      //                       ),
-                      //                       context: context,
-                      //                       builder: (context) {
-                      //                         return BookingSheet(
-                      //                           fromAjwady: false,
-                      //                           place: widget.place,
-                      //                           userLocation:
-                      //                               widget.userLocation,
-                      //                           touristExploreController:
-                      //                               _touristExploreController,
-                      //                         );
-                      //                       }).then((value) {
-                      //                       getOfferinfo();
-                      //                       return;
-                      //                     });
-                      //             },
-                      //             // title: "buyTicket".tr,
-                      //             title: AppUtil.rtlDirection2(context)
-                      //                 ? "اطلب"
-                      //                 : "Request",
-                      //             icon: !AppUtil.rtlDirection(context)
-                      //                 ? const Icon(
-                      //                     Icons.arrow_back_ios,
-                      //                     size: 20,
-                      //                   )
-                      //                 : const Icon(
-                      //                     Icons.arrow_forward_ios,
-                      //                     size: 20,
-                      //                   ),
-                      //           )),
-
-                      // const SizedBox(
-                      //   height: 32,
-                      // )
                     ],
                   ),
                 ),
               )
             ],
           ),
-
-          if (!AppUtil.isGuest())
+          if (!AppUtil.isGuest() && _profileController.profile.id != '')
             Positioned(
               top: height * 0.066,
               right:
@@ -853,7 +690,6 @@ class _TripDetailsState extends State<TripDetails> {
               child: Obx(
                 () => GestureDetector(
                   onTap: () {
-                    
                     _profileController.isTourBookmarked(
                         !_profileController.isTourBookmarked.value);
                     if (_profileController.isTourBookmarked.value) {
@@ -887,71 +723,6 @@ class _TripDetailsState extends State<TripDetails> {
                 ),
               ),
             ),
-          // Positioned(
-          //     top: height * 0.265,
-          //     right: width * 0.1,
-          //     left: width * 0.1,
-          //     child: Container(
-          //       padding: EdgeInsets.symmetric(horizontal: 10),
-          //       height: 60,
-          //       width: 300,
-          //       decoration: BoxDecoration(
-          //         color: Colors.white,
-          //         borderRadius: BorderRadius.all(Radius.circular(30)),
-          //         boxShadow: [
-          //           BoxShadow(
-          //               color: almostGrey.withOpacity(0.2),
-          //               spreadRadius: -3,
-          //               blurRadius: 5,
-          //               offset: Offset(4, 6))
-          //         ],
-          //       ),
-          //       child: Row(
-          //         children: [
-          //           GestureDetector(
-          //             onTap: () {
-          //               // showModalBottomSheet(
-          //               //     useRootNavigator: true,
-          //               //     isScrollControlled: true,
-          //               //     backgroundColor: Colors.transparent,
-          //               //     shape: const RoundedRectangleBorder(
-          //               //         borderRadius: BorderRadius.only(
-          //               //       topRight: Radius.circular(30),
-          //               //       topLeft: Radius.circular(30),
-          //               //     )),
-          //               //     context: context,
-          //               //     builder: (context) {
-          //               //       return ShareSheet(
-          //               //         fromAjwady: false,
-          //               //       );
-          //               //     });
-          //             },
-          //             child: Container(
-          //               padding: EdgeInsets.symmetric(horizontal: 7),
-          //               height: 28,
-          //               width: 80,
-          //               decoration: const BoxDecoration(
-          //                 color: colorGreen,
-          //                 borderRadius: BorderRadius.all(Radius.circular(7)),
-          //               ),
-          //               child: Row(
-          //                 children: [
-          //                   CustomText(
-          //                     text: "invite".tr,
-          //                     color: Colors.white,
-          //                     fontSize: 12,
-          //                   ),
-          //                   Spacer(),
-          //                   SvgPicture.asset("assets/icons/share_icon.svg"),
-          //                 ],
-          //               ),
-          //             ),
-          //           ),
-          //           const Spacer(),
-          //           ajwadiImages()
-          //         ],
-          //       ),
-          //     )),
           Center(
             child: Align(
               alignment: Alignment.center,
@@ -975,27 +746,5 @@ class _TripDetailsState extends State<TripDetails> {
             ),
           ),
         ])));
-  }
-
-  buildImage(String url) {
-    return url == " "
-        ? ClipOval(
-            child: Container(
-              color: colorGreen,
-              child: Center(
-                child: CustomText(
-                  text: "23+",
-                  color: Colors.white,
-                  fontWeight: FontWeight.w900,
-                  fontSize: 12,
-                ),
-              ),
-            ),
-          )
-        : ClipOval(
-            child: Image.asset(
-            url,
-            fit: BoxFit.fill,
-          ));
   }
 }
