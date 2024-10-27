@@ -23,8 +23,12 @@ class BookmarkService {
 
   // Get all bookmarks
   static List<Bookmark> getBookmarks() {
-    final List<dynamic> bookmarkList =
-        _storage.read(GetStorage().read('user_id')) ?? [];
-    return bookmarkList.map((item) => Bookmark.fromJson(item)).toList();
+    if (GetStorage().read('user_id') != null) {
+      final List<dynamic> bookmarkList =
+          _storage.read(GetStorage().read('user_id')) ?? [];
+      return bookmarkList.map((item) => Bookmark.fromJson(item)).toList();
+    } else {
+      return [];
+    }
   }
 }
