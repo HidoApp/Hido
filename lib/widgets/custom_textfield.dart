@@ -30,7 +30,7 @@ class CustomTextField extends StatelessWidget {
       this.validatorHandle,
       this.onFieldSubmitted,
       this.expand = false,
-      this.textInputAction = TextInputAction.search,
+      this.textInputAction = TextInputAction.done,
       this.verticalHintPadding = 0,
       this.focusNode,
       this.raduis});

@@ -1,8 +1,8 @@
-
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/tourist_register/reset_password.dart';
 import 'package:ajwad_v4/auth/widget/sign_up_text.dart';
+import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
@@ -17,7 +17,6 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/state_manager.dart';
 
-
 class SignInSheet extends StatefulWidget {
   const SignInSheet({super.key});
 
@@ -31,13 +30,13 @@ class _SignInSheetState extends State<SignInSheet> {
   final _authController = Get.put(AuthController());
   var _email = '';
   var _password = '';
- 
+
   @override
   void initState() {
     super.initState();
-  //  AmplitudeService.initializeAmplitude();
-
+    //  AmplitudeService.initializeAmplitude();
   }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -169,18 +168,17 @@ class _SignInSheetState extends State<SignInSheet> {
                                       rememberMe: true,
                                       context: context);
                                   if (user != null) {
-                                     AmplitudeService.amplitude.track(BaseEvent(
-                                    'Tourist Sign in after continue as guest ',
-                                    eventProperties: {
-                                      'email': _email,
-                                    }));
-                                    Get.back();
-                                  }else{
-                                     AmplitudeService.amplitude.track(BaseEvent(
-                                    'Tourist Sign in failed after continue as guest ',
-                                   ));
+                                    AmplitudeService.amplitude.track(BaseEvent(
+                                        'Tourist Sign in after continue as guest ',
+                                        eventProperties: {
+                                          'email': _email,
+                                        }));
+                                    Get.offAll(() => const TouristBottomBar());
+                                  } else {
+                                    AmplitudeService.amplitude.track(BaseEvent(
+                                      'Tourist Sign in failed after continue as guest ',
+                                    ));
                                   }
-
                                 }
                               },
                               title: "signIn".tr),
