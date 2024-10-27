@@ -96,38 +96,38 @@ class _BottomEventBookingState extends State<BottomEventBooking> {
                   onPressed: () {
                     _eventController.DateErrorMessage.value = false;
 
-                    AppUtil.isGuest()
-                        ? showModalBottomSheet(
-                            context: context,
-                            builder: (context) => const SignInSheet(),
-                            isScrollControlled: true,
-                            enableDrag: true,
-                            backgroundColor: Colors.white,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(width * 0.06),
-                                  topRight: Radius.circular(width * 0.06)),
-                            ))
-                        :
-                        
-                         AmplitudeService.amplitude.track(
-                            BaseEvent('Click on "Book event" button'),
-                          );
+                    if (AppUtil.isGuest()) {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) => const SignInSheet(),
+                          isScrollControlled: true,
+                          enableDrag: true,
+                          backgroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(width * 0.06),
+                                topRight: Radius.circular(width * 0.06)),
+                          ));
+                    } else {
 
-                       Get.bottomSheet(
-                        EventBookingSheet(
-                          event: widget.event,
-                          avilableDate: widget.avilableDate,
-                          address: widget.address,
-                        ),
-                        backgroundColor: Colors.white,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(width * 0.06),
-                              topRight: Radius.circular(width * 0.06)),
-                        ));
+                      Get.bottomSheet(
+                          EventBookingSheet(
+                            event: widget.event,
+                            avilableDate: widget.avilableDate,
+                            address: widget.address,
+                          ),
+                          backgroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(width * 0.06),
+                                topRight: Radius.circular(width * 0.06)),
+                          ));
+                      AmplitudeService.amplitude.track(
+                        BaseEvent('Click on "Book event" button'),
+                      );
+                    }
                   },
                   iconColor: darkPurple,
                   title: widget.event.daysInfo!.isEmpty

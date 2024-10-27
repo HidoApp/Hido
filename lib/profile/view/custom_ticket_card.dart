@@ -216,7 +216,7 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                                                   '',
                               fontSize: width * 0.041,
                               fontWeight: FontWeight.w500,
-                              fontFamily: AppUtil.rtlDirection2(context)
+                              fontFamily: !AppUtil.rtlDirection2(context)
                                   ? 'SF Pro'
                                   : 'SF Arabic',
                             ),
