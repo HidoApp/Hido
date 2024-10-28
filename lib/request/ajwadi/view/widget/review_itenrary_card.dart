@@ -284,9 +284,10 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                       if (price == null || price.isEmpty) {
                         return 'fieldRequired'.tr;
                       }
-                      // if (int.parse(price) < 30) {
-                      //   return '*TheMinimumPrice'.tr;
-                      // }
+                      if (int.parse(price) < 30) {
+                        return '*TheMinimumPrice'.tr;
+                      }
+                      return null;
                     },
                     onChanged: (value) {
                       if (value.isEmpty) {

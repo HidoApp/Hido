@@ -68,7 +68,8 @@ void main() async {
   } catch (error) {
     log('Error');
   }
-  if (kReleaseMode) ErrorWidget.builder = (_) => const ErrorScreenWidget();
+  // if (kReleaseMode)
+  ErrorWidget.builder = (_) => const ErrorScreenWidget();
 }
 
 class MyApp extends StatefulWidget {

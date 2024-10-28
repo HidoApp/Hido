@@ -208,10 +208,10 @@ class _ItineraryCardState extends State<ItineraryCard> {
                   if (price == null || price.isEmpty) {
                     return 'fieldRequired'.tr;
                   }
+                  if (int.parse(price) < 30) {
+                    return '*TheMinimumPrice'.tr;
+                  }
                   return null;
-                  // if (int.parse(price) < 30) {
-                  //   return '*TheMinimumPrice'.tr;
-                  // }
                 },
                 onChanged: (value) {
                   if (value.isEmpty) {
