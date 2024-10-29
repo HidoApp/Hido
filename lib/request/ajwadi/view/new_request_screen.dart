@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/ajwadi/view/widget/request_card.dart';
@@ -19,7 +18,7 @@ class NewRequestScreen extends StatefulWidget {
   State<NewRequestScreen> createState() => _NewRequestScreenState();
 }
 
-bool isSwitched = false;
+bool isSwitched = true;
 
 class _NewRequestScreenState extends State<NewRequestScreen> {
   final _requestController = Get.put(RequestController());

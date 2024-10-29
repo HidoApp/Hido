@@ -110,6 +110,7 @@ class _AdCardsState extends State<AdCards> {
                           child: CarouselSlider.builder(
                             carouselController: _carouselController,
                             options: CarouselOptions(
+                              enableInfiniteScroll: false,
                               // height: 200, // Add explicit height here
                               viewportFraction: 1,
                               autoPlay:
@@ -128,71 +129,73 @@ class _AdCardsState extends State<AdCards> {
                             itemCount:
                                 _srvicesController.advertisementList.length,
                             itemBuilder: (context, index, realIndex) {
-                              return GestureDetector(
-                                onTap: () {
-                                  // Get.to();
-                                  if (_srvicesController
-                                          .advertisementList[index].type ==
-                                      'COUPON') {
-                                    Clipboard.setData(ClipboardData(
-                                        text: _srvicesController
-                                            .advertisementList[index].content));
-                                    _showOverlay(context);
-                                  } else if (_srvicesController
-                                          .advertisementList[index].type ==
-                                      'EVENT') {
-                                    Get.to(() => (LocalEventDetails(
-                                        eventId: _srvicesController
-                                            .advertisementList[index]
-                                            .content)));
-                                  } else if (_srvicesController
-                                          .advertisementList[index].type ==
-                                      'PLACE') {
-                                    final TouristExploreController
-                                        _touristExploreController =
-                                        Get.put(TouristExploreController());
+                              return Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    // Get.to();
+                                    if (_srvicesController
+                                            .advertisementList[index].type ==
+                                        'COUPON') {
+                                      Clipboard.setData(ClipboardData(
+                                          text: _srvicesController
+                                              .advertisementList[index]
+                                              .content));
+                                      _showOverlay(context);
+                                    } else if (_srvicesController
+                                            .advertisementList[index].type ==
+                                        'EVENT') {
+                                      Get.to(() => (LocalEventDetails(
+                                          eventId: _srvicesController
+                                              .advertisementList[index]
+                                              .content)));
+                                    } else if (_srvicesController
+                                            .advertisementList[index].type ==
+                                        'PLACE') {
+                                      final TouristExploreController
+                                          _touristExploreController =
+                                          Get.put(TouristExploreController());
 
-                                    _touristExploreController
-                                        .getPlaceById(
-                                            id: _srvicesController
-                                                .advertisementList[index]
-                                                .content,
-                                            context: context)
-                                        .then((value) {
-                                      Get.to(() => (TripDetails(
-                                          place: _touristExploreController
-                                              .thePlace.value)));
-                                    });
-                                  } else if (_srvicesController
-                                          .advertisementList[index].type ==
-                                      'HOSPITALITY') {
-                                    Get.to(() => (HospitalityDetails(
-                                        hospitalityId: _srvicesController
-                                            .advertisementList[index]
-                                            .content)));
-                                  } else if (_srvicesController
-                                          .advertisementList[index].type ==
-                                      'HOSPITALITY') {
-                                    Get.to(() => (AdventureDetails(
-                                        adventureId: _srvicesController
-                                            .advertisementList[index]
-                                            .content)));
-                                  } else if (_srvicesController
-                                          .advertisementList[index].type ==
-                                      'GENERAL') {}
-                                },
-                                child: ImagesSliderWidget(
-                                    image:AppUtil.rtlDirection2(context)
-                                    ? _srvicesController
-                                        .advertisementList[index]
-                                        .imageUrls!
-                                        .last
-                                        
-                                    :  _srvicesController
-                                        .advertisementList[index]
-                                        .imageUrls!
-                                        .first    
-                                        ),
+                                      _touristExploreController
+                                          .getPlaceById(
+                                              id: _srvicesController
+                                                  .advertisementList[index]
+                                                  .content,
+                                              context: context)
+                                          .then((value) {
+                                        Get.to(() => (TripDetails(
+                                            place: _touristExploreController
+                                                .thePlace.value)));
+                                      });
+                                    } else if (_srvicesController
+                                            .advertisementList[index].type ==
+                                        'HOSPITALITY') {
+                                      Get.to(() => (HospitalityDetails(
+                                          hospitalityId: _srvicesController
+                                              .advertisementList[index]
+                                              .content)));
+                                    } else if (_srvicesController
+                                            .advertisementList[index].type ==
+                                        'HOSPITALITY') {
+                                      Get.to(() => (AdventureDetails(
+                                          adventureId: _srvicesController
+                                              .advertisementList[index]
+                                              .content)));
+                                    } else if (_srvicesController
+                                            .advertisementList[index].type ==
+                                        'GENERAL') {}
+                                  },
+                                  child: ImagesSliderWidget(
+                                      image: AppUtil.rtlDirection2(context)
+                                          ? _srvicesController
+                                              .advertisementList[index]
+                                              .imageUrls!
+                                              .last
+                                          : _srvicesController
+                                              .advertisementList[index]
+                                              .imageUrls!
+                                              .first),
+                                ),
                               );
                             },
                           ),

@@ -417,25 +417,28 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
               builder: (context, markers) {
                 if (markers == null) {
                   return Obx(
-                    () => GoogleMap(
-                      zoomControlsEnabled: false,
-                      myLocationButtonEnabled: false,
-                      markers: storage.read<List<Marker>>('markers')!.toSet(),
-                      initialCameraPosition: CameraPosition(
-                        target: _touristExploreController.currentLocation.value,
-                        zoom: 6,
-                      ),
-                      mapType: MapType.normal,
-                      onMapCreated: (controller) {
-                        _controller.complete(controller);
+                    () => RepaintBoundary(
+                      child: GoogleMap(
+                        zoomControlsEnabled: false,
+                        myLocationButtonEnabled: false,
+                        markers: storage.read<List<Marker>>('markers')!.toSet(),
+                        initialCameraPosition: CameraPosition(
+                          target:
+                              _touristExploreController.currentLocation.value,
+                          zoom: 6,
+                        ),
+                        mapType: MapType.normal,
+                        onMapCreated: (controller) {
+                          _controller.complete(controller);
 
-                        // _loadMapStyles();
-                      },
-                      onCameraMove: (position) {
-                        _touristExploreController.currentLocation.value =
-                            position.target;
-                        // setState(() {});
-                      },
+                          // _loadMapStyles();
+                        },
+                        onCameraMove: (position) {
+                          _touristExploreController.currentLocation.value =
+                              position.target;
+                          // setState(() {});
+                        },
+                      ),
                     ),
                   );
                 }
@@ -447,23 +450,25 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                   });
                 }
                 return Obx(
-                  () => GoogleMap(
-                    zoomControlsEnabled: false,
-                    myLocationButtonEnabled: false,
-                    initialCameraPosition: CameraPosition(
-                      target: _touristExploreController.currentLocation.value,
-                      zoom: 6,
+                  () => RepaintBoundary(
+                    child: GoogleMap(
+                      zoomControlsEnabled: false,
+                      myLocationButtonEnabled: false,
+                      initialCameraPosition: CameraPosition(
+                        target: _touristExploreController.currentLocation.value,
+                        zoom: 6,
+                      ),
+                      markers: markers,
+                      mapType: MapType.normal,
+                      onMapCreated: (controller) {
+                        _controller.complete(controller);
+                        // _loadMapStyles();
+                      },
+                      onCameraMove: (position) {
+                        _touristExploreController.currentLocation.value =
+                            position.target;
+                      },
                     ),
-                    markers: markers,
-                    mapType: MapType.normal,
-                    onMapCreated: (controller) {
-                      _controller.complete(controller);
-                      // _loadMapStyles();
-                    },
-                    onCameraMove: (position) {
-                      _touristExploreController.currentLocation.value =
-                          position.target;
-                    },
                   ),
                 );
               }),

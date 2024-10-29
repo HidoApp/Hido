@@ -121,7 +121,8 @@ class _TourLicenseSheetState extends State<TourLicenseSheet> {
               height: width * 0.0820,
             ),
             Obx(
-              () => _profileController.isImagesLoading.value
+              () => _profileController.isImagesLoading.value ||
+                      _profileController.isProfileLoading.value
                   ? const Center(
                       child: CircularProgressIndicator.adaptive(),
                     )
@@ -136,6 +137,9 @@ class _TourLicenseSheetState extends State<TourLicenseSheet> {
                                       uploadOrUpdate: "upload",
                                       context: context);
                               if (file != null) {
+                                await _profileController.getProfile(
+                                    context: context);
+
                                 Get.back();
                               }
                             }

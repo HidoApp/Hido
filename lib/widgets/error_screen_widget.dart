@@ -1,3 +1,6 @@
+import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
+import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/local_home_screen.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -7,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class ErrorScreenWidget extends StatelessWidget {
   const ErrorScreenWidget({super.key});
@@ -46,7 +50,16 @@ class ErrorScreenWidget extends StatelessWidget {
                 width: width * 0.517,
                 child: CustomButton(
                   title: 'errorScreenMainButton'.tr,
-                  onPressed: () => Get.offAll(() => const OnboardingScreen()),
+                  onPressed: () {
+                    var userRole = GetStorage().read('userRole') ?? '';
+                    if (userRole == 'tourist') {
+                      Get.offAll(() => const TouristBottomBar());
+                    } else if (userRole == 'local') {
+                      Get.offAll(() => const AjwadiBottomBar());
+                    } else {
+                      Get.offAll(() => const OnboardingScreen());
+                    }
+                  },
                 ),
               ),
               SizedBox(
