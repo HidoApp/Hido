@@ -769,4 +769,11 @@ class AppUtil {
     var hidoFee = hidoPercentage * price;
     return hidoFee - couponAmount;
   }
+  static String formatTo12HourTime(String isoTimestamp) {
+  // Parse the ISO timestamp to a DateTime object
+  DateTime dateTime = DateTime.parse(isoTimestamp);
+  
+  // Format DateTime to 12-hour time with am/pm in lowercase
+  return DateFormat('h:mma').format(dateTime).toLowerCase();
+}
 }

@@ -1,7 +1,9 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:galleryimage/galleryimage.dart';
 import 'package:get/get.dart';
 
 class ViewTripImages extends StatefulWidget {
@@ -21,15 +23,29 @@ class _ViewTripImagesState extends State<ViewTripImages> {
   // final imageItems = widget.tripImageUrl.map((e) => null);
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
     return Scaffold(
       appBar: CustomAppBar("images".tr),
       body: SingleChildScrollView(
-          child: StaggeredGrid.count(
-        crossAxisCount: 2,
-        children: widget.fromNetwork ? imagesFromNetWork() : images(),
-      )
-          //Wrap(children: images()),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: width * 0.041),
+          child: GalleryImage(
+            showListInGalley: true,
+            showAppBar: false,
+            reverse: true,
+            crossAxisCount: 2,
+            crossAxisSpacing: width * 0.0205,
+            mainAxisSpacing: width * 0.0205,
+            imageRadius: 0,
+            childAspectRatio: 9 / 12,
+            numOfShowImages: widget.tripImageUrl.length,
+            closeWhenSwipeDown: true,
+            closeWhenSwipeUp: true,
+            imageUrls: widget.tripImageUrl,
           ),
+        ),
+        //Wrap(children: images()),
+      ),
     );
   }
 

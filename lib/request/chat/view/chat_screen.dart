@@ -86,9 +86,9 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void _initializeChatAndInfo() async {
     await getChat(); // Wait for the chat to be fetched
-   if(widget.isTourist ?? true) {
-     getCarInfo(); // Call getCarInfo after the chat is fetched
-   }
+    if (widget.isTourist ?? true) {
+      getCarInfo(); // Call getCarInfo after the chat is fetched
+    }
   }
 
   Future<void> getChat() async {
@@ -107,10 +107,11 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-
     return Obx(
-      () => chatController.isGetChatByIdLoading.value||_profileController.isProfileLoading.value
-          ? Scaffold(body: Center(child: CircularProgressIndicator.adaptive()))
+      () => chatController.isGetChatByIdLoading.value ||
+              _profileController.isProfileLoading.value
+          ? const Scaffold(
+              body: Center(child: CircularProgressIndicator.adaptive()))
           : Scaffold(
               backgroundColor: lightGreyBackground,
               appBar: CustomAppBar(
@@ -134,236 +135,236 @@ class _ChatScreenState extends State<ChatScreen> {
                                             const EdgeInsets.only(left: 90)),
                                     if (widget.isTourist ?? true) ...[
                                       Skeletonizer(
-                                        enabled: _profileController.isProfileLoading.value,
-                                          
-                                        child:VehicleInfoWidget(
-                                          vehicleClassDesc:  _profileController
-                                                            .profile
-                                                            .vehicle!
-                                                            .vehicleClassDescEn,
-                                          plateInfo:  '${_profileController.profile.vehicle!.plateNumber} '
-                                                    '${_profileController.profile.vehicle!.plateText1.toUpperCase()}'
-                                                    '${_profileController.profile.vehicle!.plateText2.toUpperCase()}'
-                                                    '${_profileController.profile.vehicle!.plateText3.toLowerCase()}' ,
-                                        )
-                                        
-                                       
-                                            // : Container(
-                                            //     width: 0.90 * width,
-                                            //     //  height: 0.089 *height,
+                                          enabled: _profileController
+                                              .isProfileLoading.value,
+                                          child: VehicleInfoWidget(
+                                            vehicleClassDesc: _profileController
+                                                .profile
+                                                .vehicle!
+                                                .vehicleClassDescEn,
+                                            plateInfo:
+                                                '${_profileController.profile.vehicle!.plateNumber} '
+                                                '${_profileController.profile.vehicle!.plateText1.toUpperCase()}'
+                                                '${_profileController.profile.vehicle!.plateText2.toUpperCase()}'
+                                                '${_profileController.profile.vehicle!.plateText3.toLowerCase()}',
+                                          )
 
-                                            //     decoration: BoxDecoration(
-                                            //       color: Colors.white,
-                                            //       borderRadius:
-                                            //           BorderRadius.circular(8),
-                                            //     ),
-                                            //     child: Column(
-                                            //       crossAxisAlignment:
-                                            //           CrossAxisAlignment.start,
-                                            //       children: [
-                                            //         ListTile(
-                                            //           onTap: () async {
-                                            //             if (widget.booking2 ==
-                                            //                 null) {
-                                            //               widget.booking2 =
-                                            //                   await _touristExploreController
-                                            //                       .getTouristBookingById(
-                                            //                 context: context,
-                                            //                 bookingId:
-                                            //                     chat!.bookingId!,
-                                            //               );
+                                          // : Container(
+                                          //     width: 0.90 * width,
+                                          //     //  height: 0.089 *height,
 
-                                            //               if (widget.booking2 !=
-                                            //                       null ||
-                                            //                   widget.booking !=
-                                            //                       null) {
-                                            //                 print(
-                                            //                     "this is widget book");
-                                            //                 print(
-                                            //                     chat!.bookingId!);
-                                            //               }
-                                            //             }
-                                            //             setState(() {
-                                            //               isDetailsTapped1 =
-                                            //                   !isDetailsTapped1;
-                                            //             });
-                                            //           },
-                                            //           title: CustomText(
-                                            //             text: 'tripDetails'.tr,
-                                            //             color: Color(0xFF070708),
-                                            //             fontSize: 17,
-                                            //             fontFamily: 'HT Rakik',
-                                            //             fontWeight:
-                                            //                 FontWeight.w500,
-                                            //             height: 0.10,
-                                            //             textAlign:
-                                            //                 AppUtil.rtlDirection2(
-                                            //                         context)
-                                            //                     ? TextAlign.right
-                                            //                     : TextAlign.left,
-                                            //           ),
-                                            //           trailing: Icon(
-                                            //             isDetailsTapped
-                                            //                 ? Icons
-                                            //                     .keyboard_arrow_up
-                                            //                 : Icons
-                                            //                     .keyboard_arrow_down,
-                                            //             color: darkGrey,
-                                            //             size: 24,
-                                            //           ),
-                                            //         ),
-                                            //         if (isDetailsTapped1)
-                                            //           Padding(
-                                            //             padding: const EdgeInsets
-                                            //                 .symmetric(
-                                            //                 horizontal: 20,
-                                            //                 vertical: 10),
-                                            //             child: Column(
-                                            //               crossAxisAlignment:
-                                            //                   CrossAxisAlignment
-                                            //                       .start,
-                                            //               children: [
-                                            //                 Row(
-                                            //                   children: [
-                                            //                     SvgPicture.asset(
-                                            //                         'assets/icons/date.svg'),
-                                            //                     const SizedBox(
-                                            //                       width: 10,
-                                            //                     ),
-                                            //                     CustomText(
-                                            //                       text: widget.booking !=
-                                            //                               null
-                                            //                           ? AppUtil.formatBookingDate(
-                                            //                               context,
-                                            //                               widget
-                                            //                                   .booking!
-                                            //                                   .date!)
-                                            //                           : AppUtil.formatBookingDate(
-                                            //                               context,
-                                            //                               widget
-                                            //                                   .booking2!
-                                            //                                   .date!),
-                                            //                       color:
-                                            //                           almostGrey,
-                                            //                       fontSize: 13,
-                                            //                       fontWeight:
-                                            //                           FontWeight
-                                            //                               .w400,
-                                            //                       fontFamily: AppUtil
-                                            //                           .SfFontType(
-                                            //                               context),
-                                            //                     ),
-                                            //                   ],
-                                            //                 ),
-                                            //                 const SizedBox(
-                                            //                   height: 10,
-                                            //                 ),
-                                            //                 Row(
-                                            //                   children: [
-                                            //                     SvgPicture.asset(
-                                            //                         'assets/icons/time3.svg'),
-                                            //                     const SizedBox(
-                                            //                       width: 9,
-                                            //                     ),
-                                            //                     CustomText(
-                                            //                       text: widget.booking !=
-                                            //                               null
-                                            //                           ? AppUtil.rtlDirection2(
-                                            //                                   context)
-                                            //                               ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
-                                            //                               : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}'
-                                            //                           : AppUtil.rtlDirection2(
-                                            //                                   context)
-                                            //                               ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking2!.timeToGo)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking2!.timeToReturn!)} '
-                                            //                               : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking2!.timeToGo)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking2!.timeToReturn)}',
-                                            //                       color:
-                                            //                           almostGrey,
-                                            //                       fontSize: 13,
-                                            //                       fontWeight:
-                                            //                           FontWeight
-                                            //                               .w400,
-                                            //                       fontFamily: AppUtil
-                                            //                           .SfFontType(
-                                            //                               context),
-                                            //                     ),
-                                            //                   ],
-                                            //                 ),
-                                            //                 const SizedBox(
-                                            //                   height: 10,
-                                            //                 ),
-                                            //                 Row(
-                                            //                   children: [
-                                            //                     SvgPicture.asset(
-                                            //                         'assets/icons/guests.svg'),
-                                            //                     const SizedBox(
-                                            //                       width: 10,
-                                            //                     ),
-                                            //                     CustomText(
-                                            //                       text: widget.booking !=
-                                            //                               null
-                                            //                           ? '${widget.booking?.guestNumber ?? 0} ${'guests'.tr}'
-                                            //                           : '${widget.booking2?.guestNumber ?? 0} ${'guests'.tr}',
-                                            //                       color:
-                                            //                           almostGrey,
-                                            //                       fontSize: 13,
-                                            //                       fontWeight:
-                                            //                           FontWeight
-                                            //                               .w400,
-                                            //                       fontFamily: AppUtil
-                                            //                           .SfFontType(
-                                            //                               context),
-                                            //                     ),
-                                            //                   ],
-                                            //                 ),
-                                            //                 const SizedBox(
-                                            //                   height: 10,
-                                            //                 ),
-                                            //                 Row(
-                                            //                   children: [
-                                            //                     widget.booking !=
-                                            //                             null
-                                            //                         ? SvgPicture
-                                            //                             .asset(
-                                            //                             'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
-                                            //                             width: 20,
-                                            //                           )
-                                            //                         : SvgPicture
-                                            //                             .asset(
-                                            //                             'assets/icons/unselected_${widget.booking2?.vehicleType!}_icon.svg',
-                                            //                             width: 20,
-                                            //                           ),
-                                            //                     const SizedBox(
-                                            //                       width: 10,
-                                            //                     ),
-                                            //                     CustomText(
-                                            //                       text: widget.booking !=
-                                            //                               null
-                                            //                           ? widget.booking
-                                            //                                   ?.vehicleType ??
-                                            //                               ''
-                                            //                           : widget.booking2
-                                            //                                   ?.vehicleType ??
-                                            //                               '',
-                                            //                       color:
-                                            //                           almostGrey,
-                                            //                       fontSize: 13,
-                                            //                       fontWeight:
-                                            //                           FontWeight
-                                            //                               .w400,
-                                            //                       fontFamily: AppUtil
-                                            //                           .SfFontType(
-                                            //                               context),
-                                            //                     ),
-                                            //                   ],
-                                            //                 ),
-                                            //               ],
-                                            //             ),
-                                            //           ),
-                                            //       ],
-                                            //     ),
-                                            //   ),
-                                           
-                                      ),
+                                          //     decoration: BoxDecoration(
+                                          //       color: Colors.white,
+                                          //       borderRadius:
+                                          //           BorderRadius.circular(8),
+                                          //     ),
+                                          //     child: Column(
+                                          //       crossAxisAlignment:
+                                          //           CrossAxisAlignment.start,
+                                          //       children: [
+                                          //         ListTile(
+                                          //           onTap: () async {
+                                          //             if (widget.booking2 ==
+                                          //                 null) {
+                                          //               widget.booking2 =
+                                          //                   await _touristExploreController
+                                          //                       .getTouristBookingById(
+                                          //                 context: context,
+                                          //                 bookingId:
+                                          //                     chat!.bookingId!,
+                                          //               );
+
+                                          //               if (widget.booking2 !=
+                                          //                       null ||
+                                          //                   widget.booking !=
+                                          //                       null) {
+                                          //                 print(
+                                          //                     "this is widget book");
+                                          //                 print(
+                                          //                     chat!.bookingId!);
+                                          //               }
+                                          //             }
+                                          //             setState(() {
+                                          //               isDetailsTapped1 =
+                                          //                   !isDetailsTapped1;
+                                          //             });
+                                          //           },
+                                          //           title: CustomText(
+                                          //             text: 'tripDetails'.tr,
+                                          //             color: Color(0xFF070708),
+                                          //             fontSize: 17,
+                                          //             fontFamily: 'HT Rakik',
+                                          //             fontWeight:
+                                          //                 FontWeight.w500,
+                                          //             height: 0.10,
+                                          //             textAlign:
+                                          //                 AppUtil.rtlDirection2(
+                                          //                         context)
+                                          //                     ? TextAlign.right
+                                          //                     : TextAlign.left,
+                                          //           ),
+                                          //           trailing: Icon(
+                                          //             isDetailsTapped
+                                          //                 ? Icons
+                                          //                     .keyboard_arrow_up
+                                          //                 : Icons
+                                          //                     .keyboard_arrow_down,
+                                          //             color: darkGrey,
+                                          //             size: 24,
+                                          //           ),
+                                          //         ),
+                                          //         if (isDetailsTapped1)
+                                          //           Padding(
+                                          //             padding: const EdgeInsets
+                                          //                 .symmetric(
+                                          //                 horizontal: 20,
+                                          //                 vertical: 10),
+                                          //             child: Column(
+                                          //               crossAxisAlignment:
+                                          //                   CrossAxisAlignment
+                                          //                       .start,
+                                          //               children: [
+                                          //                 Row(
+                                          //                   children: [
+                                          //                     SvgPicture.asset(
+                                          //                         'assets/icons/date.svg'),
+                                          //                     const SizedBox(
+                                          //                       width: 10,
+                                          //                     ),
+                                          //                     CustomText(
+                                          //                       text: widget.booking !=
+                                          //                               null
+                                          //                           ? AppUtil.formatBookingDate(
+                                          //                               context,
+                                          //                               widget
+                                          //                                   .booking!
+                                          //                                   .date!)
+                                          //                           : AppUtil.formatBookingDate(
+                                          //                               context,
+                                          //                               widget
+                                          //                                   .booking2!
+                                          //                                   .date!),
+                                          //                       color:
+                                          //                           almostGrey,
+                                          //                       fontSize: 13,
+                                          //                       fontWeight:
+                                          //                           FontWeight
+                                          //                               .w400,
+                                          //                       fontFamily: AppUtil
+                                          //                           .SfFontType(
+                                          //                               context),
+                                          //                     ),
+                                          //                   ],
+                                          //                 ),
+                                          //                 const SizedBox(
+                                          //                   height: 10,
+                                          //                 ),
+                                          //                 Row(
+                                          //                   children: [
+                                          //                     SvgPicture.asset(
+                                          //                         'assets/icons/time3.svg'),
+                                          //                     const SizedBox(
+                                          //                       width: 9,
+                                          //                     ),
+                                          //                     CustomText(
+                                          //                       text: widget.booking !=
+                                          //                               null
+                                          //                           ? AppUtil.rtlDirection2(
+                                          //                                   context)
+                                          //                               ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
+                                          //                               : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}'
+                                          //                           : AppUtil.rtlDirection2(
+                                          //                                   context)
+                                          //                               ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking2!.timeToGo)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking2!.timeToReturn!)} '
+                                          //                               : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking2!.timeToGo)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking2!.timeToReturn)}',
+                                          //                       color:
+                                          //                           almostGrey,
+                                          //                       fontSize: 13,
+                                          //                       fontWeight:
+                                          //                           FontWeight
+                                          //                               .w400,
+                                          //                       fontFamily: AppUtil
+                                          //                           .SfFontType(
+                                          //                               context),
+                                          //                     ),
+                                          //                   ],
+                                          //                 ),
+                                          //                 const SizedBox(
+                                          //                   height: 10,
+                                          //                 ),
+                                          //                 Row(
+                                          //                   children: [
+                                          //                     SvgPicture.asset(
+                                          //                         'assets/icons/guests.svg'),
+                                          //                     const SizedBox(
+                                          //                       width: 10,
+                                          //                     ),
+                                          //                     CustomText(
+                                          //                       text: widget.booking !=
+                                          //                               null
+                                          //                           ? '${widget.booking?.guestNumber ?? 0} ${'guests'.tr}'
+                                          //                           : '${widget.booking2?.guestNumber ?? 0} ${'guests'.tr}',
+                                          //                       color:
+                                          //                           almostGrey,
+                                          //                       fontSize: 13,
+                                          //                       fontWeight:
+                                          //                           FontWeight
+                                          //                               .w400,
+                                          //                       fontFamily: AppUtil
+                                          //                           .SfFontType(
+                                          //                               context),
+                                          //                     ),
+                                          //                   ],
+                                          //                 ),
+                                          //                 const SizedBox(
+                                          //                   height: 10,
+                                          //                 ),
+                                          //                 Row(
+                                          //                   children: [
+                                          //                     widget.booking !=
+                                          //                             null
+                                          //                         ? SvgPicture
+                                          //                             .asset(
+                                          //                             'assets/icons/unselected_${widget.booking?.vehicleType!}_icon.svg',
+                                          //                             width: 20,
+                                          //                           )
+                                          //                         : SvgPicture
+                                          //                             .asset(
+                                          //                             'assets/icons/unselected_${widget.booking2?.vehicleType!}_icon.svg',
+                                          //                             width: 20,
+                                          //                           ),
+                                          //                     const SizedBox(
+                                          //                       width: 10,
+                                          //                     ),
+                                          //                     CustomText(
+                                          //                       text: widget.booking !=
+                                          //                               null
+                                          //                           ? widget.booking
+                                          //                                   ?.vehicleType ??
+                                          //                               ''
+                                          //                           : widget.booking2
+                                          //                                   ?.vehicleType ??
+                                          //                               '',
+                                          //                       color:
+                                          //                           almostGrey,
+                                          //                       fontSize: 13,
+                                          //                       fontWeight:
+                                          //                           FontWeight
+                                          //                               .w400,
+                                          //                       fontFamily: AppUtil
+                                          //                           .SfFontType(
+                                          //                               context),
+                                          //                     ),
+                                          //                   ],
+                                          //                 ),
+                                          //               ],
+                                          //             ),
+                                          //           ),
+                                          //       ],
+                                          //     ),
+                                          //   ),
+
+                                          ),
                                     ],
                                     const SizedBox(
                                       height: 15,
@@ -372,6 +373,10 @@ class _ChatScreenState extends State<ChatScreen> {
                                       child: chat!.bookingId == ''
                                           ? Container()
                                           : Container(
+                                              height: 0.081 *
+                                                  MediaQuery.of(context)
+                                                      .size
+                                                      .height,
                                               width: 0.90 * width,
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
@@ -379,6 +384,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                                     BorderRadius.circular(8),
                                               ),
                                               child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
@@ -518,16 +525,15 @@ class _ChatScreenState extends State<ChatScreen> {
                                               chatController
                                                   .chat.messages!.isEmpty)
                                           ? Center(
-                                            child: CustomText(
-                                              text: 'StartChat'.tr,
-                                              fontSize: width * 0.03,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily:
-                                                  AppUtil.SfFontType(
-                                                      context),
-                                              color: Graytext,
-                                            ),
-                                          )
+                                              child: CustomText(
+                                                text: 'StartChat'.tr,
+                                                fontSize: width * 0.03,
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily:
+                                                    AppUtil.SfFontType(context),
+                                                color: Graytext,
+                                              ),
+                                            )
                                           : RefreshIndicator(
                                               color: Colors.green,
                                               onRefresh: () async {

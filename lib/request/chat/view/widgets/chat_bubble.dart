@@ -5,18 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ChatBubble extends StatelessWidget {
- // final String name;
- // final String? image;
+  // final String name;
+  // final String? image;
   final ChatMessage message;
   final bool isSender;
 
-  const ChatBubble(
-      {super.key,
-      required this.message,
-      required this.isSender,
+  const ChatBubble({
+    super.key,
+    required this.message,
+    required this.isSender,
     //  required this.name,
-     // required this.image
-      });
+    // required this.image
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -111,18 +111,18 @@ class ChatBubble extends StatelessWidget {
 
           // Date
           Row(
-            mainAxisAlignment: MainAxisAlignment.center, //new
+            mainAxisAlignment: isSender
+                ? MainAxisAlignment.end
+                : MainAxisAlignment.start, //new
 //new Date
             children: [
-              Expanded(
-                child: CustomText(
-                    text: message.created!,
-                    textAlign: TextAlign.center,
-                    fontFamily: AppUtil.SfFontType(context),
-                    // textDirection: AppUtil.rtlDirection2(context)? TextDirection.rtl:TextDirection.ltr,
-                    fontSize: 10,
-                    color: isSender ? Color(0xFF676767) : Color(0xFF676767)),
-              ),
+              CustomText(
+                  text: message.created!.substring(10),
+                  textAlign: TextAlign.center,
+                  fontFamily: AppUtil.SfFontType(context),
+                  // textDirection: AppUtil.rtlDirection2(context)? TextDirection.rtl:TextDirection.ltr,
+                  fontSize: 10,
+                  color: isSender ? Color(0xFF676767) : Color(0xFF676767)),
             ],
           ),
           const SizedBox(height: 6),

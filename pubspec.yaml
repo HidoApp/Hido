@@ -48,7 +48,7 @@ dependencies:
   get: ^4.6.5
   # syncfusion_flutter_datepicker: ^22.2.7
   syncfusion_flutter_datepicker: ^26.1.40
-  flutter_staggered_grid_view: ^0.6.2
+  # flutter_staggered_grid_view: ^0.6.2
   # intl: ^0.18.1
   intl: ^0.19.0
   get_storage: ^2.1.1
@@ -103,6 +103,7 @@ dependencies:
   win32: ^5.7.1
 
   image: any
+  galleryimage: ^2.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

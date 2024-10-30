@@ -26,6 +26,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'ticket_screen.dart';
 
@@ -94,6 +95,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return totalInstances > 0
         ? double.parse((totalWeightedSum / totalInstances).toStringAsFixed(1))
         : 0.0;
+  }
+
+  void openAppSettings() async {
+    final url = Uri.parse('app-settings:');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      print("Could not open app settings.");
+    }
   }
 
   @override
@@ -306,6 +316,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         title: "Language".tr,
                         leading: "assets/icons/language.svg",
                         onTap: () {
+                          if (Platform.isIOS) {
+                            openAppSettings();
+                            return;
+                          }
                           showModalBottomSheet(
                             context: context,
                             isScrollControlled: true,

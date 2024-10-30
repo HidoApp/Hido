@@ -12,7 +12,10 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 class ServicesLocalInfo extends StatefulWidget {
   const ServicesLocalInfo(
-      {super.key, required this.profileId, this.isHospitality = false,this.isFromTicket=false});
+      {super.key,
+      required this.profileId,
+      this.isHospitality = false,
+      this.isFromTicket = false});
   final String profileId;
   final bool isHospitality;
   final bool isFromTicket;
@@ -30,7 +33,7 @@ class _ServicesLocalInfoState extends State<ServicesLocalInfo> {
   @override
   void initState() {
     super.initState();
-    if(!widget.isFromTicket) {
+    if (!widget.isFromTicket) {
       getProfile();
     }
   }
@@ -129,6 +132,7 @@ class _ServicesLocalInfoState extends State<ServicesLocalInfo> {
                   indicatorSize: TabBarIndicatorSize.tab,
                   labelColor: black,
                   unselectedLabelColor: almostGrey,
+                  dividerColor: almostGrey,
                   indicatorPadding:
                       EdgeInsets.symmetric(horizontal: width * 0.035),
                   tabs: [

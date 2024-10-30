@@ -6,12 +6,11 @@ import 'package:get/get.dart';
 class VehicleInfoWidget extends StatelessWidget {
   final String vehicleClassDesc;
   final String plateInfo;
-  
+
   const VehicleInfoWidget({
     Key? key,
     required this.vehicleClassDesc,
     required this.plateInfo,
-   
   }) : super(key: key);
 
   @override
@@ -19,7 +18,7 @@ class VehicleInfoWidget extends StatelessWidget {
     return Center(
       child: Container(
         width: 0.90 * MediaQuery.of(context).size.width,
-        height: 0.089 * MediaQuery.of(context).size.height,
+        height: 0.081 * MediaQuery.of(context).size.height,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         decoration: BoxDecoration(
           color: Colors.white,

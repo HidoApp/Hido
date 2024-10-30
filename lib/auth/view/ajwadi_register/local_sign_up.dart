@@ -284,6 +284,11 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                                 AmplitudeService.amplitude.track(
                                   BaseEvent(
                                     'User going to otp screen for getting person info  ',
+                                    eventProperties: {
+                                      'nationalID': nationalId,
+                                      'birthDate':
+                                          _authController.birthDate.value,
+                                    },
                                   ),
                                 );
                                 _authController.localID(nationalId);

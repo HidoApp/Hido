@@ -319,6 +319,22 @@ class _ItineraryCardState extends State<ItineraryCard> {
                           fontSize: width * 0.028,
                           fontFamily: AppUtil.SfFontType(context),
                         ),
+                      if (!widget.requestController.isEndTimeValid.value)
+                        CustomText(
+                          text: "",
+                          color: colorRed,
+                          fontSize: width * 0.028,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
+                        ),
+                      if (!widget.requestController.isEndTimeInRange.value)
+                        CustomText(
+                          text: '',
+                          color: colorRed,
+                          fontSize: width * 0.028,
+                          fontFamily: AppUtil.SfFontType(context),
+                        ),
                     ],
                   ),
                   // SizedBox(
@@ -409,6 +425,22 @@ class _ItineraryCardState extends State<ItineraryCard> {
                       if (!widget.requestController.isEndTimeInRange.value)
                         CustomText(
                           text: 'timeErorrRange'.tr,
+                          color: colorRed,
+                          fontSize: width * 0.028,
+                          fontFamily: AppUtil.SfFontType(context),
+                        ),
+                      if (!widget.requestController.isStartTimeValid.value)
+                        CustomText(
+                          text: '',
+                          color: colorRed,
+                          fontSize: width * 0.028,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
+                        ),
+                      if (!widget.requestController.isStartTimeInRange.value)
+                        CustomText(
+                          text: '',
                           color: colorRed,
                           fontSize: width * 0.028,
                           fontFamily: AppUtil.SfFontType(context),

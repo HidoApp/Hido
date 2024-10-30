@@ -3,6 +3,7 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/scheduler.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar(this.title,
@@ -44,7 +45,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 padding: const EdgeInsets.only(top: 0),
                 child: AppBar(
                   forceMaterialTransparency: true,
-
                   backgroundColor: backgroundColor ?? Colors.transparent,
                   elevation: 0,
                   title: Padding(
@@ -100,10 +100,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                       )
                   ],
-
-                  //
                   centerTitle: true,
-
                   leading: !isBack
                       ? Padding(
                           padding: AppUtil.rtlDirection2(context)
@@ -120,7 +117,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                               size: 19,
                               color: iconColor ?? Colors.black,
                             ),
-                            onPressed: () => Get.back(),
+                            onPressed: () {
+                              SchedulerBinding.instance
+                                  .addPostFrameCallback((_) {
+                                Get.back();
+                              });
+                            },
                           ),
                         )
                       : const CustomText(text: ''),

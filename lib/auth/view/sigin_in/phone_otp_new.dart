@@ -51,6 +51,9 @@ class _PhoneOTPState extends State<PhoneOTP> {
         AmplitudeService.amplitude.track(
           BaseEvent(
             "Local add  driving license successfully",
+            eventProperties: {
+              'expiryDater': _authController.drivingDate.value,
+            },
           ),
         );
         _authController.activeBar(3);
@@ -96,6 +99,10 @@ class _PhoneOTPState extends State<PhoneOTP> {
     if (isSuccess) {
       AmplitudeService.amplitude.track(BaseEvent(
         'Local Signed up successfully ',
+        eventProperties: {
+          'phone number': _authController.phoneNumber.value,
+          'local ID': _authController.localID.toString(),
+        },
       ));
       Get.to(() => const ProvidedServices());
     }
@@ -107,6 +114,9 @@ class _PhoneOTPState extends State<PhoneOTP> {
     if (isSuccess) {
       AmplitudeService.amplitude.track(BaseEvent(
         'Local Signed in successfully ',
+        eventProperties: {
+          'phone number': widget.phoneNumber,
+        },
       ));
       //if (!mounted) return; // Check if the widget is still mounted
       _authController.checkLocalWhenSignIn(context);

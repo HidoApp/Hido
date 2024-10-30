@@ -249,6 +249,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                       .places![index].coordinates!.longitude!),
                 )),
             child: MapMarker(
+              
               image: _touristExploreController
                   .touristModel.value!.places![index].image!.first,
               region: AppUtil.rtlDirection2(context)
@@ -259,6 +260,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
             ));
       },
     ).toList();
+
     setState(() {});
   }
 
