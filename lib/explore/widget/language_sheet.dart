@@ -125,23 +125,17 @@ class _LanguageSheetState extends State<LanguageSheet> {
             title: 'confirm'.tr,
             onPressed: (() async {
               if (_selectedLanguage.isNotEmpty) {
-               
+                if (_selectedLanguage == 'English') {
+                  // Update to English Locale
+                  Get.updateLocale(const Locale('en', 'US'));
+                  GetStorage().write('language', 'en');
+                  Get.back();
+                } else if (_selectedLanguage == 'Arabic') {
+                  // Update to Arabic Locale
+                  Get.updateLocale(const Locale('ar', 'SA'));
+                  GetStorage().write('language', 'ar');
 
-                if (Platform.isIOS) {
-                  openAppSettings();
-                } else {
-                  if (_selectedLanguage == 'English') {
-                    // Update to English Locale
-                    Get.updateLocale(const Locale('en', 'US'));
-                    GetStorage().write('language', 'en');
-                    Get.back();
-                  } else if (_selectedLanguage == 'Arabic') {
-                    // Update to Arabic Locale
-                    Get.updateLocale(const Locale('ar', 'SA'));
-                   GetStorage().write('language', 'ar');
-
-                    Get.back();
-                  }
+                  Get.back();
                 }
               }
             }),

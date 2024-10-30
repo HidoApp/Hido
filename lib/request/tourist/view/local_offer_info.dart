@@ -212,7 +212,8 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                                 width: width * 0.5,
                                 child: _offerController.isOfferLoading.value
                                     ? Center(
-                                        child: CircularProgressIndicator.adaptive())
+                                        child: CircularProgressIndicator
+                                            .adaptive())
                                     : Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 4),
