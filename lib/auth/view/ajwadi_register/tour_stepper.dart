@@ -77,6 +77,14 @@ class _TourStepperState extends State<TourStepper> {
       AmplitudeService.amplitude.track(
         BaseEvent(
           "Local add  vehicle details and create account as tour guide  successfully",
+          eventProperties: {
+            'vehicleSerialNumber': _authController.vehicleLicense.value,
+            'plate number': plateNumbers,
+            'plate letters': _authController.plateletter1.value +
+                _authController.plateNumber2.value +
+                _authController.plateNumber3.value,
+            'vehicleType': _authController.selectedRide.value
+          },
         ),
       );
       _authController.activeBar(1);
@@ -173,7 +181,14 @@ class _TourStepperState extends State<TourStepper> {
                                         if (isSuccess) {
                                           AmplitudeService.amplitude.track(
                                             BaseEvent(
-                                                "Local  send iban and email  successfully as tour guide"),
+                                              "Local  send iban and email  successfully as tour guide",
+                                              eventProperties: {
+                                                'email':
+                                                    _authController.email.value,
+                                                "iban":
+                                                    _authController.iban.value,
+                                              },
+                                            ),
                                           );
                                           _authController.activeBar(2);
                                         }

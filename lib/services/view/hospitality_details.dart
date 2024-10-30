@@ -94,10 +94,9 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
       _fetchAddress(hospitalityObj!.coordinate.latitude ?? '',
           hospitalityObj!.coordinate.longitude ?? '');
 
-    if (hospitalityObj!.booking != null) {
-      hideLocation = hospitalityObj!.booking!.isEmpty;
-    }
-    
+      if (hospitalityObj!.booking != null) {
+        hideLocation = hospitalityObj!.booking!.isEmpty;
+      }
     }
     for (var day in hospitalityObj!.daysInfo) {
       if (AppUtil.isDateTimeBefore24Hours(day.startTime))
@@ -111,30 +110,24 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
     if (!AppUtil.isGuest() &&
         _profileController.profile.id != '' &&
         !widget.isLocal) {
-
-    
-
       _profileController.bookmarkList(BookmarkService.getBookmarks());
       _profileController.isHospitaltyBookmarked(_profileController.bookmarkList
           .any((bookmark) => bookmark.id == hospitalityObj!.id));
     }
-
-
-    
-
-   
   }
 
   Future<String> _getAddressFromLatLng(
       double position1, double position2) async {
     try {
+      String languageCode = Get.locale?.languageCode == 'ar' ? 'ar' : 'en';
+      String countryCode = languageCode == 'ar'
+          ? 'SA'
+          : 'US'; // Assuming Saudi Arabia for Arabic and US for English
+      String lang = '${languageCode}_$countryCode';
 
-    String languageCode = Get.locale?.languageCode == 'ar' ? 'ar' : 'en';
-    String countryCode = languageCode == 'ar' ? 'SA' : 'US'; // Assuming Saudi Arabia for Arabic and US for English
-    String lang = '${languageCode}_$countryCode';
-   
-      List<Placemark> placemarks =
-          await placemarkFromCoordinates(position1, position2,localeIdentifier:lang);
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+          position1, position2,
+          localeIdentifier: lang);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
@@ -708,7 +701,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return CustomAlertDialog();
+                                          return const CustomAlertDialog();
                                         },
                                       );
                                     }

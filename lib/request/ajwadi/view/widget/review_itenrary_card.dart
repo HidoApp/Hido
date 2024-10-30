@@ -381,6 +381,14 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                               fontSize: width * 0.028,
                               fontFamily: AppUtil.SfFontType(context),
                             ),
+                          if (!widget
+                              .requestController.isEndTimeReviewInRange.value)
+                            CustomText(
+                              text: '',
+                              color: colorRed,
+                              fontSize: width * 0.028,
+                              fontFamily: AppUtil.SfFontType(context),
+                            ),
                         ],
                       ),
                       const Spacer(),
@@ -456,6 +464,14 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                               .requestController.isEndTimeReviewInRange.value)
                             CustomText(
                               text: 'timeErorrRange'.tr,
+                              color: colorRed,
+                              fontSize: width * 0.028,
+                              fontFamily: AppUtil.SfFontType(context),
+                            ),
+                          if (!widget
+                              .requestController.isStartTimeReviewInRange.value)
+                            CustomText(
+                              text: '',
                               color: colorRed,
                               fontSize: width * 0.028,
                               fontFamily: AppUtil.SfFontType(context),
