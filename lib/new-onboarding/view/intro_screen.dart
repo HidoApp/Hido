@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../bottom_bar/tourist/view/tourist_bottom_bar.dart';
@@ -345,7 +346,11 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
                 GestureDetector(
                   onTap: () {
-                    Get.offAll(() => const TouristBottomBar());
+                    Get.offAll(
+                      () => ShowCaseWidget(
+                        builder: (context) => const TouristBottomBar(),
+                      ),
+                    );
                     AmplitudeService.amplitude.track(
                         BaseEvent('Onboarding Continue as Guest Clicked'));
                   },
@@ -379,8 +384,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               ],
             ),
           ),
-          if (_currentIndex == 0)
-           const LanguageDropdown(),
+          if (_currentIndex == 0) const LanguageDropdown(),
         ],
       ),
     );

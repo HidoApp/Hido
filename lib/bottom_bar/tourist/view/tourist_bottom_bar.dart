@@ -15,6 +15,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class TouristBottomBar extends StatefulWidget {
   const TouristBottomBar({super.key});
@@ -29,9 +30,14 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
   final ProfileController _profileController = ProfileController();
   final getStorage = GetStorage();
   late Profile profile;
+
+  //for tip
+  final _key1 = GlobalKey();
+  final _key2 = GlobalKey();
+  final _key3 = GlobalKey();
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setInternetConnection();
   }
@@ -94,7 +100,9 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                 physics: const NeverScrollableScrollPhysics(),
                 controller: _pageController,
                 children: [
-                  const TouristMapScreen(),
+                  ShowCaseWidget(
+                    builder: (context) => const TouristMapScreen(),
+                  ),
                   const ServiceScreen(),
                   // const ShopScreen(),
                   AppUtil.isGuest()

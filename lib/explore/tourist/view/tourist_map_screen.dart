@@ -36,6 +36,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 import 'package:intl/intl.dart' as intel;
 import 'package:timezone/timezone.dart' as tz;
@@ -82,6 +83,8 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   BitmapDescriptor placeIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor eventIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor adventureIcon = BitmapDescriptor.defaultMarker;
+
+  final _key1 = GlobalKey();
 
   late UserLocation? userLocation;
   final storage = GetStorage('map_markers');
@@ -180,6 +183,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   }
 
   void addCustomIcon() {
+    // ignore: deprecated_member_use
     BitmapDescriptor.fromAssetImage(
             const ImageConfiguration(), "assets/images/pin_marker.png")
         .then(
@@ -195,6 +199,9 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   void initState() {
     super.initState();
     getPlaces();
+    WidgetsBinding.instance!.addPostFrameCallback(
+        (_) => ShowCaseWidget.of(context)!.startShowCase([_key1]));
+    
     _touristExploreController.isNewMarkers.value = true;
     if (!AppUtil.isGuest()) {
       getUserActions();
@@ -236,27 +243,68 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
       (index) {
         double distance = 0.0;
         return MarkerData(
-            marker: Marker(
-                onTap: () {
-                  toTripDetails(index, distance);
-                },
-                markerId: MarkerId(_touristExploreController
-                    .touristModel.value!.places![index].id!),
-                position: LatLng(
-                  double.parse(_touristExploreController.touristModel.value!
-                      .places![index].coordinates!.latitude!),
-                  double.parse(_touristExploreController.touristModel.value!
-                      .places![index].coordinates!.longitude!),
-                )),
-            child: MapMarker(
-              image: _touristExploreController
-                  .touristModel.value!.places![index].image!.first,
-              region: AppUtil.rtlDirection2(context)
-                  ? _touristExploreController
-                      .touristModel.value!.places![index].nameAr!
-                  : _touristExploreController
-                      .touristModel.value!.places![index].nameEn!,
-            ));
+          marker: Marker(
+              onTap: () {
+                toTripDetails(index, distance);
+              },
+              markerId: MarkerId(_touristExploreController
+                  .touristModel.value!.places![index].id!),
+              position: LatLng(
+                double.parse(_touristExploreController
+                    .touristModel.value!.places![index].coordinates!.latitude!),
+                double.parse(_touristExploreController.touristModel.value!
+                    .places![index].coordinates!.longitude!),
+              )),
+          child: index ==
+                  _touristExploreController.touristModel.value!.places!.length -
+                      1
+              ? Showcase(
+                  key: _key1,
+                  description: 'Change your water intake goal settings',
+                  // shapeBorder: const CircleBorder(),
+                  // showcaseBackgroundColor: Colors.indigo,
+                  descTextStyle: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                  tooltipPadding: EdgeInsets.symmetric(
+                      vertical: 8, horizontal: 8), // Padding inside tooltip
+                  tooltipBorderRadius:
+                      BorderRadius.circular(8), // Tooltip corner radius
+                  tooltipPosition:
+                      TooltipPosition.bottom, // Tooltip position above or below
+                  titlePadding: EdgeInsets.symmetric(
+                      horizontal: 8), // Padding for title text
+                  descriptionPadding:
+                      EdgeInsets.all(8), // Padding for description text
+                  titleTextDirection:
+                      TextDirection.ltr, // Text direction for title
+                  descriptionTextDirection:
+                      TextDirection.ltr, // Text direction for description
+                  tooltipBackgroundColor: Colors.blue,
+                  // overlayPadding: const EdgeInsets.all(8),
+                  // contentPadding: const EdgeInsets.all(20),
+                  child: MapMarker(
+                    image: _touristExploreController
+                        .touristModel.value!.places![index].image!.first,
+                    region: AppUtil.rtlDirection2(context)
+                        ? _touristExploreController
+                            .touristModel.value!.places![index].nameAr!
+                        : _touristExploreController
+                            .touristModel.value!.places![index].nameEn!,
+                  ),
+                )
+              : MapMarker(
+                  image: _touristExploreController
+                      .touristModel.value!.places![index].image!.first,
+                  region: AppUtil.rtlDirection2(context)
+                      ? _touristExploreController
+                          .touristModel.value!.places![index].nameAr!
+                      : _touristExploreController
+                          .touristModel.value!.places![index].nameEn!,
+                ),
+        );
       },
     ).toList();
     setState(() {});
@@ -409,6 +457,16 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                   )
                 : const SizedBox.shrink(),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            ShowCaseWidget.of(context)!.startShowCase([_key1]);
+          });
+        },
+        backgroundColor: Colors.blue, // Customize button color
+        child: Icon(Icons.add), // Icon for the button
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       body: Stack(
         children: [
           //  isLoaded ?

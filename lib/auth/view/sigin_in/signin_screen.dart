@@ -22,6 +22,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 import '../../../utils/app_util.dart';
 
@@ -74,7 +75,6 @@ class _SignInScreenState extends State<SignInScreen> {
     super.initState();
     setInternetConnection();
     // AmplitudeService.initializeAmplitude();
-
   }
 
   @override
@@ -257,16 +257,16 @@ class _SignInScreenState extends State<SignInScreen> {
                                               } else if (ajwadiInfo?.vehicle ==
                                                   false) {}
                                             } else {
-                                              AmplitudeService.amplitude.track(
-                                                BaseEvent('Local Sign in',
-                                                  ));
+                                              AmplitudeService.amplitude
+                                                  .track(BaseEvent(
+                                                'Local Sign in',
+                                              ));
 
                                               Get.off(() =>
                                                   const AjwadiBottomBar());
                                             }
                                           } else if (jwtToken.userRole ==
                                               'tourist') {
-
                                             AmplitudeService.amplitude.track(
                                                 BaseEvent('Tourist Sign in',
                                                     eventProperties: {
@@ -275,8 +275,10 @@ class _SignInScreenState extends State<SignInScreen> {
                                                 }));
 
                                             Get.offAll(
-                                                () => const TouristBottomBar());
-                                                
+                                              () =>
+                                                    const TouristBottomBar(),
+                                              
+                                            );
                                           } else {}
                                         }
                                       }
