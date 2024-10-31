@@ -317,6 +317,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         leading: "assets/icons/language.svg",
                         onTap: () {
                           if (Platform.isIOS) {
+                            log(Platform.operatingSystem);
                             openAppSettings();
                             return;
                           }

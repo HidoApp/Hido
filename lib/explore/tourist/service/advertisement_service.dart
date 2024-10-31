@@ -17,9 +17,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 
-
 class AdvertisementService {
-
   static Future<List<Advertisement>?> getAllAdvertisement(
       {required BuildContext context}) async {
     final getStorage = GetStorage();
@@ -39,6 +37,8 @@ class AdvertisementService {
         if (token != '') 'Authorization': 'Bearer $token',
       },
     );
+    log(response.statusCode.toString());
+    log(response.body);
 
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
@@ -88,5 +88,4 @@ class AdvertisementService {
       return null;
     }
   }
-
 }

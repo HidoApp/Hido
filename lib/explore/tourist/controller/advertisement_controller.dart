@@ -14,26 +14,24 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
-
 class AdvertisementController extends GetxController {
-  
   var isAdvertisementLoading = false.obs;
   var upcommingTicket = <Hospitality>[].obs;
   var pastTicket = <Hospitality>[].obs;
- 
+
   var isAdvertisementByIdLoading = false.obs;
 
   var advertisementList = <Advertisement>[].obs;
 
- 
   Future<RxList<Advertisement>?> getAllAdvertisement(
       {required BuildContext context}) async {
     try {
+      log("Advertisement");
       isAdvertisementLoading(true);
-      final data = await AdvertisementService.getAllAdvertisement(
-          context: context);
+      final data =
+          await AdvertisementService.getAllAdvertisement(context: context);
       if (data != null) {
-       advertisementList(data);
+        advertisementList(data);
       }
       isAdvertisementLoading(false);
       return advertisementList;
@@ -51,8 +49,8 @@ class AdvertisementController extends GetxController {
   }) async {
     try {
       isAdvertisementByIdLoading(true);
-      final data =
-          await  AdvertisementService.getAdvertisementById(context: context, id: id);
+      final data = await AdvertisementService.getAdvertisementById(
+          context: context, id: id);
       return data;
     } catch (e) {
       isAdvertisementByIdLoading(false);
