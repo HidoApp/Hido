@@ -39,7 +39,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
   @override
   void initState() {
     super.initState();
-    setInternetConnection();
+    // setInternetConnection();
   }
 
   StreamSubscription? _internetConnection;

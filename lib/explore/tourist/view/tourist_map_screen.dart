@@ -85,6 +85,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   BitmapDescriptor adventureIcon = BitmapDescriptor.defaultMarker;
 
   final _key1 = GlobalKey();
+  final _key2 = GlobalKey();
 
   late UserLocation? userLocation;
   final storage = GetStorage('map_markers');
@@ -199,9 +200,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   void initState() {
     super.initState();
     getPlaces();
-    WidgetsBinding.instance!.addPostFrameCallback(
-        (_) => ShowCaseWidget.of(context)!.startShowCase([_key1]));
-    
+
     _touristExploreController.isNewMarkers.value = true;
     if (!AppUtil.isGuest()) {
       getUserActions();
@@ -209,6 +208,9 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
     // addCustomIcon();
     getLocation();
+    WidgetsBinding.instance!.addPostFrameCallback(
+        (_) => ShowCaseWidget.of(context)!.startShowCase([_key1]));
+
     // AmplitudeService.initializeAmplitude();
   }
 
@@ -260,31 +262,49 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                       1
               ? Showcase(
                   key: _key1,
-                  description: 'Change your water intake goal settings',
-                  // shapeBorder: const CircleBorder(),
-                  // showcaseBackgroundColor: Colors.indigo,
-                  descTextStyle: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                    fontSize: 16,
+                  description: 'Check out this tour site!',
+                  showArrow: true,
+                  descriptionPadding: const EdgeInsets.only(
+                    top: 12,
+                    left: 12,
+                    right: 12,
+                    bottom: 12,
                   ),
-                  tooltipPadding: EdgeInsets.symmetric(
-                      vertical: 8, horizontal: 8), // Padding inside tooltip
-                  tooltipBorderRadius:
-                      BorderRadius.circular(8), // Tooltip corner radius
-                  tooltipPosition:
-                      TooltipPosition.bottom, // Tooltip position above or below
-                  titlePadding: EdgeInsets.symmetric(
-                      horizontal: 8), // Padding for title text
-                  descriptionPadding:
-                      EdgeInsets.all(8), // Padding for description text
-                  titleTextDirection:
-                      TextDirection.ltr, // Text direction for title
-                  descriptionTextDirection:
-                      TextDirection.ltr, // Text direction for description
-                  tooltipBackgroundColor: Colors.blue,
-                  // overlayPadding: const EdgeInsets.all(8),
-                  // contentPadding: const EdgeInsets.all(20),
+                 
+                  onToolTipClick: () {
+                    Get.to(
+                      () => TripDetails(
+                        fromAjwady: false,
+                        place: _touristExploreController
+                            .touristModel.value!.places![index],
+                        distance: distance != 0.0
+                            ? distance.roundToDouble()
+                            : distance,
+                        userLocation: userLocation,
+                      ),
+                    );
+                  },
+                  onTargetClick: () {
+                    Get.to(
+                      () => TripDetails(
+                        fromAjwady: false,
+                        place: _touristExploreController
+                            .touristModel.value!.places![index],
+                        distance: distance != 0.0
+                            ? distance.roundToDouble()
+                            : distance,
+                        userLocation: userLocation,
+                      ),
+                    );
+                  },
+                  disposeOnTap: true,
+                  descTextStyle:  TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color:black,
+                    fontSize: 13,
+                    fontFamily: AppUtil.SfFontType(context)
+                  ),
+                  tooltipBackgroundColor: Colors.white,
                   child: MapMarker(
                     image: _touristExploreController
                         .touristModel.value!.places![index].image!.first,
@@ -457,16 +477,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                   )
                 : const SizedBox.shrink(),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            ShowCaseWidget.of(context)!.startShowCase([_key1]);
-          });
-        },
-        backgroundColor: Colors.blue, // Customize button color
-        child: Icon(Icons.add), // Icon for the button
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       body: Stack(
         children: [
           //  isLoaded ?
@@ -749,6 +759,34 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                     ],
                   )
               ],
+            ),
+          ),
+          Positioned(
+            bottom: 30,
+            right: 16,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  ShowCaseWidget.of(context)!.startShowCase([_key1]);
+                });
+              },
+              child: Container(
+                width: 48,
+                height: 48,
+                clipBehavior: Clip.antiAlias,
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(9999),
+                  ),
+                ),
+                child: const Center(
+                    child: Icon(
+                  Icons.question_mark,
+                  color: colorGreen,
+                  size: 24.0,
+                )),
+              ),
             ),
           ),
         ],
