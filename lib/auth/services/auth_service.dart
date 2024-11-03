@@ -39,32 +39,7 @@ class AuthService {
       return null;
     }
   }
-// static Future<void> checkToken(BuildContext context) async {
-//
-//     final getStorage = GetStorage();
-//     String token = getStorage.read('accessToken');
-//     late Token jwtToken;
-//     late String id;
-//
-//
-//     if (JwtDecoder.isExpired(token)) {
-//       final authController = Get.put(AuthController());
 
-//       String refreshToken = getStorage.read('refreshToken');
-//       var user = await authController.refreshToken(
-//           refreshToken: refreshToken, context: context);
-//       refreshToken = getStorage.read('refreshToken');
-//       token = getStorage.read('accessToken');
-//       jwtToken = AuthService.jwtForToken(refreshToken)!;
-//
-//       id = jwtToken.id;
-//     } else {
-//       jwtToken = AuthService.jwtForToken(token)!;
-//
-
-//       id = jwtToken.id;
-//     }
-//   }
   // 2 TOURIST REGISTER WITH EMAIL ..
   static Future<bool> touristRegister({
     required String email,

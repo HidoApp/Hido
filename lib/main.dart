@@ -13,6 +13,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
@@ -87,19 +88,23 @@ late String local;
 class _MyAppState extends State<MyApp> {
   final _getStorage = GetStorage();
   late String token;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     token = _getStorage.read('accessToken') ?? '';
     log('token $token');
 
     local = GetStorage().read('language') ??
         Platform.localeName.toLocale().languageCode;
+    log("AMMAR");
   }
 
   @override
   Widget build(BuildContext context) {
+    // log(Platform.operatingSystem.toUpperCase());
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       child: GetMaterialApp(
