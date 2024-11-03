@@ -511,7 +511,7 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                           ),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       SizedBox(
                         width: width * 0.38,
                         height: width * 0.088,
