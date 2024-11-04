@@ -83,8 +83,7 @@ void main() async {
   } catch (error) {
     log('Error');
   }
-  // if (kReleaseMode)
-  ErrorWidget.builder = (_) => const ErrorScreenWidget();
+  if (kReleaseMode) ErrorWidget.builder = (_) => const ErrorScreenWidget();
 }
 
 class MyApp extends StatefulWidget {
@@ -118,7 +117,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // log(Platform.operatingSystem.toUpperCase());
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       child: GetMaterialApp(

@@ -20,17 +20,31 @@ class NotificationServices {
     log(token ?? "EMpty Token");
     return token ?? "";
   }
+
 // create Device
   static Future<bool> sendDeviceToken({required BuildContext context}) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+
+    if (token != '' && JwtDecoder.isExpired(token)) {
+      final _authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await _authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+
     var deviceToken = await getDeviceToken();
     final response = await http.post(Uri.parse('$baseUrl/device'),
         headers: {
           'Accept': 'application/json',
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode({
-          'device_token': deviceToken,
-          'device_type': Platform.operatingSystem.toUpperCase()
+          'deviceToken': deviceToken,
+          'deviceType': Platform.operatingSystem.toUpperCase()
         }));
     log(response.statusCode.toString());
     log(response.body);

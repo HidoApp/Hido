@@ -11,6 +11,7 @@ import 'package:ajwad_v4/auth/view/tourist_register/reset_password.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/notification/controller/notification_controller.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -42,6 +43,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _authController = Get.put(AuthController());
+  final notificationController = Get.put(NotificationController());
   StreamSubscription? _internetConnection;
   void setInternetConnection() {
     _internetConnection = InternetConnection().onStatusChange.listen((event) {
@@ -74,7 +76,6 @@ class _SignInScreenState extends State<SignInScreen> {
     super.initState();
     setInternetConnection();
     // AmplitudeService.initializeAmplitude();
-
   }
 
   @override
@@ -202,7 +203,10 @@ class _SignInScreenState extends State<SignInScreen> {
                         Obx(
                           () => Padding(
                             padding: const EdgeInsets.symmetric(vertical: 12),
-                            child: _authController.isLoginLoading.value == true
+                            child: _authController.isLoginLoading.value ==
+                                        true ||
+                                    notificationController
+                                        .isSendingDeviceToken.value
                                 ? const Center(
                                     child: CircularProgressIndicator.adaptive())
                                 : CustomButton(
@@ -257,16 +261,16 @@ class _SignInScreenState extends State<SignInScreen> {
                                               } else if (ajwadiInfo?.vehicle ==
                                                   false) {}
                                             } else {
-                                              AmplitudeService.amplitude.track(
-                                                BaseEvent('Local Sign in',
-                                                  ));
+                                              AmplitudeService.amplitude
+                                                  .track(BaseEvent(
+                                                'Local Sign in',
+                                              ));
 
                                               Get.off(() =>
                                                   const AjwadiBottomBar());
                                             }
                                           } else if (jwtToken.userRole ==
                                               'tourist') {
-
                                             AmplitudeService.amplitude.track(
                                                 BaseEvent('Tourist Sign in',
                                                     eventProperties: {
@@ -274,9 +278,18 @@ class _SignInScreenState extends State<SignInScreen> {
                                                       _emailController.text,
                                                 }));
 
+                                            final isSuccess =
+                                                await notificationController
+                                                    .sendDeviceToken(
+                                                        context: context);
+                                            if (!isSuccess) {
+                                              AmplitudeService.amplitude.track(
+                                                  BaseEvent(
+                                                      'Tourist Sign in Failed'));
+                                              return;
+                                            }
                                             Get.offAll(
                                                 () => const TouristBottomBar());
-                                                
                                           } else {}
                                         }
                                       }

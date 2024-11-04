@@ -8,6 +8,7 @@ import 'package:ajwad_v4/auth/view/ajwadi_register/vehicle_license.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/phone_otp_new.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/notification/controller/notification_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -29,6 +30,7 @@ class TourStepper extends StatefulWidget {
 
 class _TourStepperState extends State<TourStepper> {
   final _authController = Get.put(AuthController());
+  final notificationController = Get.put(NotificationController());
   void sendVehcileDetails() async {
     if (!_authController.vehicleKey.currentState!.validate()) {
       AmplitudeService.amplitude
@@ -74,6 +76,13 @@ class _TourStepperState extends State<TourStepper> {
       vehicleSerialNumber: _authController.vehicleLicense.value,
     );
     if (isSuccess) {
+      final isSuccess =
+          await notificationController.sendDeviceToken(context: context);
+      if (!isSuccess) {
+        AmplitudeService.amplitude
+            .track(BaseEvent('Local Sign up  Failed as tour guide'));
+        return;
+      }
       AmplitudeService.amplitude.track(
         BaseEvent(
           "Local add  vehicle details and create account as tour guide  successfully",
@@ -157,7 +166,9 @@ class _TourStepperState extends State<TourStepper> {
                         () => _authController.isCreateAccountLoading.value ||
                                 _authController.isVicheleOTPLoading.value ||
                                 _authController.isLienceseOTPLoading.value ||
-                                _authController.isSendVehicleDetails.value
+                                _authController.isSendVehicleDetails.value ||
+                                notificationController
+                                    .isSendingDeviceToken.value
                             ? const Center(
                                 child: CircularProgressIndicator.adaptive())
                             : CustomButton(

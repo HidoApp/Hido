@@ -4,6 +4,7 @@ import 'package:ajwad_v4/auth/view/tourist_register/reset_password.dart';
 import 'package:ajwad_v4/auth/widget/sign_up_text.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/notification/controller/notification_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -30,7 +31,7 @@ class _SignInSheetState extends State<SignInSheet> {
   final _authController = Get.put(AuthController());
   var _email = '';
   var _password = '';
-
+  final notificationController = Get.put(NotificationController());
   @override
   void initState() {
     super.initState();
@@ -156,7 +157,8 @@ class _SignInSheetState extends State<SignInSheet> {
                       height: width * .06,
                     ),
                     Obx(
-                      () => _authController.isLoginLoading.value
+                      () => _authController.isLoginLoading.value ||
+                              notificationController.isSendingDeviceToken.value
                           ? const Center(
                               child: CircularProgressIndicator.adaptive())
                           : CustomButton(
@@ -173,6 +175,17 @@ class _SignInSheetState extends State<SignInSheet> {
                                         eventProperties: {
                                           'email': _email,
                                         }));
+
+                                    final isSuccess =
+                                        await notificationController
+                                            .sendDeviceToken(context: context);
+                                    if (!isSuccess) {
+                                      AmplitudeService.amplitude
+                                          .track(BaseEvent(
+                                        'Tourist Sign in failed after continue as guest ',
+                                      ));
+                                      return;
+                                    }
                                     Get.offAll(() => const TouristBottomBar());
                                   } else {
                                     AmplitudeService.amplitude.track(BaseEvent(
