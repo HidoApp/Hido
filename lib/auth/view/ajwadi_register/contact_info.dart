@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
+import 'package:ajwad_v4/notification/controller/notification_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -27,6 +28,7 @@ class ContactInfo extends StatefulWidget {
 class _ContactInfoState extends State<ContactInfo> {
   final _formKey = GlobalKey<FormState>();
   final _authController = Get.put(AuthController());
+  final notificationController = Get.put(NotificationController());
   final _storage = GetStorage();
 
   @override
@@ -99,7 +101,8 @@ class _ContactInfoState extends State<ContactInfo> {
         child: widget.isPageView
             ? const SizedBox()
             : Obx(
-                () => _authController.isCreateAccountLoading.value
+                () => _authController.isCreateAccountLoading.value ||
+                        notificationController.isSendingDeviceToken.value
                     ? const Center(
                         child: CircularProgressIndicator.adaptive(),
                       )
@@ -124,16 +127,13 @@ class _ContactInfoState extends State<ContactInfo> {
                           );
                           log(isSuccess.toString());
                           if (isSuccess) {
-                            // final notificationController =
-                            //     Get.put(NotificationController());
-
-                            // final isSuccess = await notificationController
-                            //     .sendDeviceToken(context: context);
-                            // if (!isSuccess) {
-                            //   AmplitudeService.amplitude.track(
-                            //       BaseEvent('Local Sign up  Failed as exprinces'));
-                            //   return;
-                            // }
+                            final isSuccess = await notificationController
+                                .sendDeviceToken(context: context);
+                            if (!isSuccess) {
+                              AmplitudeService.amplitude.track(BaseEvent(
+                                  'Local Sign up  Failed as exprinces'));
+                              return;
+                            }
                             AmplitudeService.amplitude.track(
                               BaseEvent(
                                   "Local create account as experience successfully "),

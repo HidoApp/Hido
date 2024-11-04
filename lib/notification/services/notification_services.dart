@@ -2,11 +2,15 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/base_url.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class NotificationServices {
   static Future<String> getDeviceToken() async {
@@ -15,17 +19,31 @@ class NotificationServices {
     log(token ?? "EMpty Token");
     return token ?? "";
   }
+
 // create Device
   static Future<bool> sendDeviceToken({required BuildContext context}) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+
+    if (token != '' && JwtDecoder.isExpired(token)) {
+      final _authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await _authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+
     var deviceToken = await getDeviceToken();
     final response = await http.post(Uri.parse('$baseUrl/device'),
         headers: {
           'Accept': 'application/json',
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode({
-          'device_token': deviceToken,
-          'device_type': Platform.operatingSystem.toUpperCase()
+          'deviceToken': deviceToken,
+          'deviceType': Platform.operatingSystem.toUpperCase()
         }));
     log(response.statusCode.toString());
     log(response.body);

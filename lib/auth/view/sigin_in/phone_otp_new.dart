@@ -6,6 +6,7 @@ import 'package:ajwad_v4/auth/view/tourist_register/new_password_screen.dart';
 import 'package:ajwad_v4/auth/widget/countdown_timer.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/notification/controller/notification_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -38,7 +39,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
   bool timerEnd = false;
   late String otp;
   final _authController = Get.put(AuthController());
-
+  final notificationController = Get.put(NotificationController());
   void stepper(String otpCode) async {
     if (_authController.activeBar.value == 2) {
       log('Succes');
@@ -97,16 +98,12 @@ class _PhoneOTPState extends State<PhoneOTP> {
         otp: otpCode,
         birthDate: _authController.birthDateDay.value);
     if (isSuccess) {
-      // final notificationController =
-      //     Get.put(NotificationController());
-
-      // final isSuccess = await notificationController
-      //     .sendDeviceToken(context: context);
-      // if (!isSuccess) {
-      //   AmplitudeService.amplitude.track(
-      //       BaseEvent('Local Sign in Failed'));
-      //   return;
-      // }
+      final isSuccess =
+          await notificationController.sendDeviceToken(context: context);
+      if (!isSuccess) {
+        AmplitudeService.amplitude.track(BaseEvent('Local Sign in Failed'));
+        return;
+      }
       AmplitudeService.amplitude.track(BaseEvent(
         'Local Signed up successfully ',
         eventProperties: {
@@ -122,16 +119,12 @@ class _PhoneOTPState extends State<PhoneOTP> {
     final isSuccess = await _authController.localSignInWithOtp(
         context: context, phoneNumber: widget.phoneNumber!, otp: otpCode);
     if (isSuccess) {
-      // final notificationController =
-      //     Get.put(NotificationController());
-
-      // final isSuccess = await notificationController
-      //     .sendDeviceToken(context: context);
-      // if (!isSuccess) {
-      //   AmplitudeService.amplitude.track(
-      //       BaseEvent('Local Sign in Failed'));
-      //   return;
-      // }
+      final isSuccess =
+          await notificationController.sendDeviceToken(context: context);
+      if (!isSuccess) {
+        AmplitudeService.amplitude.track(BaseEvent('Local Sign in Failed'));
+        return;
+      }
       AmplitudeService.amplitude.track(BaseEvent(
         'Local Signed in successfully ',
         eventProperties: {
@@ -259,7 +252,8 @@ class _PhoneOTPState extends State<PhoneOTP> {
                         _authController.isVicheleLoading.value ||
                         _authController.isLienceseLoading.value ||
                         _authController.isCheckLocalLoading.value ||
-                        _authController.isSignInWithOtpLoading.value
+                        _authController.isSignInWithOtpLoading.value ||
+                        notificationController.isSendingDeviceToken.value
                     ? const CircularProgressIndicator.adaptive()
                     : CountdownTimer(
                         resendOtp: widget.resendOtp,

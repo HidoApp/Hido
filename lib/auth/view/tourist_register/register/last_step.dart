@@ -75,7 +75,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
   }
 
   final _controller = MultiSelectController();
-
+  final notificationController = Get.put(NotificationController());
   void generateCountries() {
     countries = List.generate(
         widget.countries.length,
@@ -363,7 +363,8 @@ class _LastStepScreenState extends State<LastStepScreen> {
                   height: width * 0.092,
                 ),
                 Obx(
-                  () => widget.authController.isRegisterLoading.value
+                  () => widget.authController.isRegisterLoading.value ||
+                          notificationController.isSendingDeviceToken.value
                       ? const Center(
                           child: CircularProgressIndicator.adaptive())
                       : CustomButton(
@@ -398,16 +399,13 @@ class _LastStepScreenState extends State<LastStepScreen> {
                                       context: context);
 
                               if (isSuccess) {
-                                // final notificationController =
-                                //     Get.put(NotificationController());
-
-                                // final isSuccess = await notificationController
-                                //     .sendDeviceToken(context: context);
-                                // if (!isSuccess) {
-                                //   AmplitudeService.amplitude.track(
-                                //       BaseEvent('Tourist Sign up Failed'));
-                                //   return;
-                                // }
+                                final isSuccess = await notificationController
+                                    .sendDeviceToken(context: context);
+                                if (!isSuccess) {
+                                  AmplitudeService.amplitude.track(
+                                      BaseEvent('Tourist Sign up Failed'));
+                                  return;
+                                }
                                 Get.offAll(() => const TouristBottomBar());
                                 AmplitudeService.amplitude.track(BaseEvent(
                                     'Tourist Completed Sign Up ',
