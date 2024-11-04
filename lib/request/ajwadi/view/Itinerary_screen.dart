@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/ajwadi/view/review_itenrary_screen.dart';
@@ -9,6 +10,7 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -69,15 +71,18 @@ class _AddItineraryState extends State<AddItinerary> {
           child: Obx(
             () => CustomButton(
               buttonColor: requestController.reviewItenrary.length < 3
-                  ?  colorlightGreen
+                  ? colorlightGreen
                   : null,
               borderColor: requestController.reviewItenrary.length < 3
-                  ?  colorlightGreen
+                  ? colorlightGreen
                   : null,
               onPressed: () {
                 if (requestController.reviewItenrary.length < 3) {
                   //  AppUtil.errorToast(context, "atLeastItenrary".tr);
                 } else {
+                  AmplitudeService.amplitude.track(BaseEvent(
+                    'Local enter ${requestController.reviewItenrary.length} itenrary',
+                  ));
                   Get.to(
                     () => ReviewIenraryScreen(
                       requestController: requestController,

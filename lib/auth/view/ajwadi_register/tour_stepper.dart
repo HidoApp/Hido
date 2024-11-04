@@ -74,6 +74,16 @@ class _TourStepperState extends State<TourStepper> {
       vehicleSerialNumber: _authController.vehicleLicense.value,
     );
     if (isSuccess) {
+      // final notificationController =
+      //     Get.put(NotificationController());
+
+      // final isSuccess = await notificationController
+      //     .sendDeviceToken(context: context);
+      // if (!isSuccess) {
+      //   AmplitudeService.amplitude.track(
+      //       BaseEvent('Local Sign up  Failed as tour guide'));
+      //   return;
+      // }
       AmplitudeService.amplitude.track(
         BaseEvent(
           "Local add  vehicle details and create account as tour guide  successfully",

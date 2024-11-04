@@ -173,6 +173,17 @@ class _SignInSheetState extends State<SignInSheet> {
                                         eventProperties: {
                                           'email': _email,
                                         }));
+                                    // final notificationController =
+                                    //     Get.put(NotificationController());
+
+                                    // final isSuccess = await notificationController
+                                    //     .sendDeviceToken(context: context);
+                                    // if (!isSuccess) {
+                                    // AmplitudeService.amplitude.track(BaseEvent(
+                                    //   'Tourist Sign in failed after continue as guest ',
+                                    // ));
+                                    //   return;
+                                    // }
                                     Get.offAll(() => const TouristBottomBar());
                                   } else {
                                     AmplitudeService.amplitude.track(BaseEvent(

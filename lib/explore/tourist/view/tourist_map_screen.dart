@@ -12,6 +12,7 @@ import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/explore/widget/map_marker.dart';
+import 'package:ajwad_v4/explore/widget/map_widget.dart';
 import 'package:ajwad_v4/explore/widget/progress_sheet.dart';
 import 'package:ajwad_v4/explore/widget/rating_sheet.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
@@ -36,6 +37,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 import 'package:intl/intl.dart' as intel;
 import 'package:timezone/timezone.dart' as tz;
@@ -54,7 +56,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   late GoogleMapController mapController;
   final _touristExploreController = Get.put(TouristExploreController());
   final Completer<GoogleMapController> _controller = Completer();
-  List<MarkerData> customMarkers = [];
   Set<Marker> _userMarkers = {};
   Set<Marker> _markers = {};
   LatLng _currentLocation = const LatLng(24.7136, 46.6753);
@@ -84,7 +85,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   BitmapDescriptor adventureIcon = BitmapDescriptor.defaultMarker;
 
   late UserLocation? userLocation;
-  final storage = GetStorage('map_markers');
   final ProfileController _profileController = Get.put(ProfileController());
   final _sheetController = SolidController();
 
@@ -231,7 +231,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   void genreateMarkers() {
     if (!mounted) return; // Check if the widget is still mounted
 
-    customMarkers = List.generate(
+    _touristExploreController.customMarkers.value = List.generate(
       _touristExploreController.touristModel.value!.places!.length,
       (index) {
         double distance = 0.0;
@@ -249,7 +249,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                       .places![index].coordinates!.longitude!),
                 )),
             child: MapMarker(
-              
               image: _touristExploreController
                   .touristModel.value!.places![index].image!.first,
               region: AppUtil.rtlDirection2(context)
@@ -260,8 +259,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
             ));
       },
     ).toList();
-
-    setState(() {});
+   
   }
 
   void checkForProgress() async {
@@ -370,9 +368,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(_touristExploreController.touristModel.value!.places!.length);
     final width = MediaQuery.of(context).size.width;
-
     return Scaffold(
       bottomSheet: Obx(
         () => _touristExploreController.isActivityProgressLoading.value
@@ -413,67 +409,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
       ),
       body: Stack(
         children: [
-          //  isLoaded ?
-          CustomGoogleMapMarkerBuilder(
-              customMarkers: customMarkers,
-              builder: (context, markers) {
-                if (markers == null) {
-                  return Obx(
-                    () => RepaintBoundary(
-                      child: GoogleMap(
-                        zoomControlsEnabled: false,
-                        myLocationButtonEnabled: false,
-                        markers: storage.read<List<Marker>>('markers')!.toSet(),
-                        initialCameraPosition: CameraPosition(
-                          target:
-                              _touristExploreController.currentLocation.value,
-                          zoom: 6,
-                        ),
-                        mapType: MapType.normal,
-                        onMapCreated: (controller) {
-                          _controller.complete(controller);
-
-                          // _loadMapStyles();
-                        },
-                        onCameraMove: (position) {
-                          _touristExploreController.currentLocation.value =
-                              position.target;
-                          // setState(() {});
-                        },
-                      ),
-                    ),
-                  );
-                }
-                if (_touristExploreController.isNewMarkers.value) {
-                  storage.write('markers', markers.toList()).then((val) {
-                    _touristExploreController.isNewMarkers.value = false;
-                    _touristExploreController.updateMap(true);
-                    // setState(() {});
-                  });
-                }
-                return Obx(
-                  () => RepaintBoundary(
-                    child: GoogleMap(
-                      zoomControlsEnabled: false,
-                      myLocationButtonEnabled: false,
-                      initialCameraPosition: CameraPosition(
-                        target: _touristExploreController.currentLocation.value,
-                        zoom: 6,
-                      ),
-                      markers: markers,
-                      mapType: MapType.normal,
-                      onMapCreated: (controller) {
-                        _controller.complete(controller);
-                        // _loadMapStyles();
-                      },
-                      onCameraMove: (position) {
-                        _touristExploreController.currentLocation.value =
-                            position.target;
-                      },
-                    ),
-                  ),
-                );
-              }),
+          const MapWidget(),
           Positioned(
             top: width * .19,
             left: width * 0.041,
@@ -530,28 +466,30 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(25),
                       ),
-                      child: CustomTextField(
-                        borderColor: Colors.transparent,
-                        raduis: 25,
-                        verticalHintPadding:
-                            AppUtil.rtlDirection2(context) ? 0 : 10,
-                        height: 34,
-                        enable: !_touristExploreController
-                            .isTouristMapLoading.value,
-                        hintText: 'search'.tr,
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.all(8),
-                          child: RepaintBoundary(
-                            child: SvgPicture.asset(
-                              'assets/icons/General.svg',
-                              width: 10,
-                              height: 1,
+                      child: Obx(
+                        () => CustomTextField(
+                          borderColor: Colors.transparent,
+                          raduis: 25,
+                          verticalHintPadding:
+                              AppUtil.rtlDirection2(context) ? 0 : 10,
+                          height: 34,
+                          enable: !_touristExploreController
+                              .isTouristMapLoading.value,
+                          hintText: 'search'.tr,
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.all(8),
+                            child: RepaintBoundary(
+                              child: SvgPicture.asset(
+                                'assets/icons/General.svg',
+                                width: 10,
+                                height: 1,
+                              ),
                             ),
                           ),
+                          focusNode: focusNode,
+                          controller: controller,
+                          onChanged: (value) {},
                         ),
-                        focusNode: focusNode,
-                        controller: controller,
-                        onChanged: (value) {},
                       ),
                     );
                   },

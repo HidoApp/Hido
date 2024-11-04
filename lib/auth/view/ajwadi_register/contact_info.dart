@@ -124,6 +124,16 @@ class _ContactInfoState extends State<ContactInfo> {
                           );
                           log(isSuccess.toString());
                           if (isSuccess) {
+                            // final notificationController =
+                            //     Get.put(NotificationController());
+
+                            // final isSuccess = await notificationController
+                            //     .sendDeviceToken(context: context);
+                            // if (!isSuccess) {
+                            //   AmplitudeService.amplitude.track(
+                            //       BaseEvent('Local Sign up  Failed as exprinces'));
+                            //   return;
+                            // }
                             AmplitudeService.amplitude.track(
                               BaseEvent(
                                   "Local create account as experience successfully "),

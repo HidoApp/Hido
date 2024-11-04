@@ -6,6 +6,7 @@ import 'package:ajwad_v4/auth/widget/sign_in_text.dart';
 import 'package:ajwad_v4/auth/widget/terms_text.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/notification/controller/notification_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -397,6 +398,16 @@ class _LastStepScreenState extends State<LastStepScreen> {
                                       context: context);
 
                               if (isSuccess) {
+                                // final notificationController =
+                                //     Get.put(NotificationController());
+
+                                // final isSuccess = await notificationController
+                                //     .sendDeviceToken(context: context);
+                                // if (!isSuccess) {
+                                //   AmplitudeService.amplitude.track(
+                                //       BaseEvent('Tourist Sign up Failed'));
+                                //   return;
+                                // }
                                 Get.offAll(() => const TouristBottomBar());
                                 AmplitudeService.amplitude.track(BaseEvent(
                                     'Tourist Completed Sign Up ',

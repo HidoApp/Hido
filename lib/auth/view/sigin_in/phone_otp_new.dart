@@ -97,6 +97,16 @@ class _PhoneOTPState extends State<PhoneOTP> {
         otp: otpCode,
         birthDate: _authController.birthDateDay.value);
     if (isSuccess) {
+      // final notificationController =
+      //     Get.put(NotificationController());
+
+      // final isSuccess = await notificationController
+      //     .sendDeviceToken(context: context);
+      // if (!isSuccess) {
+      //   AmplitudeService.amplitude.track(
+      //       BaseEvent('Local Sign in Failed'));
+      //   return;
+      // }
       AmplitudeService.amplitude.track(BaseEvent(
         'Local Signed up successfully ',
         eventProperties: {
@@ -112,6 +122,16 @@ class _PhoneOTPState extends State<PhoneOTP> {
     final isSuccess = await _authController.localSignInWithOtp(
         context: context, phoneNumber: widget.phoneNumber!, otp: otpCode);
     if (isSuccess) {
+      // final notificationController =
+      //     Get.put(NotificationController());
+
+      // final isSuccess = await notificationController
+      //     .sendDeviceToken(context: context);
+      // if (!isSuccess) {
+      //   AmplitudeService.amplitude.track(
+      //       BaseEvent('Local Sign in Failed'));
+      //   return;
+      // }
       AmplitudeService.amplitude.track(BaseEvent(
         'Local Signed in successfully ',
         eventProperties: {

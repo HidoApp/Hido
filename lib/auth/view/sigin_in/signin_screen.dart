@@ -74,7 +74,6 @@ class _SignInScreenState extends State<SignInScreen> {
     super.initState();
     setInternetConnection();
     // AmplitudeService.initializeAmplitude();
-
   }
 
   @override
@@ -257,26 +256,34 @@ class _SignInScreenState extends State<SignInScreen> {
                                               } else if (ajwadiInfo?.vehicle ==
                                                   false) {}
                                             } else {
-                                              AmplitudeService.amplitude.track(
-                                                BaseEvent('Local Sign in',
-                                                  ));
+                                              AmplitudeService.amplitude
+                                                  .track(BaseEvent(
+                                                'Local Sign in',
+                                              ));
 
                                               Get.off(() =>
                                                   const AjwadiBottomBar());
                                             }
                                           } else if (jwtToken.userRole ==
                                               'tourist') {
-
                                             AmplitudeService.amplitude.track(
                                                 BaseEvent('Tourist Sign in',
                                                     eventProperties: {
                                                   'Tourist email':
                                                       _emailController.text,
                                                 }));
+                                            // final notificationController =
+                                            //     Get.put(NotificationController());
 
+                                            // final isSuccess = await notificationController
+                                            //     .sendDeviceToken(context: context);
+                                            // if (!isSuccess) {
+                                            //   AmplitudeService.amplitude.track(
+                                            //       BaseEvent('Tourist Sign in Failed'));
+                                            //   return;
+                                            // }
                                             Get.offAll(
                                                 () => const TouristBottomBar());
-                                                
                                           } else {}
                                         }
                                       }

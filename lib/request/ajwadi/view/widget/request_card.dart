@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/ajwadi/models/request_model.dart';
@@ -8,6 +9,7 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_outlined_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expanded_tile/flutter_expanded_tile.dart';
 import 'package:geocoding/geocoding.dart';
@@ -258,6 +260,9 @@ class _RequestCardState extends State<RequestCard> {
                 child: CustomButton(
                   raduis: 4,
                   onPressed: () {
+                    AmplitudeService.amplitude.track(BaseEvent(
+                      'Local choose this request ${widget.request.name} ${widget.request.id} ',
+                    ));
                     Get.to(() => AddItinerary(
                           requestId: widget.request.id!,
                           booking: widget.request.booking,
