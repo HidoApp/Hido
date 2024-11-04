@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/base_url.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/wallet.dart';
-import 'package:ajwad_v4/notification.dart';
+import 'package:ajwad_v4/notification/notification.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

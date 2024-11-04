@@ -1,6 +1,7 @@
 import 'package:ajwad_v4/explore/ajwadi/model/last_activity.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/custom_local_ticket_card.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/local_ticket_screen.dart';
+import 'package:ajwad_v4/notification/notifications_screen.dart';
 import 'package:ajwad_v4/profile/view/my_account.dart';
 import 'package:ajwad_v4/profile/widget/prodvided_services_sheet.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
@@ -45,20 +46,20 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
 
       // _tripController.nextStep.value =
       //     _tripController.nextTrip.value.activityProgress ?? '';
-      if(value != null){
-      _tripController.nextStep.value = value.activityProgress ?? '';
+      if (value != null) {
+        _tripController.nextStep.value = value.activityProgress ?? '';
 
-      if (_tripController.nextTrip.value.activityProgress != 'PENDING' &&
-          _tripController.nextTrip.value.activityProgress!.isNotEmpty &&
-          _tripController.nextTrip.value.activityProgress != '') {
-        _tripController.progress.value = getActivityProgressText(
-                _tripController.nextTrip.value.activityProgress ?? '', context)
-            .clamp(0.0, 1.0);
-      } else {
-        _tripController.progress.value =
-            (_tripController.progress.value - 1.0).clamp(0.0, 1.0);
-      }
-
+        if (_tripController.nextTrip.value.activityProgress != 'PENDING' &&
+            _tripController.nextTrip.value.activityProgress!.isNotEmpty &&
+            _tripController.nextTrip.value.activityProgress != '') {
+          _tripController.progress.value = getActivityProgressText(
+                  _tripController.nextTrip.value.activityProgress ?? '',
+                  context)
+              .clamp(0.0, 1.0);
+        } else {
+          _tripController.progress.value =
+              (_tripController.progress.value - 1.0).clamp(0.0, 1.0);
+        }
       }
     });
   }
@@ -140,20 +141,35 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                         ),
                         Spacer(),
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 6.0),
-                          child: InkWell(
-                            onTap: () {
-                              ProfileController _profileController =
-                                  Get.put(ProfileController());
-                              Get.to(() => MessagesScreen(
-                                  profileController: _profileController));
-                            },
-                            child: SizedBox(
-                              width: 36,
-                              height: 24,
-                              child: SvgPicture.asset(
-                                  'assets/icons/Communication_black.svg'),
-                            ),
+                          padding: const EdgeInsets.only(bottom: 11.0),
+                          child: Row(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  ProfileController _profileController =
+                                      Get.put(ProfileController());
+                                  Get.to(() => MessagesScreen(
+                                      profileController: _profileController));
+                                },
+                                child: SizedBox(
+                                  width: 36,
+                                  height: 24,
+                                  child: SvgPicture.asset(
+                                      'assets/icons/Communication_black.svg'),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Get.to(() => NotificationsScreen());
+                                },
+                                child: SizedBox(
+                                  width: 36,
+                                  height: 24,
+                                  child: SvgPicture.asset(
+                                      'assets/icons/AlertBlack2.svg'),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
