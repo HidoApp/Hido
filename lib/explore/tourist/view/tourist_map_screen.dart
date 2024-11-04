@@ -9,7 +9,8 @@ import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
-import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
+import 'package:ajwad_v4/notification/notifications_screen.dart';
+import 'package:ajwad_v4/notification/notification_screen.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/explore/widget/map_marker.dart';
 import 'package:ajwad_v4/explore/widget/map_widget.dart';
@@ -618,7 +619,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                             onTap: () => Get.to(
                                   () => AppUtil.isGuest()
                                       ? const SignInScreen()
-                                      : NotificationScreen(),
+                                      : NotificationsScreen(),
                                 ),
                             child: SvgPicture.asset(
                               'assets/icons/Alerts.svg',

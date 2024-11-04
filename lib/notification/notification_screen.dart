@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 
-import '../../../../widgets/custom_app_bar.dart';
+import '../widgets/custom_app_bar.dart';
 
 class NotificationScreen extends StatefulWidget {
   NotificationScreen({Key? key, this.hasNotifications = true})
