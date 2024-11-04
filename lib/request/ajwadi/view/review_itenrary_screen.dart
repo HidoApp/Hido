@@ -1,4 +1,4 @@
-
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
@@ -7,6 +7,7 @@ import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/itenrary_review_tile.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -134,9 +135,15 @@ class _ReviewIenraryScreenState extends State<ReviewIenraryScreen> {
                                 );
                               },
                             ).then((val) {
+                              AmplitudeService.amplitude.track(BaseEvent(
+                                'Local send itenrary successfully',
+                              ));
                               Get.offAll(() => const AjwadiBottomBar());
                             });
                           } else {
+                            AmplitudeService.amplitude.track(BaseEvent(
+                              'Local faild to send itenrary',
+                            ));
                             // AppUtil.errorToast(context, 'error'.tr);
                           }
                         }

@@ -5,6 +5,7 @@ import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/tourist/model/tourist_map_model.dart';
 import 'package:ajwad_v4/explore/tourist/service/tourist_explore_service.dart';
+import 'package:custom_map_markers/custom_map_markers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -41,6 +42,7 @@ class TouristExploreController extends GetxController {
   RxList<Marker?> markers = <Marker>[].obs;
   Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
   var isBookingIsMaking = false.obs;
+  RxList<MarkerData> customMarkers = <MarkerData>[].obs;
 
   var allPlaces = <Place>[].obs;
   var bookingList = <Booking>[].obs;
@@ -155,7 +157,7 @@ class TouristExploreController extends GetxController {
 
       return date;
     } catch (e) {
-     isBookingByIdLoading(false);
+      isBookingByIdLoading(false);
 
       return null;
     } finally {

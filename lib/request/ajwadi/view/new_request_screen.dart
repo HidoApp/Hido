@@ -1,8 +1,10 @@
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/ajwadi/view/widget/request_card.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -96,9 +98,14 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                                                 .requestList[index].id!,
                                             context: context);
                                     if (reject!) {
+                                      AmplitudeService.amplitude
+                                          .track(BaseEvent(
+                                        'Local reject this request ${_requestController.requestList[index].id} ',
+                                      ));
                                       _requestController.requestList.removeAt(
                                           _requestController
                                               .requestIndex.value);
+
                                       // await _requestController.getRequestList(
                                       //     context: context);
                                     }
