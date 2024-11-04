@@ -64,7 +64,7 @@ class PushNotificationCrd extends StatelessWidget {
                      style: TextStyle(
                        fontFamily: isRtl ? 'SF Arabic' : 'SF Pro',
                        fontSize: 13,
-                       
+                       maxlines: 200,
                        fontWeight:
                            isRtl ? FontWeight.w500 : FontWeight.w500,
                        color: isRtl ? black : black,
