@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/view/tourist_map_screen.dart';
 import 'package:ajwad_v4/explore/widget/rating_sheet.dart';
@@ -28,11 +29,15 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
   // int _currentIndex = 0;
   final ProfileController _profileController = ProfileController();
   final getStorage = GetStorage();
+  final _authCntroller = Get.put(AuthController());
+
   late Profile profile;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _authCntroller.checkAppVersion(context: context);
+
     setInternetConnection();
   }
 

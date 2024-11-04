@@ -684,7 +684,7 @@ const localeAr = {
   'vehicleType': 'نوع المركبة',
   'invaildId': "رقم الهوية غير صالح",
 
-  'wallet':'المحفظة',
+  'wallet': 'المحفظة',
 
   'hidoVer': "هايدو نسخة", 'invalidCoupon': 'غير صالح',
   'couponMiSpend': "هذا الرمز صالح للمبالغ التي تبلغ",
@@ -692,4 +692,7 @@ const localeAr = {
   'Language': 'اللغة',
   'preferLang': 'وش اللغة اللي تفضلها؟',
   'vehicleInfo': 'معلومات المركبة ',
+  'updateApp': 'حدّث التطبيق ',
+  'updateAppContent':
+      'يجب عليك التحديث للاستمتاع بالميزات الجديدة وتحسينات الأداء',
 };

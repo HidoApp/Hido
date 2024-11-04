@@ -695,10 +695,11 @@ const localeEn = {
   'invalidCoupon': 'Invalid',
   'couponMiSpend': "This code is for amounts of",
   'orAbove': "or above",
-  'Language':'Language',
+  'Language': 'Language',
   'preferLang': 'Which language do you prefer',
-  'wallet':'Wallet',
+  'wallet': 'Wallet',
   'vehicleInfo': 'Vehicle Info',
-
-
+  'updateApp': 'Update Available',
+  'updateAppContent':
+      'You have to update to enjoy the new features and performance improvements',
 };

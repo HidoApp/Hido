@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/request/ajwadi/view/new_request_screen.dart';
@@ -35,6 +36,8 @@ var profile = Profile().obs;
 
 class _AjwadiBottomBarState extends State<AjwadiBottomBar>
     with SingleTickerProviderStateMixin {
+  final _authCntroller = Get.put(AuthController());
+
   final _profileController = Get.put(ProfileController());
   final _pageController = PageController();
   StreamSubscription? _internetConnection;
@@ -69,6 +72,7 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
   @override
   void initState() {
     super.initState();
+    _authCntroller.checkAppVersion(context: context);
     setInternetConnection();
 
     if (_profileController.isInternetConnected.value) {
