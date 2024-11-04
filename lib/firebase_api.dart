@@ -4,12 +4,13 @@ import 'package:ajwad_v4/main.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 
 class FirebaseApi {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
-
+   
   Future<void> initNotifications() async {
-    await messaging.requestPermission(
+   NotificationSettings settings= await messaging.requestPermission(
       alert: true,
       announcement: false,
       badge: true,
@@ -21,14 +22,26 @@ class FirebaseApi {
 
     //fetch FCM token for this device
     final fCMToken = await messaging.getToken();
+    // .then((token) {
+    //   print("FCM Token: $token");
+    // });
     final installationId = await FirebaseInstallations.instance.getId();
-
+    
     // final installationId = await FirebaseInstallations.instance.getId();
 
     // log('installationId:$id');
     log('Api-token:$fCMToken');
     log('installationId:$installationId');
-
+  
+ if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted permission');
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
+      print('User granted provisional permission');
+    } else {
+      print('User declined or has not accepted permission');
+    }
+  
     initPushNotification();
   }
 
@@ -42,7 +55,7 @@ class FirebaseApi {
     // Navigate based on the type
     if (messageType == 'KSA') {
       //navigate to new screen
-      if (!AppUtil.isGuest())
+      if (!AppUtil.isGuest()) {
         // navigatorKey.currentState?.pushNamed(
         //   '/service_screen',
         //   arguments: message,
@@ -52,6 +65,7 @@ class FirebaseApi {
         '/notification_screen',
           arguments: message,
         );
+      }
     //         .then((_) {
     //       // After the first route is pushed, push the second route
     //       navigatorKey.currentState?.pushNamed(
@@ -60,7 +74,30 @@ class FirebaseApi {
     //       );
     //     });
     }
+      // );
+        // navigatorKey.currentState
+        //     ?.pushNamed(
+        // '/notification_screen',
+        //   arguments: message,
+        // );
+     log('Received a message in the foreground: ${message.data}');
+
+      if (message.notification != null) {
+        log(// get arabic key
+            'Notification message also contained: ${message.notification!.title}, ${message.notification!.body}, ${message.data["title"]}, ${message.data["body"]}');
+        _showDialog(message.notification!.title, message.notification!.body);
+      }
   }
+
+
+  //handle received messages
+  void handleOpenedMessage(RemoteMessage? message) {
+    if (message == null) return;
+
+   log('Message clicked!');
+      _showDialog(message.notification!.title, message.notification!.body);
+    }
+    
 
 // initilize background seeting
   Future initPushNotification() async {
@@ -68,9 +105,35 @@ class FirebaseApi {
     FirebaseMessaging.instance.getInitialMessage().then(handleMessage);
 
 //listen to event if notification open
-    FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
+    FirebaseMessaging.onMessageOpenedApp.listen(handleOpenedMessage);
 
 //when app open and recieve message
     FirebaseMessaging.onMessage.listen(handleMessage);
+
+
+   
   }
-}
+void _showDialog(String? title, String? body) {
+  final context = navigatorKey.currentContext; // Get context from navigatorKey
+    if (context == null) return; // Check if context is null
+
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title ?? "No Title"),
+        content: Text(body ?? "No Body"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  }
+
