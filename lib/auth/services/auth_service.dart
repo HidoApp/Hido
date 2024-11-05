@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/models/ajwadi_info.dart';
+import 'package:ajwad_v4/auth/models/app_version.dart';
 import 'package:ajwad_v4/auth/models/token.dart';
 import 'package:ajwad_v4/auth/models/user.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
@@ -938,6 +939,27 @@ class AuthService {
     if (response.statusCode == 200) {
       Map<String, dynamic> ajwadiInfo = jsonDecode(response.body);
       return AjwadiInfo.fromJson(ajwadiInfo);
+    } else {
+      var jsonBody = jsonDecode(response.body);
+      String errorMessage = jsonBody['message'];
+      AppUtil.errorToast(context, errorMessage);
+      return null;
+    }
+  }
+
+  static Future<AppVersion?> getAppVersion(
+      {required BuildContext context}) async {
+    final response = await http.get(
+      Uri.parse("$baseUrl/app-version"),
+      headers: {
+        'Accept': 'application/json',
+        // "Content-Type": "application/json"
+      },
+    );
+    log(response.statusCode.toString());
+    log(response.body);
+    if (response.statusCode == 200) {
+      return AppVersion.fromJson(jsonDecode(response.body));
     } else {
       var jsonBody = jsonDecode(response.body);
       String errorMessage = jsonBody['message'];

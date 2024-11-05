@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
+import 'package:ajwad_v4/request/widgets/ContactDialog.dart';
+import 'package:ajwad_v4/request/widgets/app_version_dialog.dart';
 import 'package:ajwad_v4/widgets/verion_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +13,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 //import 'package:workmanager/workmanager.dart';
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -53,6 +56,8 @@ class _SplashScreenState extends State<SplashScreen>
   var onBoarding;
   late dynamic userRole;
   late dynamic token;
+  var resume = true;
+  
 
   @override
   void initState() {
@@ -61,8 +66,12 @@ class _SplashScreenState extends State<SplashScreen>
       vsync: this,
       duration: const Duration(seconds: 1), // Set the desired duration here
     )..forward();
+
     userRole = getStorage.read('userRole') ?? '';
     token = getStorage.read('accessToken') ?? '';
+    if (!resume) {
+      return;
+    }
     Future.delayed(const Duration(seconds: 5), () async {
       //  onBoarding = await checkForBoarding() ?? 'no';
       // _controller.dispose();
