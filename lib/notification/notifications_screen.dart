@@ -38,9 +38,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   static List<int> removeIndices = [];
   Set<int> viewedNotifications = Set<int>();
   List<String> notificationMessages = []; // List to hold notification messages
-   final _srvicesController = Get.put(NotificationController());
+  final _srvicesController = Get.put(NotificationController());
 
-  
   void disableNotification(int index) {
     setState(() {
       canceledIndices.add(index);
@@ -60,8 +59,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   @override
   void initState() {
     super.initState();
-     _srvicesController.getNotifications(context: context);
+    _srvicesController.getNotifications(context: context);
   }
+
   void _dismissNotification(int index) {
     disableNotification(index);
   }
@@ -84,14 +84,14 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         'notifications'.tr,
       ),
       body: SingleChildScrollView(
-        child: Obx(()=>
-       Skeletonizer(
-        enabled: _srvicesController.isNotificationLoading.value,
+        child: Obx(
+          () => Skeletonizer(
+            enabled: _srvicesController.isNotificationLoading.value,
             child: Column(
               children: [
                 if (
-                  // !widget.hasNotifications &&
-                    _srvicesController.notifications.isEmpty )
+                    // !widget.hasNotifications &&
+                    _srvicesController.notifications.isEmpty)
                   Padding(
                     padding: EdgeInsets.only(
                       top: height / 3,
@@ -110,17 +110,19 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 else
                   ListView.builder(
                       shrinkWrap: true,
-                     
-                      itemCount:
-                        _srvicesController.notifications.length,
+                      itemCount: _srvicesController.notifications.length,
                       itemBuilder: (context, index) {
-                       return  PushNotificationCrd(
-                                message:_srvicesController.notifications[index].body??'',
-                                isRtl: AppUtil.rtlDirection2(context),
-                                width: width,
-                              );
+                        return PushNotificationCrd(
+                          message: AppUtil.rtlDirection2(context)
+                              ? _srvicesController
+                                      .notifications[index].data!["body"] ??
+                                  ''
+                              : _srvicesController.notifications[index].body ??
+                                  '',
+                          isRtl: AppUtil.rtlDirection2(context),
+                          width: width,
+                        );
                       }),
-               
               ],
             ),
           ),
