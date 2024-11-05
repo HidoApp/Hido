@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/base_url.dart';
+import 'package:ajwad_v4/notification/notification.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -55,4 +56,41 @@ class NotificationServices {
       return false;
     }
   }
+  
+static  Future<List<Notifications>?> getNotifications(
+      {required BuildContext context}) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+    if (token != '' && JwtDecoder.isExpired(token)) {
+      final authController = Get.put(AuthController());
+
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+    final response = await http.get(
+      Uri.parse('$baseUrl/notification'),
+       
+      headers: {
+        'Accept': 'application/json',
+        if (token != '') 'Authorization': 'Bearer $token',
+      },
+    );
+    log("Noty");
+      log(response.body.toString());
+     if (response.statusCode == 200) {
+        log(response.statusCode.toString());
+      List<dynamic> data = jsonDecode(response.body);
+      return data.map((noty) => Notifications.fromJson(noty)).toList();
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
+      return null;
+    }
+  }
+
+
 }

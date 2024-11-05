@@ -39,6 +39,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
     _authCntroller.checkAppVersion(context: context);
 
     setInternetConnection();
+
   }
 
   StreamSubscription? _internetConnection;

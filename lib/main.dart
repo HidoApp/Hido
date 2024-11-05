@@ -3,10 +3,11 @@ import 'dart:io';
 
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/tourist/view/notification/notification_screen.dart';
+import 'package:ajwad_v4/notification/notification_screen.dart';
 import 'package:ajwad_v4/firebase_api.dart';
 import 'package:ajwad_v4/firebase_options.dart';
 import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
+import 'package:ajwad_v4/notification/notifications_screen.dart';
 import 'package:ajwad_v4/widgets/error_screen_widget.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -136,7 +137,7 @@ class _MyAppState extends State<MyApp> {
         navigatorKey: navigatorKey,
         routes: {
           //'/tourist_bottom_bar': (context) => const TouristBottomBar(),
-          '/notification_screen': (context) => NotificationScreen(),
+          '/notification_screen': (context) => NotificationsScreen(),
         },
         //  home: const CheckOutScreen(),
       ),
