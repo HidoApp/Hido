@@ -80,7 +80,8 @@ class FirebaseApi {
     if (message.notification != null) {
       log(// get arabic key
           'Notification message also contained: ${message.notification!.title}, ${message.notification!.body}, ${message.data["title"]}, ${message.data["body"]}');
-      _showDialog(message.notification!.title, message.notification!.body,message.data["title"],message.data["body"]);
+      _showDialog(message.notification!.title, message.notification!.body,
+          message.data["title"], message.data["body"]);
     }
   }
 
@@ -125,7 +126,7 @@ class FirebaseApi {
   }
 
   void _showDialog(
-     String? titleEn, String? bodyEn,String? titleAr, String? bodyAr) {
+      String? titleEn, String? bodyEn, String? titleAr, String? bodyAr) {
     final context =
         navigatorKey.currentContext; // Get context from navigatorKey
     if (context == null) return; // Check if context is null

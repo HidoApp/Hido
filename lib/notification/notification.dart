@@ -6,7 +6,7 @@ class Notifications {
   final String? title;
   final String? body;
   final String? image;
-  final String? data; // Changed from Map<String, String> to String
+  final Map<String, String>? data;
   final bool? isRead;
   final String? notificationType;
   final String? entityId;
@@ -40,7 +40,10 @@ class Notifications {
       title: json['title'] ?? '',
       body: json['body'] ?? '',
       image: json['image'] ?? '',
-      data: json['data'] ?? '', // Adjusted to handle String
+      data: (json['data'] as Map<String, dynamic>?)?.map(
+            (key, value) => MapEntry(key, value.toString()),
+          ) ??
+          {}, // Parse data as Map<String, String>
       isRead: json['isRead'] as bool? ?? true,
       notificationType: json['notificationType'] ?? '',
       entityId: json['entityId'] ?? '',
