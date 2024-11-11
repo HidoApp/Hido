@@ -515,7 +515,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       ),
                                       markers: {
                                         Marker(
-                                          markerId: MarkerId("marker1"),
+                                          markerId: const MarkerId("marker1"),
                                           position: hospitalityObj == null
                                               ? locLatLang
                                               : LatLng(

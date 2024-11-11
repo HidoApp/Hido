@@ -626,10 +626,12 @@ class AuthController extends GetxController {
     final version = packageInfo.version;
 
     final appVersion = await getAppVersion(context: context);
-    if (appVersion == null) {
+
+    if (appVersion == null || appVersion.versionNumber == null) {
       return;
     }
-
+    log(appVersion.versionNumber ?? "NO Ver");
+    log(version);
     if (appVersion.versionNumber == version) {
     } else {
       showDialog(

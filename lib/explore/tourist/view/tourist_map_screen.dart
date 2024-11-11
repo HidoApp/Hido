@@ -1,28 +1,20 @@
 import 'dart:async';
-import 'dart:math';
-import 'dart:ui' as ui;
 
 import 'package:ajwad_v4/amplitude_service.dart';
-import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
-import 'package:ajwad_v4/explore/tourist/model/place.dart';
-import 'package:ajwad_v4/notification/notifications_screen.dart';
-import 'package:ajwad_v4/notification/notification_screen.dart';
+import 'package:ajwad_v4/explore/widget/map_icons_widget.dart';
+import 'package:ajwad_v4/explore/widget/map_search_widget.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/explore/widget/map_marker.dart';
 import 'package:ajwad_v4/explore/widget/map_widget.dart';
 import 'package:ajwad_v4/explore/widget/progress_sheet.dart';
 import 'package:ajwad_v4/explore/widget/rating_sheet.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
-import 'package:ajwad_v4/profile/view/messages_screen.dart';
-import 'package:ajwad_v4/profile/view/ticket_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
-import 'package:ajwad_v4/widgets/custom_text.dart';
-import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:custom_map_markers/custom_map_markers.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,11 +24,8 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
@@ -80,12 +69,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   // late List<Place> searchedPlaces;
   String? selectedTitle;
 
-  BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
-  BitmapDescriptor placeIcon = BitmapDescriptor.defaultMarker;
-  BitmapDescriptor eventIcon = BitmapDescriptor.defaultMarker;
-  BitmapDescriptor adventureIcon = BitmapDescriptor.defaultMarker;
-
-  late UserLocation? userLocation;
+  UserLocation? userLocation;
   final ProfileController _profileController = Get.put(ProfileController());
   final _sheetController = SolidController();
 
@@ -123,18 +107,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
       });
     }
 
-    _markers.add(Marker(
-      markerId: const MarkerId('icon'),
-      icon: markerIcon,
-      position: LatLng(latitude, longitude),
-    ));
-
-    _userMarkers.add(Marker(
-      markerId: const MarkerId('icon'),
-      icon: markerIcon,
-      position: LatLng(latitude, longitude),
-    ));
-
     if (mounted) {
       final GoogleMapController controller = await _controller.future;
       CameraPosition newCameraPosition = CameraPosition(
@@ -158,6 +130,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     if (userLocation == null) {
       return;
     }
+
     if (mounted && userLocation != null) {
       List<Placemark> placemarks = await placemarkFromCoordinates(
           userLocation!.latitude, userLocation!.longitude);
@@ -178,18 +151,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     } else if (mounted) {
       _animateCamera(latitude: 24.7136, longitude: 46.6753);
     }
-  }
-
-  void addCustomIcon() {
-    BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(), "assets/images/pin_marker.png")
-        .then(
-      (icon) {
-        // setState(() {
-        //   markerIcon = icon;
-        // });
-      },
-    );
   }
 
   @override
@@ -235,11 +196,11 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     _touristExploreController.customMarkers.value = List.generate(
       _touristExploreController.touristModel.value!.places!.length,
       (index) {
-        double distance = 0.0;
+        print(index);
         return MarkerData(
             marker: Marker(
                 onTap: () {
-                  toTripDetails(index, distance);
+                  toTripDetails(index);
                 },
                 markerId: MarkerId(_touristExploreController
                     .touristModel.value!.places![index].id!),
@@ -260,7 +221,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
             ));
       },
     ).toList();
-   
   }
 
   void checkForProgress() async {
@@ -340,23 +300,11 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     }
   }
 
-  void toTripDetails(int index, double distance) async {
-    if (userLocation != null) {
-      distance = calculateDistanceBtwUserAndPlace(
-        userLocation!.latitude,
-        userLocation!.longitude,
-        double.parse(_touristExploreController
-            .touristModel.value!.places![index].coordinates!.latitude!),
-        double.parse(_touristExploreController
-            .touristModel.value!.places![index].coordinates!.longitude!),
-      );
-    } else {}
-
+  void toTripDetails(int index) async {
     Get.to(
       () => TripDetails(
         fromAjwady: false,
         place: _touristExploreController.touristModel.value!.places![index],
-        distance: distance != 0.0 ? distance.roundToDouble() : distance,
         userLocation: userLocation,
       ),
     );
@@ -369,6 +317,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("Screen full");
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       bottomSheet: Obx(
@@ -418,321 +367,18 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
             child: Column(
               children: [
                 // text field and icons
-                CupertinoTypeAheadField<Place>(
-                  decorationBuilder: (context, child) => Container(
-                    height: width * 1.02,
-                    padding: const EdgeInsets.only(
-                      top: 12,
-                      // left: 16,
-                      bottom: 8,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: child,
-                  ),
-                  emptyBuilder: (context) => Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CustomText(
-                      text: 'noPlace'.tr,
-                      color: starGreyColor,
-                      fontFamily: AppUtil.SfFontType(context),
-                      fontSize: width * 0.038,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  itemSeparatorBuilder: (context, index) => const Divider(
-                    color: lightGrey,
-                  ),
-                  suggestionsCallback: (search) {
-                    if (AppUtil.rtlDirection2(context)) {
-                      return _touristExploreController
-                          .touristModel.value!.places!
-                          .where((place) => place.nameAr!
-                              .toLowerCase()
-                              .contains(search.toLowerCase()))
-                          .toList();
-                    }
-                    return _touristExploreController.touristModel.value!.places!
-                        .where((place) => place.nameEn!
-                            .toLowerCase()
-                            .contains(search.toLowerCase()))
-                        .toList();
-                  },
-                  builder: (context, controller, focusNode) {
-                    return Container(
-                      // padding: EdgeInsets.symmetric(vertical: 0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: Obx(
-                        () => CustomTextField(
-                          borderColor: Colors.transparent,
-                          raduis: 25,
-                          verticalHintPadding:
-                              AppUtil.rtlDirection2(context) ? 0 : 10,
-                          height: 34,
-                          enable: !_touristExploreController
-                              .isTouristMapLoading.value,
-                          hintText: 'search'.tr,
-                          prefixIcon: Padding(
-                            padding: EdgeInsets.all(8),
-                            child: RepaintBoundary(
-                              child: SvgPicture.asset(
-                                'assets/icons/General.svg',
-                                width: 10,
-                                height: 1,
-                              ),
-                            ),
-                          ),
-                          focusNode: focusNode,
-                          controller: controller,
-                          onChanged: (value) {},
-                        ),
-                      ),
-                    );
-                  },
-                  itemBuilder: (context, place) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 1, horizontal: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomText(
-                            text: AppUtil.rtlDirection2(context)
-                                ? place.nameAr
-                                : place.nameEn,
-                            fontFamily: AppUtil.SfFontType(context),
-                            fontSize: width * 0.038,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                          ),
-                          CustomText(
-                            text: AppUtil.rtlDirection2(context)
-                                ? place.regionAr
-                                : place.regionEn,
-                            fontFamily: AppUtil.SfFontType(context),
-                            fontSize: width * 0.033,
-                            fontWeight: FontWeight.w500,
-                            color: starGreyColor,
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                  onSelected: (place) {
-                    final distance = calculateDistanceBtwUserAndPlace(
-                      userLocation!.latitude,
-                      userLocation!.longitude,
-                      double.parse(place.coordinates!.latitude!),
-                      double.parse(place.coordinates!.longitude!),
-                    );
-                    Get.to(
-                      () => TripDetails(
-                        fromAjwady: false,
-                        place: place,
-                        distance: distance != 0.0
-                            ? distance.roundToDouble()
-                            : distance,
-                        userLocation: userLocation,
-                      ),
-                    );
-                    AmplitudeService.amplitude.track(BaseEvent(
-                        'Select tour site from the map',
-                        eventProperties: {
-                          'Place name': place.nameEn,
-                        }));
-                  },
+                MapSearchWidget(
+                  userLocation: userLocation,
                 ),
                 SizedBox(
                   height: width * 0.03,
                 ),
-                if (!AppUtil.isGuest())
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      //ticket
-                      Container(
-                        padding: EdgeInsets.all(width * 0.012),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(width * 0.04),
-                          ),
-                        ),
-                        child: GestureDetector(
-                            onTap: () {
-                              ProfileController profileController =
-                                  Get.put(ProfileController());
-                              Get.to(() => AppUtil.isGuest()
-                                  ? const SignInScreen()
-                                  : TicketScreen(
-                                      profileController: profileController,
-                                    ));
-                            },
-                            child: SvgPicture.asset(
-                              'assets/icons/ticket_icon.svg',
-                              color: colorGreen,
-                            )),
-                      ),
-                      SizedBox(
-                        width: width * 0.030,
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(width * 0.0128),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(width * 0.04),
-                          ),
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            ProfileController _profileController =
-                                Get.put(ProfileController());
-                            Get.to(() => AppUtil.isGuest()
-                                ? const SignInScreen()
-                                : MessagesScreen(
-                                    profileController: _profileController));
-                          },
-                          child: SvgPicture.asset(
-                            'assets/icons/Communication.svg',
-                            color: colorGreen,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: width * 0.030,
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(width * 0.0128),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(width * 0.04),
-                          ),
-                        ),
-                        child: GestureDetector(
-                            onTap: () => Get.to(
-                                  () => AppUtil.isGuest()
-                                      ? const SignInScreen()
-                                      : NotificationsScreen(),
-                                ),
-                            child: SvgPicture.asset(
-                              'assets/icons/Alerts.svg',
-                              color: colorGreen,
-                            )),
-                      ),
-                      SizedBox(
-                        width: width * 0.030,
-                      ),
-                    ],
-                  )
+                if (!AppUtil.isGuest()) const MapIconsWidget()
               ],
             ),
           ),
         ],
       ),
     );
-  }
-
-  double calculateDistanceBtwUserAndPlace(lat1, lon1, lat2, lon2) {
-    var p = 0.017453292519943295;
-    var a = 0.5 -
-        cos((lat2 - lat1) * p) / 2 +
-        cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2;
-    return 12742 * asin(sqrt(a));
-  }
-
-  Future<BitmapDescriptor> createCustomMarkerBitmapWithNameAndImage(
-      {required Size size, required String name, required Color color}) async {
-    TextSpan span = TextSpan(
-        style: const TextStyle(
-          height: 1.2,
-          overflow: TextOverflow.clip,
-          color: Colors.black,
-          fontSize: 25.0,
-          fontWeight: FontWeight.bold,
-        ),
-        text: name);
-
-    TextPainter tp = TextPainter(
-      text: span,
-      textAlign: TextAlign.center,
-      textDirection: TextDirection.ltr,
-    );
-    tp.layout(maxWidth: size.width * 0.5);
-
-    ui.PictureRecorder recorder = new ui.PictureRecorder();
-    Canvas canvas = new Canvas(recorder);
-
-    final Paint rectanglePaint = Paint()
-      ..color = Colors.white
-      ..style = PaintingStyle.fill;
-
-    final a = Offset(size.width * 1 / 6, size.height * 1 / 4);
-    final b = Offset(size.width * 5 / 6, size.height * 3 / 4);
-    final rectangle = Rect.fromPoints(a, b);
-    final theRaduis = const Radius.circular(10);
-
-    // Add shadow circle
-    canvas.drawRRect(
-        RRect.fromRectAndCorners(
-          rectangle,
-          topLeft: theRaduis,
-          topRight: theRaduis,
-          bottomLeft: theRaduis,
-          bottomRight: theRaduis,
-        ),
-        rectanglePaint);
-
-    final Paint smallTrianglePaint = Paint()
-      ..color = Colors.white
-      ..style = PaintingStyle.fill;
-
-    Path smallTri = Path();
-
-    smallTri.moveTo(size.width * 0.45, size.height / 1.1);
-
-    smallTri.lineTo(size.width * 0.38, size.height * 0.7);
-    smallTri.lineTo(size.width * 0.52, size.height * 0.7);
-    smallTri.close();
-    canvas.drawPath(smallTri, smallTrianglePaint);
-
-    final Paint trianglePaint = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill;
-
-    Path path = Path();
-
-    path.moveTo(size.width * 0.7, size.height * 0.3);
-    path.lineTo(size.width * 0.6, size.height * 0.6);
-    path.lineTo(size.width * 0.8, size.height * 0.6);
-    path.close();
-
-    canvas.drawPath(path, trianglePaint);
-
-    tp.paint(canvas, Offset(60, size.height * 1 / 3));
-
-    ui.Picture p = recorder.endRecording();
-    ByteData? pngBytes = await (await p.toImage(300, 300))
-        .toByteData(format: ui.ImageByteFormat.png);
-
-    Uint8List data = Uint8List.view(pngBytes!.buffer);
-
-    return BitmapDescriptor.fromBytes(data);
-  }
-
-  Future<BitmapDescriptor> getMarkerIcon(
-      {required String name, required Color color}) async {
-    Size size = const Size(330, 160);
-
-    var icon = await createCustomMarkerBitmapWithNameAndImage(
-        size: size, name: name, color: color);
-
-    return icon;
   }
 }

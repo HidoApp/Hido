@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:jhijri/jhijri.dart';
 
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';

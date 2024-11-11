@@ -1,18 +1,9 @@
-import 'dart:developer';
-import 'dart:io';
 
-import 'package:ajwad_v4/auth/models/image.dart';
 import 'package:ajwad_v4/explore/tourist/model/advertisement.dart';
 import 'package:ajwad_v4/explore/tourist/service/advertisement_service.dart';
-import 'package:ajwad_v4/payment/model/payment_result.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
-import 'package:ajwad_v4/services/model/payment.dart';
-import 'package:ajwad_v4/services/service/adventure_service.dart';
-import 'package:ajwad_v4/services/service/hospitality_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:image_picker/image_picker.dart';
 
 
 class AdvertisementController extends GetxController {

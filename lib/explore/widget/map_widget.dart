@@ -31,6 +31,7 @@ class _MapWidgetState extends State<MapWidget> {
 
   @override
   Widget build(BuildContext context) {
+    log("Map widget");
     return Obx(
       () => Skeleton.replace(
         replace: _touristExploreController.isNewMarkers.value,

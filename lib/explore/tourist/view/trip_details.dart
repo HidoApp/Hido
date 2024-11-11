@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
@@ -17,6 +19,7 @@ import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_policy_sheet.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
+import 'package:ajwad_v4/widgets/read_more_widget.dart';
 import 'package:ajwad_v4/widgets/sign_sheet.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -28,6 +31,7 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:readmore/readmore.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../profile/models/profile.dart';
@@ -40,12 +44,10 @@ class TripDetails extends StatefulWidget {
     Key? key,
     this.fromAjwady = true,
     this.place,
-    this.distance,
     this.userLocation,
   }) : super(key: key);
   final bool fromAjwady;
   final Place? place;
-  final double? distance;
   final UserLocation? userLocation;
 
   @override
@@ -76,22 +78,28 @@ class _TripDetailsState extends State<TripDetails> {
 
   Profile? theProfile;
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
-  void addCustomIcon() {
-    BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(), "assets/images/pin_marker.png")
-        .then(
-      (icon) {
-        setState(() {
-          markerIcon = icon;
-        });
-      },
-    );
+  // void addCustomIcon() {
+  //   BitmapDescriptor.fromAssetImage(
+  //           const ImageConfiguration(), "assets/images/pin_marker.png")
+  //       .then(
+  //     (icon) {
+  //       setState(() {
+  //         markerIcon = icon;
+  //       });
+  //     },
+  //   );
+  // }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    addCustomIcon();
+    // addCustomIcon();
     // AmplitudeService.initializeAmplitude();
 
     if (!AppUtil.isGuest() && _profileController.profile.id != '') {
@@ -160,7 +168,7 @@ class _TripDetailsState extends State<TripDetails> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-
+    log("Trip Details");
     return Scaffold(
         backgroundColor: widget.fromAjwady ? lightBlack : Colors.white,
         extendBodyBehindAppBar: true,
@@ -265,7 +273,6 @@ class _TripDetailsState extends State<TripDetails> {
                             ))
                       : CustomButton(
                           onPressed: () {
-                      
                             if (AppUtil.isGuest()) {
                               showModalBottomSheet(
                                   context: context,
@@ -456,91 +463,13 @@ class _TripDetailsState extends State<TripDetails> {
                       SizedBox(
                         height: width * 0.023,
                       ),
-                      Align(
-                        alignment: AppUtil.rtlDirection2(context)
-                            ? Alignment.centerRight
-                            : Alignment.centerLeft,
-                        child: ConstrainedBox(
-                          constraints: isExpanded
-                              ? const BoxConstraints()
-                              : BoxConstraints(maxHeight: width * 0.1),
-                          child: CustomText(
-                              textDirection: AppUtil.rtlDirection(context)
-                                  ? TextDirection.ltr
-                                  : TextDirection.rtl,
-                              textOverflow: isExpanded
-                                  ? TextOverflow.visible
-                                  : TextOverflow.clip,
-                              maxlines: 600,
-                              fontSize: width * 0.038,
-                              color: starGreyColor,
-                              fontFamily: AppUtil.rtlDirection2(context)
-                                  ? 'SF Arabic'
-                                  : 'SF Pro',
-                              fontWeight: FontWeight.w400,
-                              text: widget.place == null
-                                  ? "******"
-                                  : AppUtil.rtlDirection2(context)
-                                      ? widget.place!.descriptionAr!
-                                      : widget.place!.descriptionEn!),
-                        ),
+                      ReadMoreWidget(
+                        text: widget.place == null
+                            ? "******"
+                            : AppUtil.rtlDirection2(context)
+                                ? widget.place!.descriptionAr!
+                                : widget.place!.descriptionEn!,
                       ),
-                      SizedBox(
-                        height: width * 0.0025,
-                      ),
-                      isExpanded
-                          ? Align(
-                              alignment: AppUtil.rtlDirection2(context)
-                                  ? Alignment.bottomRight
-                                  : Alignment.bottomLeft,
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() => isExpanded = false);
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: CustomText(
-                                    textDirection:
-                                        AppUtil.rtlDirection2(context)
-                                            ? TextDirection.rtl
-                                            : TextDirection.ltr,
-                                    text: AppUtil.rtlDirection2(context)
-                                        ? "القليل"
-                                        : "Show less",
-                                    color: blue,
-                                    fontSize: width * 0.038,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ),
-                            )
-                          : Align(
-                              alignment: AppUtil.rtlDirection2(context)
-                                  ? Alignment.bottomRight
-                                  : Alignment.bottomLeft,
-                              child: GestureDetector(
-                                onTap: () => setState(() => isExpanded = true),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: CustomText(
-                                    textDirection:
-                                        AppUtil.rtlDirection2(context)
-                                            ? TextDirection.rtl
-                                            : TextDirection.ltr,
-                                    text: "readMore".tr,
-                                    color: blue,
-                                    fontSize: width * 0.038,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ),
-                            ),
                       SizedBox(
                         height: width * 0.026,
                       ),

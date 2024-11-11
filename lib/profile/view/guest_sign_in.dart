@@ -1,4 +1,3 @@
-import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/local_sign_up.dart';
 import 'package:ajwad_v4/auth/view/tourist_register/register/register_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';

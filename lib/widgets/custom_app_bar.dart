@@ -1,3 +1,4 @@
+import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -120,7 +121,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                             onPressed: () {
                               SchedulerBinding.instance
                                   .addPostFrameCallback((_) {
-                                Get.back();
+                                Navigator.of(context).pop();
+                                // Get.off(() => TouristBottomBar());
                               });
                             },
                           ),

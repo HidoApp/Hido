@@ -43,7 +43,6 @@ class TouristExploreController extends GetxController {
   Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
   var isBookingIsMaking = false.obs;
   RxList<MarkerData> customMarkers = <MarkerData>[].obs;
-
   var allPlaces = <Place>[].obs;
   var bookingList = <Booking>[].obs;
 

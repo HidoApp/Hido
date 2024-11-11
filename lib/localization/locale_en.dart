@@ -194,7 +194,7 @@ const localeEn = {
   "aboutTheTrip": "About the tour",
   "aboutTheTripBrief":
       "Tuwig is mostly known for its fossilized coral reefs, shells, snails.ammonites, and other sedimentary organisms from 160 million years ago, found in the Al-Yamamah ",
-  "readMore": "Read More . . .",
+  "readMore": "Read More ",
   "startFrom": "Start from",
   "buyTicket": "Buy Ticket",
   "shareWithFriends": "Share with friends",
@@ -702,4 +702,5 @@ const localeEn = {
   'updateApp': 'Update Available',
   'updateAppContent':
       'You have to update to enjoy the new features and performance improvements',
+  'showLess': "Show less",
 };
