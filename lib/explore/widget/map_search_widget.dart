@@ -94,6 +94,7 @@ class _MapSearchWidgetState extends State<MapSearchWidget> {
               ),
               focusNode: focusNode,
               controller: controller,
+              onFieldSubmitted: (p0) {},
               onChanged: (value) {},
             ),
           ),

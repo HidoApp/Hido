@@ -21,6 +21,7 @@ class _MapWidgetState extends State<MapWidget> {
   final Completer<GoogleMapController> _controller = Completer();
   final _touristExploreController = Get.put(TouristExploreController());
   final storage = GetStorage('map_markers');
+  RxSet<Marker> mapMarkers = <Marker>{}.obs;
   @override
   void dispose() {
     // TODO: implement dispose
@@ -33,87 +34,89 @@ class _MapWidgetState extends State<MapWidget> {
   Widget build(BuildContext context) {
     log("Map widget");
     return Obx(
-      () => Skeleton.replace(
-        replace: _touristExploreController.isNewMarkers.value,
-        replacement: GoogleMap(
-          zoomControlsEnabled: false,
-          myLocationButtonEnabled: false,
-          //  markers: storage.read<List<Marker>>('markers')!.toSet(),
-          initialCameraPosition: CameraPosition(
-            target: _touristExploreController.currentLocation.value,
-            zoom: 6,
-          ),
-          mapType: MapType.normal,
-          onMapCreated: (controller) {
-            _controller.complete(controller);
+      () => _touristExploreController.customMarkers.isEmpty ||
+              _touristExploreController.isAllPlacesIsLoading.value
+          ? GoogleMap(
+              zoomControlsEnabled: false,
+              myLocationButtonEnabled: false,
+              //   markers: (storage.read<List<Marker>>('markers') ?? []).toSet(),
+              initialCameraPosition: CameraPosition(
+                target: _touristExploreController.currentLocation.value,
+                zoom: 6,
+              ),
+              mapType: MapType.normal,
+              onMapCreated: (controller) {
+                // _controller.complete(controller);
 
-            // _loadMapStyles();
-          },
-          onCameraMove: (position) {
-            _touristExploreController.currentLocation.value = position.target;
-            // setState(() {});
-          },
-        ),
-        child: CustomGoogleMapMarkerBuilder(
-            customMarkers: _touristExploreController.customMarkers,
-            builder: (context, markers) {
-              if (markers == null) {
+                // _loadMapStyles();
+              },
+              onCameraMove: (position) {
+                _touristExploreController.currentLocation.value =
+                    position.target;
+                // setState(() {});
+              },
+            )
+          : CustomGoogleMapMarkerBuilder(
+              customMarkers: _touristExploreController.customMarkers,
+              builder: (context, markers) {
+                if (markers == null) {
+                  return Obx(
+                    () => RepaintBoundary(
+                      child: GoogleMap(
+                        zoomControlsEnabled: false,
+                        myLocationButtonEnabled: false,
+                        markers: mapMarkers,
+                        initialCameraPosition: CameraPosition(
+                          target:
+                              _touristExploreController.currentLocation.value,
+                          zoom: 6,
+                        ),
+                        mapType: MapType.normal,
+                        onMapCreated: (controller) {
+                          _controller.complete(controller);
+
+                          // _loadMapStyles();
+                        },
+                        onCameraMove: (position) {
+                          _touristExploreController.currentLocation.value =
+                              position.target;
+                          // setState(() {});
+                        },
+                      ),
+                    ),
+                  );
+                }
+                if (_touristExploreController.isNewMarkers.value) {
+                  mapMarkers.value = markers;
+                  log('assaign');
+                  storage.write('markers', markers.toList()).then((val) {
+                    _touristExploreController.isNewMarkers.value = false;
+                    _touristExploreController.updateMap(true);
+                  });
+                }
                 return Obx(
                   () => RepaintBoundary(
                     child: GoogleMap(
                       zoomControlsEnabled: false,
                       myLocationButtonEnabled: false,
-                      markers: storage.read<List<Marker>>('markers')!.toSet(),
                       initialCameraPosition: CameraPosition(
                         target: _touristExploreController.currentLocation.value,
                         zoom: 6,
                       ),
+                      markers: markers,
                       mapType: MapType.normal,
                       onMapCreated: (controller) {
                         _controller.complete(controller);
-
                         // _loadMapStyles();
                       },
                       onCameraMove: (position) {
                         _touristExploreController.currentLocation.value =
                             position.target;
-                        // setState(() {});
                       },
                     ),
                   ),
                 );
-              }
-              if (_touristExploreController.isNewMarkers.value) {
-                log('assaign');
-                storage.write('markers', markers.toList()).then((val) {
-                  _touristExploreController.isNewMarkers.value = false;
-                  _touristExploreController.updateMap(true);
-                });
-              }
-              return Obx(
-                () => RepaintBoundary(
-                  child: GoogleMap(
-                    zoomControlsEnabled: false,
-                    myLocationButtonEnabled: false,
-                    initialCameraPosition: CameraPosition(
-                      target: _touristExploreController.currentLocation.value,
-                      zoom: 6,
-                    ),
-                    markers: markers,
-                    mapType: MapType.normal,
-                    onMapCreated: (controller) {
-                      _controller.complete(controller);
-                      // _loadMapStyles();
-                    },
-                    onCameraMove: (position) {
-                      _touristExploreController.currentLocation.value =
-                          position.target;
-                    },
-                  ),
-                ),
-              );
-            }),
-      ),
+              }),
     );
   }
 }

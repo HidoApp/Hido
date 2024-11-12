@@ -51,7 +51,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   LatLng _currentLocation = const LatLng(24.7136, 46.6753);
   late final GoogleMapController _googleMapController;
   String? _darkMapStyle;
-  final searchTextController = TextEditingController();
   final colors = [
     Colors.transparent,
     lightYellow,
