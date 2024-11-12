@@ -72,7 +72,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
 
   void getProfile() async {
     await _profileController.getProfile(context: context);
-    GetStorage().write('user_id', _profileController.profile.id);
+    await GetStorage().write('user_id', _profileController.profile.id);
   }
 
   void getUserActions() async {
