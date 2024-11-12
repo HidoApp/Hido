@@ -14,43 +14,46 @@ class MapMarker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return Column(children: [
-      Container(
-        height: width * 0.1,
-        width: width * 0.1,
-        padding: EdgeInsets.all(width * 0.025),
-        margin: EdgeInsets.all(width * 0.025),
-        decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            // boxShadow: [
-            //   BoxShadow(
-            //     color: colorGreen,
-            //     blurRadius: width * 0.03,
-            //   )
-            // ],
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: CachedNetworkImageProvider(
-                maxHeight: 10,
-                maxWidth: 10,
-                errorListener: (p0) =>
-                    Image.asset('assets/images/Placeholder.png'),
-                image,
+    return RepaintBoundary(
+      child: Column(children: [
+        Container(
+          height: width * 0.1,
+          width: width * 0.1,
+          padding: EdgeInsets.all(width * 0.025),
+          margin: EdgeInsets.all(width * 0.025),
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              // boxShadow: [
+              //   BoxShadow(
+              //     color: colorGreen,
+              //     blurRadius: width * 0.03,
+              //   )
+              // ],
+              image: DecorationImage(
+                filterQuality: FilterQuality.low,
+                fit: BoxFit.cover,
+                image: CachedNetworkImageProvider(
+                  maxHeight: 5,
+                  maxWidth: 5,
+                  errorListener: (p0) =>
+                      Image.asset('assets/images/Placeholder.png'),
+                  image,
+                ),
               ),
+              border: Border.all(color: Colors.white, width: 2)),
+        ),
+        CustomText(
+          text: region,
+          fontSize: width * 0.03,
+          fontWeight: FontWeight.w700,
+          shadows: const [
+            BoxShadow(
+              color: Colors.white,
+              offset: Offset(1, 1),
             ),
-            border: Border.all(color: Colors.white, width: 2)),
-      ),
-      CustomText(
-        text: region,
-        fontSize: width * 0.03,
-        fontWeight: FontWeight.w700,
-        shadows: const [
-          BoxShadow(
-            color: Colors.white,
-            offset: Offset(1, 1),
-          ),
-        ],
-      )
-    ]);
+          ],
+        )
+      ]),
+    );
   }
 }
