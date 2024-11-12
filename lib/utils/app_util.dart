@@ -555,7 +555,7 @@ class AppUtil {
                 text: msg, // Dynamic message text
                 color: Color(0xFFDC362E), // Text color
                 fontSize: width * 0.038,
-                maxlines: 200,
+                maxlines: 300,
                 fontFamily: SfFontType(context),
                 fontWeight: FontWeight.w500,
               ),
@@ -575,70 +575,76 @@ class AppUtil {
           Radius.circular(8)), // Match the reduced border radius
     ).show(context);
   }
- static notifyToast(BuildContext context,String? titleAr, String? bodyAr , String? titleEn, String? bodyEn, VoidCallback onTap) {
-  var width = MediaQuery.of(context).size.width;
-  Flushbar(
-    messageText: GestureDetector(
-      onTap: onTap, // Trigger the onTap callback when the toast is tapped
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(
-            horizontal: width * 0.041, vertical: width * 0.029),
-        clipBehavior: Clip.none,
-        decoration: ShapeDecoration(
-          color: Colors.white, // Light pink background color
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+
+  static notifyToast(BuildContext context, String? titleAr, String? bodyAr,
+      String? titleEn, String? bodyEn, VoidCallback onTap) {
+    var width = MediaQuery.of(context).size.width;
+    Flushbar(
+      messageText: GestureDetector(
+        onTap: onTap, // Trigger the onTap callback when the toast is tapped
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(
+              horizontal: width * 0.041, vertical: width * 0.029),
+          clipBehavior: Clip.none,
+          decoration: ShapeDecoration(
+            color: Colors.white, // Light pink background color
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SvgPicture.asset('assets/icons/bell.svg'),
+              SizedBox(width: width * 0.029),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Title text
+                    CustomText(
+                      text: AppUtil.rtlDirection2(context)
+                          ? titleAr ?? ''
+                          : titleEn ?? '',
+                      color: black,
+                      fontSize: width * 0.042,
+                      fontWeight: FontWeight.bold,
+                      maxlines: 1,
+                      fontFamily: SfFontType(context),
+                    ),
+                    SizedBox(
+                        height:
+                            width * 0.001), // Spacing between title and body
+
+                    // Body text
+                    CustomText(
+                      text: AppUtil.rtlDirection2(context)
+                          ? bodyAr ?? ''
+                          : bodyEn ?? '',
+                      color: black,
+                      fontSize: width * 0.038,
+                      maxlines: 1,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: SfFontType(context),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SvgPicture.asset('assets/icons/bell.svg'),
-            SizedBox(width: width * 0.029),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Title text
-                  CustomText(
-                    text:AppUtil.rtlDirection2(context)? titleAr??'':titleEn??'',
-                    color:black,
-                    fontSize: width * 0.042,
-                    fontWeight: FontWeight.bold,
-                    maxlines: 1,
-                    fontFamily: SfFontType(context),
-                  ),
-                  SizedBox(height: width * 0.001), // Spacing between title and body
-
-                  // Body text
-                  CustomText(
-                    text:AppUtil.rtlDirection2(context)? bodyAr??'':bodyEn??'',
-                    color: black,
-                    fontSize: width * 0.038,
-                    maxlines: 1,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: SfFontType(context),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
-    ),
-    messageColor: Colors.white,
-    padding: EdgeInsets.symmetric(horizontal: width * 0.029, vertical: 4),
-    isDismissible: true,
-    duration: const Duration(seconds: 5),
-    flushbarPosition: FlushbarPosition.TOP,
-    backgroundColor: Colors.transparent,
-    borderRadius: const BorderRadius.all(Radius.circular(8)),
-  ).show(context);
-}
-
-
+      messageColor: Colors.white,
+      padding: EdgeInsets.symmetric(horizontal: width * 0.029, vertical: 4),
+      isDismissible: true,
+      duration: const Duration(seconds: 5),
+      flushbarPosition: FlushbarPosition.TOP,
+      backgroundColor: Colors.transparent,
+      borderRadius: const BorderRadius.all(Radius.circular(8)),
+    ).show(context);
+  }
 
   static connectionToast(BuildContext context, String msg) {
     var width = MediaQuery.of(context).size.width;
@@ -833,11 +839,12 @@ class AppUtil {
     var hidoFee = hidoPercentage * price;
     return hidoFee - couponAmount;
   }
+
   static String formatTo12HourTime(String isoTimestamp) {
-  // Parse the ISO timestamp to a DateTime object
-  DateTime dateTime = DateTime.parse(isoTimestamp);
-  
-  // Format DateTime to 12-hour time with am/pm in lowercase
-  return DateFormat('h:mma').format(dateTime).toLowerCase();
-}
+    // Parse the ISO timestamp to a DateTime object
+    DateTime dateTime = DateTime.parse(isoTimestamp);
+
+    // Format DateTime to 12-hour time with am/pm in lowercase
+    return DateFormat('h:mma').format(dateTime).toLowerCase();
+  }
 }

@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/tourist/controllers/rating_controller.dart';
-import 'package:ajwad_v4/request/widgets/review_card.dart';
+import 'package:ajwad_v4/reviews/review_card.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

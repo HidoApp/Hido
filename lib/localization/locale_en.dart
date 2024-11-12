@@ -371,7 +371,8 @@ const localeEn = {
   "selectLocal": "Select local tour guide :",
   "tour": "Tours",
   "expertise": "Expertise",
-  "noReviews": "No Reviews yet",
+  "noReview": "No Reviews yet",
+  "noReviewSub": "All your reviews from our tourists will appear here",
   "HintMessage": "write your message here",
   "pricePerPerson": "price per person",
   "ItineraryDetails": "Itinerary Details",
@@ -699,6 +700,7 @@ const localeEn = {
   'preferLang': 'Which language do you prefer',
   'wallet': 'Wallet',
   'vehicleInfo': 'Vehicle Info',
+
   'updateApp': 'Update Available',
   'updateAppContent':
       'You have to update to enjoy the new features and performance improvements',

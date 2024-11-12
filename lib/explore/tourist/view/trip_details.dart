@@ -10,6 +10,7 @@ import 'package:ajwad_v4/profile/models/bookmark.dart';
 import 'package:ajwad_v4/profile/services/bookmark_services.dart';
 // import 'package:ajwad_v4/request/tourist/models/offer.dart';
 import 'package:ajwad_v4/request/tourist/view/find_ajwady.dart';
+import 'package:ajwad_v4/reviews/touristReviewsScreen.dart';
 
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
@@ -265,7 +266,6 @@ class _TripDetailsState extends State<TripDetails> {
                             ))
                       : CustomButton(
                           onPressed: () {
-                      
                             if (AppUtil.isGuest()) {
                               showModalBottomSheet(
                                   context: context,
@@ -615,7 +615,48 @@ class _TripDetailsState extends State<TripDetails> {
                         color: lightGrey,
                       ),
                       SizedBox(
-                        height: width * 0.051,
+                        height: width * 0.026,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Get.to(() => TouristReviewsScreen());
+                        },
+                        child: Align(
+                            alignment: AppUtil.rtlDirection2(context)
+                                ? Alignment.centerRight
+                                : Alignment.centerLeft,
+                            child: Row(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CustomText(
+                                      text: '${"reviews".tr} (5)',
+                                      color: Color(0xFF070708),
+                                      fontSize: width * 0.0461,
+                                      fontFamily: 'HT Rakik',
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ],
+                                ),
+                                const Spacer(),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: starGreyColor,
+                                  size: width * 0.046,
+                                )
+                              ],
+                            )),
+                      ),
+                      SizedBox(
+                        height: width * 0.028,
+                      ),
+                      const Divider(
+                        color: lightGrey,
+                        thickness: 1,
+                      ),
+                      SizedBox(
+                        height: width * 0.064,
                       ),
                       InkWell(
                         onTap: () {

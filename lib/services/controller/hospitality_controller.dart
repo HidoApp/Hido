@@ -215,9 +215,9 @@ class HospitalityController extends GetxController {
     required String location,
     required String regionEn,
     required List<Map<String, dynamic>> daysInfo,
-    required String start,
-    required String end,
-    required int seat,
+    // required String start,
+    // required String end,
+    // required int seat,
     required BuildContext context,
   }) async {
     //
@@ -239,13 +239,15 @@ class HospitalityController extends GetxController {
           location: location,
           regionEn: regionEn,
           daysInfo: daysInfo,
-          start: start,
-          end: end,
-          seat: seat,
+          // start: start,
+          // end: end,
+          // seat: seat,
           context: context);
 
       return isSuccess;
     } catch (e) {
+      log(e.toString());
+      log("Failed host ");
       return false;
     } finally {
       isSaudiHospitalityLoading(false);
@@ -265,6 +267,7 @@ class HospitalityController extends GetxController {
 
       return isSucces;
     } catch (e) {
+      log(e.toString());
       return null;
     } finally {
       isImagesLoading(false);
@@ -288,10 +291,10 @@ class HospitalityController extends GetxController {
     required String regionAr,
     required String location,
     required String regionEn,
-    // required List<Map<String, dynamic>> daysInfo,
-    required String start,
-    required String end,
-    required int seat,
+    required List<Map<String, dynamic>> daysInfo,
+    // required String start,
+    // required String end,
+    // required int seat,
     required BuildContext context,
   }) async {
     try {
@@ -313,10 +316,10 @@ class HospitalityController extends GetxController {
           regionAr: regionAr,
           location: location,
           regionEn: regionEn,
-          // daysInfo: daysInfo,
-          start: start,
-          end: end,
-          seat: seat,
+          daysInfo: daysInfo,
+          // start: start,
+          // end: end,
+          // seat: seat,
           context: context);
       if (hospitality != null) {
         return hospitality;

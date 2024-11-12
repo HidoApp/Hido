@@ -252,7 +252,8 @@ class _EditAdventureState extends State<EditAdventure> {
     });
   }
 
-  final CarouselSliderController _carouselController = CarouselSliderController();
+  final CarouselSliderController _carouselController =
+      CarouselSliderController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _guestsController = TextEditingController();
 
@@ -2079,7 +2080,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                   Radius.circular(12)),
                                             ),
                                             height: 246,
-                                            width: 358,
+                                            width: double.infinity,
                                             child: GoogleMap(
                                               scrollGesturesEnabled: true,
                                               zoomControlsEnabled: false,
@@ -2152,7 +2153,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                                 children: [
                                                   Center(
                                                     child: _isLoading
-                                                        ? CircularProgressIndicator.adaptive()
+                                                        ? CircularProgressIndicator
+                                                            .adaptive()
                                                         : Text(
                                                             address,
                                                             style: TextStyle(
@@ -2295,8 +2297,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                   ),
                                   activeIndex: _currentIndex,
                                   count: _servicesController.images.length >= 6
-                                  ? 6
-                                  :_servicesController.images.length),
+                                      ? 6
+                                      : _servicesController.images.length),
                             ),
                           ),
                         ),

@@ -5,7 +5,7 @@ import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intel;
 
 class ReviewCard extends StatelessWidget {
   const ReviewCard(
@@ -35,7 +35,7 @@ class ReviewCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CircleAvatar(
-                //radius: 20,
+                radius: 25,
                 backgroundColor: Colors.transparent,
                 child: image == "profile_image.png"
                     ? ClipRRect(
@@ -51,60 +51,63 @@ class ReviewCard extends StatelessWidget {
                           image: image,
                           height: 100,
                           width: 100,
-
                         ),
                       )),
-                   
-                      
             const SizedBox(
               width: 8,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomText(
-                  text: name,
-                  fontSize: width * 0.042,
-                  fontFamily: AppUtil.SfFontType(context),
-                  color: black,
-                  fontWeight: FontWeight.w500,
-                ),
-                //date
-                CustomText(
-                  text: formatBookingDate(context, created),
-                  fontSize: width * 0.03,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: AppUtil.SfFontType(context),
-                  color: starGreyColor,
-                )
-              ],
+            Expanded(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomText(
+                        text: name,
+                        fontSize: width * 0.042,
+                        fontFamily: AppUtil.SfFontType(context),
+                        color: black,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      CustomText(
+                        text: formatBookingDate(context, created),
+                        fontSize: width * 0.03,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: AppUtil.SfFontType(context),
+                        color: starGreyColor,
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                    child: Align(
+                      alignment: AppUtil.rtlDirection2(context)
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        clipBehavior: Clip.hardEdge,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: rating,
+                        separatorBuilder: (context, index) => const SizedBox(
+                          width: 5,
+                        ),
+                        itemBuilder: (context, index) => SvgPicture.asset(
+                          "assets/icons/star.svg",
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
-        // const SizedBox(
-        //   height: 12,
-        // ),
-        //Rating
-        SizedBox(
-          height: 35,
-          child: Align(
-            alignment: AppUtil.rtlDirection2(context)
-                ? Alignment.centerRight
-                : Alignment.centerLeft,
-            child: ListView.separated(
-              shrinkWrap: true,
-              clipBehavior: Clip.hardEdge,
-              scrollDirection: Axis.horizontal,
-              itemCount: rating,
-              separatorBuilder: (context, index) => const SizedBox(
-                width: 5,
-              ),
-              itemBuilder: (context, index) => SvgPicture.asset(
-                "assets/icons/star.svg",
-              ),
-            ),
-          ),
+        const SizedBox(
+          height: 10,
         ),
+        //Rating
+
         //description
         if (description.isNotEmpty || description != "") ...[
           CustomText(
@@ -132,9 +135,9 @@ String formatBookingDate(BuildContext context, String date) {
   DateTime dateTime = DateTime.parse(date);
   if (AppUtil.rtlDirection2(context)) {
     // Set Arabic locale for date formatting without the day name
-    return DateFormat('d MMMM yyyy', 'ar').format(dateTime);
+    return intel.DateFormat('d /M /yyyy', 'ar').format(dateTime);
   } else {
     // Default to English locale without the day name
-    return DateFormat('dd MMM yyyy').format(dateTime);
+    return intel.DateFormat('dd /M /yyyy').format(dateTime);
   }
 }

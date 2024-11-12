@@ -86,6 +86,26 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
     return [];
   }
 
+  List<PickerDateRange> _getInitialSelectedRangesOfhospitality() {
+    if (widget.srvicesController != null &&
+        widget.srvicesController!.isHospatilityDateSelcted.value) {
+      List<PickerDateRange> ranges = [];
+      final selectedDates = widget.srvicesController!.selectedDates;
+
+      for (int i = 0; i < selectedDates.length; i += 1) {
+        DateTime startDate = selectedDates[i];
+        DateTime endDate = (i < selectedDates.length)
+            ? selectedDates[i]
+            : startDate; // Use the same date for start and end if there's no end date
+
+        ranges.add(PickerDateRange(startDate, endDate));
+      }
+
+      return ranges;
+    }
+    return [];
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -115,7 +135,9 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                   child: SfDateRangePicker(
                       backgroundColor: Colors.white,
                       minDate: DateTime.now(),
-                      initialSelectedRanges: _getInitialSelectedRanges(),
+                      initialSelectedRanges: widget.type == 'event'
+                          ? _getInitialSelectedRanges()
+                          : _getInitialSelectedRangesOfhospitality(),
 
                       // initialSelectedRange: widget.eventController != null &&
                       //         widget.eventController!.isEventDateSelcted.value
@@ -127,9 +149,10 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                       enablePastDates: false,
                       selectableDayPredicate:
                           widget.avilableDate != null ? defineSelectable : null,
-                      selectionMode: widget.type == 'event'
-                          ? DateRangePickerSelectionMode.multiRange
-                          : DateRangePickerSelectionMode.single,
+                      selectionMode:
+                          widget.type == 'event' || widget.type == 'hospitality'
+                              ? DateRangePickerSelectionMode.multiRange
+                              : DateRangePickerSelectionMode.single,
                       selectionColor: colorGreen,
                       selectionTextStyle: TextStyle(),
                       selectionShape: DateRangePickerSelectionShape.circle,
@@ -279,10 +302,18 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                           .selectedDate(selectedDate);
                     } else if (widget.type == 'hospitality') //new
                     {
+                      // widget.srvicesController!.isHospatilityDateSelcted.value =
+                      //     true;
+                      // widget.srvicesController!.selectedDate(selectedDate);
                       widget.srvicesController!.isHospatilityDateSelcted.value =
                           true;
-                      // widget.srvicesController!.selectedDates(selectedDates);
+
                       widget.srvicesController!.selectedDate(selectedDate);
+                      widget.srvicesController!.selectedDates(selectedDates);
+
+                      widget.srvicesController!.DateErrorMessage.value =
+                          !AppUtil.areAllDatesAfter24Hours(
+                              widget.srvicesController!.selectedDates);
                     }
 
                     Get.back();

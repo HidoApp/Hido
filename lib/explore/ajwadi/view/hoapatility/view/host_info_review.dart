@@ -149,6 +149,41 @@ class _HostInfoReviewState extends State<HostInfoReview> {
     }
   }
 
+  void hostDaysInfo() {
+    // Format for combining date and time
+    var formatter = intl.DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+    for (var date in widget.hospitalityController!.selectedDates) {
+      DateTime newStartTime = DateTime(
+          date.year,
+          date.month,
+          date.day,
+          widget.hospitalityController!.selectedStartTime.value.hour,
+          widget.hospitalityController!.selectedStartTime.value.minute,
+          widget.hospitalityController!.selectedStartTime.value.second,
+          widget.hospitalityController!.selectedStartTime.value.millisecond);
+      DateTime newEndTime = DateTime(
+          date.year,
+          date.month,
+          date.day,
+          widget.hospitalityController!.selectedEndTime.value.hour,
+          widget.hospitalityController!.selectedEndTime.value.minute,
+          widget.hospitalityController!.selectedEndTime.value.second,
+          widget.hospitalityController!.selectedEndTime.value.millisecond);
+
+      // startTime = formatter.format(newStartTime);
+      // endTime = formatter.format(newEndTime);
+
+      var newEntry = {
+        "startTime": formatter.format(newStartTime),
+        "endTime": formatter.format(newEndTime),
+        "seats": widget.hospitalityController!.seletedSeat.value
+      };
+
+      DaysInfo.add(newEntry);
+    }
+  }
+
   void daysInfo() {
     // Format for combining date and time
     var formatter = intl.DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -328,6 +363,8 @@ class _HostInfoReviewState extends State<HostInfoReview> {
   }
 
   Future<void> createHospitalityExperience() async {
+    log('enter to create');
+
     final isSuccess = await widget.hospitalityController!.createHospitality(
         titleAr: widget.hospitalityTitleAr,
         titleEn: widget.hospitalityTitleEn,
@@ -347,12 +384,13 @@ class _HostInfoReviewState extends State<HostInfoReview> {
         regionEn: widget.hospitalityController!.ragionEn.value,
         location: locationUrl,
         daysInfo: DaysInfo,
-        start: startTime,
-        end: endTime,
-        seat: widget.hospitalityController!.seletedSeat.value,
+        //  start: startTime,
+        // end: endTime,
+        // seat: widget.hospitalityController!.seletedSeat.value,
         context: context);
 
     if (isSuccess) {
+      log('puplished');
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -386,19 +424,18 @@ class _HostInfoReviewState extends State<HostInfoReview> {
           );
         },
       ).then((_) {
-          AmplitudeService.amplitude.track(BaseEvent(
-                                    'Hospitality published successfully',
-                                    eventProperties: {
-                                      'titleEn:': widget.hospitalityTitleEn,
-                                    }));
+        AmplitudeService.amplitude.track(
+            BaseEvent('Hospitality published successfully', eventProperties: {
+          'titleEn:': widget.hospitalityTitleEn,
+        }));
         Get.offAll(() => const AjwadiBottomBar());
       });
     } else {
-       AmplitudeService.amplitude.track(BaseEvent(
-                                    'Hospitality published failed',
-                                    eventProperties: {
-                                      'titleEn:': widget.hospitalityTitleEn,
-                                    }));
+      log(isSuccess.toString());
+      AmplitudeService.amplitude
+          .track(BaseEvent('Hospitality published failed', eventProperties: {
+        'titleEn:': widget.hospitalityTitleEn,
+      }));
       AppUtil.errorToast(context, 'somthingWentWrong'.tr);
     }
   }
@@ -459,19 +496,17 @@ class _HostInfoReviewState extends State<HostInfoReview> {
           );
         },
       ).then((_) {
-         AmplitudeService.amplitude.track(BaseEvent(
-                                    'Adventure published successfully',
-                                    eventProperties: {
-                                      'title:': widget.hospitalityTitleEn,
-                                    }));
+        AmplitudeService.amplitude.track(
+            BaseEvent('Adventure published successfully', eventProperties: {
+          'title:': widget.hospitalityTitleEn,
+        }));
         Get.offAll(() => const AjwadiBottomBar());
       });
     } else {
-      AmplitudeService.amplitude.track(BaseEvent(
-                                    'Adventure published Failed',
-                                    eventProperties: {
-                                      'title:': widget.hospitalityTitleEn,
-                                    }));
+      AmplitudeService.amplitude
+          .track(BaseEvent('Adventure published Failed', eventProperties: {
+        'title:': widget.hospitalityTitleEn,
+      }));
       AppUtil.errorToast(context, 'somthingWentWrong'.tr);
     }
   }
@@ -481,7 +516,8 @@ class _HostInfoReviewState extends State<HostInfoReview> {
     super.initState();
     _fetchAddress();
     if (widget.experienceType == 'hospitality') {
-      daysInfo();
+      // daysInfo();
+      hostDaysInfo();
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -651,7 +687,9 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                       ),
                                       CustomText(
                                         text:
-                                            '${AppUtil.formatBookingDate(context, widget.hospitalityController!.selectedDate.value)} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.hospitalityController!.selectedStartTime.value))}',
+                                            '${AppUtil.formatSelectedDates(widget.hospitalityController!.selectedDates, context)} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.hospitalityController!.selectedStartTime.value))}',
+
+                                        // '${AppUtil.formatBookingDate(context, widget.hospitalityController!.selectedDate.value)} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.hospitalityController!.selectedStartTime.value))}',
                                         color: Color(0xFF9392A0),
                                         fontSize: 11,
                                         fontFamily:
@@ -784,9 +822,15 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                           bool isLoading = false;
 
                           if (widget.experienceType == 'hospitality') {
-                            isLoading = _EventController.isImagesLoading.value || widget.hospitalityController!.isSaudiHospitalityLoading.value; 
+                            isLoading =
+                                _EventController.isImagesLoading.value ||
+                                    widget.hospitalityController!
+                                        .isSaudiHospitalityLoading.value;
                           } else if (widget.experienceType == 'adventure') {
-                            isLoading = _EventController.isImagesLoading.value||widget.adventureController!.isAdventureLoading.value;
+                            isLoading =
+                                _EventController.isImagesLoading.value ||
+                                    widget.adventureController!
+                                        .isAdventureLoading.value;
                           }
 
                           if (isLoading) {

@@ -21,11 +21,12 @@ class ExperienceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        //  height: 110,
+        height: width * 0.28,
         padding: const EdgeInsets.all(12),
         clipBehavior: Clip.antiAlias,
         decoration: ShapeDecoration(

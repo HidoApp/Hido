@@ -229,7 +229,9 @@ class _ServicesCardState extends State<ServicesCard> {
                               ),
                               CustomText(
                                 text:
-                                    '${AppUtil.formatBookingDate(context, widget.experience.daysInfo[0].startTime ?? '')} - ${AppUtil.formatTimeOnly(context, widget.experience.daysInfo[0].startTime)} ',
+                                    '${AppUtil.formatSelectedDaysInfo(widget.experience.daysInfo, context) ?? ''} - ${AppUtil.formatTimeOnly(context, widget.experience.daysInfo[0].startTime)} ',
+
+                                // '${AppUtil.formatBookingDate(context, widget.experience.daysInfo[0].startTime ?? '')} - ${AppUtil.formatTimeOnly(context, widget.experience.daysInfo[0].startTime)} ',
                                 color: colorDarkGrey,
                                 fontSize: 11,
                                 fontFamily: AppUtil.rtlDirection2(context)
