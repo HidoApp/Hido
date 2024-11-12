@@ -13,6 +13,7 @@ import 'package:ajwad_v4/profile/view/profile_local.dart';
 import 'package:ajwad_v4/profile/view/terms&conditions.dart';
 import 'package:ajwad_v4/profile/view/my_account.dart';
 import 'package:ajwad_v4/profile/view/profile_touriest.dart';
+import 'package:ajwad_v4/request/widgets/ContactDialog.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_list_tile.dart';
@@ -343,6 +344,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Get.to(() => const TermsAndConditions(
                                 fromAjwady: false,
                               ));
+                        },
+                      ),
+                      CustomListTile(
+                        title: "contactUs".tr,
+                        leading: "assets/icons/contact_us_icon.svg",
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ContactDialog(
+                                  dialogWidth: 100, buttonWidth: 200);
+                            },
+                          );
                         },
                       ),
                       CustomListTile(

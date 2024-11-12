@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:ajwad_v4/amplitude_service.dart';
+import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/local_sign_in.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
@@ -36,7 +37,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   final PageController _pageController = PageController();
   AnimationController? _controller;
   VideoPlayerController? _videoController;
-
+  final _authCntroller = Get.put(AuthController());
   final AmplitudeService amplitudeService =
       AmplitudeService(); // Create instance of AmplitudeService
 
@@ -64,7 +65,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       vsync: this,
       duration: const Duration(seconds: 1), // Set the desired duration here
     );
-
+    _authCntroller.checkAppVersion(context: context);
     // Listen for animation completion and stop the controller
     _controller?.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
@@ -379,8 +380,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               ],
             ),
           ),
-          if (_currentIndex == 0)
-           const LanguageDropdown(),
+          if (_currentIndex == 0) const LanguageDropdown(),
         ],
       ),
     );

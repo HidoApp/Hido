@@ -2,15 +2,18 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/models/ajwadi_info.dart';
+import 'package:ajwad_v4/auth/models/app_version.dart';
 import 'package:ajwad_v4/auth/models/user.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/provided_services.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
+import 'package:ajwad_v4/request/widgets/app_version_dialog.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class AuthController extends GetxController {
   var isRegisterLoading = false.obs;
@@ -40,6 +43,7 @@ class AuthController extends GetxController {
   var isCheckLocalLoading = false.obs;
   var isResendOtp = true.obs;
   var isResetPasswordOtpLoading = false.obs;
+  var isGetAppVersionLoading = false.obs;
   //valditon vars
   var hidePassword = true.obs;
   var isEmailValid = false.obs;
@@ -79,6 +83,8 @@ class AuthController extends GetxController {
   var plateletter2 = ''.obs;
   var plateletter3 = ''.obs;
   var selectedRide = ''.obs;
+
+  var appVersion = ''.obs;
 
   // 1 GET COUNTRIES ..
   Future<List<String>?> getListOfCountries(BuildContext context) async {
@@ -594,6 +600,43 @@ class AuthController extends GetxController {
       }
     } else {
       AppUtil.errorToast(context, "somthingWentWrong".tr);
+    }
+  }
+
+  Future<AppVersion?> getAppVersion({required BuildContext context}) async {
+    try {
+      isGetAppVersionLoading(true);
+      final data = await AuthService.getAppVersion(context: context);
+      if (data != null) {
+        appVersion.value = data.versionNumber ?? "";
+        return data;
+      }
+      return null;
+    } catch (e) {
+      isGetAppVersionLoading(false);
+      return null;
+    } finally {
+      isGetAppVersionLoading(false);
+    }
+  }
+
+  void checkAppVersion({required BuildContext context}) async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    final version = packageInfo.version;
+
+    final appVersion = await getAppVersion(context: context);
+    if (appVersion == null) {
+      return;
+    }
+
+    if (appVersion.versionNumber == version) {
+    } else {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (ctx) => const AppVersionDialog(),
+      );
     }
   }
 }

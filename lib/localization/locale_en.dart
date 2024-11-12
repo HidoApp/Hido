@@ -700,4 +700,8 @@ const localeEn = {
   'preferLang': 'Which language do you prefer',
   'wallet': 'Wallet',
   'vehicleInfo': 'Vehicle Info',
+
+  'updateApp': 'Update Available',
+  'updateAppContent':
+      'You have to update to enjoy the new features and performance improvements',
 };

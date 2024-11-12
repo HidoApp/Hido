@@ -693,4 +693,7 @@ const localeAr = {
   'Language': 'اللغة',
   'preferLang': 'وش اللغة اللي تفضلها؟',
   'vehicleInfo': 'معلومات المركبة ',
+  'updateApp': 'حدّث التطبيق ',
+  'updateAppContent':
+      'يجب عليك التحديث للاستمتاع بالميزات الجديدة وتحسينات الأداء',
 };
