@@ -605,7 +605,8 @@ const localeAr = {
   'noNextActivity': " ليس لديك أنشطة قادمة بعد",
   "noExpertise": "لا يوجد خبرات بعد",
   "noAbout": "لا يوجد معلومات بعد",
-  "NoReview": "لا يوجد تقييمات بعد",
+  "noReview": "لا يوجد تقييمات بعد",
+  "noReviewSub": "لا توجد تقييمات في الوقت الحالي",
   '*TheMinimumPrice': '*الحد الأدنى لسعر النشاط هو 30 ريال سعودي',
   'timeErorrRange': 'الوقت المحدد خارج الأوقات المطلوبة',
 
@@ -684,7 +685,7 @@ const localeAr = {
   'vehicleType': 'نوع المركبة',
   'invaildId': "رقم الهوية غير صالح",
 
-  'wallet':'المحفظة',
+  'wallet': 'المحفظة',
 
   'hidoVer': "هايدو نسخة", 'invalidCoupon': 'غير صالح',
   'couponMiSpend': "هذا الرمز صالح للمبالغ التي تبلغ",

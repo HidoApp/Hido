@@ -171,7 +171,8 @@ class _EditEventState extends State<EditEvent> {
     });
   }
 
-  final CarouselSliderController _carouselController = CarouselSliderController();
+  final CarouselSliderController _carouselController =
+      CarouselSliderController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _guestsController = TextEditingController();
   List<String> imageUrls = [];
@@ -1348,7 +1349,7 @@ class _EditEventState extends State<EditEvent> {
                                     ),
                                     CustomText(
                                       text: AppUtil.rtlDirection2(context)
-                                          ? 'عدد المقاعد'
+                                          ? 'التواريخ المتاحة'
                                           : 'AvailableDates',
                                       color: black,
                                       fontSize: 17,
@@ -2167,7 +2168,7 @@ class _EditEventState extends State<EditEvent> {
                                                   Radius.circular(12)),
                                             ),
                                             height: 246,
-                                            width: 358,
+                                            width: double.infinity,
                                             child: GoogleMap(
                                               padding: EdgeInsets.only(
                                                   bottom: width * 0.102),

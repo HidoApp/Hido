@@ -28,16 +28,15 @@ import 'package:timeago/timeago.dart' as timeago;
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
-
-
-
- Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print("Handling a background message: ${message.messageId}");
+  log(// get arabic key
+      'Notification message backgroundd: ${message.notification!.title}, ${message.notification!.body}, ${message.data["title"]}, ${message.data["body"]}');
 
   // You can perform background operations here, like updating the UI or storing data locally.
   // Note that you cannot interact directly with the UI from here.
 }
+
 // Initialize shared preferences
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,9 +59,7 @@ void main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-   
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
     await FirebaseApi().initNotifications();
     if (kReleaseMode) {

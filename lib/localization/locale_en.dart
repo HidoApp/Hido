@@ -371,7 +371,8 @@ const localeEn = {
   "selectLocal": "Select local tour guide :",
   "tour": "Tours",
   "expertise": "Expertise",
-  "noReviews": "No Reviews yet",
+  "noReview": "No Reviews yet",
+  "noReviewSub": "All your reviews from our tourists will appear here",
   "HintMessage": "write your message here",
   "pricePerPerson": "price per person",
   "ItineraryDetails": "Itinerary Details",
@@ -695,10 +696,8 @@ const localeEn = {
   'invalidCoupon': 'Invalid',
   'couponMiSpend': "This code is for amounts of",
   'orAbove': "or above",
-  'Language':'Language',
+  'Language': 'Language',
   'preferLang': 'Which language do you prefer',
-  'wallet':'Wallet',
+  'wallet': 'Wallet',
   'vehicleInfo': 'Vehicle Info',
-
-
 };

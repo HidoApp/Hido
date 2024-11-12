@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/add_event_calender_dialog.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/add_hospitality_calender_dialog.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -190,11 +192,13 @@ class _ButtomProgressState extends State<ButtomProgress> {
           _hospitalityController.selectedGender.value != '';
     }
     if (activeIndex == 4) {
-      return _hospitalityController.isHospatilityDateSelcted.value &&
+      return _hospitalityController.selectedDates.isNotEmpty &&
+          _hospitalityController.isHospatilityDateSelcted.value &&
           _hospitalityController.isHospatilityTimeSelcted.value &&
           _hospitalityController.selectedMealEn.value != '' &&
           !_hospitalityController.TimeErrorMessage.value &&
-          _hospitalityController.DateErrorMessage.value;
+          // _hospitalityController.DateErrorMessage.value;
+          !_hospitalityController.DateErrorMessage.value;
     }
 
     if (activeIndex == 5) {
@@ -2041,8 +2045,10 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                           width: 1,
                           color: widget.hospitalityController
                                       .isHospatilityDateSelcted.value &&
-                                  !widget.hospitalityController.DateErrorMessage
+                                  widget.hospitalityController.DateErrorMessage
                                       .value
+                              // !widget.hospitalityController.DateErrorMessage
+                              //     .value
                               ? colorRed
                               : Color(0xFFB9B8C1)),
                       borderRadius: BorderRadius.circular(8),
@@ -2059,7 +2065,12 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return HostCalenderDialog(
+                                // return HostCalenderDialog(
+                                //   type: 'hospitality',
+                                //   srvicesController:
+                                //       widget.hospitalityController,
+                                // );
+                                return EventCalenderDialog(
                                   type: 'hospitality',
                                   srvicesController:
                                       widget.hospitalityController,
@@ -2069,13 +2080,13 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         child: CustomText(
                           text: widget.hospitalityController
                                   .isHospatilityDateSelcted.value
-                              ? AppUtil.formatBookingDate(
-                                  context,
-                                  widget
-                                      .hospitalityController.selectedDate.value)
-                              //formatSelectedDates(srvicesController.selectedDates,context)
-
-                              // srvicesController.selectedDates.map((date) => intel.DateFormat('dd/MM/yyyy').format(date)).join(', ')
+                              // ? AppUtil.formatBookingDate(
+                              //     context,
+                              //     widget
+                              //         .hospitalityController.selectedDate.value)
+                              ? AppUtil.formatSelectedDates(
+                                  widget.hospitalityController.selectedDates,
+                                  context)
                               : 'DD/MM/YYYY'.tr,
                           fontWeight: FontWeight.w400,
                           color: Graytext,
@@ -2092,7 +2103,9 @@ class _SelectDateTimeState extends State<SelectDateTime> {
               Obx(
                 () => widget.hospitalityController.isHospatilityDateSelcted
                             .value &&
-                        !widget.hospitalityController.DateErrorMessage.value
+                        widget.hospitalityController.DateErrorMessage.value
+
+                    // !widget.hospitalityController.DateErrorMessage.value
                     ? Padding(
                         padding: const EdgeInsets.only(bottom: 4),
                         child: CustomText(
@@ -2418,6 +2431,18 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                         //      widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
                                                         // .format( newTimeToReturn) as RxString;
                                                       });
+                                                      log(
+                                                        widget
+                                                            .hospitalityController
+                                                            .selectedStartTime
+                                                            .value
+                                                            .toString(),
+                                                      );
+                                                      log(widget
+                                                          .hospitalityController
+                                                          .selectedEndTime
+                                                          .value
+                                                          .toString());
                                                     },
                                                     padding: const EdgeInsets
                                                         .symmetric(

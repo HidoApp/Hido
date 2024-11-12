@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/add_event_calender_dialog.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/add_hospitality_calender_dialog.dart';
 import 'package:ajwad_v4/request/ajwadi/view/view_experience_images.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
@@ -101,6 +102,7 @@ class _EditHospitalityState extends State<EditHospitality> {
     "الباحة",
     "الجوف"
   ];
+  List<Map<String, dynamic>> DaysInfo = [];
 
   BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
   void addCustomIcon() {
@@ -177,6 +179,42 @@ class _EditHospitalityState extends State<EditHospitality> {
     });
   }
 
+  void daysInfo() {
+    var formatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+    for (var date in _servicesController.selectedDates) {
+      DateTime newStartTime = DateTime(
+          date.year,
+          date.month,
+          date.day,
+          newTimeToGo.hour,
+          newTimeToGo.minute,
+          newTimeToGo.second,
+          newTimeToGo.millisecond);
+      DateTime newEndTime = DateTime(
+          date.year,
+          date.month,
+          date.day,
+          newTimeToReturn.hour,
+          newTimeToReturn.minute,
+          newTimeToReturn.second,
+          newTimeToReturn.millisecond);
+
+      //startTime = formatter.format(newStartTime);
+      //endTime = formatter.format(newEndTime);
+
+      var newEntry = {
+        "startTime": formatter.format(newStartTime),
+        "endTime": formatter.format(newEndTime),
+        "seats": guestNum
+      };
+
+      DaysInfo.add(newEntry);
+      log(newEntry["seats"].toString());
+    }
+    // Print the new dates list
+  }
+
   Future<bool> uploadImages() async {
     List<dynamic> imagesToUpload = [];
     bool allExtensionsValid = true;
@@ -238,7 +276,8 @@ class _EditHospitalityState extends State<EditHospitality> {
     return true;
   }
 
-  final CarouselSliderController _carouselController = CarouselSliderController();
+  final CarouselSliderController _carouselController =
+      CarouselSliderController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _guestsController = TextEditingController();
 
@@ -282,10 +321,10 @@ class _EditHospitalityState extends State<EditHospitality> {
           !_servicesController.isHospatilityDateSelcted.value;
       _servicesController.EmptyTimeErrorMessage.value =
           !_servicesController.isHospatilityTimeSelcted.value;
+      // _servicesController.DateErrorMessage.value =
+      //     AppUtil.isDateBefore24Hours(_servicesController.selectedDate.value);
       _servicesController.DateErrorMessage.value =
-          AppUtil.isDateBefore24Hours(_servicesController.selectedDate.value);
-
-      // !AppUtil.isDateBefore24Hours(_servicesController.selectedDate.value);
+          !AppUtil.areAllDatesAfter24Hours(_servicesController.selectedDates);
       PriceEmpty = _priceController.text.isEmpty;
 
       PriceEmpty = _priceController.text.isEmpty;
@@ -312,10 +351,9 @@ class _EditHospitalityState extends State<EditHospitality> {
         !PriceEmpty &&
         !PriceLarger &&
         !PriceDouble &&
-        _servicesController.DateErrorMessage.value &&
         !_servicesController.TimeErrorMessage.value &&
         _servicesController.images.length >= 3 &&
-        _servicesController.DateErrorMessage.value) {
+        !_servicesController.DateErrorMessage.value) {
       if (await uploadImages()) {
         daysInfo();
         _updateProfile();
@@ -326,7 +364,7 @@ class _EditHospitalityState extends State<EditHospitality> {
         }
       }
     } else {
-      if (!_servicesController.DateErrorMessage.value) {
+      if (_servicesController.DateErrorMessage.value) {
         if (context.mounted) {
           AppUtil.errorToast(context, 'DateDuration'.tr);
           await Future.delayed(const Duration(seconds: 3));
@@ -368,10 +406,20 @@ class _EditHospitalityState extends State<EditHospitality> {
       _servicesController.selectedStartTime.value = newTimeToGo; //new
       _servicesController.selectedEndTime.value = newTimeToReturn; //new
 
-      _servicesController.selectedDate.value =
-          widget.hospitalityObj.daysInfo.isNotEmpty
-              ? widget.hospitalityObj.daysInfo.first.endTime
-              : '';
+      if (widget.hospitalityObj.daysInfo.isNotEmpty) {
+        for (var info in widget.hospitalityObj.daysInfo) {
+          DateTime startDateTime = DateTime.parse(info.startTime);
+          _servicesController.selectedDates.add(DateTime(
+              startDateTime.year, startDateTime.month, startDateTime.day));
+        }
+      } else {
+        _servicesController.selectedDates.add(DateTime.now());
+      }
+
+      // _servicesController.selectedDate.value =
+      //     widget.hospitalityObj.daysInfo.isNotEmpty
+      //         ? widget.hospitalityObj.daysInfo.first.endTime
+      //         : '';
       _priceController.text = widget.hospitalityObj.price.toString();
       _selectRadio(widget.hospitalityObj.mealTypeEn);
       _selectRadio(widget.hospitalityObj.touristsGender ?? '');
@@ -383,7 +431,7 @@ class _EditHospitalityState extends State<EditHospitality> {
       _servicesController.isHospatilityTimeSelcted.value =
           widget.hospitalityObj.daysInfo.isNotEmpty ? true : false;
 
-      _servicesController.DateErrorMessage.value = true;
+      // _servicesController.DateErrorMessage.value = true;
       _servicesController.EmptyTimeErrorMessage.value = false;
       _servicesController.EmptyDateErrorMessage.value = false;
       _servicesController.pickUpLocLatLang.value = LatLng(
@@ -398,31 +446,31 @@ class _EditHospitalityState extends State<EditHospitality> {
     return 'https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}';
   }
 
-  void daysInfo() {
-    // Format for combining date and time
-    var formatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-    DateTime date = DateTime.parse(_servicesController.selectedDate.value);
+  // void daysInfo() {
+  //   // Format for combining date and time
+  //   var formatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+  //   DateTime date = DateTime.parse(_servicesController.selectedDate.value);
 
-    DateTime newStartTime = DateTime(
-        date.year,
-        date.month,
-        date.day,
-        newTimeToGo.hour,
-        newTimeToGo.minute,
-        newTimeToGo.second,
-        newTimeToGo.millisecond);
-    DateTime newEndTime = DateTime(
-        date.year,
-        date.month,
-        date.day,
-        newTimeToReturn.hour,
-        newTimeToReturn.minute,
-        newTimeToReturn.second,
-        newTimeToReturn.millisecond);
+  //   DateTime newStartTime = DateTime(
+  //       date.year,
+  //       date.month,
+  //       date.day,
+  //       newTimeToGo.hour,
+  //       newTimeToGo.minute,
+  //       newTimeToGo.second,
+  //       newTimeToGo.millisecond);
+  //   DateTime newEndTime = DateTime(
+  //       date.year,
+  //       date.month,
+  //       date.day,
+  //       newTimeToReturn.hour,
+  //       newTimeToReturn.minute,
+  //       newTimeToReturn.second,
+  //       newTimeToReturn.millisecond);
 
-    startTime = formatter.format(newStartTime);
-    endTime = formatter.format(newEndTime);
-  }
+  //   startTime = formatter.format(newStartTime);
+  //   endTime = formatter.format(newEndTime);
+  // }
 
   Future<void> _loadImages() async {
     List<dynamic> images = [];
@@ -525,9 +573,10 @@ class _EditHospitalityState extends State<EditHospitality> {
         regionAr: widget.hospitalityObj.regionAr ?? '',
         location: locationUrl,
         regionEn: widget.hospitalityObj.regionEn,
-        start: startTime,
-        end: endTime,
-        seat: guestNum,
+        daysInfo: DaysInfo,
+        // start: startTime,
+        // end: endTime,
+        // seat: guestNum,
         context: context,
       );
 
@@ -1631,7 +1680,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                         // DateErrorMessage ??
                                                         //         false
                                                         ||
-                                                        !_servicesController
+                                                        _servicesController
                                                             .DateErrorMessage
                                                             .value
                                                     ? colorRed
@@ -1652,7 +1701,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                     context: context,
                                                     builder:
                                                         (BuildContext context) {
-                                                      return HostCalenderDialog(
+                                                      return EventCalenderDialog(
                                                         type: 'hospitality',
                                                         srvicesController:
                                                             _servicesController,
@@ -1665,12 +1714,17 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 text: _servicesController
                                                         .isHospatilityDateSelcted
                                                         .value
-                                                    ? AppUtil.formatBookingDate(
-                                                        context,
-                                                        _servicesController
-                                                            .selectedDate.value
-                                                            .substring(0, 10),
-                                                      )
+                                                    ? AppUtil
+                                                        .formatSelectedDates(
+                                                            _servicesController
+                                                                .selectedDates,
+                                                            context)
+                                                    // ? AppUtil.formatBookingDate(
+                                                    //     context,
+                                                    //     _servicesController
+                                                    //         .selectedDate.value
+                                                    //         .substring(0, 10),
+                                                    //   )
                                                     : 'DD/MM/YYYY'.tr,
                                                 fontWeight: FontWeight.w400,
                                                 color: Graytext,
@@ -1691,7 +1745,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                         // DateErrorMessage ??
                                         //   false
                                         ||
-                                        !_servicesController
+                                        _servicesController
                                             .DateErrorMessage.value)
                                       Padding(
                                         padding: const EdgeInsets.only(top: 8),
@@ -2588,7 +2642,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                       Radius.circular(12)),
                                             ),
                                             height: 246,
-                                            width: 358,
+                                            width: double.infinity,
                                             child: GoogleMap(
                                               scrollGesturesEnabled: true,
                                               zoomControlsEnabled: false,

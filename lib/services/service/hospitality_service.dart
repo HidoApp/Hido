@@ -75,7 +75,7 @@ class HospitalityService {
         if (token != '') 'Authorization': 'Bearer $token',
       },
     );
-    
+
     log(response.body);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
@@ -260,9 +260,9 @@ class HospitalityService {
     required String regionAr,
     required String location,
     required String regionEn,
-    required String start,
-    required String end,
-    required int seat,
+    // required String start,
+    // required String end,
+    // required int seat,
     required List<Map<String, dynamic>> daysInfo,
     required BuildContext context,
   }) async {
@@ -285,9 +285,10 @@ class HospitalityService {
       "mealTypeAr": mealTypeAr,
       "mealTypeEn": mealTypeEn,
       "coordinates": {"longitude": longitude, "latitude": latitude},
-      "daysInfo": [
-        {"startTime": start, "endTime": end, "seats": seat}
-      ],
+      // "daysInfo": [
+      //   {"startTime": start, "endTime": end, "seats": seat}
+      // ],
+      "daysInfo": daysInfo,
       "touristsGender": touristsGender,
       "location": location,
       "price": price,
@@ -305,7 +306,7 @@ class HospitalityService {
         body: jsonEncode(body));
 
     //
-
+    log(response.statusCode.toString());
     if (response.statusCode == 200) {
       //  var data = jsonDecode(response.body);
       //
@@ -313,9 +314,10 @@ class HospitalityService {
       return true;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
+      log(errorMessage);
 
       if (context.mounted) {
-        AppUtil.errorToast(context, errorMessage);
+        // AppUtil.errorToast(context, errorMessage);
       }
       return false;
     }
@@ -345,9 +347,11 @@ class HospitalityService {
     String? regionAr,
     String? location,
     String? regionEn,
-    String? start,
-    String? end,
-    int? seat,
+    required List<Map<String, dynamic>> daysInfo,
+
+    // String? start,
+    // String? end,
+    // int? seat,
     required BuildContext context,
   }) async {
     final getStorage = GetStorage();
@@ -373,14 +377,15 @@ class HospitalityService {
             "longitude": longitude,
             "latitude": latitude,
           },
-        if (start != null && end != null && seat != null)
-          "daysInfo": [
-            {
-              "startTime": start,
-              "endTime": end,
-              "seats": seat,
-            }
-          ],
+        "daysInfo": daysInfo,
+        // if (start != null && end != null && seat != null)
+        //   "daysInfo": [
+        //     {
+        //       "startTime": start,
+        //       "endTime": end,
+        //       "seats": seat,
+        //     }
+        //   ],
         if (touristsGender != null) "touristsGender": touristsGender,
         if (location != null) "location": location,
         if (price != null) "price": price,
