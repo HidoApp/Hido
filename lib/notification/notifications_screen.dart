@@ -4,12 +4,8 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:ajwad_v4/request/widgets/NotificationCard.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:get/get.dart';
-import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 
 import '../widgets/custom_app_bar.dart';

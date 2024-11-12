@@ -1,16 +1,11 @@
-import 'dart:developer';
 
-import 'package:ajwad_v4/explore/ajwadi/model/wallet.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/wallet/local_wallat_screen.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
-import 'package:intl/intl.dart' as intel;
 import 'package:skeletonizer/skeletonizer.dart';
 
 class CustomCard extends StatefulWidget {

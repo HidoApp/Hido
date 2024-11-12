@@ -39,7 +39,6 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
     _authCntroller.checkAppVersion(context: context);
 
     setInternetConnection();
-
   }
 
   StreamSubscription? _internetConnection;
@@ -100,6 +99,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                 physics: const NeverScrollableScrollPhysics(),
                 controller: _pageController,
                 children: [
+                  // Container(),
                   const TouristMapScreen(),
                   const ServiceScreen(),
                   // const ShopScreen(),

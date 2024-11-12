@@ -4,7 +4,6 @@ import 'package:ajwad_v4/main.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 
 class FirebaseApi {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
