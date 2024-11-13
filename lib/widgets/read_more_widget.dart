@@ -5,8 +5,20 @@ import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
 
 class ReadMoreWidget extends StatelessWidget {
-  const ReadMoreWidget({super.key, required this.text});
+  const ReadMoreWidget({
+    super.key,
+    required this.text,
+    this.color = starGreyColor,
+    this.fontSize,
+    this.moreColor,
+    this.fontWeight = FontWeight.w400,
+  });
   final String text;
+  final double? fontSize;
+  final FontWeight fontWeight;
+  final Color color;
+  final Color? moreColor;
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
@@ -19,9 +31,9 @@ class ReadMoreWidget extends StatelessWidget {
         textDirection: AppUtil.rtlDirection2(context)
             ? TextDirection.rtl
             : TextDirection.ltr,
-        colorClickableText: blue,
+        colorClickableText: moreColor ?? blue,
         moreStyle: TextStyle(
-          color: blue,
+          color: moreColor ?? blue,
           fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
         ),
         trimExpandedText: '  ${'showLess'.tr}',
@@ -30,10 +42,10 @@ class ReadMoreWidget extends StatelessWidget {
         trimMode: TrimMode.Line,
         trimLines: 3,
         style: TextStyle(
-          fontSize: width * 0.038,
+          fontSize: fontSize ?? width * 0.038,
           fontFamily: AppUtil.SfFontType(context),
-          fontWeight: FontWeight.w400,
-          color: starGreyColor,
+          fontWeight: fontWeight,
+          color: color,
         ),
       ),
     );

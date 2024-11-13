@@ -7,6 +7,8 @@ import 'package:ajwad_v4/notification/notification.dart';
 class NotificationController extends GetxController {
   var isSendingDeviceToken = false.obs;
   var isNotificationLoading = false.obs;
+  var isNotificationUpdateLoading = false.obs;
+
   var notifications = <Notifications>[].obs;
 
   Future<List<Notifications>?> getNotifications({
@@ -36,15 +38,15 @@ class NotificationController extends GetxController {
       {required BuildContext context,
       List<String>? unreadNotificationIds}) async {
     try {
-      isNotificationLoading(true);
+      isNotificationUpdateLoading(true);
       final data = await NotificationServices.updateNotifications(
           context: context, unreadNotificationIds: unreadNotificationIds);
     } catch (e) {
-      isNotificationLoading(false);
+      isNotificationUpdateLoading(false);
       log(e.toString());
       return null;
     } finally {
-      isNotificationLoading(false);
+      isNotificationUpdateLoading(false);
     }
   }
 

@@ -109,10 +109,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         _srvicesController.notifications.isEmpty
                             ? Padding(
                                 padding: EdgeInsets.only(
-                                  top: height / 3,
+                                  // top: height / 3,
                                   left: 16,
                                   right: 16,
-                                  bottom: 50,
+                                  // bottom: 50,
                                 ),
                                 child: Center(
                                   child: CustomEmptyWidget(
