@@ -21,9 +21,8 @@ class PaymentController extends GetxController {
   var isApplePayEmbeddedLoading = false.obs;
   var isApplePayExecuteLoading = false.obs;
   var isWalletLoading = false.obs;
-  var wallet = Wallet().obs;  
+  var wallet = Wallet().obs;
 
- 
   var isCouponByCodeLoading = false.obs;
 
   var showCvv = false.obs;
@@ -225,18 +224,18 @@ class PaymentController extends GetxController {
   }) async {
     try {
       isWalletLoading(true);
-      final data =
-          await PaymentService.getWallet(context: context);
-       if (data != null) {
-      return wallet(data);  // Update the observable wallet with fetched data
+      final data = await PaymentService.getWallet(context: context);
+      if (data != null) {
+        return wallet(data); // Update the observable wallet with fetched data
       }
     } catch (e) {
-       isWalletLoading(false);
-       log(e.toString());
+      isWalletLoading(false);
+      log(e.toString());
       return null;
     } finally {
       isWalletLoading(false);
     }
+    return null;
   }
 
   Future<Coupon?> getCouponByCode(
@@ -257,5 +256,6 @@ class PaymentController extends GetxController {
     } finally {
       isCouponByCodeLoading(false);
     }
+    return null;
   }
 }

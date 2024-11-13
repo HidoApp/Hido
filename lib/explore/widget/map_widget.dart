@@ -5,10 +5,8 @@ import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.d
 import 'package:custom_map_markers/custom_map_markers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class MapWidget extends StatefulWidget {
   const MapWidget({super.key});

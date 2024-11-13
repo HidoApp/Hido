@@ -11,9 +11,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 
-
 class AdvertisementService {
-
   static Future<List<Advertisement>?> getAllAdvertisement(
       {required BuildContext context}) async {
     final getStorage = GetStorage();
@@ -53,10 +51,10 @@ class AdvertisementService {
     String token = getStorage.read('accessToken') ?? "";
 
     if (token != '' && JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
+      final authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
+      var user = await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
@@ -82,5 +80,4 @@ class AdvertisementService {
       return null;
     }
   }
-
 }

@@ -31,8 +31,8 @@ class _LocalTripCardState extends State<LocalTripCard> {
 
     _controller = ExpandedTileController(isExpanded: false);
 
-    String latitudeStr = widget.trip.booking?.coordinates?.latitude ?? '';
-    String longitudeStr = widget.trip.booking?.coordinates?.longitude ?? '';
+    String latitudeStr = widget.trip.booking?.coordinates.latitude ?? '';
+    String longitudeStr = widget.trip.booking?.coordinates.longitude ?? '';
 
     if (latitudeStr.isNotEmpty && longitudeStr.isNotEmpty) {
       try {
@@ -85,7 +85,7 @@ class _LocalTripCardState extends State<LocalTripCard> {
               child: CustomText(
                 text: AppUtil.formatBookingDate(
                     context, widget.trip.booking!.date!),
-                color: Color(0xFF9392A0),
+                color: const Color(0xFF9392A0),
                 fontSize: 12,
                 fontFamily:
                     AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
@@ -125,7 +125,7 @@ class _LocalTripCardState extends State<LocalTripCard> {
                       CustomText(
                         text:
                             '${AppUtil.rtlDirection2(context) ? "الحجز من" : 'Booking by'} : ${widget.trip.booking!.touristName}',
-                        color: Color(0xFF41404A),
+                        color: const Color(0xFF41404A),
                         fontSize: 12,
                         fontFamily: AppUtil.rtlDirection2(context)
                             ? 'SF Arabic'
@@ -137,12 +137,15 @@ class _LocalTripCardState extends State<LocalTripCard> {
                 ),
                 if (widget.trip.booking!.orderStatus != "FINISHED" ||
                     !widget.isPast) ...[
-                  Spacer(),
+                  const Spacer(),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: ElevatedButton(
                       onPressed: () {
-                        Get.to(ChatScreen(chatId: widget.trip.booking!.chatId, isTourist: false,));
+                        Get.to(ChatScreen(
+                          chatId: widget.trip.booking!.chatId,
+                          isTourist: false,
+                        ));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: colorGreen,
@@ -151,7 +154,7 @@ class _LocalTripCardState extends State<LocalTripCard> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        minimumSize: Size(81, 32), // Width and height
+                        minimumSize: const Size(81, 32), // Width and height
                       ),
                       child: CustomText(
                         text: 'chat'.tr,
@@ -171,7 +174,8 @@ class _LocalTripCardState extends State<LocalTripCard> {
             ),
             //                              // SizedBox(height: width * 0.03),
             MediaQuery(
-              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              data: MediaQuery.of(context)
+                  .copyWith(textScaler: TextScaler.linear(1.0)),
               child: ExpandedTile(
                 contentseparator: 12,
                 trailing: _controller.isExpanded
@@ -179,7 +183,7 @@ class _LocalTripCardState extends State<LocalTripCard> {
                         text: AppUtil.rtlDirection2(context)
                             ? 'القليل'
                             : 'See less',
-                        color: Color(0xFF36B268),
+                        color: const Color(0xFF36B268),
                         fontSize: 13,
                         fontFamily: AppUtil.rtlDirection2(context)
                             ? 'SF Arabic'
@@ -188,7 +192,7 @@ class _LocalTripCardState extends State<LocalTripCard> {
                       )
                     : CustomText(
                         text: 'seeMore'.tr,
-                        color: Color(0xFF36B268),
+                        color: const Color(0xFF36B268),
                         fontSize: 13,
                         fontFamily: AppUtil.rtlDirection2(context)
                             ? 'SF Arabic'
@@ -201,7 +205,7 @@ class _LocalTripCardState extends State<LocalTripCard> {
                   //
                   setState(() {});
                 },
-                title: Text(''),
+                title: const Text(''),
                 content: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -213,7 +217,7 @@ class _LocalTripCardState extends State<LocalTripCard> {
                     //SizedBox(height: width * 0.025),
 
                     if (address.isNotEmpty) ...[
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       ItineraryTile(
                         title: address,
                         image: 'assets/icons/map_pin.svg',
@@ -223,7 +227,7 @@ class _LocalTripCardState extends State<LocalTripCard> {
                       ),
                     ],
                     // SizedBox(height: width * 0.025),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
 
                     ItineraryTile(
                       title:
@@ -231,7 +235,7 @@ class _LocalTripCardState extends State<LocalTripCard> {
                       image: "assets/icons/guests.svg",
                     ),
 
-                    SizedBox(height: 11),
+                    const SizedBox(height: 11),
                   ],
                 ),
                 controller: _controller,

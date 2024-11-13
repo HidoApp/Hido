@@ -72,6 +72,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                     if (password != confirmedPassword) {
                       return 'ivalidPassAndConfirm'.tr;
                     }
+                    return null;
                   },
                   onChanged: (String newPassword) => password = newPassword,
                   suffixIcon: GestureDetector(
@@ -114,6 +115,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                     if (password != confirmedPassword) {
                       return 'ivalidPassAndConfirm'.tr;
                     }
+                    return null;
                   },
                   onChanged: (String newPassword) =>
                       confirmedPassword = newPassword,

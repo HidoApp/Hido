@@ -139,7 +139,7 @@ class _EditAdventureState extends State<EditAdventure> {
   Future<void> _loadImages() async {
     List<dynamic> images = [];
     _servicesController.images.clear();
-    for (var path in widget.adventureObj!.image!) {
+    for (var path in widget.adventureObj.image!) {
       images.add(
           path); // Add all paths to the list, they can be URLs or File paths.
     }
@@ -257,7 +257,7 @@ class _EditAdventureState extends State<EditAdventure> {
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _guestsController = TextEditingController();
 
-  int? _selectedRadio1 = 1;
+  final int? _selectedRadio1 = 1;
   int guestNum = 0;
   String startTime = '';
   String endTime = '';
@@ -306,7 +306,7 @@ class _EditAdventureState extends State<EditAdventure> {
       PriceEmpty = _priceController.text.isEmpty;
       if (_priceController.text.isNotEmpty) {
         int? price = int.tryParse(_priceController.text);
-        PriceLarger = price == null || price! < 150;
+        PriceLarger = price == null || price < 150;
 
         //check if price not int
         String priceText = _priceController.text;
@@ -451,7 +451,7 @@ class _EditAdventureState extends State<EditAdventure> {
               ),
               child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -479,8 +479,8 @@ class _EditAdventureState extends State<EditAdventure> {
           // Get.offAll(() => const AjwadiBottomBar());
           Get.back();
           Get.back();
-          final _experienceController = Get.put(AjwadiExploreController());
-          _experienceController.getAllExperiences(context: context);
+          final experienceController = Get.put(AjwadiExploreController());
+          experienceController.getAllExperiences(context: context);
         });
       } else {}
     } catch (e) {}
@@ -529,7 +529,7 @@ class _EditAdventureState extends State<EditAdventure> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(8.0)),
                           ),
-                          content: Container(
+                          content: SizedBox(
                             width: double.infinity,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -540,7 +540,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                 ),
                                 CustomText(
                                   textAlign: TextAlign.center,
-                                  color: Color(0xFFDC362E),
+                                  color: const Color(0xFFDC362E),
                                   fontSize: 15,
                                   fontFamily: AppUtil.rtlDirection2(context)
                                       ? 'SF Arabic'
@@ -555,7 +555,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                   textAlign: TextAlign.center,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w400,
-                                  color: Color(0xFF41404A),
+                                  color: const Color(0xFF41404A),
                                   text: 'DeleteNote'.tr,
                                   fontFamily: AppUtil.rtlDirection2(context)
                                       ? 'SF Arabic'
@@ -567,7 +567,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                 Obx(
                                   () => _servicesController
                                           .isAdventureDeleteLoading.value
-                                      ? Center(
+                                      ? const Center(
                                           child: CircularProgressIndicator
                                               .adaptive())
                                       : GestureDetector(
@@ -601,7 +601,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                                     child: Container(
                                                       width: double.infinity,
                                                       padding:
-                                                          EdgeInsets.all(16),
+                                                          const EdgeInsets.all(
+                                                              16),
                                                       child: Column(
                                                         mainAxisSize:
                                                             MainAxisSize.min,
@@ -643,10 +644,10 @@ class _EditAdventureState extends State<EditAdventure> {
                                                 Get.back();
                                                 Get.back();
 
-                                                final _experienceController =
+                                                final experienceController =
                                                     Get.put(
                                                         AjwadiExploreController());
-                                                _experienceController
+                                                experienceController
                                                     .getAllExperiences(
                                                         context: context);
                                               });
@@ -666,7 +667,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                 vertical: 3),
                                             alignment: Alignment.center,
                                             decoration: BoxDecoration(
-                                              color: Color(0xFFDC362E),
+                                              color: const Color(0xFFDC362E),
                                               borderRadius:
                                                   BorderRadius.circular(4),
                                             ),
@@ -696,7 +697,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                           vertical: 3),
                                       decoration: BoxDecoration(
                                         border: Border.all(
-                                          color: Color(0xFFDC362E),
+                                          color: const Color(0xFFDC362E),
                                           width: 2,
                                         ),
                                         borderRadius: BorderRadius.circular(4),
@@ -709,7 +710,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                   ? 'SF Arabic'
                                                   : 'SF Pro',
                                           fontWeight: FontWeight.w500,
-                                          color: Color(0xFFDC362E),
+                                          color: const Color(0xFFDC362E),
                                           text: 'cancel'.tr)),
                                 ),
                               ],
@@ -722,14 +723,13 @@ class _EditAdventureState extends State<EditAdventure> {
                 ),
 
                 bottomNavigationBar: Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                         left: 16.0, right: 16.0, bottom: 24.0, top: 16),
                     child: Obx(
                       () => _eventController.isImagesLoading.value ||
                               _servicesController.isEditAdveentureLoading.value
-                          ? Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 160),
+                          ? const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 160),
                               child: CircularProgressIndicator.adaptive(),
                             )
                           : CustomButton(
@@ -810,7 +810,7 @@ class _EditAdventureState extends State<EditAdventure> {
                             const Divider(
                               color: lightGrey,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 14,
                             ),
 
@@ -824,21 +824,23 @@ class _EditAdventureState extends State<EditAdventure> {
                                       ToggleSwitch(
                                         minWidth: 55,
                                         cornerRadius: 12,
-                                        activeBgColors: [
+                                        activeBgColors: const [
                                           [Colors.white],
                                           [Colors.white]
                                         ],
                                         activeBorders: [
                                           Border.all(
-                                              color: Color(0xFFF5F5F5),
+                                              color: const Color(0xFFF5F5F5),
                                               width: 2.0),
                                           Border.all(
-                                              color: Color(0xFFF5F5F5),
+                                              color: const Color(0xFFF5F5F5),
                                               width: 2.0),
                                         ],
-                                        activeFgColor: Color(0xFF070708),
-                                        inactiveBgColor: Color(0xFFF5F5F5),
-                                        inactiveFgColor: Color(0xFF9392A0),
+                                        activeFgColor: const Color(0xFF070708),
+                                        inactiveBgColor:
+                                            const Color(0xFFF5F5F5),
+                                        inactiveFgColor:
+                                            const Color(0xFF9392A0),
                                         initialLabelIndex:
                                             _selectedLanguageIndex,
                                         totalSwitches: 2,
@@ -876,7 +878,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                     : FontWeight.w500,
                                           ),
                                         ],
-                                        customHeights: [90, 90],
+                                        customHeights: const [90, 90],
                                         onToggle: (index) {
                                           setState(() {
                                             _selectedLanguageIndex = index!;
@@ -905,7 +907,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                   ? 'عنوان التجربة'
                                                   : 'Experience title',
                                               style: TextStyle(
-                                                color: Color(0xFF070708),
+                                                color: const Color(0xFF070708),
                                                 fontSize: 17,
                                                 fontFamily:
                                                     _selectedLanguageIndex == 0
@@ -936,11 +938,11 @@ class _EditAdventureState extends State<EditAdventure> {
                                                                 0
                                                             ? titleArEmpty
                                                                 ? colorRed
-                                                                : Color(
+                                                                : const Color(
                                                                     0xFFB9B8C1)
                                                             : titleENEmpty
                                                                 ? colorRed
-                                                                : Color(
+                                                                : const Color(
                                                                     0xFFB9B8C1),
                                                   ),
                                                   borderRadius:
@@ -962,7 +964,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                                             ? 'مثال: منزل دانا'
                                                             : 'example: Dana’s house',
                                                     hintStyle: TextStyle(
-                                                      color: Color(0xFFB9B8C1),
+                                                      color: const Color(
+                                                          0xFFB9B8C1),
                                                       fontSize: 15,
                                                       fontFamily:
                                                           _selectedLanguageIndex ==
@@ -985,9 +988,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                             ),
                                             if (titleArEmpty &&
                                                 _selectedLanguageIndex == 0)
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 8.0),
+                                              const Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 8.0),
                                                 child: Text(
                                                   'يجب إضافة عنوان للتجربة ',
                                                   style: TextStyle(
@@ -1000,9 +1003,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                               ),
                                             if (_selectedLanguageIndex == 1 &&
                                                 titleENEmpty)
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 8.0),
+                                              const Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 8.0),
                                                 child: Text(
                                                   'You need to add a title ',
                                                   style: TextStyle(
@@ -1029,7 +1032,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                   ? 'الوصف'
                                                   : 'Description',
                                               style: TextStyle(
-                                                color: Color(0xFF070708),
+                                                color: const Color(0xFF070708),
                                                 fontSize: 17,
                                                 fontFamily:
                                                     _selectedLanguageIndex == 0
@@ -1059,11 +1062,11 @@ class _EditAdventureState extends State<EditAdventure> {
                                                               0
                                                           ? bioArEmpty
                                                               ? colorRed
-                                                              : Color(
+                                                              : const Color(
                                                                   0xFFB9B8C1)
                                                           : bioEnEmpty
                                                               ? colorRed
-                                                              : Color(
+                                                              : const Color(
                                                                   0xFFB9B8C1)),
                                                   borderRadius:
                                                       BorderRadius.circular(8),
@@ -1102,7 +1105,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                                         ? 'أذكر أبرز ما يميزها ولماذا يجب على السياح زيارتها'
                                                         : 'highlight what makes it unique and why tourists should visit',
                                                     hintStyle: TextStyle(
-                                                      color: Color(0xFFB9B8C1),
+                                                      color: const Color(
+                                                          0xFFB9B8C1),
                                                       fontSize: 15,
                                                       fontFamily:
                                                           _selectedLanguageIndex ==
@@ -1125,9 +1129,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                             ),
                                             if (bioEnEmpty &&
                                                 _selectedLanguageIndex == 1)
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 8.0),
+                                              const Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 8.0),
                                                 child: Text(
                                                   'You need to add a discription for the experience',
                                                   style: TextStyle(
@@ -1140,9 +1144,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                               ),
                                             if (bioArEmpty &&
                                                 _selectedLanguageIndex == 0)
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 8.0),
+                                              const Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 8.0),
                                                 child: Text(
                                                   "يجب إضافة وصف للتجربة ",
                                                   style: TextStyle(
@@ -1161,7 +1165,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                                     ? '*يجب ألا يتجاوز الوصف 150 كلمة'
                                                     : '*the description must not exceed 150 words',
                                                 style: TextStyle(
-                                                  color: Color(0xFFB9B8C1),
+                                                  color:
+                                                      const Color(0xFFB9B8C1),
                                                   fontSize: 11,
                                                   fontFamily:
                                                       _selectedLanguageIndex ==
@@ -1223,7 +1228,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                                   width: 1,
                                                   color: guestEmpty
                                                       ? colorRed
-                                                      : Color(0xFFB9B8C1)),
+                                                      : const Color(
+                                                          0xFFB9B8C1)),
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                             ),
@@ -1241,7 +1247,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                         : 'SF Pro',
                                                 fontSize: 15,
                                               ),
-                                              Spacer(),
+                                              const Spacer(),
                                               GestureDetector(
                                                   onTap: () {
                                                     if (guestNum > 0) {
@@ -1288,7 +1294,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                   ? 'يجب ان تستقبل على الاقل 5 اشخاص'
                                                   : 'You need to add at least one Person',
                                               style: TextStyle(
-                                                color: Color(0xFFDC362E),
+                                                color: const Color(0xFFDC362E),
                                                 fontSize: 11,
                                                 fontFamily:
                                                     AppUtil.rtlDirection2(
@@ -1354,7 +1360,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                                 .DateErrorMessage
                                                                 .value
                                                     ? Colors.red
-                                                    : Color(0xFFB9B8C1)),
+                                                    : const Color(0xFFB9B8C1)),
                                             borderRadius:
                                                 BorderRadius.circular(8),
                                           ),
@@ -1415,7 +1421,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                   ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
                                                   : "*Please select a date at least 48 hours from now",
                                           style: TextStyle(
-                                            color: Color(0xFFDC362E),
+                                            color: const Color(0xFFDC362E),
                                             fontSize: width * 0.028,
                                             fontFamily:
                                                 AppUtil.rtlDirection2(context)
@@ -1473,7 +1479,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                             : DurationErrorMessage ??
                                                                     false
                                                                 ? colorRed
-                                                                : Color(
+                                                                : const Color(
                                                                     0xFFB9B8C1)),
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -1711,7 +1717,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                                           : "Select The Time"
                                                       : '',
                                                   style: TextStyle(
-                                                    color: Color(0xFFDC362E),
+                                                    color:
+                                                        const Color(0xFFDC362E),
                                                     fontSize: width * 0.028,
                                                     fontFamily:
                                                         AppUtil.rtlDirection2(
@@ -1773,7 +1780,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                             : DurationErrorMessage ??
                                                                     false
                                                                 ? colorRed
-                                                                : Color(
+                                                                : const Color(
                                                                     0xFFB9B8C1)),
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -2024,7 +2031,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                                           ? "يجب أن لايسبق وقت بدء التجربة"
                                                           : "*Can’t be before start time",
                                                   style: TextStyle(
-                                                    color: Color(0xFFDC362E),
+                                                    color:
+                                                        const Color(0xFFDC362E),
                                                     fontSize: width * 0.028,
                                                     fontFamily:
                                                         AppUtil.rtlDirection2(
@@ -2070,14 +2078,15 @@ class _EditAdventureState extends State<EditAdventure> {
                                     Stack(
                                       children: [
                                         ClipRRect(
-                                          borderRadius: BorderRadius.all(
+                                          borderRadius: const BorderRadius.all(
                                               Radius.circular(12)),
                                           child: Container(
                                             decoration: BoxDecoration(
                                               color:
                                                   almostGrey.withOpacity(0.2),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(12)),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(12)),
                                             ),
                                             height: 246,
                                             width: double.infinity,
@@ -2098,7 +2107,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                               ),
                                               markers: {
                                                 Marker(
-                                                  markerId: MarkerId("marker1"),
+                                                  markerId:
+                                                      const MarkerId("marker1"),
                                                   position: _currentPosition,
                                                   draggable: true,
                                                   onDragEnd:
@@ -2129,13 +2139,14 @@ class _EditAdventureState extends State<EditAdventure> {
                                             height: 45,
                                             decoration: BoxDecoration(
                                               color: Colors.white,
-                                              borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(12),
-                                                  bottomRight:
-                                                      Radius.circular(12)),
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                      bottomLeft:
+                                                          Radius.circular(12),
+                                                      bottomRight:
+                                                          Radius.circular(12)),
                                               border: Border.all(
-                                                color: Color(
+                                                color: const Color(
                                                     0xFFE2E2E2), // Change this to your desired border color
                                                 width:
                                                     2, // Change this to your desired border width
@@ -2153,12 +2164,12 @@ class _EditAdventureState extends State<EditAdventure> {
                                                 children: [
                                                   Center(
                                                     child: _isLoading
-                                                        ? CircularProgressIndicator
+                                                        ? const CircularProgressIndicator
                                                             .adaptive()
                                                         : Text(
                                                             address,
                                                             style: TextStyle(
-                                                              color: Color(
+                                                              color: const Color(
                                                                   0xFF9392A0),
                                                               fontSize: 13,
                                                               fontFamily: AppUtil
@@ -2211,7 +2222,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                       decoration: InputDecoration(
                                         hintText: '00.00 SAR /per person',
                                         hintStyle: TextStyle(
-                                          color: Color(0xFFB9B8C1),
+                                          color: const Color(0xFFB9B8C1),
                                           fontSize: 15,
                                           fontFamily:
                                               AppUtil.rtlDirection2(context)
@@ -2229,20 +2240,21 @@ class _EditAdventureState extends State<EditAdventure> {
                                             color: PriceEmpty ||
                                                     PriceLarger ||
                                                     PriceDouble
-                                                ? Color(0xFFDC362E)
-                                                : Color(0xFFB9B8C1),
+                                                ? const Color(0xFFDC362E)
+                                                : const Color(0xFFB9B8C1),
                                           ),
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         ),
-                                        focusedBorder: OutlineInputBorder(
+                                        focusedBorder: const OutlineInputBorder(
                                           borderSide: BorderSide(
                                             width: 1,
                                             color: Graytext,
                                           ),
                                         ),
-                                        contentPadding: EdgeInsets.symmetric(
-                                            horizontal: 15),
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 15),
                                       ),
                                       keyboardType: TextInputType.number,
                                     ),
@@ -2265,7 +2277,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                       ? '*The price must be an integer value only'
                                                       : 'You need to add a valid price, >= 150',
                                           style: TextStyle(
-                                            color: Color(0xFFDC362E),
+                                            color: const Color(0xFFDC362E),
                                             fontSize: width * 0.028,
                                             fontFamily:
                                                 AppUtil.rtlDirection2(context)

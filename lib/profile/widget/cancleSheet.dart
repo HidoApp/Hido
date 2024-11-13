@@ -52,7 +52,7 @@ class _CancelSheetState extends State<CancelSheet> {
         // height: 400,
 
         //  clipBehavior: Clip.antiAlias,
-        decoration: ShapeDecoration(
+        decoration: const ShapeDecoration(
           color: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -73,14 +73,14 @@ class _CancelSheetState extends State<CancelSheet> {
             // mainAxisAlignment: MainAxisAlignment.start,
             // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              BottomSheetIndicator(),
+              const BottomSheetIndicator(),
               SizedBox(height: MediaQuery.of(context).size.width * 0.04),
               Container(
                 width: 48,
                 height: 48,
                 padding: const EdgeInsets.all(8),
                 decoration: ShapeDecoration(
-                  color: Color(0xFFFBEAE9),
+                  color: const Color(0xFFFBEAE9),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(9999),
                   ),
@@ -89,7 +89,7 @@ class _CancelSheetState extends State<CancelSheet> {
                   'assets/icons/warning.svg',
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 AppUtil.rtlDirection2(context) ? "إلغاء الحجز" : "Canceling",
                 textAlign: TextAlign.center,
@@ -100,13 +100,13 @@ class _CancelSheetState extends State<CancelSheet> {
                       AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                 ),
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Text(
                 'CancelBookingConfirm'.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14,
-                  color: Color(0xFF9392A0),
+                  color: const Color(0xFF9392A0),
                   fontFamily:
                       AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                   fontWeight: FontWeight.w500,
@@ -119,7 +119,7 @@ class _CancelSheetState extends State<CancelSheet> {
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 1, color: Color(0xFFB9B8C1)),
+                    side: const BorderSide(width: 1, color: Color(0xFFB9B8C1)),
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
@@ -139,7 +139,7 @@ class _CancelSheetState extends State<CancelSheet> {
                         ? 'اكتب هنا'
                         : 'Write here',
                     hintStyle: TextStyle(
-                      color: Color(0xFFB9B8C1),
+                      color: const Color(0xFFB9B8C1),
                       fontSize: 15,
                       fontFamily: AppUtil.rtlDirection2(context)
                           ? 'SF Arabic'
@@ -206,9 +206,9 @@ class _CancelSheetState extends State<CancelSheet> {
                           }
                         },
                         title: 'Confirm'.tr,
-                        buttonColor: Color(0xFFDC362E),
+                        buttonColor: const Color(0xFFDC362E),
                         textColor: Colors.white,
-                        borderColor: Color(0xFFDC362E),
+                        borderColor: const Color(0xFFDC362E),
                       ),
               ),
             ],

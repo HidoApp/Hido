@@ -3,7 +3,6 @@ import 'package:ajwad_v4/request/tourist/view/custom_ajwadi_card.dart';
 import 'package:ajwad_v4/request/tourist/view/show_ajwadi_info_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -106,8 +105,8 @@ class _SelectAjwadySheet extends State<SelectAjwadySheet> {
                                         _offerController.offers[index].image ??
                                             '',
                                     name: _offerController.offers[index].name!,
-                                    rating:
-                                        _offerController.offers[index].tourRating!,
+                                    rating: _offerController
+                                        .offers[index].tourRating!,
                                     price:
                                         _offerController.offers[index].price!,
                                     tripNumber: _offerController

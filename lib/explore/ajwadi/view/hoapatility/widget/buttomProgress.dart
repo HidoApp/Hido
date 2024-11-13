@@ -114,8 +114,8 @@ class _ButtomProgressState extends State<ButtomProgress> {
               StepProgressIndicator(
                 totalSteps: 6,
                 currentStep: activeIndex + 1,
-                selectedColor: Color(0xFF36B268),
-                unselectedColor: Color(0xFFDCDCE0),
+                selectedColor: const Color(0xFF36B268),
+                unselectedColor: const Color(0xFFDCDCE0),
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -270,7 +270,7 @@ class _ButtomProgressState extends State<ButtomProgress> {
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 clipBehavior: Clip.antiAlias,
                 decoration: ShapeDecoration(
-                  color: Color(0xFF36B268),
+                  color: const Color(0xFF36B268),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                 ),
@@ -306,7 +306,7 @@ class _ButtomProgressState extends State<ButtomProgress> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               clipBehavior: Clip.antiAlias,
               decoration: ShapeDecoration(
-                color: Color(0xFF36B268),
+                color: const Color(0xFF36B268),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
               ),
@@ -351,7 +351,7 @@ class _ButtomProgressState extends State<ButtomProgress> {
         child: CustomText(
           text: 'Back'.tr,
           textAlign: TextAlign.center,
-          color: Color(0xFF070708),
+          color: const Color(0xFF070708),
           fontSize: 17,
           fontFamily: 'HT Rakik',
           fontWeight: FontWeight.w500,
@@ -363,7 +363,7 @@ class _ButtomProgressState extends State<ButtomProgress> {
 }
 
 class AddHospitalityInfo extends StatefulWidget {
-  AddHospitalityInfo({
+  const AddHospitalityInfo({
     Key? key,
     required this.textField1ControllerEN,
     required this.textField2ControllerEN,
@@ -382,7 +382,7 @@ class AddHospitalityInfo extends StatefulWidget {
 
 class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
   int _selectedLanguageIndex = 1; // 0 for AR, 1 for EN
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void dispose() {
@@ -422,17 +422,17 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
               ToggleSwitch(
                 minWidth: 55,
                 cornerRadius: 12,
-                activeBgColors: [
+                activeBgColors: const [
                   [Colors.white],
                   [Colors.white]
                 ],
                 activeBorders: [
-                  Border.all(color: Color(0xFFF5F5F5), width: 2.0),
-                  Border.all(color: Color(0xFFF5F5F5), width: 2.0),
+                  Border.all(color: const Color(0xFFF5F5F5), width: 2.0),
+                  Border.all(color: const Color(0xFFF5F5F5), width: 2.0),
                 ],
-                activeFgColor: Color(0xFF070708),
-                inactiveBgColor: Color(0xFFF5F5F5),
-                inactiveFgColor: Color(0xFF9392A0),
+                activeFgColor: const Color(0xFF070708),
+                inactiveBgColor: const Color(0xFFF5F5F5),
+                inactiveFgColor: const Color(0xFF9392A0),
                 initialLabelIndex: _selectedLanguageIndex,
                 totalSwitches: 2,
                 labels: _selectedLanguageIndex == 0
@@ -457,7 +457,7 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                         : FontWeight.w500,
                   ),
                 ],
-                customHeights: [90, 90],
+                customHeights: const [90, 90],
                 onToggle: (index) {
                   setState(() {
                     _selectedLanguageIndex = index!;
@@ -482,7 +482,7 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                       text: _selectedLanguageIndex == 0
                           ? 'عنوان التجربة'
                           : 'Experience title',
-                      color: Color(0xFF070708),
+                      color: const Color(0xFF070708),
                       fontSize: 17,
                       fontFamily:
                           _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
@@ -508,7 +508,7 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                             ? 'مثال: منزل دانا'
                             : 'example: Dana’s house',
                         hintStyle: TextStyle(
-                          color: Color(0xFFB9B8C1),
+                          color: const Color(0xFFB9B8C1),
                           fontSize: 15,
                           fontFamily: _selectedLanguageIndex == 0
                               ? 'SF Arabic'
@@ -517,17 +517,17 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                         ),
                         filled: true,
                         fillColor: Colors.white,
-                        contentPadding: EdgeInsets.symmetric(
+                        contentPadding: const EdgeInsets.symmetric(
                             horizontal: 12,
                             vertical: 0), // Adjust vertical padding for height
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide:
-                              BorderSide(width: 1, color: Color(0xFFB9B8C1)),
+                          borderSide: const BorderSide(
+                              width: 1, color: Color(0xFFB9B8C1)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                               width: 1,
                               color: Color(
                                   0xFFB9B8C1)), // Same color to remove focus color
@@ -548,7 +548,7 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                 children: [
                   CustomText(
                     text: _selectedLanguageIndex == 0 ? 'الوصف' : 'Description',
-                    color: Color(0xFF070708),
+                    color: const Color(0xFF070708),
                     fontSize: 17,
                     fontFamily:
                         _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
@@ -564,7 +564,8 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                     decoration: ShapeDecoration(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 1, color: Color(0xFFB9B8C1)),
+                        side: const BorderSide(
+                            width: 1, color: Color(0xFFB9B8C1)),
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
@@ -603,7 +604,7 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                               ? 'أذكر أبرز ما يميزها ولماذا يجب على السياح زيارتها'
                               : 'highlight what makes it unique and why tourists should visit',
                           hintStyle: TextStyle(
-                            color: Color(0xFFB9B8C1),
+                            color: const Color(0xFFB9B8C1),
                             fontSize: 15,
                             fontFamily: _selectedLanguageIndex == 0
                                 ? 'SF Arabic'
@@ -624,7 +625,7 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                       text: _selectedLanguageIndex == 0
                           ? '*يجب ألا يتجاوز الوصف 150 كلمة'
                           : '*the description must not exceed 150 words',
-                      color: Color(0xFFB9B8C1),
+                      color: const Color(0xFFB9B8C1),
                       fontSize: 11,
                       fontFamily:
                           _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
@@ -642,7 +643,7 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
 }
 
 class AddHospitalityLocation extends StatefulWidget {
-  AddHospitalityLocation({
+  const AddHospitalityLocation({
     Key? key,
     required this.textField1Controller,
     required this.hospitalityController,
@@ -665,8 +666,8 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
   LatLng? _currentPosition;
   String address = '';
   UserLocation? userLocation;
-  Set<Marker> _userMarkers = {};
-  Set<Marker> _markers = {};
+  final Set<Marker> _userMarkers = {};
+  final Set<Marker> _markers = {};
   LatLng _currentLocation = const LatLng(24.7136, 46.6753);
 
   void addCustomIcon() {
@@ -844,14 +845,16 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: almostGrey.withOpacity(0.2),
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12)),
                       ),
                       height: AppUtil.rtlDirection2(context)
                           ? height * 0.49
                           : height * 0.49,
                       width: double.infinity,
                       child: _currentPosition == null
-                          ? Center(child: CircularProgressIndicator.adaptive())
+                          ? const Center(
+                              child: CircularProgressIndicator.adaptive())
                           : GoogleMap(
                               scrollGesturesEnabled: true,
                               zoomControlsEnabled: false,
@@ -866,7 +869,7 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                               ),
                               markers: {
                                 Marker(
-                                  markerId: MarkerId("marker1"),
+                                  markerId: const MarkerId("marker1"),
                                   position: _currentPosition!,
                                   draggable: true,
                                   onDragEnd: (LatLng newPosition) {
@@ -919,11 +922,11 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                       height: 45,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(12),
                             bottomRight: Radius.circular(12)),
                         border: Border.all(
-                          color: Color(
+                          color: const Color(
                               0xFFE2E2E2), // Change this to your desired border color
                           width: 2, // Change this to your desired border width
                         ),
@@ -936,10 +939,10 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                           children: [
                             Center(
                               child: _isLoading
-                                  ? CircularProgressIndicator.adaptive()
+                                  ? const CircularProgressIndicator.adaptive()
                                   : CustomText(
                                       text: address,
-                                      color: Color(0xFF9392A0),
+                                      color: const Color(0xFF9392A0),
                                       fontSize: 13,
                                       fontFamily: AppUtil.rtlDirection2(context)
                                           ? 'SF Arabic'
@@ -1000,7 +1003,7 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                           // data: MediaQuery.of(context)
                           //     .copyWith(textScaler: const TextScaler.linear(1.0)),
                           data: MediaQuery.of(context)
-                              .copyWith(textScaleFactor: 1.0),
+                              .copyWith(textScaler: TextScaler.linear(1.0)),
                           child: Text(
                             'regionChoose'.tr,
                             style: TextStyle(
@@ -1098,8 +1101,8 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                         },
                         buttonStyleData: ButtonStyleData(
                           padding: AppUtil.rtlDirection2(context)
-                              ? EdgeInsets.only(left: 9)
-                              : EdgeInsets.only(right: 9),
+                              ? const EdgeInsets.only(left: 9)
+                              : const EdgeInsets.only(right: 9),
                         ),
                         iconStyleData: const IconStyleData(
                           icon: Icon(
@@ -1110,16 +1113,14 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
                         ),
                         dropdownStyleData: DropdownStyleData(
                           maxHeight: 100,
-                          decoration: BoxDecoration(),
+                          decoration: const BoxDecoration(),
                           scrollbarTheme: ScrollbarThemeData(
                             radius: const Radius.circular(40),
-                            thickness: MaterialStateProperty.all(8),
-                            thumbVisibility: MaterialStateProperty.all(true),
-                            thumbColor:
-                                MaterialStateProperty.all(starGreyColor),
-                            trackColor:
-                                MaterialStateProperty.all(lightGreyColor),
-                            trackVisibility: MaterialStateProperty.all(true),
+                            thickness: WidgetStateProperty.all(8),
+                            thumbVisibility: WidgetStateProperty.all(true),
+                            thumbColor: WidgetStateProperty.all(starGreyColor),
+                            trackColor: WidgetStateProperty.all(lightGreyColor),
+                            trackVisibility: WidgetStateProperty.all(true),
                           ),
                         ),
                         menuItemStyleData: const MenuItemStyleData(
@@ -1151,11 +1152,12 @@ class PhotoGalleryPage extends StatefulWidget {
 }
 
 class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
-  List<XFile> _selectedImages = [];
+  final List<XFile> _selectedImages = [];
   final ImagePicker _picker = ImagePicker();
 
   final HospitalityController _hospitalityController =
       Get.put(HospitalityController());
+  @override
   void initState() {
     super.initState();
   }
@@ -1163,7 +1165,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
   Future<void> _showImagePickerOptions(BuildContext context) async {
     showModalBottomSheet(
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(24),
           topRight: Radius.circular(24),
@@ -1183,9 +1185,9 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
 
   Future<void> _pickImage(ImageSource source) async {
     try {
-      final List<XFile>? pickedImages = await _picker.pickMultiImage();
+      final List<XFile> pickedImages = await _picker.pickMultiImage();
       if (pickedImages != null) {
-        if (AppUtil.isImageValidate(await pickedImages.length)) {
+        if (AppUtil.isImageValidate(pickedImages.length)) {
           setState(() {
             _hospitalityController.selectedImages.addAll(pickedImages);
           });
@@ -1217,7 +1219,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
   Future<void> _showImageOptions(BuildContext context, int index) async {
     showModalBottomSheet(
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(24),
           topRight: Radius.circular(24),
@@ -1231,7 +1233,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
             right: 24,
             bottom: 44,
           ),
-          decoration: ShapeDecoration(
+          decoration: const ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
@@ -1278,7 +1280,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 12),
                       decoration: ShapeDecoration(
-                        color: Color(0xFF37B268),
+                        color: const Color(0xFF37B268),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -1308,15 +1310,15 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                           horizontal: 16, vertical: 12),
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
-                          side:
-                              BorderSide(width: 1.5, color: Color(0xFFDC362E)),
+                          side: const BorderSide(
+                              width: 1.5, color: Color(0xFFDC362E)),
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                       child: CustomText(
                         text: 'Delete'.tr,
                         textAlign: TextAlign.center,
-                        color: Color(0xFFDC362E),
+                        color: const Color(0xFFDC362E),
                         fontSize: 17,
                         fontFamily: 'HT Rakik',
                         fontWeight: FontWeight.w500,
@@ -1341,10 +1343,10 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
             ? Center(
                 child: DottedBorder(
                   strokeWidth: 1,
-                  color: Color(0xFFDCDCE0),
+                  color: const Color(0xFFDCDCE0),
                   borderType: BorderType.RRect,
-                  radius: Radius.circular(12),
-                  dashPattern: [5, 5],
+                  radius: const Radius.circular(12),
+                  dashPattern: const [5, 5],
                   child: Container(
                       width: 390,
                       // height: 599,
@@ -1362,7 +1364,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                               height: 42,
                               padding: const EdgeInsets.all(8),
                               decoration: ShapeDecoration(
-                                color: Color(0xFFECF9F1),
+                                color: const Color(0xFFECF9F1),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(9.33),
                                 ),
@@ -1374,7 +1376,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                           const SizedBox(height: 12),
                           CustomText(
                             text: 'UploadPhotos'.tr,
-                            color: Color(0xFF070708),
+                            color: const Color(0xFF070708),
                             fontSize: 15,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
@@ -1386,7 +1388,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                           CustomText(
                             text: 'uploadLimit'.tr,
                             textAlign: TextAlign.center,
-                            color: Color(0xFFB9B8C1),
+                            color: const Color(0xFFB9B8C1),
                             fontSize: 11,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
@@ -1456,11 +1458,12 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 16),
-                  Container(
+                  const SizedBox(height: 16),
+                  SizedBox(
                     height: 360,
                     child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         crossAxisSpacing: 15,
                         mainAxisSpacing: 15,
@@ -1490,23 +1493,23 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                             onTap: () => _pickImage(ImageSource.gallery),
                             child: DottedBorder(
                               strokeWidth: 1,
-                              color: Color(0xFFDCDCE0),
+                              color: const Color(0xFFDCDCE0),
                               borderType: BorderType.RRect,
-                              radius: Radius.circular(12),
-                              dashPattern: [5, 5],
+                              radius: const Radius.circular(12),
+                              dashPattern: const [5, 5],
                               child: Center(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.add,
                                       size: 24,
                                       color: Color(0xFFB9B8C1),
                                     ),
-                                    SizedBox(height: 4),
+                                    const SizedBox(height: 4),
                                     CustomText(
                                       text: 'Addmore'.tr,
-                                      color: Color(0xFFB9B8C1),
+                                      color: const Color(0xFFB9B8C1),
                                       fontSize: 11,
                                       fontFamily: AppUtil.rtlDirection2(context)
                                           ? 'SF Arabic'
@@ -1525,11 +1528,11 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                             onTap: () => _takePhoto(),
                             child: DottedBorder(
                               strokeWidth: 1,
-                              color: Color(0xFFDCDCE0),
+                              color: const Color(0xFFDCDCE0),
                               borderType: BorderType.RRect,
-                              radius: Radius.circular(12),
-                              dashPattern: [5, 5],
-                              child: Center(
+                              radius: const Radius.circular(12),
+                              dashPattern: const [5, 5],
+                              child: const Center(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -1555,7 +1558,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
 class ImagePickerBottomSheet extends StatefulWidget {
   final Function(List<XFile>) onImagesSelected;
 
-  ImagePickerBottomSheet({required this.onImagesSelected});
+  const ImagePickerBottomSheet({super.key, required this.onImagesSelected});
 
   @override
   _ImagePickerBottomSheetState createState() => _ImagePickerBottomSheetState();
@@ -1566,9 +1569,9 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
   List<XFile>? _selectedImages;
   Future<void> _pickImages() async {
     try {
-      final List<XFile>? pickedImages = await _picker.pickMultiImage();
+      final List<XFile> pickedImages = await _picker.pickMultiImage();
       if (pickedImages != null) {
-        if (AppUtil.isImageValidate(await pickedImages.length)) {
+        if (AppUtil.isImageValidate(pickedImages.length)) {
           setState(() {
             _selectedImages = pickedImages;
           });
@@ -1610,7 +1613,7 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
           0.8, // Set the height to 80% of the screen height
 
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(24),
@@ -1628,13 +1631,13 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
               children: [
                 CustomText(
                   text: 'Choosephotos'.tr,
-                  color: Color(0xFF070708),
+                  color: const Color(0xFF070708),
                   fontSize: 22,
                   fontFamily: 'HT Rakik',
                   fontWeight: FontWeight.w500,
                 ),
                 IconButton(
-                  icon: Icon(Icons.camera_alt_outlined),
+                  icon: const Icon(Icons.camera_alt_outlined),
                   onPressed: _takePhoto,
                 ),
               ],
@@ -1644,9 +1647,10 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
           Expanded(
             // fit: FlexFit.loose,
             child: _selectedImages == null
-                ? Center(child: CircularProgressIndicator.adaptive())
+                ? const Center(child: CircularProgressIndicator.adaptive())
                 : GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       crossAxisSpacing: 4,
                       mainAxisSpacing: 4,
@@ -1677,7 +1681,7 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
 }
 
 class AddGuests extends StatefulWidget {
-  AddGuests({
+  const AddGuests({
     Key? key,
     required this.hospitalityController,
   }) : super(key: key);
@@ -1751,7 +1755,7 @@ class _AddGuestsState extends State<AddGuests> {
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 1, color: Color(0xFFB9B8C1)),
+                    side: const BorderSide(width: 1, color: Color(0xFFB9B8C1)),
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
@@ -1766,7 +1770,7 @@ class _AddGuestsState extends State<AddGuests> {
                           : 'SF Pro',
                       fontSize: 15,
                     ),
-                    Spacer(),
+                    const Spacer(),
                     GestureDetector(
                         onTap: () {
                           if (widget.hospitalityController.seletedSeat.value >
@@ -1839,10 +1843,10 @@ class _AddGuestsState extends State<AddGuests> {
                           materialTapTargetSize:
                               MaterialTapTargetSize.shrinkWrap,
                           visualDensity:
-                              VisualDensity(horizontal: -4, vertical: -4),
-                          fillColor: MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.selected)) {
+                              const VisualDensity(horizontal: -4, vertical: -4),
+                          fillColor: WidgetStateProperty.resolveWith<Color>(
+                              (Set<WidgetState> states) {
+                            if (states.contains(WidgetState.selected)) {
                               return colorGreen;
                             }
                             return dotGreyColor;
@@ -1851,7 +1855,7 @@ class _AddGuestsState extends State<AddGuests> {
                         const SizedBox(width: 4),
                         CustomText(
                           text: "female".tr,
-                          color: Color(0xFF41404A),
+                          color: const Color(0xFF41404A),
                           fontSize: 13,
                           fontFamily: AppUtil.rtlDirection2(context)
                               ? 'SF Arabic'
@@ -1876,10 +1880,10 @@ class _AddGuestsState extends State<AddGuests> {
                           materialTapTargetSize:
                               MaterialTapTargetSize.shrinkWrap,
                           visualDensity:
-                              VisualDensity(horizontal: -4, vertical: -4),
-                          fillColor: MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.selected)) {
+                              const VisualDensity(horizontal: -4, vertical: -4),
+                          fillColor: WidgetStateProperty.resolveWith<Color>(
+                              (Set<WidgetState> states) {
+                            if (states.contains(WidgetState.selected)) {
                               return colorGreen;
                             }
                             return dotGreyColor;
@@ -1888,7 +1892,7 @@ class _AddGuestsState extends State<AddGuests> {
                         const SizedBox(width: 4),
                         CustomText(
                           text: 'male'.tr,
-                          color: Color(0xFF41404A),
+                          color: const Color(0xFF41404A),
                           fontSize: 13,
                           fontFamily: AppUtil.rtlDirection2(context)
                               ? 'SF Arabic'
@@ -1911,10 +1915,10 @@ class _AddGuestsState extends State<AddGuests> {
                         onChanged: _updateGender,
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         visualDensity:
-                            VisualDensity(horizontal: -4, vertical: -4),
-                        fillColor: MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.selected)) {
+                            const VisualDensity(horizontal: -4, vertical: -4),
+                        fillColor: WidgetStateProperty.resolveWith<Color>(
+                            (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.selected)) {
                             return colorGreen;
                           }
                           return dotGreyColor;
@@ -1923,7 +1927,7 @@ class _AddGuestsState extends State<AddGuests> {
                       const SizedBox(width: 4),
                       CustomText(
                         text: 'both'.tr,
-                        color: Color(0xFF41404A),
+                        color: const Color(0xFF41404A),
                         fontSize: 13,
                         fontFamily: AppUtil.rtlDirection2(context)
                             ? 'SF Arabic'
@@ -1944,7 +1948,7 @@ class _AddGuestsState extends State<AddGuests> {
 }
 
 class SelectDateTime extends StatefulWidget {
-  SelectDateTime({
+  const SelectDateTime({
     Key? key,
     required this.hospitalityController,
   }) : super(key: key);
@@ -2050,7 +2054,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                               // !widget.hospitalityController.DateErrorMessage
                               //     .value
                               ? colorRed
-                              : Color(0xFFB9B8C1)),
+                              : const Color(0xFFB9B8C1)),
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
@@ -2158,7 +2162,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                   width: 1,
                                   color: DurationErrorMessage ?? false
                                       ? colorRed
-                                      : Color(0xFFB9B8C1)),
+                                      : const Color(0xFFB9B8C1)),
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
@@ -2175,7 +2179,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                               MainAxisAlignment.end,
                                           children: [
                                             Container(
-                                              decoration: BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Color(0xffffffff),
                                                 border: Border(
                                                   bottom: BorderSide(
@@ -2365,7 +2369,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                       ? colorRed
                                       : DurationErrorMessage ?? false
                                           ? colorRed
-                                          : Color(0xFFB9B8C1)),
+                                          : const Color(0xFFB9B8C1)),
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
@@ -2382,7 +2386,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                               MainAxisAlignment.end,
                                           children: [
                                             Container(
-                                              decoration: BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Color(0xffffffff),
                                                 border: Border(
                                                   bottom: BorderSide(
@@ -2587,10 +2591,10 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         onChanged: _updateMeal,
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         visualDensity:
-                            VisualDensity(horizontal: -4, vertical: -4),
-                        fillColor: MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.selected)) {
+                            const VisualDensity(horizontal: -4, vertical: -4),
+                        fillColor: WidgetStateProperty.resolveWith<Color>(
+                            (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.selected)) {
                             return colorGreen;
                           }
                           return dotGreyColor;
@@ -2599,7 +2603,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                       const SizedBox(width: 4),
                       CustomText(
                         text: 'Breakfast'.tr,
-                        color: Color(0xFF41404A),
+                        color: const Color(0xFF41404A),
                         fontSize: 13,
                         fontFamily: AppUtil.rtlDirection2(context)
                             ? 'SF Arabic'
@@ -2621,10 +2625,10 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         onChanged: _updateMeal,
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         visualDensity:
-                            VisualDensity(horizontal: -4, vertical: -4),
-                        fillColor: MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.selected)) {
+                            const VisualDensity(horizontal: -4, vertical: -4),
+                        fillColor: WidgetStateProperty.resolveWith<Color>(
+                            (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.selected)) {
                             return colorGreen;
                           }
                           return dotGreyColor;
@@ -2633,7 +2637,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                       const SizedBox(width: 4),
                       CustomText(
                         text: 'Lunch'.tr,
-                        color: Color(0xFF41404A),
+                        color: const Color(0xFF41404A),
                         fontSize: 13,
                         fontFamily: AppUtil.rtlDirection2(context)
                             ? 'SF Arabic'
@@ -2655,10 +2659,10 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         onChanged: _updateMeal,
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         visualDensity:
-                            VisualDensity(horizontal: -4, vertical: -4),
-                        fillColor: MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.selected)) {
+                            const VisualDensity(horizontal: -4, vertical: -4),
+                        fillColor: WidgetStateProperty.resolveWith<Color>(
+                            (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.selected)) {
                             return colorGreen;
                           }
                           return dotGreyColor;
@@ -2667,7 +2671,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                       const SizedBox(width: 4),
                       CustomText(
                         text: 'Dinner'.tr,
-                        color: Color(0xFF41404A),
+                        color: const Color(0xFF41404A),
                         fontSize: 13,
                         fontFamily: AppUtil.rtlDirection2(context)
                             ? 'SF Arabic'
@@ -2688,7 +2692,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
 }
 
 class PriceDecisionCard extends StatefulWidget {
-  PriceDecisionCard({
+  const PriceDecisionCard({
     Key? key,
     required this.priceController,
   }) : super(key: key);
@@ -2800,7 +2804,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
             border: Border.all(
               color: errorMessage.isNotEmpty ? Colors.red : Colors.white,
             ),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 color: Color(0x3FC7C7C7),
                 blurRadius: 15,
@@ -2832,7 +2836,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                 ),
               ),
               // const SizedBox(height: 1),
-              Container(
+              SizedBox(
                 width: double.infinity,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -2843,7 +2847,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                         child: TextField(
                           controller: widget.priceController,
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
@@ -2852,7 +2856,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                             contentPadding:
                                 EdgeInsets.all(0), // Optional: Remove padding
                           ),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color(0xFF070708),
                             fontSize: 34,
                             fontFamily: 'HT Rakik',
@@ -2870,7 +2874,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                     else
                       CustomText(
                         text: widget.priceController.text,
-                        color: Color(0xFF070708),
+                        color: const Color(0xFF070708),
                         fontSize: 34,
                         fontFamily: 'HT Rakik',
                         fontWeight: FontWeight.w500,
@@ -2878,7 +2882,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                     const SizedBox(width: 4),
                     CustomText(
                       text: 'sar'.tr,
-                      color: Color(0xFF070708),
+                      color: const Color(0xFF070708),
                       fontSize: 34,
                       fontFamily: 'HT Rakik',
                       fontWeight: FontWeight.w500,
@@ -2919,7 +2923,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
           decoration: ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(
-              side: BorderSide(width: 1, color: Color(0xFFDCDCE0)),
+              side: const BorderSide(width: 1, color: Color(0xFFDCDCE0)),
               borderRadius: BorderRadius.circular(8),
             ),
           ),
@@ -2955,7 +2959,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               SizedBox(
@@ -2997,7 +3001,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
               const SizedBox(
                 height: 4,
               ),
-              Container(
+              SizedBox(
                 width: double.infinity,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -3006,7 +3010,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   children: [
                     CustomText(
                       text: 'Yourearn'.tr,
-                      color: Color(0xFF070708),
+                      color: const Color(0xFF070708),
                       fontSize: 17,
                       fontFamily: AppUtil.rtlDirection2(context)
                           ? 'SF Arabic'
@@ -3017,7 +3021,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                     CustomText(
                       text: ' ${earn.toStringAsFixed(2)} ${'sar'.tr}',
                       textAlign: TextAlign.right,
-                      color: Color(0xFF36B268),
+                      color: const Color(0xFF36B268),
                       fontSize: 17,
                       fontFamily: 'HT Rakik',
                       fontWeight: FontWeight.w500,
@@ -3035,10 +3039,8 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
 
 String formatSelectedDates(RxList<dynamic> dates, BuildContext context) {
   // Convert dynamic list to List<DateTime>
-  List<DateTime> dateTimeList = dates
-      .where((date) => date is DateTime)
-      .map((date) => date as DateTime)
-      .toList();
+  List<DateTime> dateTimeList =
+      dates.whereType<DateTime>().map((date) => date as DateTime).toList();
 
   if (dateTimeList.isEmpty) {
     return 'DD/MM/YYYY';

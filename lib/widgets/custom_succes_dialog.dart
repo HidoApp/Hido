@@ -3,7 +3,7 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
 class CustomSuccessDialog extends StatelessWidget {
-  CustomSuccessDialog({
+  const CustomSuccessDialog({
     Key? key,
   }) : super(key: key);
 
@@ -16,7 +16,7 @@ class CustomSuccessDialog extends StatelessWidget {
       child: Container(
         width: 350,
         height: 110, // Custom height
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -25,7 +25,7 @@ class CustomSuccessDialog extends StatelessWidget {
               'assets/images/paymentSuccess.gif',
               width: 38,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             CustomText(
               text: !AppUtil.rtlDirection2(context)
                   ? "Changes have been saved successfully!"

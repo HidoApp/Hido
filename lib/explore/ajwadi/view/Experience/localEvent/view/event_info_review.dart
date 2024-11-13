@@ -28,7 +28,8 @@ class EventInfoReview extends StatefulWidget {
   final String hospitalityLocation;
   final double? adventurePrice;
 
-  EventInfoReview({
+  const EventInfoReview({
+    super.key,
     required this.hospitalityBioAr,
     required this.hospitalityBioEn,
     required this.hospitalityTitleAr,
@@ -282,6 +283,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
     return newFile;
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CustomAppBar(
@@ -295,7 +297,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
             children: [
               CustomText(
                 text: 'Reviewevent'.tr,
-                color: Color(0xFF070708),
+                color: const Color(0xFF070708),
                 fontSize: 17,
                 fontFamily:
                     AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
@@ -305,7 +307,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
               FittedBox(
                 child: CustomText(
                   text: 'explinationEvent'.tr,
-                  color: Color(0xFF9392A0),
+                  color: const Color(0xFF9392A0),
                   fontSize: 15,
                   fontFamily:
                       AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
@@ -321,7 +323,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  shadows: [
+                  shadows: const [
                     BoxShadow(
                       color: Color(0x3FC7C7C7),
                       blurRadius: 16,
@@ -361,7 +363,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                 text: AppUtil.rtlDirection2(context)
                                     ? widget.hospitalityTitleAr
                                     : widget.hospitalityTitleEn,
-                                color: Color(0xFF070708),
+                                color: const Color(0xFF070708),
                                 fontSize: 16,
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
@@ -400,9 +402,9 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                       const SizedBox(width: 4),
                                       CustomText(
                                         text: AppUtil.rtlDirection2(context)
-                                            ? '${_EventController.ragionAr.value}, ${address}'
-                                            : '${_EventController.ragionEn.value}, ${address}',
-                                        color: Color(0xFF9392A0),
+                                            ? '${_EventController.ragionAr.value}, $address'
+                                            : '${_EventController.ragionEn.value}, $address',
+                                        color: const Color(0xFF9392A0),
                                         fontSize: 11,
                                         fontFamily:
                                             AppUtil.rtlDirection2(context)
@@ -423,7 +425,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                         text: AppUtil.formatSelectedDates(
                                             _EventController.selectedDates,
                                             context),
-                                        color: Color(0xFF9392A0),
+                                        color: const Color(0xFF9392A0),
                                         fontSize: 11,
                                         fontFamily:
                                             AppUtil.rtlDirection2(context)
@@ -448,7 +450,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                       CustomText(
                                         text:
                                             '${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(_EventController.selectedStartTime.value))} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(_EventController.selectedEndTime.value))}',
-                                        color: Color(0xFF9392A0),
+                                        color: const Color(0xFF9392A0),
                                         fontSize: 11,
                                         fontFamily:
                                             AppUtil.rtlDirection2(context)
@@ -468,7 +470,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                   ],
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -491,7 +493,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                       uploadImages().then((value) async {
                                         if (!value) {
                                         } else {
-                                          final isSuccess = await _EventController!.createEvent(
+                                          final isSuccess = await _EventController.createEvent(
                                               nameAr: _EventController
                                                   .titleAr.value,
                                               nameEn: _EventController
@@ -536,7 +538,9 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                                   child: Container(
                                                     width: 350,
                                                     height: 110, // Custom width
-                                                    padding: EdgeInsets.all(16),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            16),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.min,
@@ -547,7 +551,8 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                                         Image.asset(
                                                             'assets/images/paymentSuccess.gif',
                                                             width: 38),
-                                                        SizedBox(height: 16),
+                                                        const SizedBox(
+                                                            height: 16),
                                                         CustomText(
                                                             text: !AppUtil
                                                                     .rtlDirection2(
@@ -569,8 +574,8 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                                   BaseEvent(
                                                       'Event published successfully',
                                                       eventProperties: {
-                                                    'event:':  _EventController
-                                                  .titleEn.value,
+                                                    'event:': _EventController
+                                                        .titleEn.value,
                                                   }));
                                               Get.offAll(() =>
                                                   const AjwadiBottomBar());
@@ -585,7 +590,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                     title: 'Publish'.tr,
                                   ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           CustomButton(
                               onPressed: () {
                                 Get.until((route) =>
@@ -596,7 +601,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                   : 'Return to Experiences',
                               buttonColor: Colors.white.withOpacity(0.3),
                               borderColor: Colors.white,
-                              textColor: Color(0xFF070708)),
+                              textColor: const Color(0xFF070708)),
                         ],
                       ),
                     ),
@@ -611,10 +616,8 @@ class _EventInfoReviewState extends State<EventInfoReview> {
 
 String formatSelectedDates(RxList<dynamic> dates, BuildContext context) {
   // Convert dynamic list to List<DateTime>
-  List<DateTime> dateTimeList = dates
-      .where((date) => date is DateTime)
-      .map((date) => date as DateTime)
-      .toList();
+  List<DateTime> dateTimeList =
+      dates.whereType<DateTime>().map((date) => date as DateTime).toList();
 
   if (dateTimeList.isEmpty) {
     return 'DD/MM/YYYY';

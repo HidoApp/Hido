@@ -3,11 +3,8 @@ import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_chips.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class AboutScreen extends StatefulWidget {

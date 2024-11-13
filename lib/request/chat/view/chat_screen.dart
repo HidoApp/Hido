@@ -81,7 +81,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final Token jwtToken = AuthService.jwtForToken(token)!;
     userId = jwtToken.id;
 
-    log("Chat Screen senderIdchatId ${userId}");
+    log("Chat Screen senderIdchatId $userId");
   }
 
   void _initializeChatAndInfo() async {
@@ -130,9 +130,8 @@ class _ChatScreenState extends State<ChatScreen> {
                               SingleChildScrollView(
                                 child: Column(
                                   children: [
-                                    Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 90)),
+                                    const Padding(
+                                        padding: EdgeInsets.only(left: 90)),
                                     if (widget.isTourist ?? true) ...[
                                       Skeletonizer(
                                           enabled: _profileController
@@ -432,8 +431,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                                           text:
                                                               'ItineraryDetails'
                                                                   .tr,
-                                                          color:
-                                                              Color(0xFF070708),
+                                                          color: const Color(
+                                                              0xFF070708),
                                                           fontSize: 17,
                                                           fontFamily:
                                                               'HT Rakik',
@@ -511,10 +510,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                   log("snapshot ${snapshot.data}");
                                   return Obx(() => chatController
                                           .isGetChatByIdLoading.value
-                                      ? Center(
+                                      ? const Center(
                                           child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 14),
+                                            padding: EdgeInsets.only(right: 14),
                                             child: CircularProgressIndicator
                                                 .adaptive(),
                                           ),
@@ -563,7 +561,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                                   log(" userId $userId");
                                                   String msgSenderId =
                                                       message.senderId ?? "";
-                                                  String senderId = userId!;
+                                                  String senderId = userId;
                                                   bool isSender =
                                                       (msgSenderId == senderId);
                                                   log("isSender $isSender");
@@ -601,8 +599,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                                               .chat
                                                               .messages![index]
                                                               .created!,
-                                                        ).add(
-                                                            Duration(hours: 3)),
+                                                        ).add(const Duration(
+                                                            hours: 3)),
                                                       ),
                                                     ),
                                                   );
@@ -636,7 +634,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         right: 16,
                         bottom: 30,
                       ),
-                      decoration: BoxDecoration(color: Colors.white),
+                      decoration: const BoxDecoration(color: Colors.white),
                       child: Row(
                         textDirection: AppUtil.rtlDirection2(context)
                             ? TextDirection.ltr
@@ -644,7 +642,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         children: [
                           Obx(
                             () => chatController.isPostMessageLoading.value
-                                ? Center(
+                                ? const Center(
                                     child: CircularProgressIndicator.adaptive())
                                 : Expanded(
                                     child: CustomTextField(
@@ -681,8 +679,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                                             messageController
                                                                 .text,
                                                         created: DateTime.now()
-                                                            .subtract(Duration(
-                                                                hours: 3))
+                                                            .subtract(
+                                                                const Duration(
+                                                                    hours: 3))
                                                             .toString()));
                                               });
                                               messageController.clear();

@@ -231,8 +231,8 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
             child: Align(
               alignment: AlignmentDirectional.bottomCenter,
               child: Container(
-                padding:
-                    EdgeInsets.only(top: 20, left: 15, right: 15, bottom: 10),
+                padding: const EdgeInsets.only(
+                    top: 20, left: 15, right: 15, bottom: 10),
                 height: 200,
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -260,7 +260,7 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
                         // CustomText(text: "change".tr, color: Colors.black),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     CustomText(
@@ -281,11 +281,11 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
                         },
                         title: "confirmLocation".tr,
                         icon: AppUtil.rtlDirection2(context)
-                            ? Icon(
+                            ? const Icon(
                                 Icons.arrow_back_ios,
                                 size: 20,
                               )
-                            : Icon(
+                            : const Icon(
                                 Icons.arrow_forward_ios,
                                 size: 20,
                               ),

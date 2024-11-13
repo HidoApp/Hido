@@ -27,6 +27,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   List<Booking> _upcomingBookings = [];
   List<Booking> _pastBookings = [];
   bool _isPushNotificationDismissed = false;
+  List<String> unreadNotificationIds = [];
 
   String days = '';
 
@@ -52,10 +53,26 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     });
   }
 
+  void fetchUnreadNotificationIds(BuildContext context) async {
+    _srvicesController.getNotifications(context: context);
+
+    // Step 3: Filter notifications to find ones with "isRead" as false
+    for (var notification in _srvicesController.notifications) {
+      if (notification.isRead == false) {
+        unreadNotificationIds.add(notification.notificationId ??
+            ''); // Assuming `id` is the notification ID field
+      }
+    }
+
+    // Step 4: Send the list of unread notification IDs to the other endpoint
+    await _srvicesController.updateNotifications(
+        context: context, unreadNotificationIds: unreadNotificationIds);
+  }
+
   @override
   void initState() {
     super.initState();
-    _srvicesController.getNotifications(context: context);
+    fetchUnreadNotificationIds(context);
   }
 
   void _dismissNotification(int index) {
@@ -79,50 +96,59 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       appBar: CustomAppBar(
         'notifications'.tr,
       ),
-      body: SingleChildScrollView(
-        child: Obx(
-          () => Skeletonizer(
-            enabled: _srvicesController.isNotificationLoading.value,
-            child: Column(
-              children: [
-                if (
-                    // !widget.hasNotifications &&
-                    _srvicesController.notifications.isEmpty)
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: height / 3,
-                      left: 16,
-                      right: 16,
-                      bottom: 50,
-                    ),
-                    child: Center(
-                      child: CustomEmptyWidget(
-                        title: 'noNotification'.tr,
-                        image: 'MybellMessage',
-                        subtitle: "noNotificationsub".tr,
-                      ),
-                    ),
-                  )
-                else
-                  ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: _srvicesController.notifications.length,
-                      itemBuilder: (context, index) {
-                        return PushNotificationCrd(
-                          message: AppUtil.rtlDirection2(context)
-                              ? _srvicesController
-                                      .notifications[index].data!["body"] ??
-                                  ''
-                              : _srvicesController.notifications[index].body ??
-                                  '',
-                          isRtl: AppUtil.rtlDirection2(context),
-                          width: width,
-                        );
-                      }),
-              ],
-            ),
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              Expanded(
+                child: Obx(
+                  () => Skeletonizer(
+                    enabled: _srvicesController.isNotificationLoading.value,
+                    child:
+                        // !widget.hasNotifications &&
+                        _srvicesController.notifications.isEmpty
+                            ? Padding(
+                                padding: EdgeInsets.only(
+                                  top: height / 3,
+                                  left: 16,
+                                  right: 16,
+                                  bottom: 50,
+                                ),
+                                child: Center(
+                                  child: CustomEmptyWidget(
+                                    title: 'noNotification'.tr,
+                                    image: 'MybellMessage',
+                                    subtitle: "noNotificationsub".tr,
+                                  ),
+                                ),
+                              )
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                itemCount:
+                                    _srvicesController.notifications.length,
+                                itemBuilder: (context, index) {
+                                  return PushNotificationCrd(
+                                    isRead: _srvicesController
+                                            .notifications[index].isRead ??
+                                        false,
+                                    message: AppUtil.rtlDirection2(context)
+                                        ? _srvicesController
+                                                .notifications[index]
+                                                .data!["body"] ??
+                                            ''
+                                        : _srvicesController
+                                                .notifications[index].body ??
+                                            '',
+                                    isRtl: AppUtil.rtlDirection2(context),
+                                    width: width,
+                                  );
+                                }),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ),
+        ],
       ),
     );
   }

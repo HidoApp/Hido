@@ -46,8 +46,8 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   late GoogleMapController mapController;
   final _touristExploreController = Get.put(TouristExploreController());
   final Completer<GoogleMapController> _controller = Completer();
-  Set<Marker> _userMarkers = {};
-  Set<Marker> _markers = {};
+  final Set<Marker> _userMarkers = {};
+  final Set<Marker> _markers = {};
   LatLng _currentLocation = const LatLng(24.7136, 46.6753);
   late final GoogleMapController _googleMapController;
   String? _darkMapStyle;
@@ -73,7 +73,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   final _sheetController = SolidController();
 
   // List<Booking> _EndTicket = [];
-  List<Booking> _upcomingBookings = [];
+  final List<Booking> _upcomingBookings = [];
   late String days;
   bool isStarChecked = false;
   int startIndex = -1;
@@ -95,6 +95,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
         .getUpcommingTicket(context: context)
         .then((value) {
       checkForProgress();
+      return null;
     });
   }
 

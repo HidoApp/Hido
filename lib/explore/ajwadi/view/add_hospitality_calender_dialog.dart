@@ -101,8 +101,7 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
                 ),
                 alignment: Alignment.bottomRight,
                 child: SfDateRangePicker(
-                  initialSelectedDate:
-                      initialSelectedDate == null ? null : initialSelectedDate,
+                  initialSelectedDate: initialSelectedDate,
                   backgroundColor: Colors.white,
                   minDate: DateTime.now(),
                   enablePastDates: false,
@@ -110,7 +109,7 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
                       widget.avilableDate != null ? defineSelectable : null,
                   selectionMode: DateRangePickerSelectionMode.single,
                   selectionColor: colorGreen,
-                  selectionTextStyle: TextStyle(),
+                  selectionTextStyle: const TextStyle(),
                   selectionShape: DateRangePickerSelectionShape.circle,
                   todayHighlightColor: colorGreen,
                   startRangeSelectionColor: colorGreen,

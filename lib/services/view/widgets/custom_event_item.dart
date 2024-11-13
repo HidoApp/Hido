@@ -33,13 +33,17 @@ class CustomEventItem extends StatelessWidget {
           child: Container(
             // shape: const RoundedRectangleBorder(
             //     borderRadius: BorderRadius.all(Radius.circular(8))),
-          
-            decoration: BoxDecoration(  
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              boxShadow: [BoxShadow(offset: Offset(1, 1),blurRadius: 10,color: darkGrey.withOpacity(0.2))]
-              ),
-          
+
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                boxShadow: [
+                  BoxShadow(
+                      offset: const Offset(1, 1),
+                      blurRadius: 10,
+                      color: darkGrey.withOpacity(0.2))
+                ]),
+
             child: Padding(
               padding: const EdgeInsets.all(12),
               child: Column(
@@ -59,8 +63,8 @@ class CustomEventItem extends StatelessWidget {
                             shape: BoxShape.circle,
                             color: const Color(0xff3A3A3A).withOpacity(0.3),
                           ),
-                          child:
-                              SvgPicture.asset('assets/icons/heart_rounded.svg'),
+                          child: SvgPicture.asset(
+                              'assets/icons/heart_rounded.svg'),
                         ),
                       ),
                       Positioned.directional(

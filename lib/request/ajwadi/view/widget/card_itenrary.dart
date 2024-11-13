@@ -132,7 +132,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 color: Color(0x3FC7C7C7),
                 blurRadius: 15,
@@ -181,6 +181,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
                   if (activity == null || activity.isEmpty) {
                     return "activityError".tr;
                   }
+                  return null;
                 },
                 //  height: 40,
                 //  height: width * 0.09,

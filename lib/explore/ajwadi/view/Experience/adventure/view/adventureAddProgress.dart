@@ -87,8 +87,8 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
               StepProgressIndicator(
                 totalSteps: 6,
                 currentStep: activeIndex + 1,
-                selectedColor: Color(0xFF36B268),
-                unselectedColor: Color(0xFFDCDCE0),
+                selectedColor: const Color(0xFF36B268),
+                unselectedColor: const Color(0xFFDCDCE0),
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -155,7 +155,6 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
               const LatLng(0.0, 0.0) &&
           _AdventureControllerController.ragionAr.isNotEmpty &&
           _AdventureControllerController.ragionEn.isNotEmpty;
-      ;
     }
     if (activeIndex == 2) {
       return _AdventureControllerController.selectedImages.length >= 3;
@@ -242,7 +241,7 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 clipBehavior: Clip.antiAlias,
                 decoration: ShapeDecoration(
-                  color: Color(0xFF36B268),
+                  color: const Color(0xFF36B268),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                 ),
@@ -278,7 +277,7 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               clipBehavior: Clip.antiAlias,
               decoration: ShapeDecoration(
-                color: Color(0xFF36B268),
+                color: const Color(0xFF36B268),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
               ),
@@ -323,7 +322,7 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
         child: CustomText(
           text: 'Back'.tr,
           textAlign: TextAlign.center,
-          color: Color(0xFF070708),
+          color: const Color(0xFF070708),
           fontSize: 17,
           fontFamily: 'HT Rakik',
           fontWeight: FontWeight.w500,

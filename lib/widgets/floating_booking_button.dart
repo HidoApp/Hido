@@ -189,7 +189,7 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
         DateFormat('yyyy-MM-dd').parse(widget.adventure.date!);
 
     DateTime Date =
-        DateFormat('HH:mm').parse(widget.adventure.times!.last.startTime!);
+        DateFormat('HH:mm').parse(widget.adventure.times!.last.startTime);
 
     DateTime AdventureStartDate = DateTime(
         adventureDate.year,
@@ -199,7 +199,8 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
         Date.minute,
         Date.second);
 
-    DateTime bookingDeadline = AdventureStartDate.subtract(Duration(hours: 24));
+    DateTime bookingDeadline =
+        AdventureStartDate.subtract(const Duration(hours: 24));
 
     return bookingDeadline.isBefore(currentDateInRiyadh);
   }

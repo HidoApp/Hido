@@ -22,7 +22,7 @@ class CustomExperienceCard extends StatelessWidget {
   final bool isPast;
 
   bool isDateBefore24Hours() {
-    final String timeZoneName = 'Asia/Riyadh';
+    const String timeZoneName = 'Asia/Riyadh';
     late tz.Location location;
 
     tz.initializeTimeZones();
@@ -38,8 +38,8 @@ class CustomExperienceCard extends StatelessWidget {
     } else {
       parsedDate = DateTime.parse(experience.date);
     }
-    final parsedDateInRiyadh =
-        tz.TZDateTime.from(parsedDate, location).subtract(Duration(hours: 3));
+    final parsedDateInRiyadh = tz.TZDateTime.from(parsedDate, location)
+        .subtract(const Duration(hours: 3));
 
     Duration difference = parsedDateInRiyadh.difference(currentDateInRiyadh);
 
@@ -48,7 +48,7 @@ class CustomExperienceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TouristExploreController _touristExploreController =
+    final TouristExploreController touristExploreController =
         Get.put(TouristExploreController());
     Place? thePlace;
 
@@ -61,8 +61,8 @@ class CustomExperienceCard extends StatelessWidget {
         height: 120,
         child: Container(
           decoration: BoxDecoration(
-            color: Color.fromARGB(255, 255, 255, 255),
-            borderRadius: BorderRadius.all(Radius.circular(7.36)),
+            color: const Color.fromARGB(255, 255, 255, 255),
+            borderRadius: const BorderRadius.all(Radius.circular(7.36)),
             boxShadow: [
               BoxShadow(
                 color: shadowColor,
@@ -128,7 +128,7 @@ class CustomExperienceCard extends StatelessWidget {
                                   width: width * 0.144,
                                 )),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     ),
                     Expanded(
@@ -201,7 +201,7 @@ class CustomExperienceCard extends StatelessWidget {
                                         ? 'SF Arabic'
                                         : 'SF Pro',
                                     fontWeight: FontWeight.w600,
-                                    color: Color(0xFFB9B8C1),
+                                    color: const Color(0xFFB9B8C1),
                                   ),
                                 ],
                               ),
@@ -256,7 +256,7 @@ class CustomExperienceCard extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(4),
                                   ),
                                   minimumSize:
-                                      Size(100, 37), // Width and height
+                                      const Size(100, 37), // Width and height
                                 ),
                                 child: CustomText(
                                   text: 'summary'.tr,

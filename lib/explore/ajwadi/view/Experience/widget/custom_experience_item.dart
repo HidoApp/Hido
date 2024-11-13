@@ -166,8 +166,8 @@ class _ServicesCardState extends State<ServicesCard> {
                           ),
                           CustomText(
                             text: AppUtil.rtlDirection2(context)
-                                ? '${widget.experience.regionAr}, ${address}'
-                                : '${widget.experience.regionEn}, ${address}',
+                                ? '${widget.experience.regionAr}, $address'
+                                : '${widget.experience.regionEn}, $address',
                             fontSize: 11,
                             fontWeight: FontWeight.w400,
                             fontFamily: AppUtil.rtlDirection2(context)

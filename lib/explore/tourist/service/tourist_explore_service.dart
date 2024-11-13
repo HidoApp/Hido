@@ -25,10 +25,10 @@ class TouristExploreService {
     String token = getStorage.read('accessToken') ?? "";
 
     if (JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
+      final authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
+      var user = await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
       // jwtToken = await AuthService.jwtForToken(refreshToken)!;
@@ -61,10 +61,10 @@ class TouristExploreService {
     String token = getStorage.read('accessToken') ?? "";
 
     if (token != '' && JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
+      final authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
+      var user = await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
@@ -111,7 +111,7 @@ class TouristExploreService {
 
     if (JwtDecoder.isExpired(token)) {
       String refreshToken = getStorage.read('refreshToken');
-      final Token jwtToken = await AuthService.jwtForToken(refreshToken)!;
+      final Token jwtToken = AuthService.jwtForToken(refreshToken)!;
 
       token = jwtToken.id;
     }
@@ -151,10 +151,10 @@ class TouristExploreService {
     String token = getStorage.read('accessToken') ?? "";
 
     if (JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
+      final authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
+      var user = await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
@@ -194,10 +194,10 @@ class TouristExploreService {
     String token = getStorage.read('accessToken') ?? "";
 
     if (JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
+      final authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
+      var user = await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
@@ -213,7 +213,7 @@ class TouristExploreService {
     log(response.statusCode.toString());
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-    log(response.body.toString());
+      log(response.body.toString());
 
       return Booking.fromJson(data);
     } else {
@@ -232,9 +232,9 @@ class TouristExploreService {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
     if (token != '' && JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
+      final authController = Get.put(AuthController());
       String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
+      var user = await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
@@ -272,10 +272,10 @@ class TouristExploreService {
     String token = getStorage.read('accessToken') ?? "";
 
     if (JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
+      final authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
+      var user = await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }

@@ -83,7 +83,7 @@ class _MapSearchWidgetState extends State<MapSearchWidget> {
               enable: !_touristExploreController.isTouristMapLoading.value,
               hintText: 'search'.tr,
               prefixIcon: Padding(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: RepaintBoundary(
                   child: SvgPicture.asset(
                     'assets/icons/General.svg',

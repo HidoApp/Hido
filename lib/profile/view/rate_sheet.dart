@@ -44,7 +44,7 @@ class _OrderRateSheetState extends State<OrderRateSheet> {
                     expand: false,
                     builder: (_, controller) {
                       return Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(30)),
                           color: Colors.white,
                         ),
@@ -63,7 +63,7 @@ class _OrderRateSheetState extends State<OrderRateSheet> {
                                   child: ListView.separated(
                                     controller: controller,
                                     itemCount: 3,
-                                    separatorBuilder: (_, i) => SizedBox(
+                                    separatorBuilder: (_, i) => const SizedBox(
                                       height: 40,
                                     ),
                                     itemBuilder: (_, i) =>

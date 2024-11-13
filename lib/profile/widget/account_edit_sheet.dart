@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
@@ -86,7 +85,7 @@ class _AccountEditSheetState extends State<AccountEditSheet> {
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
         height: width * 0.83,
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
@@ -139,7 +138,7 @@ class _AccountEditSheetState extends State<AccountEditSheet> {
                   : Form(
                       // onPopInvoked: (didPop) =>
                       //     widget.profileController.isNumberNotValid(false),
-                       child: CustomTextField(
+                      child: CustomTextField(
                         controller: _textController,
                         onChanged: (value) {},
                         keyboardType: TextInputType.phone,

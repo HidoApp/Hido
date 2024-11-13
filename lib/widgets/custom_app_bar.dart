@@ -51,14 +51,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   title: Padding(
                     padding: AppUtil.rtlDirection2(context)
                         ? !isAjwadi
-                            ? EdgeInsets.only(
+                            ? const EdgeInsets.only(
                                 top: 12, left: 0, right: 0, bottom: 18)
-                            : EdgeInsets.only(
+                            : const EdgeInsets.only(
                                 top: 12, left: 0, right: 0, bottom: 0)
                         : !isAjwadi
-                            ? EdgeInsets.only(
+                            ? const EdgeInsets.only(
                                 top: 16, left: 20, right: 20, bottom: 18)
-                            : EdgeInsets.only(
+                            : const EdgeInsets.only(
                                 top: 16, left: 0, right: 0, bottom: 20),
                     child: CustomText(
                       text: title,
@@ -73,8 +73,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       if (action)
                         Padding(
                           padding: AppUtil.rtlDirection2(context)
-                              ? EdgeInsets.only(left: 18, top: 4)
-                              : EdgeInsets.only(right: 18, bottom: 4),
+                              ? const EdgeInsets.only(left: 18, top: 4)
+                              : const EdgeInsets.only(right: 18, bottom: 4),
                           child: IconButton(
                             icon: Icon(
                               Icons.more_vert,
@@ -88,10 +88,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     if (isDeleteIcon!)
                       Padding(
                         padding: AppUtil.rtlDirection2(context)
-                            ? EdgeInsets.only(left: 18, top: 4)
-                            : EdgeInsets.only(right: 18, bottom: 4),
+                            ? const EdgeInsets.only(left: 18, top: 4)
+                            : const EdgeInsets.only(right: 18, bottom: 4),
                         child: IconButton(
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.delete_outline,
                             size: 29,
                             color: colorRed,
@@ -106,11 +106,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ? Padding(
                           padding: AppUtil.rtlDirection2(context)
                               ? !isAjwadi
-                                  ? EdgeInsets.only(bottom: 6, right: 30)
-                                  : EdgeInsets.only(top: 9, right: 30)
+                                  ? const EdgeInsets.only(bottom: 6, right: 30)
+                                  : const EdgeInsets.only(top: 9, right: 30)
                               : !isAjwadi
-                                  ? EdgeInsets.only(bottom: 6, left: 30, top: 2)
-                                  : EdgeInsets.only(
+                                  ? const EdgeInsets.only(
+                                      bottom: 6, left: 30, top: 2)
+                                  : const EdgeInsets.only(
                                       bottom: 23, left: 30, top: 8),
                           child: IconButton(
                             icon: Icon(

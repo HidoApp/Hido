@@ -22,11 +22,8 @@ class NotificationCrd extends StatelessWidget {
     this.days2 = '',
     required this.isDisabled,
     required this.onCancel,
-   required this.onDismissed,
-   required this.isViewed,
-
-
-    
+    required this.onDismissed,
+    required this.isViewed,
   }) : super(key: key);
   final String name;
   final double width;
@@ -44,114 +41,122 @@ class NotificationCrd extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  return Dismissible(
-      key: UniqueKey(),
-      direction:AppUtil.rtlDirection2(context)?DismissDirection.startToEnd: DismissDirection.endToStart, // Swipe right to left
-      onDismissed: (direction) {
-        onDismissed();
-      },
-      
-      child:isDisabled
-      ?SizedBox()
-      
-      : GestureDetector(
-            onTap: () {
-              ProfileController _profileController =
-                  Get.put(ProfileController());
-              Get.to(() => TicketScreen(profileController: _profileController));
-            },
-            child: Column(
-              children: [
-                Container(
-                  height: 89,
-                  decoration: BoxDecoration(
-                      color: isViewed ? Colors.white : Color(0xFFECF9F1),
-                    border: Border(
-                      left: BorderSide(color: Color(0xFFECECEE)),
-                      top: BorderSide(color: Color(0xFFECECEE)),
-                      right: BorderSide(color: Color(0xFFECECEE)),
-                      bottom: BorderSide(width: 1, color: Color(0xFFECECEE)),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 16),
-                    child: Row(
-                      crossAxisAlignment: isRtl
-                          ? CrossAxisAlignment.center
-                          : CrossAxisAlignment.center,
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SvgPicture.asset('assets/icons/bell.svg'),
-                        const SizedBox(width: 13),
-                        SizedBox(
-                          width: width * 0.48,
-                          child: RichText(
-                            text: TextSpan(children: [
-                              TextSpan(
-                                text: isTour
-                                    ? isRtl
-                                        ? " جولتك القادمة الى  "
-                                        : 'Your next tour to '
-                                    : isHost
-                                        ? isRtl
-                                            ? " استضافتك القادمة في "
-                                            : "Your next host in "
-                                        : isAdve
-                                        ?
-                                         isRtl
-                                            ? " مغامرتك القادمه إلى "
-                                            : "Your next adventure "
-                                            : isRtl
-                                            ?" فعاليتك القادمة إلى "
-                                            :"Your next event ",
-                                style: TextStyle(
-                                  fontFamily: isRtl ? 'SF Arabic' : 'SF Pro',
-                                  fontSize: 13,
-                                  fontWeight:
-                                      isRtl ? FontWeight.w500 : FontWeight.w500,
-                                  color: isRtl ? black : black,
-                                ),
-                              ),
-                              TextSpan(
-                                text: name,
-                                style: TextStyle(
-                                  fontFamily: isRtl ? 'SF Arabic' : 'SF Pro',
-                                  fontSize: 13,
-                                  fontWeight:
-                                      isRtl ? FontWeight.w500 : FontWeight.w500,
-                                  color: colorGreen,
-                                ),
-                              ),
-                              TextSpan(
-                                text: days,
-                                style: TextStyle(
-                                  fontFamily: isRtl ? 'SF Arabic' : 'SF Pro',
-                                  fontSize: 13,
-                                  fontWeight:
-                                      isRtl ? FontWeight.w500 : FontWeight.w500,
-                                  color: black,
-                                ),
-                              ),
-                            ]),
-                          ),
+    return Dismissible(
+        key: UniqueKey(),
+        direction: AppUtil.rtlDirection2(context)
+            ? DismissDirection.startToEnd
+            : DismissDirection.endToStart, // Swipe right to left
+        onDismissed: (direction) {
+          onDismissed();
+        },
+        child: isDisabled
+            ? const SizedBox()
+            : GestureDetector(
+                onTap: () {
+                  ProfileController profileController =
+                      Get.put(ProfileController());
+                  Get.to(
+                      () => TicketScreen(profileController: profileController));
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      height: 89,
+                      decoration: BoxDecoration(
+                        color:
+                            isViewed ? Colors.white : const Color(0xFFECF9F1),
+                        border: const Border(
+                          left: BorderSide(color: Color(0xFFECECEE)),
+                          top: BorderSide(color: Color(0xFFECECEE)),
+                          right: BorderSide(color: Color(0xFFECECEE)),
+                          bottom:
+                              BorderSide(width: 1, color: Color(0xFFECECEE)),
                         ),
-                        // IconButton(
-                        //   onPressed: onCancel,
-                        //   icon: const Icon(
-                        //     Icons.cancel,
-                        //     color: Colors.red,
-                        //   ),
-                        // ),
-                      ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 16),
+                        child: Row(
+                          crossAxisAlignment: isRtl
+                              ? CrossAxisAlignment.center
+                              : CrossAxisAlignment.center,
+                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SvgPicture.asset('assets/icons/bell.svg'),
+                            const SizedBox(width: 13),
+                            SizedBox(
+                              width: width * 0.48,
+                              child: RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                    text: isTour
+                                        ? isRtl
+                                            ? " جولتك القادمة الى  "
+                                            : 'Your next tour to '
+                                        : isHost
+                                            ? isRtl
+                                                ? " استضافتك القادمة في "
+                                                : "Your next host in "
+                                            : isAdve
+                                                ? isRtl
+                                                    ? " مغامرتك القادمه إلى "
+                                                    : "Your next adventure "
+                                                : isRtl
+                                                    ? " فعاليتك القادمة إلى "
+                                                    : "Your next event ",
+                                    style: TextStyle(
+                                      fontFamily:
+                                          isRtl ? 'SF Arabic' : 'SF Pro',
+                                      fontSize: 13,
+                                      fontWeight: isRtl
+                                          ? FontWeight.w500
+                                          : FontWeight.w500,
+                                      color: isRtl ? black : black,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: name,
+                                    style: TextStyle(
+                                      fontFamily:
+                                          isRtl ? 'SF Arabic' : 'SF Pro',
+                                      fontSize: 13,
+                                      fontWeight: isRtl
+                                          ? FontWeight.w500
+                                          : FontWeight.w500,
+                                      color: colorGreen,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: days,
+                                    style: TextStyle(
+                                      fontFamily:
+                                          isRtl ? 'SF Arabic' : 'SF Pro',
+                                      fontSize: 13,
+                                      fontWeight: isRtl
+                                          ? FontWeight.w500
+                                          : FontWeight.w500,
+                                      color: black,
+                                    ),
+                                  ),
+                                ]),
+                              ),
+                            ),
+                            // IconButton(
+                            //   onPressed: onCancel,
+                            //   icon: const Icon(
+                            //     Icons.cancel,
+                            //     color: Colors.red,
+                            //   ),
+                            // ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(
+                      height: 13,
+                    )
+                  ],
                 ),
-                SizedBox(
-                  height: 13,
-                )
-              ],
-            ),
-          ));
+              ));
   }
 }

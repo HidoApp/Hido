@@ -47,7 +47,7 @@ class _AdCardsState extends State<AdCards> {
   OverlayEntry? _overlayEntry;
 
   void _showOverlay(BuildContext context) {
-    final overlay = Overlay.of(context)!;
+    final overlay = Overlay.of(context);
 
     _overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -61,7 +61,8 @@ class _AdCardsState extends State<AdCards> {
         child: Material(
           color: Colors.transparent,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.circular(8.0),
@@ -83,7 +84,7 @@ class _AdCardsState extends State<AdCards> {
 
     overlay.insert(_overlayEntry!);
 
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       _overlayEntry?.remove();
     });
   }
@@ -129,7 +130,8 @@ class _AdCardsState extends State<AdCards> {
                                 _srvicesController.advertisementList.length,
                             itemBuilder: (context, index, realIndex) {
                               return Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                 child: GestureDetector(
                                   onTap: () {
                                     // Get.to();
@@ -152,10 +154,10 @@ class _AdCardsState extends State<AdCards> {
                                             .advertisementList[index].type ==
                                         'PLACE') {
                                       final TouristExploreController
-                                          _touristExploreController =
+                                          touristExploreController =
                                           Get.put(TouristExploreController());
 
-                                      _touristExploreController
+                                      touristExploreController
                                           .getPlaceById(
                                               id: _srvicesController
                                                   .advertisementList[index]
@@ -163,7 +165,7 @@ class _AdCardsState extends State<AdCards> {
                                               context: context)
                                           .then((value) {
                                         Get.to(() => (TripDetails(
-                                            place: _touristExploreController
+                                            place: touristExploreController
                                                 .thePlace.value)));
                                       });
                                     } else if (_srvicesController

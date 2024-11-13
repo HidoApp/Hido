@@ -14,7 +14,6 @@ import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
 import 'package:ajwad_v4/widgets/promocode_field.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
 

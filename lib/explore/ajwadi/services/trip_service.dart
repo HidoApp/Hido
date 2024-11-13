@@ -55,11 +55,12 @@ class TripService {
       //  AppUtil.successToast(context, 'Image uploaded successfully');
       var jsonImage;
 
-      await response.stream.transform(utf8.decoder).listen((value) {
+      response.stream.transform(utf8.decoder).listen((value) {
         id = UploadImage.fromJson(jsonDecode(value)).id;
         filePath = UploadImage.fromJson(jsonDecode(value)).filePath;
-        if (UploadImage.fromJson(jsonDecode(value)).publicId != null)
+        if (UploadImage.fromJson(jsonDecode(value)).publicId != null) {
           publicId = UploadImage.fromJson(jsonDecode(value)).publicId!;
+        }
       });
 
       return UploadImage(id: id, filePath: filePath, publicId: publicId);
@@ -315,6 +316,7 @@ class TripService {
 
       // return null;
     }
+    return null;
   }
 
   static Future<NextActivity?> updateActivity({

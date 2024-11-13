@@ -78,8 +78,8 @@ class _EventAddProgressState extends State<EventAddProgress> {
               StepProgressIndicator(
                 totalSteps: 6,
                 currentStep: activeIndex + 1,
-                selectedColor: Color(0xFF36B268),
-                unselectedColor: Color(0xFFDCDCE0),
+                selectedColor: const Color(0xFF36B268),
+                unselectedColor: const Color(0xFFDCDCE0),
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -221,7 +221,7 @@ class _EventAddProgressState extends State<EventAddProgress> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               clipBehavior: Clip.antiAlias,
               decoration: ShapeDecoration(
-                color: Color(0xFF36B268),
+                color: const Color(0xFF36B268),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
               ),
@@ -266,7 +266,7 @@ class _EventAddProgressState extends State<EventAddProgress> {
         child: CustomText(
           text: 'Back'.tr,
           textAlign: TextAlign.center,
-          color: Color(0xFF070708),
+          color: const Color(0xFF070708),
           fontSize: 17,
           fontFamily: 'HT Rakik',
           fontWeight: FontWeight.w500,

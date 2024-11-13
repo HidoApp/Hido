@@ -113,7 +113,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                 ],
               ),
               bottomNavigationBar: Container(
-                padding: EdgeInsets.only(bottom: 8),
+                padding: const EdgeInsets.only(bottom: 8),
                 decoration:
                     const BoxDecoration(color: Colors.white, boxShadow: [
                   BoxShadow(
@@ -128,7 +128,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                     backgroundColor: Colors.white,
                     currentIndex: _profileController.touriestBar.value,
                     type: BottomNavigationBarType.fixed,
-                    unselectedItemColor: Color(0xFFB9B8C1),
+                    unselectedItemColor: const Color(0xFFB9B8C1),
                     selectedItemColor: colorGreen,
                     unselectedLabelStyle: TextStyle(
                       fontSize: 11,
@@ -157,7 +157,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                           decoration: _profileController.touriestBar.value == 0
                               ? BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [],
+                                  boxShadow: const [],
                                 )
                               : const BoxDecoration(),
                           child: Padding(
@@ -167,7 +167,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                                 'assets/icons/map_icon.svg',
                                 color: _profileController.touriestBar.value == 0
                                     ? colorGreen
-                                    : Color(0xFFB9B8C1),
+                                    : const Color(0xFFB9B8C1),
                               ),
                             ),
                           ),
@@ -179,7 +179,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                           decoration: _profileController.touriestBar.value == 1
                               ? BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [],
+                                  boxShadow: const [],
                                 )
                               : const BoxDecoration(),
                           child: Padding(
@@ -189,7 +189,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                                 'assets/icons/request_icon.svg',
                                 color: _profileController.touriestBar.value == 1
                                     ? colorGreen
-                                    : Color(0xFFB9B8C1),
+                                    : const Color(0xFFB9B8C1),
                               ),
                             ),
                           ),
@@ -201,7 +201,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                           decoration: _profileController.touriestBar.value == 2
                               ? BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [],
+                                  boxShadow: const [],
                                 )
                               : const BoxDecoration(),
                           child: Padding(
@@ -211,7 +211,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                                 'assets/icons/my_profile.svg',
                                 color: _profileController.touriestBar.value == 2
                                     ? colorGreen
-                                    : Color(0xFFB9B8C1),
+                                    : const Color(0xFFB9B8C1),
                               ),
                             ),
                           ),

@@ -2,7 +2,6 @@ import 'package:ajwad_v4/request/tourist/models/rating.dart';
 import 'package:ajwad_v4/request/tourist/services/rating_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 
 class RatingController extends GetxController {
   var isRatingsLoading = false.obs;

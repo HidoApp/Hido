@@ -144,13 +144,13 @@ class _BookingSheetState extends State<BookingSheet> {
 
     location = tz.getLocation(timeZoneName);
 
-    bool _validateTime() {
+    bool validateTime() {
       final Duration totalTime = newTimeToReturn.difference(newTimeToGo);
-      final Duration eightHours = Duration(hours: 8);
-      final Duration fourHours = Duration(hours: 4);
+      final Duration eightHours = const Duration(hours: 8);
+      final Duration fourHours = const Duration(hours: 4);
       final Duration adjustedTotalTime = totalTime.isNegative
           ? totalTime +
-              Duration(
+              const Duration(
                   days:
                       1) // Adjust by adding one day if the duration is negative
           : totalTime;
@@ -177,7 +177,8 @@ class _BookingSheetState extends State<BookingSheet> {
 
     // h = time.hour.toString();
 
-    DateTime nowPlusTwoHours = currentDateInRiyadh.add(Duration(hours: 2));
+    DateTime nowPlusTwoHours =
+        currentDateInRiyadh.add(const Duration(hours: 2));
 
     return DraggableScrollableSheet(
         initialChildSize: 0.8,
@@ -198,14 +199,14 @@ class _BookingSheetState extends State<BookingSheet> {
                     right: width * 0.023,
                     bottom: height * 0.03),
                 child: ListView(children: [
-                  BottomSheetIndicator(),
+                  const BottomSheetIndicator(),
 
                   const SizedBox(
                     height: 12,
                   ),
                   CustomText(
                     text: "date".tr,
-                    color: Color(0xFF070708),
+                    color: const Color(0xFF070708),
                     fontSize: width * 0.044,
                     fontFamily:
                         AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
@@ -387,7 +388,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                                                 _touristExploreController
                                                                     .selectedEndTime
                                                                     .value);
-                                                        _validateTime(); // Validate time after selection
+                                                        validateTime(); // Validate time after selection
                                                       });
                                                     },
                                                     padding: const EdgeInsets
@@ -479,7 +480,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                 textColor: borderGrey,
                               ),
                             ),
-                            if (TimeErrorMessage! ||
+                            if (TimeErrorMessage ||
                                 _touristExploreController
                                     .TimeErrorMessage.value)
                               Padding(
@@ -540,7 +541,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                               MainAxisAlignment.end,
                                           children: [
                                             Container(
-                                              decoration: BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Color(0xffffffff),
                                                 border: Border(
                                                   bottom: BorderSide(
@@ -581,7 +582,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                                                     .selectedEndTime
                                                                     .value);
 
-                                                        _validateTime(); // Validate time after selection
+                                                        validateTime(); // Validate time after selection
                                                       });
                                                     },
                                                     padding: const EdgeInsets
@@ -658,7 +659,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                         DateFormat('HH:mm:ss')
                                             .format(newTimeToReturn)),
                                 //  test,
-                                borderColor: TimeErrorMessage! ||
+                                borderColor: TimeErrorMessage ||
                                         _touristExploreController
                                             .TimeErrorMessage.value
                                     ? Colors.red
@@ -671,7 +672,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                 textColor: borderGrey,
                               ),
                             ),
-                            if (TimeErrorMessage! ||
+                            if (TimeErrorMessage ||
                                 _touristExploreController
                                     .TimeErrorMessage.value)
                               Padding(
@@ -962,7 +963,7 @@ class _BookingSheetState extends State<BookingSheet> {
                                 !_touristExploreController
                                     .isNotGetUserLocation.value &&
                                 selectedRide != "") {
-                              if (_validateTime()) {
+                              if (validateTime()) {
                                 Date = DateTime.parse(_touristExploreController
                                     .selectedDate.value
                                     .substring(0, 10));
@@ -1117,7 +1118,7 @@ class _BookingSheetState extends State<BookingSheet> {
     final button = _pickupRide
         .map((key, values) {
           final value = Container(
-            margin: EdgeInsets.only(left: 2),
+            margin: const EdgeInsets.only(left: 2),
             child: GestureDetector(
               onTap: () {
                 setState(() {

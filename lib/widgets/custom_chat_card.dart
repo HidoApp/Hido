@@ -1,5 +1,3 @@
-
-
 import 'package:ajwad_v4/request/chat/controllers/chat_controller.dart';
 import 'package:ajwad_v4/request/chat/model/chat_model.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
@@ -21,25 +19,16 @@ class CustomChatCard extends StatelessWidget {
   CustomChatCard(
       {super.key, required this.chatModel, this.booking2, this.chatId2});
   final chatController = Get.put(ChatController());
- final offerController=Get.put(OfferController());
- 
+  final offerController = Get.put(OfferController());
+
   @override
   Widget build(BuildContext context) {
-                   
-
     return InkWell(
       onTap: () async {
-
-        Get.to(() =>
-
-
-            ChatScreen(
-                chatId: chatModel.id,
-                isTourist: chatModel.localInChat==null?false:true,  
-                booking:
-                    Get.put(OfferController()).offerDetails.value.booking ??
-                        null
-        ));
+        Get.to(() => ChatScreen(
+            chatId: chatModel.id,
+            isTourist: chatModel.localInChat == null ? false : true,
+            booking: Get.put(OfferController()).offerDetails.value.booking));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
@@ -112,11 +101,11 @@ class CustomChatCard extends StatelessWidget {
                       text: chatModel.localInChat != null
                           ? chatModel.localInChat!.profileInChat!.name ?? ''
                           : chatModel.touristInChat!.profileInChat!.name ?? '',
-                      color: Color(0xFF070708),
+                      color: const Color(0xFF070708),
                       fontSize: 16,
-                      fontFamily:   AppUtil.rtlDirection2(context)
-                                                    ? 'SF Arabic'
-                                                    : 'SF Pro',
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
                       fontWeight: FontWeight.w500,
                       height: chatModel.messages!.isNotEmpty ? 0 : 3,
                     ),
@@ -127,16 +116,16 @@ class CustomChatCard extends StatelessWidget {
                     // ),
 
                     if (chatModel.messages!.isNotEmpty) ...[
-                      SizedBox(
+                      const SizedBox(
                         height: 6,
                       ),
                       CustomText(
                         text: chatModel.messages!.last.message,
-                        color: Color(0xFF9392A0),
+                        color: const Color(0xFF9392A0),
                         fontSize: 13,
-                        fontFamily:   AppUtil.rtlDirection2(context)
-                                                    ? 'SF Arabic'
-                                                    : 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
                         fontWeight: FontWeight.w400,
                         height: 0,
                       )
@@ -155,11 +144,11 @@ class CustomChatCard extends StatelessWidget {
                             ? formatTimeWithLocale(
                                 context, chatModel.messages!.last.created!)
                             : '',
-                        color: Color(0xFF37B268),
+                        color: const Color(0xFF37B268),
                         fontSize: 13,
-                        fontFamily:   AppUtil.rtlDirection2(context)
-                                                    ? 'SF Arabic'
-                                                    : 'SF Pro',
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
                         fontWeight: FontWeight.w500,
                         height: 0),
                     SizedBox(
@@ -221,7 +210,8 @@ class CustomChatCard extends StatelessWidget {
 
   // Function to format time with locale-specific suffix
   String formatTimeWithLocale(BuildContext context, String dateTimeString) {
-    DateTime dateTime = DateTime.parse(dateTimeString).add(Duration(hours: 3));
+    DateTime dateTime =
+        DateTime.parse(dateTimeString).add(const Duration(hours: 3));
     String formattedTime = DateFormat('jm').format(dateTime);
 
     if (AppUtil.rtlDirection2(context)) {

@@ -60,10 +60,10 @@ class EventService {
     String token = getStorage.read('accessToken') ?? "";
 
     if (token != '' && JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
+      final authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
+      var user = await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
@@ -164,10 +164,10 @@ class EventService {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
     if (JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
+      final authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
+      var user = await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
@@ -292,10 +292,10 @@ class EventService {
     String token = getStorage.read('accessToken') ?? "";
 
     if (token != '' && JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
+      final authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
+      var user = await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
@@ -362,10 +362,10 @@ class EventService {
     String token = getStorage.read('accessToken') ?? "";
 
     if (token != '' && JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
+      final authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
+      var user = await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
@@ -405,10 +405,10 @@ class EventService {
     String token = getStorage.read('accessToken') ?? "";
 
     if (JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
+      final authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
+      var user = await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }

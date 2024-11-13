@@ -24,7 +24,7 @@ class ContactDialog extends StatelessWidget {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8.0)),
         ),
-        content: Container(
+        content: SizedBox(
           width: double.infinity,
 
           //  height:  AppUtil.rtlDirection2(context)?170: 155,
@@ -35,7 +35,7 @@ class ContactDialog extends StatelessWidget {
               const SizedBox(height: 4),
               CustomText(
                 textAlign: TextAlign.center,
-                color: Color(0xFF070708),
+                color: const Color(0xFF070708),
                 fontSize: 15,
                 fontFamily: AppUtil.SfFontType(context),
                 fontWeight: FontWeight.w500,
@@ -91,7 +91,7 @@ class ContactDialog extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Color(0xFF37B268),
+                        color: const Color(0xFF37B268),
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(4),
@@ -101,7 +101,7 @@ class ContactDialog extends StatelessWidget {
                         fontSize: 15,
                         fontFamily: AppUtil.SfFontType(context),
                         fontWeight: FontWeight.w500,
-                        color: Color(0xFF37B268),
+                        color: const Color(0xFF37B268),
                         text:
                             AppUtil.rtlDirection2(context) ? 'اتصل' : 'Call')),
               ),

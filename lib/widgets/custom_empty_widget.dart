@@ -34,7 +34,7 @@ class CustomEmptyWidget extends StatelessWidget {
               width: width,
               height: height,
             ),
-          SizedBox(
+          const SizedBox(
             height: 22, // Set a meaningful height for spacing
           ),
           CustomText(
@@ -47,7 +47,7 @@ class CustomEmptyWidget extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           if (subtitle != '' || subtitle != null) ...[
-            SizedBox(
+            const SizedBox(
               height: 21, // Set a meaningful height for spacing
             ),
             CustomText(
@@ -62,7 +62,7 @@ class CustomEmptyWidget extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ] else ...[
-            SizedBox(
+            const SizedBox(
               height: 0, // Set a meaningful height for spacing
             ),
           ],

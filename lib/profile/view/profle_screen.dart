@@ -351,7 +351,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return ContactDialog(
+                              return const ContactDialog(
                                   dialogWidth: 100, buttonWidth: 200);
                             },
                           );

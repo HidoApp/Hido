@@ -75,12 +75,8 @@ class TouristExploreController extends GetxController {
           await TouristExploreService.getPlaceById(context: context, id: id!);
       log("data!.id!");
       log(data!.id!);
-      if (data != null) {
-        thePlace(data);
-        return data;
-      } else {
-        return null;
-      }
+      thePlace(data);
+      return data;
     } catch (e) {
       return null;
     } finally {
@@ -114,11 +110,7 @@ class TouristExploreController extends GetxController {
         lat: lat,
         vehicle: vehicle,
       );
-      if (data != null) {
-        return data;
-      } else {
-        return false;
-      }
+      return data;
     } catch (e) {
       return false;
     } finally {

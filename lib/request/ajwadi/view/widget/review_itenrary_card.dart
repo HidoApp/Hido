@@ -18,7 +18,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:intl/intl.dart';
 
 class ReivewItentraryCard extends StatefulWidget {
-  ReivewItentraryCard(
+  const ReivewItentraryCard(
       {super.key,
       required this.requestController,
       required this.indx,
@@ -43,6 +43,7 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
   var isPickedTimeTo = false;
   var isPickedTimeFrom = false;
   late ExpandedTileController _controller;
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -258,6 +259,7 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
                       if (activity == null || activity.isEmpty) {
                         return "activityError".tr;
                       }
+                      return null;
                     },
                     hintText: 'activityHint'.tr,
                   ),

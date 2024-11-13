@@ -28,8 +28,8 @@ class ChatBubble extends StatelessWidget {
             children: [
           Padding(
             padding: isSender
-                ? EdgeInsets.only(right: 12)
-                : EdgeInsets.only(left: 12),
+                ? const EdgeInsets.only(right: 12)
+                : const EdgeInsets.only(left: 12),
             // child: CustomText(
             //   text: name,
             //   color: isSender ? Colors.black : Colors.black,
@@ -49,8 +49,8 @@ class ChatBubble extends StatelessWidget {
                 padding: const EdgeInsets.all(14.0),
                 decoration: BoxDecoration(
                   color: isSender
-                      ? Color(0xFFECF9F1)
-                      : Color.fromARGB(255, 255, 255, 255),
+                      ? const Color(0xFFECF9F1)
+                      : const Color.fromARGB(255, 255, 255, 255),
 
                   //Colors.green[800],
                   borderRadius: BorderRadius.only(
@@ -122,7 +122,9 @@ class ChatBubble extends StatelessWidget {
                   fontFamily: AppUtil.SfFontType(context),
                   // textDirection: AppUtil.rtlDirection2(context)? TextDirection.rtl:TextDirection.ltr,
                   fontSize: 10,
-                  color: isSender ? Color(0xFF676767) : Color(0xFF676767)),
+                  color: isSender
+                      ? const Color(0xFF676767)
+                      : const Color(0xFF676767)),
             ],
           ),
           const SizedBox(height: 6),

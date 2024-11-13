@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class PriceDecisionCard extends StatefulWidget {
-  PriceDecisionCard({
+  const PriceDecisionCard({
     Key? key,
     required this.priceController,
   }) : super(key: key);
@@ -27,7 +27,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
   }
 
   bool isEditing = false;
-  TextEditingController _priceController = TextEditingController();
+  final TextEditingController _priceController = TextEditingController();
   double hidoFee = 0.00;
   double earn = 0.00;
   String errorMessage = '';
@@ -117,7 +117,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
             border: Border.all(
               color: errorMessage.isNotEmpty ? Colors.red : Colors.white,
             ),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 color: Color(0x3FC7C7C7),
                 blurRadius: 15,
@@ -149,7 +149,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                 ),
               ),
               // const SizedBox(height: 1),
-              Container(
+              SizedBox(
                 width: double.infinity,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -159,11 +159,11 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       Expanded(
                         child: MediaQuery(
                           data: MediaQuery.of(context)
-                              .copyWith(textScaleFactor: 1.0),
+                              .copyWith(textScaler: TextScaler.linear(1.0)),
                           child: TextField(
                             controller: widget.priceController,
                             keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               border: InputBorder.none,
                               focusedBorder: InputBorder.none,
                               enabledBorder: InputBorder.none,
@@ -172,7 +172,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                               contentPadding:
                                   EdgeInsets.all(0), // Optional: Remove padding
                             ),
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFF070708),
                               fontSize: 34,
                               fontFamily: 'HT Rakik',
@@ -191,7 +191,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                     else
                       CustomText(
                         text: widget.priceController.text,
-                        color: Color(0xFF070708),
+                        color: const Color(0xFF070708),
                         fontSize: 34,
                         fontFamily: 'HT Rakik',
                         fontWeight: FontWeight.w500,
@@ -199,7 +199,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                     const SizedBox(width: 4),
                     CustomText(
                       text: 'sar'.tr,
-                      color: Color(0xFF070708),
+                      color: const Color(0xFF070708),
                       fontSize: 34,
                       fontFamily: 'HT Rakik',
                       fontWeight: FontWeight.w500,
@@ -240,7 +240,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
           decoration: ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(
-              side: BorderSide(width: 1, color: Color(0xFFDCDCE0)),
+              side: const BorderSide(width: 1, color: Color(0xFFDCDCE0)),
               borderRadius: BorderRadius.circular(8),
             ),
           ),
@@ -276,7 +276,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               SizedBox(
@@ -318,7 +318,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
               const SizedBox(
                 height: 4,
               ),
-              Container(
+              SizedBox(
                 width: double.infinity,
                 //clipBehavior: Clip.antiAlias,
                 // decoration: ShapeDecoration(
@@ -340,7 +340,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   children: [
                     CustomText(
                       text: 'Yourearn'.tr,
-                      color: Color(0xFF070708),
+                      color: const Color(0xFF070708),
                       fontSize: 17,
                       fontFamily: 'HT Rakik',
                       fontWeight: FontWeight.w500,
@@ -349,7 +349,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                     CustomText(
                       text: ' ${earn.toStringAsFixed(2)} ${'sar'.tr}',
                       textAlign: TextAlign.right,
-                      color: Color(0xFF36B268),
+                      color: const Color(0xFF36B268),
                       fontSize: 17,
                       fontFamily: 'HT Rakik',
                       fontWeight: FontWeight.w500,

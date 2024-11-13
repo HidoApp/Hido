@@ -12,8 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 
 class LocalNotification {
-  List<Booking> _upcomingTicket = [];
-  List<Booking> _upcomingBookings = [];
+  final List<Booking> _upcomingTicket = [];
+  final List<Booking> _upcomingBookings = [];
 
   final ProfileController _profileController = Get.put(ProfileController());
 
@@ -50,7 +50,7 @@ class LocalNotification {
 
     DateTime bookingDate = DateTime.parse(bookdate!);
 
-    twoDaysBefore = bookingDate.subtract(Duration(days: 2));
+    twoDaysBefore = bookingDate.subtract(const Duration(days: 2));
 
     DateTime twoDaysBeforeWithoutTime =
         DateTime(twoDaysBefore.year, twoDaysBefore.month, twoDaysBefore.day);
@@ -74,7 +74,7 @@ class LocalNotification {
         minute = currentDateInRiyadh.minute;
       } else if (daysDifference == 0) {
         day = "today";
-        twoDaysBefore = twoDaysBefore.add(Duration(days: 1));
+        twoDaysBefore = twoDaysBefore.add(const Duration(days: 1));
       } else {
         if (daysDifference == 1 || daysDifference == -1) {
           // twoDaysBefore = bookingDate.subtract(Duration(days: 1));
@@ -82,7 +82,7 @@ class LocalNotification {
           hour2 = currentDateInRiyadh.hour + 4;
           minute2 = currentDateInRiyadh.minute + 4;
         } else {
-          twoDaysBefore = twoDaysBefore.subtract(Duration(days: 1));
+          twoDaysBefore = twoDaysBefore.subtract(const Duration(days: 1));
           day = AppUtil.rtlDirection2(context) ? "يومان" : "2 day";
           //  hour = currentDateInRiyadh.hour + 1;
           //  minute = currentDateInRiyadh.minute + 3;
@@ -92,7 +92,7 @@ class LocalNotification {
   }
 
   static Future init() async {
-    InitializationSettings settings = InitializationSettings(
+    InitializationSettings settings = const InitializationSettings(
         android: AndroidInitializationSettings("@mipmap/ic_launcher"),
         iOS: DarwinInitializationSettings());
     flutterLocalNotificationsPlugin.initialize(
@@ -109,11 +109,11 @@ class LocalNotification {
     tz.TZDateTime notificationTime;
     if (hour != 0 && minute != 0) {
       notificationTime = tz.TZDateTime(location, twoDaysBefore.year,
-          twoDaysBefore.month, twoDaysBefore.day, hour!, minute!, 3);
+          twoDaysBefore.month, twoDaysBefore.day, hour, minute, 3);
     } else {
       if (day == "يوم" || day == "1 day") {
         day = 'tomorrow';
-        twoDaysBefore = twoDaysBefore.add(Duration(days: 1));
+        twoDaysBefore = twoDaysBefore.add(const Duration(days: 1));
 
         notificationTime = tz.TZDateTime(location, twoDaysBefore.year,
             twoDaysBefore.month, twoDaysBefore.day, hour2, minute2, 3);
@@ -141,31 +141,16 @@ class LocalNotification {
 
     if (day == 'today') {
       descreption = AppUtil.rtlDirection2(context)
-          ? 'اليوم تبدأ تجربتك لاستكشاف ' + placeName
-          : " your experience to discover " +
-              placeName +
-              // " with " +
-              // name! +
-              " start " +
-              day;
+          ? 'اليوم تبدأ تجربتك لاستكشاف $placeName'
+          : " your experience to discover $placeName start $day";
     } else if (day == 'tomorrow') {
       descreption = AppUtil.rtlDirection2(context)
-          ? 'غدا ' + 'تبدأ تجربتك لاستكشاف ' + placeName
-          : day +
-              "  your experience to discover " +
-              placeName +
-              // " with " +
-              // name! +
-              " begins";
+          ? 'غدا ' 'تبدأ تجربتك لاستكشاف ' + placeName
+          : "$day  your experience to discover $placeName begins";
     } else {
       descreption = AppUtil.rtlDirection2(context)
-          ? 'متبقي ' + day + ' حتى تبدأ تجربتك لاستكشاف ' + placeName
-          : day +
-              " left and your experience to discover " +
-              placeName +
-              // " with " +
-              // name! +
-              " begins";
+          ? 'متبقي $day حتى تبدأ تجربتك لاستكشاف $placeName'
+          : "$day left and your experience to discover $placeName begins";
     }
     log(descreption);
     await flutterLocalNotificationsPlugin.zonedSchedule(
@@ -193,7 +178,7 @@ class LocalNotification {
     tz.TZDateTime notificationTime;
     if (hour != 0 && minute != 0) {
       notificationTime = tz.TZDateTime(location, twoDaysBefore.year,
-          twoDaysBefore.month, twoDaysBefore.day, hour!, minute!, 3);
+          twoDaysBefore.month, twoDaysBefore.day, hour, minute, 3);
     } else {
       notificationTime = tz.TZDateTime(location, twoDaysBefore.year,
           twoDaysBefore.month, twoDaysBefore.day, 24, 00, 3);
@@ -220,31 +205,12 @@ class LocalNotification {
 
     if (day == 'today') {
       descreption = AppUtil.rtlDirection2(context)
-          ? "استضافتك على وجبة " +
-              mealName +
-              " في " +
-              FamilyName +
-              "تبدأ اليوم "
-          : " Hosting You " +
-              "for " +
-              mealName +
-              " at the " +
-              FamilyName +
-              " will begin " +
-              day;
+          ? "استضافتك على وجبة $mealName في $FamilyNameتبدأ اليوم "
+          : " Hosting You for $mealName at the $FamilyName will begin $day";
     } else {
       descreption = AppUtil.rtlDirection2(context)
-          ? "متبقي " +
-              day +
-              " وستبدأ استضافتك في  " +
-              FamilyName +
-              " على " +
-              mealName
-          : day +
-              "  left and your hosting begins at " +
-              FamilyName +
-              " for " +
-              mealName;
+          ? "متبقي $day وستبدأ استضافتك في  $FamilyName على $mealName"
+          : "$day  left and your hosting begins at $FamilyName for $mealName";
     }
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
@@ -266,7 +232,7 @@ class LocalNotification {
     tz.TZDateTime notificationTime;
     if (hour != 0 && minute != 0) {
       notificationTime = tz.TZDateTime(location, twoDaysBefore.year,
-          twoDaysBefore.month, twoDaysBefore.day, hour!, minute!, 3);
+          twoDaysBefore.month, twoDaysBefore.day, hour, minute, 3);
     } else {
       notificationTime = tz.TZDateTime(location, twoDaysBefore.year,
           twoDaysBefore.month, twoDaysBefore.day, 24, 00, 3);
@@ -291,12 +257,12 @@ class LocalNotification {
 
     if (day == 'today') {
       descreption = AppUtil.rtlDirection2(context)
-          ? "اليوم ستبدأ مغامرة " + PlaceName + " الخاصة بك"
-          : "Your " + PlaceName + " adventure " + " will begin " + day;
+          ? "اليوم ستبدأ مغامرة $PlaceName الخاصة بك"
+          : "Your $PlaceName adventure  will begin $day";
     } else {
       descreption = AppUtil.rtlDirection2(context)
-          ? "متبقي " + day + " وستبدأ مغامرة " + PlaceName + " الخاصة بك"
-          : day + " left and your " + PlaceName + " adventure begins ";
+          ? "متبقي $day وستبدأ مغامرة $PlaceName الخاصة بك"
+          : "$day left and your $PlaceName adventure begins ";
     }
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
@@ -318,7 +284,7 @@ class LocalNotification {
     tz.TZDateTime notificationTime;
     if (hour != 0 && minute != 0) {
       notificationTime = tz.TZDateTime(location, twoDaysBefore.year,
-          twoDaysBefore.month, twoDaysBefore.day, hour!, minute!, 3);
+          twoDaysBefore.month, twoDaysBefore.day, hour, minute, 3);
     } else {
       notificationTime = tz.TZDateTime(location, twoDaysBefore.year,
           twoDaysBefore.month, twoDaysBefore.day, 24, 00, 3);
@@ -343,12 +309,12 @@ class LocalNotification {
 
     if (day == 'today') {
       descreption = AppUtil.rtlDirection2(context)
-          ? "اليوم ستبدأ فعالية " + PlaceName + " الخاصة بك"
-          : " Your " + PlaceName + " event " + " will begin " + day;
+          ? "اليوم ستبدأ فعالية $PlaceName الخاصة بك"
+          : " Your $PlaceName event  will begin $day";
     } else {
       descreption = AppUtil.rtlDirection2(context)
-          ? "متبقي " + day + " وستبدأ فعالية " + PlaceName + " الخاصة بك"
-          : day + " left and your " + PlaceName + " event begins ";
+          ? "متبقي $day وستبدأ فعالية $PlaceName الخاصة بك"
+          : "$day left and your $PlaceName event begins ";
     }
 
     await flutterLocalNotificationsPlugin.zonedSchedule(

@@ -207,7 +207,7 @@ class OfferController extends GetxController {
         },
       ));
 
-      if (updateScheduleList.length == 0) {
+      if (updateScheduleList.isEmpty) {
         scheduleState.value = true;
       }
     }

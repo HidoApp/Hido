@@ -33,7 +33,7 @@ class VehicleInfoWidget extends StatelessWidget {
           children: [
             Text(
               'vehicleInfo'.tr,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xFF070708),
                 fontSize: 17,
                 fontFamily: 'HT Rakik',
@@ -51,7 +51,7 @@ class VehicleInfoWidget extends StatelessWidget {
                   children: [
                     Text(
                       vehicleClassDesc.toUpperCase(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFF37B268),
                         fontSize: 12,
                         fontFamily: 'SF Arabic',
@@ -62,14 +62,14 @@ class VehicleInfoWidget extends StatelessWidget {
                     SvgPicture.asset(
                       'assets/icons/unselected_${vehicleClassDesc.toLowerCase()}_icon.svg',
                       width: 23,
-                      color: Color(0xFF37B268),
+                      color: const Color(0xFF37B268),
                     ),
                   ],
                 ),
                 Text(
                   plateInfo,
                   textDirection: TextDirection.ltr,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xFF37B268),
                     fontSize: 13,
                     fontFamily: 'SF Arabic',

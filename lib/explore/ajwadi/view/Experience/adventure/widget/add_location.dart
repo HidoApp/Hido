@@ -15,7 +15,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AddLocation extends StatefulWidget {
-  AddLocation({
+  const AddLocation({
     Key? key,
     required this.textField1Controller,
   }) : super(key: key);
@@ -38,8 +38,8 @@ class _AddLocationState extends State<AddLocation> {
   LatLng? _currentPosition;
   String address = '';
   UserLocation? userLocation;
-  Set<Marker> _userMarkers = {};
-  Set<Marker> _markers = {};
+  final Set<Marker> _userMarkers = {};
+  final Set<Marker> _markers = {};
   LatLng _currentLocation = const LatLng(24.7136, 46.6753);
 
   final List<String> genderItems = [
@@ -192,22 +192,24 @@ class _AddLocationState extends State<AddLocation> {
               : TextDirection.ltr,
           child: Column(
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Stack(
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
                     child: Container(
                       decoration: BoxDecoration(
                         color: almostGrey.withOpacity(0.2),
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12)),
                       ),
                       height: AppUtil.rtlDirection2(context)
                           ? height * 0.51
                           : height * 0.51,
                       width: double.infinity,
                       child: _currentPosition == null
-                          ? Center(child: CircularProgressIndicator.adaptive())
+                          ? const Center(
+                              child: CircularProgressIndicator.adaptive())
                           : GoogleMap(
                               scrollGesturesEnabled: true,
                               zoomControlsEnabled: false,
@@ -222,7 +224,7 @@ class _AddLocationState extends State<AddLocation> {
                               ),
                               markers: {
                                 Marker(
-                                  markerId: MarkerId("marker1"),
+                                  markerId: const MarkerId("marker1"),
                                   position: _currentPosition!,
                                   draggable: true,
                                   onDragEnd: (LatLng newPosition) {
@@ -275,11 +277,11 @@ class _AddLocationState extends State<AddLocation> {
                       height: 45,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(12),
                             bottomRight: Radius.circular(12)),
                         border: Border.all(
-                          color: Color(
+                          color: const Color(
                               0xFFE2E2E2), // Change this to your desired border color
                           width: 2, // Change this to your desired border width
                         ),
@@ -292,10 +294,10 @@ class _AddLocationState extends State<AddLocation> {
                           children: [
                             Center(
                               child: _isLoading
-                                  ? CircularProgressIndicator.adaptive()
+                                  ? const CircularProgressIndicator.adaptive()
                                   : CustomText(
                                       text: address,
-                                      color: Color(0xFF9392A0),
+                                      color: const Color(0xFF9392A0),
                                       fontSize: 13,
                                       fontFamily: AppUtil.rtlDirection2(context)
                                           ? 'SF Arabic'
@@ -329,8 +331,8 @@ class _AddLocationState extends State<AddLocation> {
                     ),
                     SizedBox(height: width * 0.02),
                     MediaQuery(
-                      data:
-                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                      data: MediaQuery.of(context)
+                          .copyWith(textScaler: TextScaler.linear(1.0)),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButtonFormField2<String>(
                           isExpanded: true,
@@ -359,7 +361,7 @@ class _AddLocationState extends State<AddLocation> {
                             // data: MediaQuery.of(context)
                             //     .copyWith(textScaler: const TextScaler.linear(1.0)),
                             data: MediaQuery.of(context)
-                                .copyWith(textScaleFactor: 1.0),
+                                .copyWith(textScaler: TextScaler.linear(1.0)),
                             child: Text(
                               'regionChoose'.tr,
                               style: TextStyle(
@@ -461,8 +463,8 @@ class _AddLocationState extends State<AddLocation> {
                           },
                           buttonStyleData: ButtonStyleData(
                             padding: AppUtil.rtlDirection2(context)
-                                ? EdgeInsets.only(left: 9)
-                                : EdgeInsets.only(right: 9),
+                                ? const EdgeInsets.only(left: 9)
+                                : const EdgeInsets.only(right: 9),
                           ),
                           iconStyleData: const IconStyleData(
                             icon: Icon(
@@ -473,16 +475,16 @@ class _AddLocationState extends State<AddLocation> {
                           ),
                           dropdownStyleData: DropdownStyleData(
                             maxHeight: 100,
-                            decoration: BoxDecoration(),
+                            decoration: const BoxDecoration(),
                             scrollbarTheme: ScrollbarThemeData(
                               radius: const Radius.circular(40),
-                              thickness: MaterialStateProperty.all(8),
-                              thumbVisibility: MaterialStateProperty.all(true),
+                              thickness: WidgetStateProperty.all(8),
+                              thumbVisibility: WidgetStateProperty.all(true),
                               thumbColor:
-                                  MaterialStateProperty.all(starGreyColor),
+                                  WidgetStateProperty.all(starGreyColor),
                               trackColor:
-                                  MaterialStateProperty.all(lightGreyColor),
-                              trackVisibility: MaterialStateProperty.all(true),
+                                  WidgetStateProperty.all(lightGreyColor),
+                              trackVisibility: WidgetStateProperty.all(true),
                             ),
                           ),
                           menuItemStyleData: const MenuItemStyleData(

@@ -64,12 +64,13 @@ class _OtpSheetState extends State<OtpSheet> {
             fontFamily: 'SF Pro',
             fontWeight: FontWeight.w400,
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Center(
             child: MediaQuery(
-              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              data: MediaQuery.of(context)
+                  .copyWith(textScaler: TextScaler.linear(1.0)),
               child: Pinput(
                 length: 4,
                 onCompleted: (otpCode) async {

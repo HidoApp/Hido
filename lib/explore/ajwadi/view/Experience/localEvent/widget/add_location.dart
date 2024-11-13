@@ -15,7 +15,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AddEventLocation extends StatefulWidget {
-  AddEventLocation({
+  const AddEventLocation({
     Key? key,
     required this.textField1Controller,
   }) : super(key: key);
@@ -38,8 +38,8 @@ class _AddEventLocationState extends State<AddEventLocation> {
   LatLng? _currentPosition;
   String address = '';
   UserLocation? userLocation;
-  Set<Marker> _userMarkers = {};
-  Set<Marker> _markers = {};
+  final Set<Marker> _userMarkers = {};
+  final Set<Marker> _markers = {};
   LatLng _currentLocation = const LatLng(24.7136, 46.6753);
 
   void addCustomIcon() {
@@ -211,15 +211,16 @@ class _AddEventLocationState extends State<AddEventLocation> {
               : TextDirection.ltr,
           child: Column(
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Stack(
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
                     child: Container(
                       decoration: BoxDecoration(
                         color: almostGrey.withOpacity(0.2),
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12)),
                       ),
                       // height: 520,
                       height: AppUtil.rtlDirection2(context)
@@ -227,7 +228,8 @@ class _AddEventLocationState extends State<AddEventLocation> {
                           : height * 0.51,
                       width: double.infinity,
                       child: _currentPosition == null
-                          ? Center(child: CircularProgressIndicator.adaptive())
+                          ? const Center(
+                              child: CircularProgressIndicator.adaptive())
                           : SizedBox(
                               child: GoogleMap(
                                 padding: EdgeInsets.only(bottom: width * 0.102),
@@ -256,7 +258,7 @@ class _AddEventLocationState extends State<AddEventLocation> {
                                 ),
                                 markers: {
                                   Marker(
-                                    markerId: MarkerId("marker1"),
+                                    markerId: const MarkerId("marker1"),
                                     position: _currentPosition!,
                                     // LatLng(
                                     //     _servicesController
@@ -332,11 +334,11 @@ class _AddEventLocationState extends State<AddEventLocation> {
                       height: 45,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(12),
                             bottomRight: Radius.circular(12)),
                         border: Border.all(
-                          color: Color(
+                          color: const Color(
                               0xFFE2E2E2), // Change this to your desired border color
                           width: 2, // Change this to your desired border width
                         ),
@@ -349,10 +351,10 @@ class _AddEventLocationState extends State<AddEventLocation> {
                           children: [
                             Center(
                               child: _isLoading
-                                  ? CircularProgressIndicator.adaptive()
+                                  ? const CircularProgressIndicator.adaptive()
                                   : CustomText(
                                       text: address,
-                                      color: Color(0xFF9392A0),
+                                      color: const Color(0xFF9392A0),
                                       fontSize: 13,
                                       fontFamily: AppUtil.rtlDirection2(context)
                                           ? 'SF Arabic'
@@ -386,8 +388,8 @@ class _AddEventLocationState extends State<AddEventLocation> {
                     ),
                     SizedBox(height: width * 0.02),
                     MediaQuery(
-                      data:
-                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                      data: MediaQuery.of(context)
+                          .copyWith(textScaler: TextScaler.linear(1.0)),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButtonFormField2<String>(
                           isExpanded: true,
@@ -416,7 +418,7 @@ class _AddEventLocationState extends State<AddEventLocation> {
                             // data: MediaQuery.of(context)
                             //     .copyWith(textScaler: const TextScaler.linear(1.0)),
                             data: MediaQuery.of(context)
-                                .copyWith(textScaleFactor: 1.0),
+                                .copyWith(textScaler: TextScaler.linear(1.0)),
                             child: Text(
                               'regionChoose'.tr,
                               style: TextStyle(
@@ -518,8 +520,8 @@ class _AddEventLocationState extends State<AddEventLocation> {
                           },
                           buttonStyleData: ButtonStyleData(
                             padding: AppUtil.rtlDirection2(context)
-                                ? EdgeInsets.only(left: 9)
-                                : EdgeInsets.only(right: 9),
+                                ? const EdgeInsets.only(left: 9)
+                                : const EdgeInsets.only(right: 9),
                           ),
                           iconStyleData: const IconStyleData(
                             icon: Icon(
@@ -530,16 +532,16 @@ class _AddEventLocationState extends State<AddEventLocation> {
                           ),
                           dropdownStyleData: DropdownStyleData(
                             maxHeight: 100,
-                            decoration: BoxDecoration(),
+                            decoration: const BoxDecoration(),
                             scrollbarTheme: ScrollbarThemeData(
                               radius: const Radius.circular(40),
-                              thickness: MaterialStateProperty.all(8),
-                              thumbVisibility: MaterialStateProperty.all(true),
+                              thickness: WidgetStateProperty.all(8),
+                              thumbVisibility: WidgetStateProperty.all(true),
                               thumbColor:
-                                  MaterialStateProperty.all(starGreyColor),
+                                  WidgetStateProperty.all(starGreyColor),
                               trackColor:
-                                  MaterialStateProperty.all(lightGreyColor),
-                              trackVisibility: MaterialStateProperty.all(true),
+                                  WidgetStateProperty.all(lightGreyColor),
+                              trackVisibility: WidgetStateProperty.all(true),
                             ),
                           ),
                           menuItemStyleData: const MenuItemStyleData(

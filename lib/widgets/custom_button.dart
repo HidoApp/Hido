@@ -36,15 +36,15 @@ class CustomButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        elevation: MaterialStateProperty.all(0),
+        elevation: WidgetStateProperty.all(0),
         overlayColor: buttonColor != null
-            ? MaterialStateProperty.all(buttonColor)
-            : MaterialStateProperty.all(colorGreen),
+            ? WidgetStateProperty.all(buttonColor)
+            : WidgetStateProperty.all(colorGreen),
         backgroundColor: buttonColor != null
-            ? MaterialStateProperty.all(buttonColor)
-            : MaterialStateProperty.all(colorGreen),
-        foregroundColor: MaterialStateProperty.all(Colors.white),
-        shape: MaterialStateProperty.all(
+            ? WidgetStateProperty.all(buttonColor)
+            : WidgetStateProperty.all(colorGreen),
+        foregroundColor: WidgetStateProperty.all(Colors.white),
+        shape: WidgetStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(raduis ?? 8),
@@ -56,7 +56,7 @@ class CustomButton extends StatelessWidget {
           ),
         ),
         fixedSize:
-            MaterialStateProperty.all(Size(customWidth ?? width, height ?? 48
+            WidgetStateProperty.all(Size(customWidth ?? width, height ?? 48
                 //56
                 )),
       ),
@@ -98,7 +98,7 @@ class CustomButton extends StatelessWidget {
               width: 25,
               height: 25,
               alignment: Alignment.center,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 // color: iconColor ?? colorDarkGreen,
               ),

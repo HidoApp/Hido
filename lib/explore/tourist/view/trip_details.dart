@@ -393,7 +393,7 @@ class _TripDetailsState extends State<TripDetails> {
                                 : AppUtil.rtlDirection2(context)
                                     ? widget.place!.nameAr!
                                     : widget.place!.nameEn!,
-                            color: Color(0xFF070708),
+                            color: const Color(0xFF070708),
                             fontSize: width * 0.072,
                             fontFamily: 'HT Rakik',
                             fontWeight: FontWeight.w500,
@@ -412,9 +412,8 @@ class _TripDetailsState extends State<TripDetails> {
                           CustomText(
                             text: widget.place != null
                                 ? AppUtil.rtlDirection2(context)
-                                    ? widget.place!.regionAr! +
-                                        ", المملكة العربية السعودية"
-                                    : widget.place!.regionEn! + ", Saudi Arabia"
+                                    ? "${widget.place!.regionAr!}, المملكة العربية السعودية"
+                                    : "${widget.place!.regionEn!}, Saudi Arabia"
                                 : '',
                             color: starGreyColor,
                             fontSize: width * 0.03,
@@ -436,7 +435,7 @@ class _TripDetailsState extends State<TripDetails> {
                             text: widget.place != null
                                 ? widget.place!.rating.toString()
                                 : '',
-                            color: Color(0xFF9392A0),
+                            color: const Color(0xFF9392A0),
                             fontSize: width * 0.03,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
@@ -549,7 +548,7 @@ class _TripDetailsState extends State<TripDetails> {
                       ),
                       InkWell(
                         onTap: () {
-                          Get.to(() => TouristReviewsScreen());
+                          Get.to(() => const TouristReviewsScreen());
                         },
                         child: Align(
                             alignment: AppUtil.rtlDirection2(context)
@@ -562,7 +561,7 @@ class _TripDetailsState extends State<TripDetails> {
                                   children: [
                                     CustomText(
                                       text: '${"reviews".tr} (5)',
-                                      color: Color(0xFF070708),
+                                      color: const Color(0xFF070708),
                                       fontSize: width * 0.0461,
                                       fontFamily: 'HT Rakik',
                                       fontWeight: FontWeight.w500,
@@ -603,7 +602,7 @@ class _TripDetailsState extends State<TripDetails> {
                                   children: [
                                     CustomText(
                                       text: "cancellationPolicy".tr,
-                                      color: Color(0xFF070708),
+                                      color: const Color(0xFF070708),
                                       fontSize: width * 0.0461,
                                       fontFamily: 'HT Rakik',
                                       fontWeight: FontWeight.w500,

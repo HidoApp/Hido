@@ -19,7 +19,7 @@ class LanguageDropdown extends StatefulWidget {
 class _LanguageDropdownState extends State<LanguageDropdown> {
   bool isDropdownOpen = false;
   String selectedLanguage = 'English'; // Default value; you can change this
-  int _currentIndex = 0; // Example index, adjust as necessary
+  final int _currentIndex = 0; // Example index, adjust as necessary
   final List<String> languages = ['Arabic', 'English'];
 
   @override
@@ -40,7 +40,7 @@ class _LanguageDropdownState extends State<LanguageDropdown> {
     return Positioned(
       top: 60, // Adjust as needed
       right: AppUtil.rtlDirection2(context) ? null : 22,
-      left: AppUtil.rtlDirection2(context) ? 22 : null, 
+      left: AppUtil.rtlDirection2(context) ? 22 : null,
       child: Stack(
         children: [
           GestureDetector(
@@ -49,7 +49,7 @@ class _LanguageDropdownState extends State<LanguageDropdown> {
                 isDropdownOpen = !isDropdownOpen;
               });
             },
-            child: Container(
+            child: SizedBox(
               width: width * 0.3,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -70,9 +70,9 @@ class _LanguageDropdownState extends State<LanguageDropdown> {
                             ),
                             const SizedBox(width: 4),
                             CustomText(
-                              text: selectedLanguage == 'Arabic' 
-                                  ?'arabic'.tr
-                                  :'english'.tr,
+                              text: selectedLanguage == 'Arabic'
+                                  ? 'arabic'.tr
+                                  : 'english'.tr,
                               color: _currentIndex == 0
                                   ? Colors.white
                                   : colorGreen,
@@ -108,13 +108,11 @@ class _LanguageDropdownState extends State<LanguageDropdown> {
                                 openAppSettings(); // For iOS, direct the user to settings
                               } else {
                                 if (selectedLanguage == 'English') {
-                                  Get.updateLocale(const Locale('en',
-                                      'US'));
-                                  GetStorage().write('language', 'en'); 
+                                  Get.updateLocale(const Locale('en', 'US'));
+                                  GetStorage().write('language', 'en');
                                 } else if (selectedLanguage == 'Arabic') {
-                                  Get.updateLocale(const Locale(
-                                      'ar', 'SA')); 
-                                 GetStorage().write('language', 'ar');
+                                  Get.updateLocale(const Locale('ar', 'SA'));
+                                  GetStorage().write('language', 'ar');
                                 }
                               }
                             });
@@ -124,7 +122,7 @@ class _LanguageDropdownState extends State<LanguageDropdown> {
                                 const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Container(
                               width: double.infinity,
-                              padding: const EdgeInsets.symmetric(vertical:8),
+                              padding: const EdgeInsets.symmetric(vertical: 8),
                               decoration: BoxDecoration(
                                 color: _currentIndex == 0
                                     ? Colors.white.withOpacity(0.2)

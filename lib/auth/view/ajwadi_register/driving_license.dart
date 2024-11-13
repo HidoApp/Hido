@@ -63,7 +63,7 @@ class _DrivingLicenseState extends State<DrivingLicense> {
         isBack: true,
       ),
       body: Padding(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           left: 16,
           right: 16,
           top: 12,
@@ -81,7 +81,8 @@ class _DrivingLicenseState extends State<DrivingLicense> {
               () => GestureDetector(
                 onTap: () => showCalender(),
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   height: 48,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(
@@ -99,7 +100,7 @@ class _DrivingLicenseState extends State<DrivingLicense> {
                         Icons.date_range,
                         color: Colors.grey,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       CustomText(

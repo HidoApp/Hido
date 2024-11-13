@@ -5,21 +5,22 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class ContactUs extends StatelessWidget {
-  const ContactUs({Key? key, }) : super(key: key);
+  const ContactUs({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
       decoration: BoxDecoration(
-          color:  Colors.white,
-          borderRadius: BorderRadius.circular(25)),
+          color: Colors.white, borderRadius: BorderRadius.circular(25)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           CustomButton(
@@ -29,7 +30,7 @@ class ContactUs extends StatelessWidget {
             iconColor: colorGreen,
             customWidth: width * 0.7,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
         ],

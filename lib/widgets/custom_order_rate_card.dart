@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CustomRateOrderCard extends StatefulWidget {
-  CustomRateOrderCard({
+  const CustomRateOrderCard({
     Key? key,
   }) : super(key: key);
 
@@ -21,10 +21,10 @@ class _CustomRateOrderCardState extends State<CustomRateOrderCard> {
     double height = MediaQuery.of(context).size.height;
 
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Row(
           children: [
-            Container(
+            SizedBox(
               height: 115,
               width: 94,
               child: ClipRRect(
@@ -35,33 +35,33 @@ class _CustomRateOrderCardState extends State<CustomRateOrderCard> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomText(
+                const CustomText(
                   text: 'Soap Lavender',
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 2,
                 ),
-                CustomText(
+                const CustomText(
                   text: 'SAR 150.00',
                   fontSize: 16,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
-                CustomText(
+                const CustomText(
                   text: 'Wooden bedside table featuring ...',
                   color: almostGrey,
                 ),
-                Container(
+                SizedBox(
                   height: 40,
                   width: width * 0.5,
                   child: ListView.separated(
@@ -81,7 +81,7 @@ class _CustomRateOrderCardState extends State<CustomRateOrderCard> {
                         );
                       },
                       separatorBuilder: (_, i) {
-                        return SizedBox(
+                        return const SizedBox(
                           width: 5,
                         );
                       },

@@ -8,7 +8,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class AddInfo extends StatefulWidget {
-  AddInfo({
+  const AddInfo({
     Key? key,
     required this.textField1ControllerEN,
     required this.textField2ControllerEN,
@@ -27,8 +27,9 @@ class AddInfo extends StatefulWidget {
 
 class _AddInfoState extends State<AddInfo> {
   int _selectedLanguageIndex = 1; // 0 for AR, 1 for EN
-  FocusNode _focusNode = FocusNode();
-  AdventureController _AdventureController = Get.put(AdventureController());
+  final FocusNode _focusNode = FocusNode();
+  final AdventureController _AdventureController =
+      Get.put(AdventureController());
 
   @override
   void dispose() {
@@ -68,17 +69,17 @@ class _AddInfoState extends State<AddInfo> {
               ToggleSwitch(
                 minWidth: 55,
                 cornerRadius: 12,
-                activeBgColors: [
+                activeBgColors: const [
                   [Colors.white],
                   [Colors.white]
                 ],
                 activeBorders: [
-                  Border.all(color: Color(0xFFF5F5F5), width: 2.0),
-                  Border.all(color: Color(0xFFF5F5F5), width: 2.0),
+                  Border.all(color: const Color(0xFFF5F5F5), width: 2.0),
+                  Border.all(color: const Color(0xFFF5F5F5), width: 2.0),
                 ],
-                activeFgColor: Color(0xFF070708),
-                inactiveBgColor: Color(0xFFF5F5F5),
-                inactiveFgColor: Color(0xFF9392A0),
+                activeFgColor: const Color(0xFF070708),
+                inactiveBgColor: const Color(0xFFF5F5F5),
+                inactiveFgColor: const Color(0xFF9392A0),
                 initialLabelIndex: _selectedLanguageIndex,
                 totalSwitches: 2,
                 labels: _selectedLanguageIndex == 0
@@ -99,7 +100,7 @@ class _AddInfoState extends State<AddInfo> {
                     fontWeight: FontWeight.w500,
                   ),
                 ],
-                customHeights: [90, 90],
+                customHeights: const [90, 90],
                 onToggle: (index) {
                   setState(() {
                     _selectedLanguageIndex = index!;
@@ -124,7 +125,7 @@ class _AddInfoState extends State<AddInfo> {
                       text: _selectedLanguageIndex == 0
                           ? 'عنوان التجربة'
                           : 'Experience title',
-                      color: Color(0xFF070708),
+                      color: const Color(0xFF070708),
                       fontSize: 17,
                       fontFamily:
                           _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
@@ -132,8 +133,8 @@ class _AddInfoState extends State<AddInfo> {
                     ),
                     SizedBox(height: _selectedLanguageIndex == 0 ? 8 : 9),
                     MediaQuery(
-                      data:
-                          MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                      data: MediaQuery.of(context)
+                          .copyWith(textScaler: TextScaler.linear(1.0)),
                       child: TextField(
                         maxLength: 20,
                         controller: textField1Controller,
@@ -150,7 +151,7 @@ class _AddInfoState extends State<AddInfo> {
                               ? 'مثال: منزل دانا'
                               : 'example: Dana’s house',
                           hintStyle: TextStyle(
-                            color: Color(0xFFB9B8C1),
+                            color: const Color(0xFFB9B8C1),
                             fontSize: 15,
                             fontFamily: _selectedLanguageIndex == 0
                                 ? 'SF Arabic'
@@ -159,18 +160,18 @@ class _AddInfoState extends State<AddInfo> {
                           ),
                           filled: true,
                           fillColor: Colors.white,
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               horizontal: 12,
                               vertical:
                                   0), // Adjust vertical padding for height
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide:
-                                BorderSide(width: 1, color: Color(0xFFB9B8C1)),
+                            borderSide: const BorderSide(
+                                width: 1, color: Color(0xFFB9B8C1)),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                                 width: 1,
                                 color: Color(
                                     0xFFB9B8C1)), // Same color to remove focus color
@@ -194,7 +195,7 @@ class _AddInfoState extends State<AddInfo> {
                     CustomText(
                       text:
                           _selectedLanguageIndex == 0 ? 'الوصف' : 'Description',
-                      color: Color(0xFF070708),
+                      color: const Color(0xFF070708),
                       fontSize: 17,
                       fontFamily:
                           _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
@@ -207,7 +208,8 @@ class _AddInfoState extends State<AddInfo> {
                       decoration: ShapeDecoration(
                         color: Colors.white,
                         shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color(0xFFB9B8C1)),
+                          side: const BorderSide(
+                              width: 1, color: Color(0xFFB9B8C1)),
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
@@ -246,7 +248,7 @@ class _AddInfoState extends State<AddInfo> {
                                 ? 'ما هي التجارب الفريدة التي لا يمكن العثور عليها في أي مكان آخر؟'
                                 : 'highlight what makes it unique and why tourists should visit',
                             hintStyle: TextStyle(
-                              color: Color(0xFFB9B8C1),
+                              color: const Color(0xFFB9B8C1),
                               fontSize: 15,
                               fontFamily: _selectedLanguageIndex == 0
                                   ? 'SF Arabic'
@@ -267,7 +269,7 @@ class _AddInfoState extends State<AddInfo> {
                         text: _selectedLanguageIndex == 0
                             ? '*يجب ألا يتجاوز الوصف 150 كلمة'
                             : '*the description must not exceed 150 words',
-                        color: Color(0xFFB9B8C1),
+                        color: const Color(0xFFB9B8C1),
                         fontSize: 11,
                         fontFamily: _selectedLanguageIndex == 0
                             ? 'SF Arabic'

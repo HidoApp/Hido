@@ -94,7 +94,7 @@ class _CheckContainerWidgetState extends State<CheckContainerWidget> {
             ),
             Container(
               width: 318,
-              decoration: ShapeDecoration(
+              decoration: const ShapeDecoration(
                 shape: RoundedRectangleBorder(
                   side: BorderSide(
                     width: 1,
@@ -146,14 +146,13 @@ class _CustomCheckWidget extends StatelessWidget {
   final bool isBold;
   final bool isLast;
   final void Function()? onTap;
-  _CustomCheckWidget({
-    this.isChecked = true,
-    this.isLast = false,
-    this.isBold = false,
-    this.schedule,
-    this.onTap,
-    this.isCircle = false,
-  });
+  _CustomCheckWidget(
+      {this.isChecked = true,
+      this.isLast = false,
+      this.isBold = false,
+      this.schedule,
+      this.onTap,
+      this.isCircle = false});
 
   TextStyle titleStyle = const TextStyle(
     color: Color(0xFF070708),
@@ -244,7 +243,7 @@ class _CustomCheckWidget extends StatelessWidget {
                     children: [
                       MediaQuery(
                         data: MediaQuery.of(context)
-                         .copyWith(textScaleFactor: 1.0),
+                            .copyWith(textScaler: TextScaler.linear(1.0)),
                         // data: MediaQuery.of(context)
                         //     .copyWith(textScaler: const TextScaler.linear(1.0)),
                         child: Text(
@@ -276,7 +275,7 @@ class _CustomCheckWidget extends StatelessWidget {
                             CustomText(
                               text:
                                   "${AppUtil.formatStringTimeWithLocale(context, schedule?.scheduleTime!['to'])} ",
-                              color: Color(0xFF676767),
+                              color: const Color(0xFF676767),
                               fontSize: 13,
                               fontFamily: 'SF Pro',
                               fontWeight: FontWeight.w400,

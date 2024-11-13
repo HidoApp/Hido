@@ -124,21 +124,22 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                     Obx(
                       () => Skeletonizer(
                         enabled: _touristExploreController
-                            .isBookingByIdLoading.value || _profileController.isProfileLoading.value,
+                                .isBookingByIdLoading.value ||
+                            _profileController.isProfileLoading.value,
                         child: Padding(
                           padding:
                               EdgeInsets.symmetric(horizontal: width * 0.041),
                           child: GestureDetector(
                             onTap: () {
                               if (widget.booking!.bookingType ==
-                                      'hospitality' ) {
+                                  'hospitality') {
                                 if (profileBooking!.localId!.isNotEmpty) {
                                   Get.to(
                                     () => ServicesLocalInfo(
-                                        isHospitality: true,
-                                        profileId:
-                                            profileBooking?.localId ?? '',
-                                            isFromTicket: true,),
+                                      isHospitality: true,
+                                      profileId: profileBooking?.localId ?? '',
+                                      isFromTicket: true,
+                                    ),
                                   );
                                 }
                               } else if (widget.booking!.bookingType ==
@@ -148,7 +149,7 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                                     () => ServicesLocalInfo(
                                         profileId:
                                             profileBooking?.localId ?? '',
-                                               isFromTicket: true),
+                                        isFromTicket: true),
                                   );
                                 }
                               } else {
@@ -190,7 +191,7 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                                   children: [
                                     CircleAvatar(
                                       child: ClipRRect(
-                                         borderRadius: BorderRadius.circular(60),
+                                        borderRadius: BorderRadius.circular(60),
                                         child: profileBooking?.offers?.first
                                                         .user!.profile.image !=
                                                     null ||
@@ -215,8 +216,11 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                                                             .user!
                                                             .profile
                                                             .image ??
-                                                        "", fit: BoxFit.cover,)
-                                            : Image.asset('assets/images/profile_image.png'),
+                                                        "",
+                                                fit: BoxFit.cover,
+                                              )
+                                            : Image.asset(
+                                                'assets/images/profile_image.png'),
                                       ),
                                     ),
                                     SizedBox(
@@ -326,29 +330,31 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
 
       case 'adventure':
       case 'مغامرة':
-        if (widget.adventure == null)
+        if (widget.adventure == null) {
           return AdventureTicketData(
               booking: widget.booking!,
               icon: widget.icon,
               bookTypeText: widget.bookTypeText);
-        else
+        } else {
           return AdventureTicketData(
               adventure: widget.adventure,
               icon: widget.icon,
               bookTypeText: widget.bookTypeText);
+        }
 
       case 'hospitality':
       case 'ضيافة':
-        if (widget.hospitality == null)
+        if (widget.hospitality == null) {
           return HostTicketData(
               booking: widget.booking!,
               icon: widget.icon,
               bookTypeText: widget.bookTypeText);
-        else
+        } else {
           return HostTicketData(
               hospitality: widget.hospitality,
               icon: widget.icon,
               bookTypeText: widget.bookTypeText);
+        }
 
       case 'event':
       case 'فعالية':
@@ -386,7 +392,7 @@ class TicketData extends StatelessWidget {
   OverlayEntry? _overlayEntry;
 
   void _showOverlay(BuildContext context) {
-    final overlay = Overlay.of(context)!;
+    final overlay = Overlay.of(context);
 
     _overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -400,7 +406,8 @@ class TicketData extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.circular(8.0),
@@ -420,7 +427,7 @@ class TicketData extends StatelessWidget {
 
     overlay.insert(_overlayEntry!);
 
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       _overlayEntry?.remove();
     });
   }
@@ -448,7 +455,7 @@ class TicketData extends StatelessWidget {
             const SizedBox(width: 8),
             CustomText(
               text: '#${booking.id!.substring(0, 7)}',
-              color: Color(0xFFB9B8C1),
+              color: const Color(0xFFB9B8C1),
               fontSize: 13,
               fontFamily:
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
@@ -456,7 +463,7 @@ class TicketData extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 12),
+        const SizedBox(height: 12),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -527,7 +534,7 @@ class TicketData extends StatelessWidget {
                 CustomText(
                   text: 'pickUp1'.tr,
                   textAlign: TextAlign.center,
-                  color: Color(0xFF9392A0),
+                  color: const Color(0xFF9392A0),
                   fontSize: 14,
                   fontFamily: AppUtil.SfFontType(context),
                   fontWeight: FontWeight.w500,

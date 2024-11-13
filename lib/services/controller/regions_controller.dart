@@ -34,5 +34,6 @@ class RegionsController extends GetxController {
     } finally {
       isRegionsLoading(false);
     }
+    return null;
   }
 }

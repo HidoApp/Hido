@@ -83,7 +83,7 @@ class _PhoneSheetState extends State<PhoneSheet> {
                 keyboardType: TextInputType.number,
                 validator: false,
                 validatorHandle: (number) {
-                  if (number == null || number!.isEmpty) {
+                  if (number == null || number.isEmpty) {
                     return 'fieldRequired'.tr;
                   }
                   if (!number.startsWith('05') || number.length != 10) {

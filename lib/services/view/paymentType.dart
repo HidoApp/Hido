@@ -95,9 +95,8 @@ class _PaymentTypeScreenState extends State<PaymentTypeScreen> {
     final width = MediaQuery.of(context).size.width;
     return Obx(
       () => _RequestController.isBookingLoading.value
-          ? Scaffold(
-              body: Center(
-                  child: CircularProgressIndicator.adaptive()))
+          ? const Scaffold(
+              body: Center(child: CircularProgressIndicator.adaptive()))
           : Scaffold(
               extendBodyBehindAppBar: false,
               appBar: CustomAppBar(
@@ -146,12 +145,12 @@ class _PaymentTypeScreenState extends State<PaymentTypeScreen> {
                               width: 2,
                             ),
                             SvgPicture.asset('assets/icons/logos_visa.svg'),
-                            SizedBox(
+                            const SizedBox(
                               width: 6,
                             ),
                             CustomText(
                               text: 'creditCard'.tr,
-                              color: Color(0xFF070708),
+                              color: const Color(0xFF070708),
                               fontSize: 16,
                               fontFamily: 'SF Pro',
                               fontWeight: FontWeight.w600,
@@ -183,7 +182,7 @@ class _PaymentTypeScreenState extends State<PaymentTypeScreen> {
 
                             SvgPicture.asset(
                               "assets/icons/applePay_icon.svg",
-                              color: Color.fromARGB(255, 0, 0, 0),
+                              color: const Color.fromARGB(255, 0, 0, 0),
                               height: 20,
                             ),
                           ],
@@ -242,7 +241,7 @@ class _PaymentTypeScreenState extends State<PaymentTypeScreen> {
                           height: width * 0.02,
                         ),
                         paymentController.isPaymenInvoiceLoading.value
-                            ? CircularProgressIndicator.adaptive()
+                            ? const CircularProgressIndicator.adaptive()
                             : Padding(
                                 padding: EdgeInsets.only(
                                     top: width * 0.01,
@@ -250,7 +249,7 @@ class _PaymentTypeScreenState extends State<PaymentTypeScreen> {
                                     right: width * 0.043),
                                 child: CustomButton(
                                     title: 'pay'.tr,
-                                    icon: Icon(Icons.keyboard_arrow_right,
+                                    icon: const Icon(Icons.keyboard_arrow_right,
                                         color: Colors.white),
                                     onPressed: () async {
                                       //   invoice ??=

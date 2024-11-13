@@ -21,16 +21,16 @@ class CustomAcceptButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(colorGreen),
-        foregroundColor: MaterialStateProperty.all(Colors.white),
-        shape: MaterialStateProperty.all(
+        backgroundColor: WidgetStateProperty.all(colorGreen),
+        foregroundColor: WidgetStateProperty.all(Colors.white),
+        shape: WidgetStateProperty.all(
           const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(6),
             ),
           ),
         ),
-        fixedSize: MaterialStateProperty.all(const Size.fromHeight(36)),
+        fixedSize: WidgetStateProperty.all(const Size.fromHeight(36)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

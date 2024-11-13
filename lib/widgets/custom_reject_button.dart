@@ -14,20 +14,20 @@ class CustomRejectButton extends StatelessWidget {
     return OutlinedButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all(colorRed),
-        side: MaterialStateProperty.all(
+        foregroundColor: WidgetStateProperty.all(colorRed),
+        side: WidgetStateProperty.all(
           const BorderSide(
             color: colorRed,
           ),
         ),
-        shape: MaterialStateProperty.all(
+        shape: WidgetStateProperty.all(
           const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(6),
             ),
           ),
         ),
-        fixedSize: MaterialStateProperty.all(const Size.fromHeight(36)),
+        fixedSize: WidgetStateProperty.all(const Size.fromHeight(36)),
       ),
       child: Row(
         children: [

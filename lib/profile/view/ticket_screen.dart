@@ -53,7 +53,7 @@ class _TicketScreenState extends State<TicketScreen>
               labelColor: colorGreen,
 
               unselectedLabelColor: colorDarkGrey,
-              dividerColor: Color(0xFFB9B8C1),
+              dividerColor: const Color(0xFFB9B8C1),
               // indicatorPadding: EdgeInsets.symmetric(horizontal: 1),
               tabs: [
                 Tab(text: "upcomingTrips".tr),

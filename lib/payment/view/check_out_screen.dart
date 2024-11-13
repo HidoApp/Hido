@@ -10,14 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-
 class CheckOutScreen extends StatefulWidget {
-  const CheckOutScreen({
-    Key? key,
-    this.total,
-    this.offerDetails,
-    this.offerController
-  }) : super(key: key);
+  const CheckOutScreen(
+      {Key? key, this.total, this.offerDetails, this.offerController})
+      : super(key: key);
 
   final int? total;
   final OfferDetails? offerDetails;
@@ -59,7 +55,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       body: SingleChildScrollView(
         child: Container(
           height: height * 0.88,
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -68,17 +64,17 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 fontWeight: FontWeight.w500,
                 fontSize: 17,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 width: width * 0.95,
                 // height: 100,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: lightGrey.withOpacity(0.7)),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
                     boxShadow: const [
                       BoxShadow(
                           color: lightGrey,
@@ -89,7 +85,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 child: Column(
                   children: [
                     Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         width: width * 0.85,
                         decoration: BoxDecoration(
                             border: Border.all(color: lightGrey),
@@ -100,18 +96,18 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             width: 2,
                           ),
                           SvgPicture.asset('assets/icons/logos_visa.svg'),
-                          SizedBox(
+                          const SizedBox(
                             width: 6,
                           ),
                           CustomText(text: 'creditCard'.tr),
                           // CustomText(
                           //     text: creditCardInfo[i]['cardNum']!
                           //         .replaceRange(0, 10, '**********')),
-                          Spacer(),
+                          const Spacer(),
                           Radio<PaymentType>(
                             value: PaymentType.creditCard,
                             groupValue: _payment,
-                            fillColor: MaterialStateProperty.all(colorGreen),
+                            fillColor: WidgetStateProperty.all(colorGreen),
                             onChanged: (PaymentType? value) {
                               setState(() {
                                 _payment = value;
@@ -213,12 +209,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   decoration: BoxDecoration(
                                       color: colorGreen,
                                       borderRadius: BorderRadius.circular(3)),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.add,
                                     color: Colors.white,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 CustomText(
@@ -316,15 +312,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
               //     ],
               //   ),
               // ),
-             
-             
-             
-              Spacer(),
-              DottedSeparator(
+
+              const Spacer(),
+              const DottedSeparator(
                 color: textGreyColor,
                 height: 1,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Row(
@@ -335,7 +329,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     fontWeight: FontWeight.w900,
                     fontSize: 24,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   CustomText(
                     text: "SAR ${widget.total}",
                     color: black,
@@ -344,7 +338,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 3,
               ),
               Row(
@@ -354,8 +348,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     color: almostGrey,
                     fontSize: 14,
                   ),
-                  Spacer(),
-                  CustomText(
+                  const Spacer(),
+                  const CustomText(
                     text: "−SAR 00,00",
                     color: almostGrey,
                     fontSize: 14,
@@ -363,7 +357,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 ],
               ),
               _payment == PaymentType.applePay
-                  ? SizedBox(
+                  ? const SizedBox(
                       height: 15,
                     )
                   : Container(),
@@ -371,23 +365,22 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                   ? ElevatedButton(
                       onPressed: () {},
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(black),
-                        foregroundColor:
-                            MaterialStateProperty.all(Colors.white),
-                        shape: MaterialStateProperty.all(
+                        backgroundColor: WidgetStateProperty.all(black),
+                        foregroundColor: WidgetStateProperty.all(Colors.white),
+                        shape: WidgetStateProperty.all(
                           const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(10),
                             ),
                           ),
                         ),
-                        fixedSize: MaterialStateProperty.all(Size(width, 58)),
+                        fixedSize: WidgetStateProperty.all(Size(width, 58)),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          CustomText(
+                          const CustomText(
                             text: "Pay with  ",
                             textAlign: TextAlign.center,
                             fontSize: 18,
@@ -404,21 +397,23 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     )
                   : Container(),
               _payment == PaymentType.applePay
-                  ? SizedBox(
+                  ? const SizedBox(
                       height: 5,
                     )
                   : Container(),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
-            _payment == PaymentType.stcPay ?   CustomButton(
-                onPressed: () {},
-                title: 'pay'.tr,
-                icon: AppUtil.rtlDirection(context)
-                    ? const Icon(Icons.arrow_back)
-                    : const Icon(Icons.arrow_forward),
-              ) : Container(),
-              SizedBox(
+              _payment == PaymentType.stcPay
+                  ? CustomButton(
+                      onPressed: () {},
+                      title: 'pay'.tr,
+                      icon: AppUtil.rtlDirection(context)
+                          ? const Icon(Icons.arrow_back)
+                          : const Icon(Icons.arrow_forward),
+                    )
+                  : Container(),
+              const SizedBox(
                 height: 20,
               )
             ],

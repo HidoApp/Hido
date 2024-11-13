@@ -4,19 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class PushNotificationCrd extends StatelessWidget {
-  const PushNotificationCrd({
-    Key? key,
-    this.message = '',
-    required this.isRtl,
-    required this.width,
-    // required this.isDisabled,
-    //required this.onCancel,
+  const PushNotificationCrd(
+      {Key? key,
+      this.message = '',
+      required this.isRtl,
+      required this.width,
+      required this.isRead
+      // required this.isDisabled,
+      //required this.onCancel,
 //  required this.onDismissed,
-    //required this.isViewed,
-  }) : super(key: key);
+      //required this.isViewed,
+      })
+      : super(key: key);
   final String message;
   final double width;
   final bool isRtl;
+  final bool isRead;
 
   //final bool isDisabled;
   // final VoidCallback onCancel;
@@ -28,14 +31,13 @@ class PushNotificationCrd extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: 89,
           decoration: BoxDecoration(
             // color: isViewed ? Colors.white : Color(0xFFECF9F1),
-            color: Color(0xFFECF9F1),
+            color: isRead ? Colors.white : Color(0xFFECF9F1),
             border: Border(
-              left: BorderSide(color: Color(0xFFECECEE)),
-              top: BorderSide(color: Color(0xFFECECEE)),
-              right: BorderSide(color: Color(0xFFECECEE)),
+              // left: BorderSide(color: Color(0xFFECECEE)),
+              // top: BorderSide(color: Color(0xFFECECEE)),
+              // right: BorderSide(color: Color(0xFFECECEE)),
               bottom: BorderSide(width: 1, color: Color(0xFFECECEE)),
             ),
           ),
@@ -49,9 +51,9 @@ class PushNotificationCrd extends StatelessWidget {
                 SvgPicture.asset('assets/icons/bell.svg'),
                 const SizedBox(width: 13),
                 SizedBox(
-                  width: width * 0.48,
+                  width: width * 0.7,
                   child: Text(
-                    maxLines: 500,
+                    maxLines: 900,
                     message,
                     style: TextStyle(
                       fontFamily: isRtl ? 'SF Arabic' : 'SF Pro',
@@ -83,7 +85,7 @@ class PushNotificationCrd extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 13,
         )
       ],

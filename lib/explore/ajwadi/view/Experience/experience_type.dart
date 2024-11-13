@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ExperienceType extends StatelessWidget {
+  const ExperienceType({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +28,7 @@ class ExperienceType extends StatelessWidget {
                   // Use Flexible to allow wrapping
                   child: CustomText(
                     text: 'kindofexperience'.tr,
-                    color: Color(0xFF070708),
+                    color: const Color(0xFF070708),
                     fontSize: 17,
                     fontFamily:
                         AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',

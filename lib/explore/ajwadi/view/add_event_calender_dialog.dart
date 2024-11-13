@@ -47,7 +47,7 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
   List<DateTime> selectedDates = [];
 
   final _ajwadiExploreController = Get.put(AjwadiExploreController());
-  DateRangePickerController _controller = DateRangePickerController();
+  final DateRangePickerController _controller = DateRangePickerController();
 
   @override
   void initState() {
@@ -154,7 +154,7 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                               ? DateRangePickerSelectionMode.multiRange
                               : DateRangePickerSelectionMode.single,
                       selectionColor: colorGreen,
-                      selectionTextStyle: TextStyle(),
+                      selectionTextStyle: const TextStyle(),
                       selectionShape: DateRangePickerSelectionShape.circle,
                       todayHighlightColor: colorGreen,
                       startRangeSelectionColor: colorGreen,
@@ -220,15 +220,15 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                                 for (DateTime date = startDate;
                                     date.isBefore(endDate!) ||
                                         date.isAtSameMomentAs(endDate);
-                                    date = date.add(Duration(days: 1))) {
-                                  selectedDates!.add(DateTime(
+                                    date = date.add(const Duration(days: 1))) {
+                                  selectedDates.add(DateTime(
                                       date.year, date.month, date.day));
                                 }
                               }
                             }
 
                             // Join the selected dates as a string
-                            selectedDate = selectedDates!
+                            selectedDate = selectedDates
                                 .map((date) => date.toString())
                                 .join(', ');
 
@@ -244,12 +244,12 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                               for (DateTime date = startDate;
                                   date.isBefore(endDate!) ||
                                       date.isAtSameMomentAs(endDate);
-                                  date = date.add(Duration(days: 1))) {
-                                selectedDates!.add(
+                                  date = date.add(const Duration(days: 1))) {
+                                selectedDates.add(
                                     DateTime(date.year, date.month, date.day));
                               }
 
-                              selectedDate = selectedDates!
+                              selectedDate = selectedDates
                                   .map((date) => date.toString())
                                   .join(', ');
                             }
@@ -263,7 +263,7 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                             ];
 
                             // Format single date to string
-                            selectedDate = selectedDates![0].toString();
+                            selectedDate = selectedDates[0].toString();
                           }
                         });
 

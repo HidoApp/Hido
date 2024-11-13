@@ -2,7 +2,7 @@ PODS:
   - amplitude_flutter (0.0.1):
     - AmplitudeSwift (~> 1.6)
     - Flutter
-  - AmplitudeSwift (1.10.1):
+  - AmplitudeSwift (1.9.4):
     - AnalyticsConnector (~> 1.0.1)
   - AnalyticsConnector (1.0.3)
   - awesome_notifications (0.8.1):
@@ -215,9 +215,9 @@ PODS:
   - pointer_interceptor_ios (0.0.1):
     - Flutter
   - PromisesObjC (2.4.0)
-  - SDWebImage (5.20.0):
-    - SDWebImage/Core (= 5.20.0)
-  - SDWebImage/Core (5.20.0)
+  - SDWebImage (5.19.7):
+    - SDWebImage/Core (= 5.19.7)
+  - SDWebImage/Core (5.19.7)
   - Sentry/HybridSDK (8.36.0)
   - sentry_flutter (8.9.0):
     - Flutter
@@ -346,7 +346,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   amplitude_flutter: aed4ad5d2da06894245fde7e8c56fed39ac6dca8
-  AmplitudeSwift: 9a4b3e0cb70ad8f89176925e7a6f979c5d48f362
+  AmplitudeSwift: d10ae6afdb0740e4ae843866bce8ab1119a53d74
   AnalyticsConnector: a53214d38ae22734c6266106c0492b37832633a9
   awesome_notifications: db394d2e061e4583ba0f738ddea611e3986cc3fb
   connectivity_plus: 4c41c08fc6d7c91f63bc7aec70ffe3730b04f563
@@ -384,7 +384,7 @@ SPEC CHECKSUMS:
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   pointer_interceptor_ios: 508241697ff0947f853c061945a8b822463947c1
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
-  SDWebImage: 73c6079366fea25fa4bb9640d5fb58f0893facd8
+  SDWebImage: 8a6b7b160b4d710e2a22b6900e25301075c34cb3
   Sentry: f8374b5415bc38dfb5645941b3ae31230fbeae57
   sentry_flutter: 0eb93e5279eb41e2392212afe1ccd2fecb4f8cbe
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78

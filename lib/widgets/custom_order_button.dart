@@ -26,16 +26,16 @@ class CustomOrderButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        side: MaterialStateProperty.all(BorderSide(
+        side: WidgetStateProperty.all(BorderSide(
             color: borderColor ?? Colors.transparent,
             width: 1.0,
             style: BorderStyle.solid)),
-        elevation: MaterialStateProperty.all(0),
+        elevation: WidgetStateProperty.all(0),
         backgroundColor: buttonColor != null
-            ? MaterialStateProperty.all(buttonColor)
-            : MaterialStateProperty.all(colorGreen),
-        foregroundColor: MaterialStateProperty.all(Colors.white),
-        shape: MaterialStateProperty.all(
+            ? WidgetStateProperty.all(buttonColor)
+            : WidgetStateProperty.all(colorGreen),
+        foregroundColor: WidgetStateProperty.all(Colors.white),
+        shape: WidgetStateProperty.all(
           const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(10),
@@ -43,7 +43,7 @@ class CustomOrderButton extends StatelessWidget {
           ),
         ),
         fixedSize:
-            MaterialStateProperty.all(Size(customWidth ?? width, height ?? 58)),
+            WidgetStateProperty.all(Size(customWidth ?? width, height ?? 58)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -10,9 +10,9 @@ class CustomExpertCard extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return Container(
+    return SizedBox(
       height: 100,
-      width: width*0.6,
+      width: width * 0.6,
       child: Card(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(16))),
@@ -24,13 +24,13 @@ class CustomExpertCard extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               child: Image.asset("assets/images/place.png"),
             ),
-           const SizedBox(
+            const SizedBox(
               width: 15,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-             const   Align(
+                const Align(
                   alignment: Alignment.centerLeft,
                   child: CustomText(
                       textAlign: TextAlign.start,
@@ -40,7 +40,7 @@ class CustomExpertCard extends StatelessWidget {
                 ),
                 SizedBox(
                   width: width * 0.6,
-                  child:const CustomText(
+                  child: const CustomText(
                     text:
                         "Mount Kumait the most famous mountain in the ...Mount Kumait the most famous mountain in the ...",
                     fontSize: 10,

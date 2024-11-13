@@ -34,7 +34,7 @@ class ExperienceCard extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          shadows: [
+          shadows: const [
             BoxShadow(
               color: shadowColor,
               blurRadius: 15,
@@ -48,14 +48,14 @@ class ExperienceCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
+            SizedBox(
               width: double.infinity,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
+                  SizedBox(
                     width: 24,
                     height: 24,
                     child: SvgPicture.asset(

@@ -122,7 +122,7 @@ class _EmailOTPSheetState extends State<EmailOTPSheet>
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: Form(
                   key: _formKey,
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // CustomOTPField(

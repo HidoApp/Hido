@@ -75,7 +75,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
   OverlayEntry? _overlayEntry;
 
   void _showOverlay(BuildContext context) {
-    final overlay = Overlay.of(context)!;
+    final overlay = Overlay.of(context);
 
     _overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -89,7 +89,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
         child: Material(
           color: Colors.transparent,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.circular(8.0),
@@ -109,7 +110,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
     overlay.insert(_overlayEntry!);
 
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       _overlayEntry?.remove();
     });
   }
@@ -127,7 +128,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
         () => Padding(
           padding: const EdgeInsets.all(16.0),
           child: _servicesController.isHospitalityByIdLoading.value
-              ? Center(
+              ? const Center(
                   child: CircularProgressIndicator.adaptive(),
                 )
               : _summary == null || _summary!.guestList.isEmpty
@@ -151,7 +152,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
                       padding: const EdgeInsets.all(12),
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 1, color: Color(0xFFDCDCE0)),
+                          side: const BorderSide(
+                              width: 1, color: Color(0xFFDCDCE0)),
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
@@ -180,7 +182,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                 const SizedBox(width: 8),
                                 CustomText(
                                   text: '#${_summary?.id.substring(0, 7)}',
-                                  color: Color(0xFFB9B8C1),
+                                  color: const Color(0xFFB9B8C1),
                                   fontSize: 13,
                                   fontFamily: AppUtil.rtlDirection2(context)
                                       ? 'SF Arabic'
@@ -190,9 +192,9 @@ class _SummaryScreenState extends State<SummaryScreen> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 12),
-                          Divider(color: Color(0xFFDCDCE0), thickness: 1),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
+                          const Divider(color: Color(0xFFDCDCE0), thickness: 1),
+                          const SizedBox(height: 12),
                           // Second Row: Title Place and Booking Date
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -201,7 +203,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                 text: AppUtil.rtlDirection2(context)
                                     ? _summary?.titleAr ?? ''
                                     : _summary?.titleEn ?? '',
-                                color: Color(0xFF070708),
+                                color: const Color(0xFF070708),
                                 fontSize: 16,
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
@@ -212,7 +214,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                 CustomText(
                                   text: formatBookingDate(context,
                                       _summary?.daysInfo.first.startTime ?? ''),
-                                  color: Color(0xFF070708),
+                                  color: const Color(0xFF070708),
                                   fontSize: 15,
                                   fontFamily: AppUtil.rtlDirection2(context)
                                       ? 'SF Arabic'
@@ -221,9 +223,9 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                 ),
                             ],
                           ),
-                          SizedBox(height: 12),
-                          Divider(color: Color(0xFFDCDCE0), thickness: 1),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
+                          const Divider(color: Color(0xFFDCDCE0), thickness: 1),
+                          const SizedBox(height: 12),
                           // Third Row: Time, Number of Male and Women, and Cost
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -233,39 +235,39 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                   // AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime??'','hh:mm a'),
                                   text:
                                       '${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime ?? '', 'hh:mm a')} - ${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.endTime ?? '', 'hh:mm a')}',
-                                  color: Color(0xFF070708),
+                                  color: const Color(0xFF070708),
                                   fontSize: 12,
                                   fontFamily: AppUtil.rtlDirection2(context)
                                       ? 'SF Arabic'
                                       : 'SF Pro',
                                   fontWeight: FontWeight.w400,
                                 ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
                               Row(
                                 children: [
                                   CustomText(
                                     text: '$totalFemales ${'Women'.tr}',
-                                    color: Color(0xFF070708),
+                                    color: const Color(0xFF070708),
                                     fontSize: 12,
                                     fontFamily: AppUtil.rtlDirection2(context)
                                         ? 'SF Arabic'
                                         : 'SF Pro',
                                     fontWeight: FontWeight.w400,
                                   ),
-                                  SizedBox(width: 4),
+                                  const SizedBox(width: 4),
                                   CustomText(
                                     text: '∙',
-                                    color: Color(0xFF070708),
+                                    color: const Color(0xFF070708),
                                     fontSize: 12,
                                     fontFamily: AppUtil.rtlDirection2(context)
                                         ? 'SF Arabic'
                                         : 'SF Pro',
                                     fontWeight: FontWeight.w400,
                                   ),
-                                  SizedBox(width: 4),
+                                  const SizedBox(width: 4),
                                   CustomText(
                                     text: '$totalMales ${'Men'.tr}',
-                                    color: Color(0xFF070708),
+                                    color: const Color(0xFF070708),
                                     fontSize: 12,
                                     fontFamily: AppUtil.rtlDirection2(context)
                                         ? 'SF Arabic'
@@ -274,22 +276,22 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
                               Row(
                                 children: [
                                   CustomText(
                                     text: '${_summary?.cost}',
-                                    color: Color(0xFF070708),
+                                    color: const Color(0xFF070708),
                                     fontSize: 12,
                                     fontFamily: AppUtil.rtlDirection2(context)
                                         ? 'SF Arabic'
                                         : 'SF Pro',
                                     fontWeight: FontWeight.w400,
                                   ),
-                                  SizedBox(width: 4),
+                                  const SizedBox(width: 4),
                                   CustomText(
                                     text: 'sar'.tr,
-                                    color: Color(0xFF070708),
+                                    color: const Color(0xFF070708),
                                     fontSize: 12,
                                     fontFamily: AppUtil.rtlDirection2(context)
                                         ? 'SF Arabic'
@@ -300,15 +302,15 @@ class _SummaryScreenState extends State<SummaryScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 12),
-                          Divider(color: Color(0xFFDCDCE0), thickness: 1),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
+                          const Divider(color: Color(0xFFDCDCE0), thickness: 1),
+                          const SizedBox(height: 12),
                           // Fourth Row: Guest List
                           CustomText(
                             text: AppUtil.rtlDirection2(context)
                                 ? 'لائحة الضيوف'
                                 : 'Guest list',
-                            color: Color(0xFF070708),
+                            color: const Color(0xFF070708),
                             fontSize: 16,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
@@ -316,7 +318,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                             fontWeight: FontWeight.w600,
                           ),
 
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
                           Expanded(
                             child: ListView.builder(
                               itemCount: _summary?.guestList.length,
@@ -330,7 +332,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                       CustomText(
                                         text: _summary?.guestList[index].name ??
                                             '',
-                                        color: Color(0xFF41404A),
+                                        color: const Color(0xFF41404A),
                                         fontSize: 13,
                                         fontFamily:
                                             AppUtil.rtlDirection2(context)
@@ -341,7 +343,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                       CustomText(
                                         text:
                                             '${_summary?.guestList[index].female} ${'Women'.tr} - ${_summary?.guestList[index].male} ${'Men'.tr}',
-                                        color: Color(0xFFB9B8C1),
+                                        color: const Color(0xFFB9B8C1),
                                         fontSize: 12,
                                         fontFamily:
                                             AppUtil.rtlDirection2(context)

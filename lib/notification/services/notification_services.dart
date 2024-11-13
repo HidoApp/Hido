@@ -27,10 +27,10 @@ class NotificationServices {
     String token = getStorage.read('accessToken') ?? "";
 
     if (token != '' && JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
+      final authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
+      var user = await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
@@ -56,8 +56,8 @@ class NotificationServices {
       return false;
     }
   }
-  
-static  Future<List<Notifications>?> getNotifications(
+
+  static Future<List<Notifications>?> getNotifications(
       {required BuildContext context}) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
@@ -71,16 +71,15 @@ static  Future<List<Notifications>?> getNotifications(
     }
     final response = await http.get(
       Uri.parse('$baseUrl/notification'),
-       
       headers: {
         'Accept': 'application/json',
         if (token != '') 'Authorization': 'Bearer $token',
       },
     );
     log("Noty");
-      log(response.body.toString());
-     if (response.statusCode == 200) {
-        log(response.statusCode.toString());
+    log(response.body.toString());
+    if (response.statusCode == 200) {
+      log(response.statusCode.toString());
       List<dynamic> data = jsonDecode(response.body);
       return data.map((noty) => Notifications.fromJson(noty)).toList();
     } else {
@@ -92,5 +91,40 @@ static  Future<List<Notifications>?> getNotifications(
     }
   }
 
+  static Future<void> updateNotifications(
+      {required BuildContext context,
+      List<String>? unreadNotificationIds}) async {
+    final getStorage = GetStorage();
+    String token = getStorage.read('accessToken') ?? "";
+    if (token != '' && JwtDecoder.isExpired(token)) {
+      final authController = Get.put(AuthController());
 
+      String refreshToken = getStorage.read('refreshToken');
+      var user = await authController.refreshToken(
+          refreshToken: refreshToken, context: context);
+      token = getStorage.read('accessToken');
+    }
+    final response = await http.put(
+      Uri.parse('$baseUrl/notification'),
+      body: json.encode({
+        {
+          "ids": unreadNotificationIds,
+        },
+      }),
+      headers: {
+        'Accept': 'application/json',
+        if (token != '') 'Authorization': 'Bearer $token',
+      },
+    );
+    log("");
+    log(response.body.toString());
+    if (response.statusCode == 200) {
+      log(response.statusCode.toString());
+    } else {
+      String errorMessage = jsonDecode(response.body)['message'];
+      if (context.mounted) {
+        AppUtil.errorToast(context, errorMessage);
+      }
+    }
+  }
 }

@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:flutter/material.dart';
@@ -52,10 +51,10 @@ class _ViewTripImagesState extends State<ViewTripImages> {
     var items = widget.tripImageUrl
         .map(
           (url) => Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
-            padding: EdgeInsets.all(6),
+            padding: const EdgeInsets.all(6),
             child: ImageCacheWidget(image: url),
           ),
         )

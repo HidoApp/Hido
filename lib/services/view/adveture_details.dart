@@ -11,6 +11,7 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_aleart_widget.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:ajwad_v4/widgets/read_more_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -104,13 +105,15 @@ class _AdventureDetailsState extends State<AdventureDetails> {
   Future<String> _getAddressFromLatLng(
       double position1, double position2) async {
     try {
-      
-    String languageCode = Get.locale?.languageCode == 'ar' ? 'ar' : 'en';
-    String countryCode = languageCode == 'ar' ? 'SA' : 'US'; // Assuming Saudi Arabia for Arabic and US for English
-    String lang = '${languageCode}_$countryCode';
-   
-      List<Placemark> placemarks =
-          await placemarkFromCoordinates(position1, position2,localeIdentifier:lang);
+      String languageCode = Get.locale?.languageCode == 'ar' ? 'ar' : 'en';
+      String countryCode = languageCode == 'ar'
+          ? 'SA'
+          : 'US'; // Assuming Saudi Arabia for Arabic and US for English
+      String lang = '${languageCode}_$countryCode';
+
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+          position1, position2,
+          localeIdentifier: lang);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
@@ -118,9 +121,9 @@ class _AdventureDetailsState extends State<AdventureDetails> {
             placemark.locality!.isNotEmpty) {
           return '${placemark.locality}, ${placemark.subLocality}';
         } else {
-          if (placemark.locality!.isNotEmpty)
+          if (placemark.locality!.isNotEmpty) {
             return '${placemark.locality}, ${placemark.administrativeArea}';
-          else if (placemark.subLocality!.isNotEmpty)
+          } else if (placemark.subLocality!.isNotEmpty)
             return '${placemark.subLocality}, ${placemark.administrativeArea}';
           else
             return '${placemark.administrativeArea}, ${placemark.thoroughfare}';
@@ -356,83 +359,90 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               SizedBox(
                                 height: width * 0.025,
                               ),
-                              Align(
-                                alignment: AppUtil.rtlDirection2(context)
-                                    ? Alignment.centerRight
-                                    : Alignment.centerLeft,
-                                child: ConstrainedBox(
-                                  constraints: isExpanded
-                                      ? const BoxConstraints()
-                                      : BoxConstraints(maxHeight: width * 0.1),
-                                  child: CustomText(
-                                    textDirection: AppUtil.rtlDirection(context)
-                                        ? TextDirection.ltr
-                                        : TextDirection.rtl,
-                                    textOverflow: isExpanded
-                                        ? TextOverflow.visible
-                                        : TextOverflow.clip,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                    maxlines: 600,
-                                    color: starGreyColor,
-                                    fontSize: width * 0.038,
-                                    fontWeight: FontWeight.w400,
-                                    text: AppUtil.rtlDirection2(context)
+                              ReadMoreWidget(
+                                text: adventure == null
+                                    ? "******"
+                                    : AppUtil.rtlDirection2(context)
                                         ? adventure!.descriptionAr ?? ''
                                         : adventure!.descriptionEn ?? '',
-                                  ),
-                                ),
                               ),
-                              SizedBox(
-                                height: width * 0.012,
-                              ),
-                              isExpanded
-                                  ? Align(
-                                      alignment: AppUtil.rtlDirection2(context)
-                                          ? Alignment.bottomRight
-                                          : Alignment.bottomLeft,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          setState(() => isExpanded = false);
-                                        },
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: CustomText(
-                                            text: AppUtil.rtlDirection2(context)
-                                                ? "القليل"
-                                                : "Show less",
-                                            color: blue,
-                                            fontFamily:
-                                                AppUtil.rtlDirection2(context)
-                                                    ? 'SF Arabic'
-                                                    : 'SF Pro',
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : Align(
-                                      alignment: AppUtil.rtlDirection2(context)
-                                          ? Alignment.bottomRight
-                                          : Alignment.bottomLeft,
-                                      child: GestureDetector(
-                                        onTap: () =>
-                                            setState(() => isExpanded = true),
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: CustomText(
-                                            text: "readMore".tr,
-                                            color: blue,
-                                            fontFamily:
-                                                AppUtil.rtlDirection2(context)
-                                                    ? 'SF Arabic'
-                                                    : 'SF Pro',
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                              // Align(
+                              //   alignment: AppUtil.rtlDirection2(context)
+                              //       ? Alignment.centerRight
+                              //       : Alignment.centerLeft,
+                              //   child: ConstrainedBox(
+                              //     constraints: isExpanded
+                              //         ? const BoxConstraints()
+                              //         : BoxConstraints(maxHeight: width * 0.1),
+                              //     child: CustomText(
+                              //       textDirection: AppUtil.rtlDirection(context)
+                              //           ? TextDirection.ltr
+                              //           : TextDirection.rtl,
+                              //       textOverflow: isExpanded
+                              //           ? TextOverflow.visible
+                              //           : TextOverflow.clip,
+                              //       fontFamily: AppUtil.rtlDirection2(context)
+                              //           ? 'SF Arabic'
+                              //           : 'SF Pro',
+                              //       maxlines: 600,
+                              //       color: starGreyColor,
+                              //       fontSize: width * 0.038,
+                              //       fontWeight: FontWeight.w400,
+                              //       text: AppUtil.rtlDirection2(context)
+                              //           ? adventure!.descriptionAr ?? ''
+                              //           : adventure!.descriptionEn ?? '',
+                              //     ),
+                              //   ),
+                              // ),
+                              // SizedBox(
+                              //   height: width * 0.012,
+                              // ),
+                              // isExpanded
+                              //     ? Align(
+                              //         alignment: AppUtil.rtlDirection2(context)
+                              //             ? Alignment.bottomRight
+                              //             : Alignment.bottomLeft,
+                              //         child: GestureDetector(
+                              //           onTap: () {
+                              //             setState(() => isExpanded = false);
+                              //           },
+                              //           child: Padding(
+                              //             padding:
+                              //                 const EdgeInsets.only(top: 8.0),
+                              //             child: CustomText(
+                              //               text: AppUtil.rtlDirection2(context)
+                              //                   ? "القليل"
+                              //                   : "Show less",
+                              //               color: blue,
+                              //               fontFamily:
+                              //                   AppUtil.rtlDirection2(context)
+                              //                       ? 'SF Arabic'
+                              //                       : 'SF Pro',
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       )
+                              //     : Align(
+                              //         alignment: AppUtil.rtlDirection2(context)
+                              //             ? Alignment.bottomRight
+                              //             : Alignment.bottomLeft,
+                              //         child: GestureDetector(
+                              //           onTap: () =>
+                              //               setState(() => isExpanded = true),
+                              //           child: Padding(
+                              //             padding:
+                              //                 const EdgeInsets.only(top: 8.0),
+                              //             child: CustomText(
+                              //               text: "readMore".tr,
+                              //               color: blue,
+                              //               fontFamily:
+                              //                   AppUtil.rtlDirection2(context)
+                              //                       ? 'SF Arabic'
+                              //                       : 'SF Pro',
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       ),
                               SizedBox(
                                 height: width * 0.025,
                               ),
@@ -484,7 +494,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                       ),
                                       markers: {
                                         Marker(
-                                          markerId: MarkerId("marker1"),
+                                          markerId: const MarkerId("marker1"),
                                           position: adventure == null
                                               ? locLatLang
                                               : LatLng(
@@ -662,7 +672,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return CustomAlertDialog();
+                                          return const CustomAlertDialog();
                                         },
                                       );
                                     }

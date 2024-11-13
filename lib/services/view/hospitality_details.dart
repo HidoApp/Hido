@@ -17,6 +17,7 @@ import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_policy_sheet.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/floating_booking_button.dart';
+import 'package:ajwad_v4/widgets/read_more_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -99,12 +100,13 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
       }
     }
     for (var day in hospitalityObj!.daysInfo) {
-      if (AppUtil.isDateTimeBefore24Hours(day.startTime))
+      if (AppUtil.isDateTimeBefore24Hours(day.startTime)) {
         avilableDate.add(
           DateTime.parse(
             day.startTime.substring(0, 10),
           ),
         );
+      }
     }
 
     if (!AppUtil.isGuest() &&
@@ -135,9 +137,9 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
             placemark.locality!.isNotEmpty) {
           return '${placemark.locality}, ${placemark.subLocality}';
         } else {
-          if (placemark.locality!.isNotEmpty)
+          if (placemark.locality!.isNotEmpty) {
             return '${placemark.locality}, ${placemark.administrativeArea}';
-          else if (placemark.subLocality!.isNotEmpty)
+          } else if (placemark.subLocality!.isNotEmpty)
             return '${placemark.subLocality}, ${placemark.administrativeArea}';
           else
             return '${placemark.administrativeArea}, ${placemark.thoroughfare}';
@@ -295,7 +297,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                         ? address.isEmpty
                                             ? AppUtil.rtlDirection2(context)
                                                 ? '${hospitalityObj!.regionAr}'
-                                                : '${hospitalityObj!.regionEn}'
+                                                : hospitalityObj!.regionEn
                                             : address
                                         : AppUtil.rtlDirection2(context)
                                             ? '${hospitalityObj!.regionAr}, ${widget.address}'
@@ -381,89 +383,17 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                 alignment: AppUtil.rtlDirection2(context)
                                     ? Alignment.centerRight
                                     : Alignment.centerLeft,
-                                child: ConstrainedBox(
-                                  constraints: isExpanded
-                                      ? const BoxConstraints()
-                                      : BoxConstraints(maxHeight: width * 0.1),
-                                  child: CustomText(
-                                      maxlines: 600,
-
-                                      //   textAlign: AppUtil.rtlDirection(context) ? TextAlign.end : TextAlign.start ,
-                                      textDirection:
-                                          AppUtil.rtlDirection(context)
-                                              ? TextDirection.ltr
-                                              : TextDirection.rtl,
-                                      textOverflow: isExpanded
-                                          ? TextOverflow.visible
-                                          : TextOverflow.clip,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: width * 0.038,
-                                      color: starGreyColor,
-                                      text: AppUtil.rtlDirection2(context)
+                                child: ReadMoreWidget(
+                                  text: hospitalityObj == null
+                                      ? "******"
+                                      : AppUtil.rtlDirection2(context)
                                           ? hospitalityObj!.bioAr
-                                          : hospitalityObj!.bioEn),
+                                          : hospitalityObj!.bioEn,
                                 ),
                               ),
                               SizedBox(
                                 width: width * 0.012,
                               ),
-                              isExpanded
-                                  ? Align(
-                                      alignment: AppUtil.rtlDirection2(context)
-                                          ? Alignment.bottomRight
-                                          : Alignment.bottomLeft,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          setState(() => isExpanded = false);
-                                        },
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: CustomText(
-                                            textDirection:
-                                                AppUtil.rtlDirection2(context)
-                                                    ? TextDirection.rtl
-                                                    : TextDirection.ltr,
-                                            text: AppUtil.rtlDirection2(context)
-                                                ? "القليل"
-                                                : "Show less",
-                                            fontFamily:
-                                                AppUtil.rtlDirection2(context)
-                                                    ? 'SF Arabic'
-                                                    : 'SF Pro',
-                                            color: blue,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : Align(
-                                      alignment: AppUtil.rtlDirection2(context)
-                                          ? Alignment.bottomRight
-                                          : Alignment.bottomLeft,
-                                      child: GestureDetector(
-                                        onTap: () =>
-                                            setState(() => isExpanded = true),
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: CustomText(
-                                            textDirection:
-                                                AppUtil.rtlDirection2(context)
-                                                    ? TextDirection.rtl
-                                                    : TextDirection.ltr,
-                                            text: "readMore".tr,
-                                            fontFamily:
-                                                AppUtil.rtlDirection2(context)
-                                                    ? 'SF Arabic'
-                                                    : 'SF Pro',
-                                            color: blue,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
                               SizedBox(
                                 height: width * 0.025,
                               ),

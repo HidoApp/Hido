@@ -97,8 +97,7 @@ Future<void> showAcceptBottomSheet(
                                 minLeadingWidth: 0,
                                 horizontalTitleGap: 8,
                                 title: CustomText(
-                                  text:
-                                      '${request.booking!.date!.substring(0, 10)}',
+                                  text: request.booking!.date!.substring(0, 10),
                                   color: darkBlue,
                                   fontSize: 10,
                                   fontWeight: FontWeight.w400,

@@ -77,7 +77,7 @@ class _ScheduleContainerWidgetState extends State<ScheduleContainerWidget> {
                         );
                         // Return an empty Container if not checked
                       } else {
-                        return SizedBox
+                        return const SizedBox
                             .shrink(); // Return an empty widget if not checked
                       }
                     } else if (widget.scheduleList![index].userAgreed ??
@@ -97,7 +97,7 @@ class _ScheduleContainerWidgetState extends State<ScheduleContainerWidget> {
                         isBold: !(index == 0 || index == 2),
                       );
                     } else {
-                      return SizedBox
+                      return const SizedBox
                           .shrink(); // Return an empty widget if not checked
                     }
                   }),
@@ -117,35 +117,35 @@ class _CustomCheckWidget extends StatelessWidget {
   final bool isBold;
   final bool isLast;
   final void Function()? onTap;
-  _CustomCheckWidget({
-    // this.isChecked = false,
-    this.isLast = false,
-    this.isBold = false,
-    this.schedule,
-    this.onTap,
-    this.isCircle = true,
-    this.isReview = false,
-  });
+  _CustomCheckWidget(
+      {
+      // this.isChecked = false,
+      this.isLast = false,
+      this.isBold = false,
+      this.schedule,
+      this.onTap,
+      this.isReview = false,
+      this.isCircle = false});
 
-  TextStyle titleStyle = TextStyle(
+  TextStyle titleStyle = const TextStyle(
     color: Color(0xFF070708),
     fontSize: 15,
     fontFamily: "SF Pro",
     fontWeight: FontWeight.w500,
   );
-  TextStyle titleBold = TextStyle(
+  TextStyle titleBold = const TextStyle(
     color: Color(0xFF070708),
     fontSize: 15,
     fontFamily: "SF Pro",
     fontWeight: FontWeight.w500,
   );
-  TextStyle titleReview = TextStyle(
+  TextStyle titleReview = const TextStyle(
     color: starGreyColor,
     fontSize: 15,
     fontFamily: "SF Pro",
     fontWeight: FontWeight.w500,
   );
-  TextStyle priceBold = TextStyle(
+  TextStyle priceBold = const TextStyle(
     color: Color(0xFF37B268),
     fontSize: 13,
     fontFamily: "SF Pro",
@@ -153,14 +153,14 @@ class _CustomCheckWidget extends StatelessWidget {
     height: 0,
   );
 
-  TextStyle priceStyle = TextStyle(
+  TextStyle priceStyle = const TextStyle(
     color: Color(0xFF37B268),
     fontSize: 13,
     fontFamily: "SF Pro",
     fontWeight: FontWeight.w500,
     height: 0,
   );
-  TextStyle priceReview = TextStyle(
+  TextStyle priceReview = const TextStyle(
     color: starGreyColor,
     fontSize: 13,
     fontFamily: "SF Pro",
@@ -231,7 +231,7 @@ class _CustomCheckWidget extends StatelessWidget {
                     children: [
                       MediaQuery(
                         data: MediaQuery.of(context)
-                            .copyWith(textScaleFactor: 1.0),
+                            .copyWith(textScaler: TextScaler.linear(1.0)),
                         child: Text(
                           schedule?.scheduleName ?? '',
                           style: !isReview
@@ -251,8 +251,8 @@ class _CustomCheckWidget extends StatelessWidget {
                               text: AppUtil.formatStringTimeWithLocale(
                                   context, schedule?.scheduleTime!['from']),
                               color: !isReview
-                                  ? Color(0xFF676767)
-                                  : Color(0xFFB9B8C1),
+                                  ? const Color(0xFF676767)
+                                  : const Color(0xFFB9B8C1),
                               fontSize: 13,
                               fontFamily: AppUtil.SfFontType(context),
                               fontWeight: FontWeight.w500,
@@ -260,8 +260,8 @@ class _CustomCheckWidget extends StatelessWidget {
                             CustomText(
                               text: " - ",
                               color: !isReview
-                                  ? Color(0xFF676767)
-                                  : Color(0xFFB9B8C1),
+                                  ? const Color(0xFF676767)
+                                  : const Color(0xFFB9B8C1),
                               fontSize: 13,
                               fontFamily: AppUtil.SfFontType(context),
                               fontWeight: FontWeight.w500,
@@ -270,8 +270,8 @@ class _CustomCheckWidget extends StatelessWidget {
                               text:
                                   "${AppUtil.formatStringTimeWithLocale(context, schedule?.scheduleTime!['to'])} ",
                               color: !isReview
-                                  ? Color(0xFF676767)
-                                  : Color(0xFFB9B8C1),
+                                  ? const Color(0xFF676767)
+                                  : const Color(0xFFB9B8C1),
                               fontSize: 13,
                               fontFamily: AppUtil.SfFontType(context),
                               fontWeight: FontWeight.w500,
@@ -280,14 +280,14 @@ class _CustomCheckWidget extends StatelessWidget {
                         )
                     ],
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Row(
                     //     mainAxisAlignment: MainAxisAlignment.end,
                     // crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       MediaQuery(
                         data: MediaQuery.of(context)
-                            .copyWith(textScaleFactor: 1.0),
+                            .copyWith(textScaler: TextScaler.linear(1.0)),
                         child: Text.rich(
                           TextSpan(
                             children: [

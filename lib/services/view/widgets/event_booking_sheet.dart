@@ -46,8 +46,8 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
 
   bool isDateBeforeToday() {
     DateTime parsedDate = DateTime.parse(_eventController.selectedDate.value);
-    final parsedDateInRiyadh =
-        tz.TZDateTime.from(parsedDate, location).subtract(Duration(hours: 3));
+    final parsedDateInRiyadh = tz.TZDateTime.from(parsedDate, location)
+        .subtract(const Duration(hours: 3));
 
     tz.initializeTimeZones();
     location = tz.getLocation(timeZoneName);
@@ -64,7 +64,7 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
     location = tz.getLocation(timeZoneName);
 
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-    
+
     DateTime selectedDate = DateTime.parse(_eventController.selectedDate.value);
     DateTime Date = DateFormat('HH:mm').parse(DateFormat('hh:mm a', 'en_US')
         .format(DateTime.parse(widget.event!.daysInfo!.first.startTime)));
@@ -72,7 +72,8 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
     DateTime hostStartDate = DateTime(selectedDate.year, selectedDate.month,
         selectedDate.day, Date.hour, Date.minute, Date.second);
 
-    DateTime bookingDeadline = hostStartDate.subtract(Duration(hours: 24));
+    DateTime bookingDeadline =
+        hostStartDate.subtract(const Duration(hours: 24));
 
     return bookingDeadline.isBefore(currentDateInRiyadh);
   }
@@ -110,7 +111,6 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
     final height = MediaQuery.of(context).size.height;
     _eventController.showErrorMaxGuest.value = false;
     return Container(
-      
       width: double.infinity,
       padding: EdgeInsets.only(
         left: width * 0.0615,
@@ -365,16 +365,15 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
                   Get.to(
                       () => EventReview(event: widget.event!, person: person));
 
-                        AmplitudeService.amplitude.track(
-                            BaseEvent('Review Event Booking',eventProperties: {
-                              'eventTime':'${AppUtil.formatTimeOnly(context, widget.event!.daysInfo![_eventController.selectedDateIndex.value].startTime)} -  ${AppUtil.formatTimeOnly(context, widget.event!.daysInfo![_eventController.selectedDateIndex.value].endTime)}',
-                              'eventDate':AppUtil.formatBookingDate(
-                               context, _eventController.selectedDate.value),
-                               'PersonNo':person,
-                            }
-                            
-                            ),
-                          );
+                  AmplitudeService.amplitude.track(
+                    BaseEvent('Review Event Booking', eventProperties: {
+                      'eventTime':
+                          '${AppUtil.formatTimeOnly(context, widget.event!.daysInfo![_eventController.selectedDateIndex.value].startTime)} -  ${AppUtil.formatTimeOnly(context, widget.event!.daysInfo![_eventController.selectedDateIndex.value].endTime)}',
+                      'eventDate': AppUtil.formatBookingDate(
+                          context, _eventController.selectedDate.value),
+                      'PersonNo': person,
+                    }),
+                  );
                 }
               },
             )

@@ -25,7 +25,8 @@ class _TermsAndConditionsTextState extends State<TermsAndConditionsText> {
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             side: const BorderSide(color: colorGreen, width: 2),
             // overlayColor: WidgetStateColor.transparent,
-           overlayColor: MaterialStateProperty.all(Colors.transparent), // Updated line
+            overlayColor:
+                WidgetStateProperty.all(Colors.transparent), // Updated line
             value: _authController.agreeForTerms.value,
             onChanged: (value) => _authController.agreeForTerms(value))),
         CustomText(

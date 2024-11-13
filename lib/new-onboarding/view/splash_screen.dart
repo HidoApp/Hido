@@ -54,7 +54,6 @@ class _SplashScreenState extends State<SplashScreen>
   late dynamic userRole;
   late dynamic token;
   var resume = true;
-  
 
   @override
   void initState() {
@@ -111,7 +110,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF9F9F9),
+      backgroundColor: const Color(0xFFF9F9F9),
       body: Stack(
         children: [
           Center(
