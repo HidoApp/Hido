@@ -32,7 +32,7 @@ class ShowAjwadiInfoSheet extends StatefulWidget {
   }) : super(key: key);
   final String image;
   final String name;
-  final price,  tripNumber;
+  final price, tripNumber;
   final double rating;
   // final Booking booking;
   final Place place;
@@ -97,7 +97,7 @@ class _ShowAjwadiInfoSheetState extends State<ShowAjwadiInfoSheet>
                   ),
                   radius: 40,
                 )
-              : CircleAvatar(
+              : const CircleAvatar(
                   backgroundImage: AssetImage(
                     'assets/images/profile_image.png',
                   ),
@@ -212,14 +212,12 @@ class _ShowAjwadiInfoSheetState extends State<ShowAjwadiInfoSheet>
                   //           .offerDetails.value.booking!.chatId!,
                   //       place: widget.place,
                   //     ));
-                  
-                          Get.to(() => ChatScreen(
-                                chatId: _offerController
-                                    .offerDetails.value.booking!.chatId!,
-                                 booking: _offerController
-                                      .offerDetails.value.booking!,
 
-                              ));
+                  Get.to(() => ChatScreen(
+                        chatId: _offerController
+                            .offerDetails.value.booking!.chatId!,
+                        booking: _offerController.offerDetails.value.booking!,
+                      ));
                   // }
                 },
                 title: 'chat'.tr,
@@ -238,7 +236,7 @@ class _ShowAjwadiInfoSheetState extends State<ShowAjwadiInfoSheet>
                 child: SizedBox(
                   width: width * 0.5,
                   child: _offerController.isOfferLoading.value
-                      ? Center(
+                      ? const Center(
                           child: CircularProgressIndicator.adaptive())
                       : CustomAcceptButton(
                           onPressed: () async {
@@ -265,14 +263,12 @@ class _ShowAjwadiInfoSheetState extends State<ShowAjwadiInfoSheet>
                               //       place: widget.place,
                               //     ));
 
-                              
-                          Get.to(() => ChatScreen(
-                                chatId: _offerController
-                                    .offerDetails.value.booking!.chatId!,
-                                 booking: _offerController
-                                      .offerDetails.value.booking!,
-
-                              ));
+                              Get.to(() => ChatScreen(
+                                    chatId: _offerController
+                                        .offerDetails.value.booking!.chatId!,
+                                    booking: _offerController
+                                        .offerDetails.value.booking!,
+                                  ));
                             }
                           },
                           title: 'chat'.tr,

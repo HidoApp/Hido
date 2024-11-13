@@ -66,8 +66,8 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
   bool isDateBeforeToday() {
     DateTime parsedDate =
         DateTime.parse(widget.serviceController.selectedDate.value);
-    final parsedDateInRiyadh =
-        tz.TZDateTime.from(parsedDate, location).subtract(Duration(hours: 3));
+    final parsedDateInRiyadh = tz.TZDateTime.from(parsedDate, location)
+        .subtract(const Duration(hours: 3));
 
     tz.initializeTimeZones();
     location = tz.getLocation(timeZoneName);
@@ -103,7 +103,8 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
     DateTime hostStartDate = DateTime(selectedDate.year, selectedDate.month,
         selectedDate.day, Date.hour, Date.minute, Date.second);
 
-    DateTime bookingDeadline = hostStartDate.subtract(Duration(hours: 24));
+    DateTime bookingDeadline =
+        hostStartDate.subtract(const Duration(hours: 24));
 
     return bookingDeadline.isBefore(currentDateInRiyadh);
   }
@@ -141,9 +142,9 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                 height: widget.hospitality!.touristsGender == 'BOTH'
                     ? height * 0.49
                     : height * 0.42,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Colors.white,
-                    borderRadius: const BorderRadius.only(
+                    borderRadius: BorderRadius.only(
                         topRight: Radius.circular(30),
                         topLeft: Radius.circular(30))),
                 padding: const EdgeInsets.all(16),
@@ -691,7 +692,7 @@ class _ReservaationDetailsAdventureWidgetState
   bool showErrorDate = false;
   bool showErrorTime = false;
 
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   Invoice? invoice;
   bool isCheckingForPayment = false;
@@ -853,7 +854,7 @@ class _ReservaationDetailsAdventureWidgetState
                                         fontWeight: FontWeight.w200,
                                         color: textGreyColor,
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       GestureDetector(
                                         onTap: () {
                                           setState(() {
@@ -893,8 +894,8 @@ class _ReservaationDetailsAdventureWidgetState
                                 ),
 
                                 if (showErrorGuests)
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15),
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 15),
                                     child: CustomText(
                                       text:
                                           'You need to add at least one guest',
@@ -1378,13 +1379,14 @@ class _ReservaationDetailsAdventureWidgetState
                           child: Container(
                               height: 150,
                               width: 180,
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(color: Colors.white),
+                              padding: const EdgeInsets.all(10),
+                              decoration:
+                                  const BoxDecoration(color: Colors.white),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  CircularProgressIndicator.adaptive(),
-                                  SizedBox(
+                                  const CircularProgressIndicator.adaptive(),
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   CustomText(

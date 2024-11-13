@@ -115,8 +115,8 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                   height: width * 0.04,
                                 ),
                                 ReviewDetailsTile(
-                                    title:
-                                        '${AppUtil.formatBookingDate(context, widget.booking!.date!)}',
+                                    title: AppUtil.formatBookingDate(
+                                        context, widget.booking!.date!),
                                     image: 'assets/icons/date.svg'),
                                 SizedBox(
                                   height: width * .010,
@@ -242,15 +242,8 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                 icon: const Icon(Icons.keyboard_arrow_right,
                                     color: Colors.white),
                                 onPressed: () async {
-                                  if (widget.offerController!
-                                          .updateScheduleList !=
-                                      null) {
-                                    for (var item in widget
-                                        .offerController!.updateScheduleList) {}
-                                  } else {
-                                    print(
-                                        'The schedule list is null or does not exist.');
-                                  }
+                                  for (var item in widget
+                                      .offerController!.updateScheduleList) {}
                                   Get.to(
                                     () => PaymentType(
                                       price: paymentController
@@ -275,7 +268,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
                                     'Go to payment screen',
                                   ));
                                 }),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         CustomButton(
                             onPressed: () {
                               Get.until(

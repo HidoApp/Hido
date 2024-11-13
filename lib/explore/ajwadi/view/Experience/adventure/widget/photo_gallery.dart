@@ -23,11 +23,12 @@ class PhotoGalleryPage extends StatefulWidget {
 }
 
 class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
-  List<XFile> _selectedImages = [];
+  final List<XFile> _selectedImages = [];
   final AdventureController _adventureController =
       Get.put(AdventureController());
   final ImagePicker _picker = ImagePicker();
 
+  @override
   void initState() {
     super.initState();
     // _selectedImages = widget.selectedImages.map((path) => XFile(path)).toList();
@@ -37,7 +38,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
   Future<void> _showImagePickerOptions(BuildContext context) async {
     showModalBottomSheet(
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(24),
           topRight: Radius.circular(24),
@@ -58,9 +59,9 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
 
   Future<void> _pickImage(ImageSource source) async {
     try {
-      final List<XFile>? pickedImages = await _picker.pickMultiImage();
+      final List<XFile> pickedImages = await _picker.pickMultiImage();
       if (pickedImages != null) {
-        if (AppUtil.isImageValidate(await pickedImages.length)) {
+        if (AppUtil.isImageValidate(pickedImages.length)) {
           setState(() {
             // _selectedImages.addAll(pickedImages);
             _adventureController.selectedImages.addAll(pickedImages);
@@ -93,7 +94,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
   Future<void> _showImageOptions(BuildContext context, int index) async {
     showModalBottomSheet(
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(24),
           topRight: Radius.circular(24),
@@ -107,7 +108,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
             right: 24,
             bottom: 44,
           ),
-          decoration: ShapeDecoration(
+          decoration: const ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
@@ -155,7 +156,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 12),
                       decoration: ShapeDecoration(
-                        color: Color(0xFF37B268),
+                        color: const Color(0xFF37B268),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -186,15 +187,15 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                           horizontal: 16, vertical: 12),
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
-                          side:
-                              BorderSide(width: 1.5, color: Color(0xFFDC362E)),
+                          side: const BorderSide(
+                              width: 1.5, color: Color(0xFFDC362E)),
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                       child: CustomText(
                         text: 'Delete'.tr,
                         textAlign: TextAlign.center,
-                        color: Color(0xFFDC362E),
+                        color: const Color(0xFFDC362E),
                         fontSize: 17,
                         fontFamily: 'HT Rakik',
                         fontWeight: FontWeight.w500,
@@ -219,10 +220,10 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
             ? Center(
                 child: DottedBorder(
                   strokeWidth: 1,
-                  color: Color(0xFFDCDCE0),
+                  color: const Color(0xFFDCDCE0),
                   borderType: BorderType.RRect,
-                  radius: Radius.circular(12),
-                  dashPattern: [5, 5],
+                  radius: const Radius.circular(12),
+                  dashPattern: const [5, 5],
                   child: Container(
                       width: 390,
                       // height: 599,
@@ -240,7 +241,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                               height: 42,
                               padding: const EdgeInsets.all(8),
                               decoration: ShapeDecoration(
-                                color: Color(0xFFECF9F1),
+                                color: const Color(0xFFECF9F1),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(9.33),
                                 ),
@@ -252,7 +253,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                           const SizedBox(height: 12),
                           CustomText(
                             text: 'UploadPhotos'.tr,
-                            color: Color(0xFF070708),
+                            color: const Color(0xFF070708),
                             fontSize: 15,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
@@ -264,7 +265,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                           CustomText(
                             text: 'uploadLimit'.tr,
                             textAlign: TextAlign.center,
-                            color: Color(0xFFB9B8C1),
+                            color: const Color(0xFFB9B8C1),
                             fontSize: 11,
                             fontFamily: AppUtil.rtlDirection2(context)
                                 ? 'SF Arabic'
@@ -327,11 +328,12 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 16),
-                    Container(
+                    const SizedBox(height: 16),
+                    SizedBox(
                       height: 360,
                       child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 15,
                           mainAxisSpacing: 15,
@@ -362,23 +364,23 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                               onTap: () => _pickImage(ImageSource.gallery),
                               child: DottedBorder(
                                 strokeWidth: 1,
-                                color: Color(0xFFDCDCE0),
+                                color: const Color(0xFFDCDCE0),
                                 borderType: BorderType.RRect,
-                                radius: Radius.circular(12),
-                                dashPattern: [5, 5],
+                                radius: const Radius.circular(12),
+                                dashPattern: const [5, 5],
                                 child: Center(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.add,
                                         size: 24,
                                         color: Color(0xFFB9B8C1),
                                       ),
-                                      SizedBox(height: 4),
+                                      const SizedBox(height: 4),
                                       CustomText(
                                         text: 'Addmore'.tr,
-                                        color: Color(0xFFB9B8C1),
+                                        color: const Color(0xFFB9B8C1),
                                         fontSize: 11,
                                         fontFamily:
                                             AppUtil.rtlDirection2(context)
@@ -398,11 +400,11 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
                               onTap: () => _takePhoto(),
                               child: DottedBorder(
                                 strokeWidth: 1,
-                                color: Color(0xFFDCDCE0),
+                                color: const Color(0xFFDCDCE0),
                                 borderType: BorderType.RRect,
-                                radius: Radius.circular(12),
-                                dashPattern: [5, 5],
-                                child: Center(
+                                radius: const Radius.circular(12),
+                                dashPattern: const [5, 5],
+                                child: const Center(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -429,7 +431,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
 class ImagePickerBottomSheet extends StatefulWidget {
   final Function(List<XFile>) onImagesSelected;
 
-  ImagePickerBottomSheet({required this.onImagesSelected});
+  const ImagePickerBottomSheet({super.key, required this.onImagesSelected});
 
   @override
   _ImagePickerBottomSheetState createState() => _ImagePickerBottomSheetState();
@@ -441,9 +443,9 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
 
   Future<void> _pickImages() async {
     try {
-      final List<XFile>? pickedImages = await _picker.pickMultiImage();
+      final List<XFile> pickedImages = await _picker.pickMultiImage();
       if (pickedImages != null) {
-        if (AppUtil.isImageValidate(await pickedImages.length)) {
+        if (AppUtil.isImageValidate(pickedImages.length)) {
           setState(() {
             _selectedImages = pickedImages;
           });
@@ -485,7 +487,7 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
           0.8, // Set the height to 80% of the screen height
 
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(24),
@@ -503,13 +505,13 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
               children: [
                 CustomText(
                   text: 'Choosephotos'.tr,
-                  color: Color(0xFF070708),
+                  color: const Color(0xFF070708),
                   fontSize: 22,
                   fontFamily: 'HT Rakik',
                   fontWeight: FontWeight.w500,
                 ),
                 IconButton(
-                  icon: Icon(Icons.camera_alt_outlined),
+                  icon: const Icon(Icons.camera_alt_outlined),
                   onPressed: _takePhoto,
                 ),
               ],
@@ -519,9 +521,10 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
           Expanded(
             // fit: FlexFit.loose,
             child: _selectedImages == null
-                ? Center(child: CircularProgressIndicator.adaptive())
+                ? const Center(child: CircularProgressIndicator.adaptive())
                 : GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       crossAxisSpacing: 4,
                       mainAxisSpacing: 4,

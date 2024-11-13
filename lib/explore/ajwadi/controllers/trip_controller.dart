@@ -5,7 +5,6 @@ import 'package:ajwad_v4/explore/ajwadi/model/local_trip.dart';
 import 'package:ajwad_v4/explore/ajwadi/services/trip_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 class TripController extends GetxController {
   var isPastTicketLoading = false.obs;

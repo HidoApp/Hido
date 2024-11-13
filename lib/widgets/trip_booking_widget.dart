@@ -68,7 +68,7 @@ class _TripBookingWidgetState extends State<TripBookingWidget> {
               ),
               radius: 30,
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Column(
@@ -121,7 +121,7 @@ class _TripBookingWidgetState extends State<TripBookingWidget> {
                           color: black,
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       CustomText(
                         text: widget.booking.date.substring(0, 10),
                         fontSize: 8,

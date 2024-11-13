@@ -104,7 +104,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                       children: [
                         MediaQuery(
                           data: MediaQuery.of(context)
-                              .copyWith(textScaleFactor: 1.0),
+                              .copyWith(textScaler: TextScaler.linear(1.0)),
                           child: RichText(
                             text: TextSpan(
                               children: [
@@ -112,7 +112,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                   text: AppUtil.rtlDirection2(context)
                                       ? "ياهلا"
                                       : 'Welcome ',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Color.fromRGBO(7, 7, 8, 1),
                                     fontSize: 20,
                                     fontFamily: 'HT Rakik',
@@ -139,17 +139,17 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                             ),
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 11.0),
                           child: Row(
                             children: [
                               InkWell(
                                 onTap: () {
-                                  ProfileController _profileController =
+                                  ProfileController profileController =
                                       Get.put(ProfileController());
                                   Get.to(() => MessagesScreen(
-                                      profileController: _profileController));
+                                      profileController: profileController));
                                 },
                                 child: SizedBox(
                                   width: 36,
@@ -174,23 +174,23 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 1),
-                    Container(
+                    const SizedBox(height: 1),
+                    SizedBox(
                       width: double.infinity,
                       height: 168,
                       // padding: const EdgeInsets.symmetric(
                       //     horizontal: 0, vertical: 16),
-                      child: Center(
+                      child: const Center(
                         child: CustomWalletCard(),
                       ),
                     ),
-                    SizedBox(height: 25),
+                    const SizedBox(height: 25),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomText(
                           text: 'Yourservices'.tr,
-                          color: Color(0xFF070708),
+                          color: const Color(0xFF070708),
                           fontSize: 17,
                           fontFamily: 'HT Rakik',
                           fontWeight: FontWeight.w500,
@@ -283,7 +283,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                             'EXPERIENCES') ...{
                           CustomText(
                             text: 'nextActivity'.tr,
-                            color: Color(0xFF070708),
+                            color: const Color(0xFF070708),
                             fontSize: 17,
                             fontFamily: 'HT Rakik',
                             fontWeight: FontWeight.w500,

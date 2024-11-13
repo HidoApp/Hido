@@ -41,7 +41,7 @@ class RadioPaymentType extends StatelessWidget {
         if (isCreditCard)
           CustomText(
             text: title,
-            color: Color(0xFF070708),
+            color: const Color(0xFF070708),
             fontSize: MediaQuery.of(context).size.width * 0.041,
             fontFamily: 'SF Pro',
             fontWeight: FontWeight.w600,

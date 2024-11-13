@@ -50,9 +50,9 @@ class _ViewImagesState extends State<ViewImages> {
 
   Future<void> _pickImage(ImageSource source) async {
     try {
-      final List<XFile>? pickedImages = await _picker.pickMultiImage();
+      final List<XFile> pickedImages = await _picker.pickMultiImage();
       if (pickedImages != null) {
-        if (AppUtil.isImageValidate(await pickedImages.length)) {
+        if (AppUtil.isImageValidate(pickedImages.length)) {
           log(" is asdded");
           log(pickedImages.first.path);
           setState(() {
@@ -73,9 +73,8 @@ class _ViewImagesState extends State<ViewImages> {
       if (photo != null) {
         if (AppUtil.isImageValidate(await photo.length())) {
           setState(() {
-            _selectedImages = _selectedImages != null
-                ? [..._selectedImages!, photo]
-                : [photo];
+            _selectedImages =
+                _selectedImages != null ? [..._selectedImages, photo] : [photo];
             _ExperienceController.images.add(photo);
           });
         } else {
@@ -116,7 +115,7 @@ class _ViewImagesState extends State<ViewImages> {
   Future<void> _showImageOptions(BuildContext context, int index) async {
     showModalBottomSheet(
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(24),
           topRight: Radius.circular(24),
@@ -130,7 +129,7 @@ class _ViewImagesState extends State<ViewImages> {
             right: 24,
             bottom: 44,
           ),
-          decoration: ShapeDecoration(
+          decoration: const ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
@@ -172,7 +171,7 @@ class _ViewImagesState extends State<ViewImages> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 12),
                       decoration: ShapeDecoration(
-                        color: Color(0xFF37B268),
+                        color: const Color(0xFF37B268),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -180,7 +179,7 @@ class _ViewImagesState extends State<ViewImages> {
                       child: Text(
                         'makeCover'.tr,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 17,
                           fontFamily: 'HT Rakik',
@@ -204,15 +203,15 @@ class _ViewImagesState extends State<ViewImages> {
                           horizontal: 16, vertical: 12),
                       decoration: ShapeDecoration(
                         shape: RoundedRectangleBorder(
-                          side:
-                              BorderSide(width: 1.5, color: Color(0xFFDC362E)),
+                          side: const BorderSide(
+                              width: 1.5, color: Color(0xFFDC362E)),
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                       child: Text(
                         'Delete'.tr,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Color(0xFFDC362E),
                           fontSize: 17,
                           fontFamily: 'HT Rakik',
@@ -311,11 +310,11 @@ class _ViewImagesState extends State<ViewImages> {
                   ),
                 ),
               ),
-              SizedBox(height: 16),
-              Container(
+              const SizedBox(height: 16),
+              SizedBox(
                 height: 360,
                 child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 15,
                     mainAxisSpacing: 15,
@@ -359,24 +358,24 @@ class _ViewImagesState extends State<ViewImages> {
                         onTap: () => _pickImage(ImageSource.gallery),
                         child: DottedBorder(
                           strokeWidth: 1,
-                          color: Color(0xFFDCDCE0),
+                          color: const Color(0xFFDCDCE0),
                           borderType: BorderType.RRect,
-                          radius: Radius.circular(12),
-                          dashPattern: [5, 5],
+                          radius: const Radius.circular(12),
+                          dashPattern: const [5, 5],
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.add,
                                   size: 24,
                                   color: Color(0xFFB9B8C1),
                                 ),
-                                SizedBox(height: 4),
+                                const SizedBox(height: 4),
                                 Text(
                                   'Addmore'.tr,
                                   style: TextStyle(
-                                    color: Color(0xFFB9B8C1),
+                                    color: const Color(0xFFB9B8C1),
                                     fontSize: 11,
                                     fontFamily: AppUtil.rtlDirection2(context)
                                         ? 'SF Arabic'
@@ -395,11 +394,11 @@ class _ViewImagesState extends State<ViewImages> {
                         onTap: () => _takePhoto(),
                         child: DottedBorder(
                           strokeWidth: 1,
-                          color: Color(0xFFDCDCE0),
+                          color: const Color(0xFFDCDCE0),
                           borderType: BorderType.RRect,
-                          radius: Radius.circular(12),
-                          dashPattern: [5, 5],
-                          child: Center(
+                          radius: const Radius.circular(12),
+                          dashPattern: const [5, 5],
+                          child: const Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -426,10 +425,10 @@ class _ViewImagesState extends State<ViewImages> {
     var items = widget.tripImageUrl
         .map(
           (url) => Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
-            padding: EdgeInsets.all(6),
+            padding: const EdgeInsets.all(6),
             child: Image.asset(
               url,
               fit: BoxFit.fill,
@@ -446,7 +445,7 @@ class _ViewImagesState extends State<ViewImages> {
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
-            padding: EdgeInsets.all(6),
+            padding: const EdgeInsets.all(6),
             child: Image.network(
               url,
               fit: BoxFit.fill,

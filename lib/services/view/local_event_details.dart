@@ -11,6 +11,7 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_aleart_widget.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
+import 'package:ajwad_v4/widgets/read_more_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -91,12 +92,13 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
           event!.coordinates!.longitude ?? '');
     }
     for (var day in event!.daysInfo!) {
-      if (AppUtil.isDateTimeBefore24Hours(day.startTime))
+      if (AppUtil.isDateTimeBefore24Hours(day.startTime)) {
         avilableDate.add(
           DateTime.parse(
             day.startTime.substring(0, 10),
           ),
         );
+      }
     }
     if (!AppUtil.isGuest() &&
         _profileController.profile.id != '' &&
@@ -111,13 +113,15 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
   Future<String> _getAddressFromLatLng(
       double position1, double position2) async {
     try {
-     
-    String languageCode = Get.locale?.languageCode == 'ar' ? 'ar' : 'en';
-    String countryCode = languageCode == 'ar' ? 'SA' : 'US'; // Assuming Saudi Arabia for Arabic and US for English
-    String lang = '${languageCode}_$countryCode';
-   
-      List<Placemark> placemarks =
-          await placemarkFromCoordinates(position1, position2,localeIdentifier:lang);
+      String languageCode = Get.locale?.languageCode == 'ar' ? 'ar' : 'en';
+      String countryCode = languageCode == 'ar'
+          ? 'SA'
+          : 'US'; // Assuming Saudi Arabia for Arabic and US for English
+      String lang = '${languageCode}_$countryCode';
+
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+          position1, position2,
+          localeIdentifier: lang);
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
@@ -125,9 +129,9 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
             placemark.locality!.isNotEmpty) {
           return '${placemark.locality}, ${placemark.subLocality}';
         } else {
-          if (placemark.locality!.isNotEmpty)
+          if (placemark.locality!.isNotEmpty) {
             return '${placemark.locality}, ${placemark.administrativeArea}';
-          else if (placemark.subLocality!.isNotEmpty)
+          } else if (placemark.subLocality!.isNotEmpty)
             return '${placemark.subLocality}, ${placemark.administrativeArea}';
           else
             return '${placemark.administrativeArea}, ${placemark.thoroughfare}';
@@ -361,83 +365,90 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                               SizedBox(
                                 height: width * 0.025,
                               ),
-                              Align(
-                                alignment: AppUtil.rtlDirection2(context)
-                                    ? Alignment.centerRight
-                                    : Alignment.centerLeft,
-                                child: ConstrainedBox(
-                                  constraints: isExpanded
-                                      ? const BoxConstraints()
-                                      : BoxConstraints(maxHeight: width * 0.1),
-                                  child: CustomText(
-                                    textDirection: AppUtil.rtlDirection(context)
-                                        ? TextDirection.ltr
-                                        : TextDirection.rtl,
-                                    textOverflow: isExpanded
-                                        ? TextOverflow.visible
-                                        : TextOverflow.clip,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                    fontWeight: FontWeight.w400,
-                                    maxlines: 600,
-                                    color: Color(0xFF9392A0),
-                                    fontSize: width * 0.035,
-                                    text: AppUtil.rtlDirection2(context)
+                              ReadMoreWidget(
+                                text: event == null
+                                    ? "******"
+                                    : AppUtil.rtlDirection2(context)
                                         ? event!.descriptionAr ?? ''
                                         : event!.descriptionEn ?? '',
-                                  ),
-                                ),
                               ),
-                              SizedBox(
-                                height: width * 0.012,
-                              ),
-                              isExpanded
-                                  ? Align(
-                                      alignment: AppUtil.rtlDirection2(context)
-                                          ? Alignment.bottomRight
-                                          : Alignment.bottomLeft,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          setState(() => isExpanded = false);
-                                        },
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: CustomText(
-                                            text: AppUtil.rtlDirection2(context)
-                                                ? "القليل"
-                                                : "Show less",
-                                            color: blue,
-                                            fontFamily:
-                                                AppUtil.rtlDirection2(context)
-                                                    ? 'SF Arabic'
-                                                    : 'SF Pro',
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : Align(
-                                      alignment: AppUtil.rtlDirection2(context)
-                                          ? Alignment.bottomRight
-                                          : Alignment.bottomLeft,
-                                      child: GestureDetector(
-                                        onTap: () =>
-                                            setState(() => isExpanded = true),
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: CustomText(
-                                            text: "readMore".tr,
-                                            color: blue,
-                                            fontFamily:
-                                                AppUtil.rtlDirection2(context)
-                                                    ? 'SF Arabic'
-                                                    : 'SF Pro',
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                              // Align(
+                              //   alignment: AppUtil.rtlDirection2(context)
+                              //       ? Alignment.centerRight
+                              //       : Alignment.centerLeft,
+                              //   child: ConstrainedBox(
+                              //     constraints: isExpanded
+                              //         ? const BoxConstraints()
+                              //         : BoxConstraints(maxHeight: width * 0.1),
+                              //     child: CustomText(
+                              //       textDirection: AppUtil.rtlDirection(context)
+                              //           ? TextDirection.ltr
+                              //           : TextDirection.rtl,
+                              //       textOverflow: isExpanded
+                              //           ? TextOverflow.visible
+                              //           : TextOverflow.clip,
+                              //       fontFamily: AppUtil.rtlDirection2(context)
+                              //           ? 'SF Arabic'
+                              //           : 'SF Pro',
+                              //       fontWeight: FontWeight.w400,
+                              //       maxlines: 600,
+                              //       color: const Color(0xFF9392A0),
+                              //       fontSize: width * 0.035,
+                              // text: AppUtil.rtlDirection2(context)
+                              //     ? event!.descriptionAr ?? ''
+                              //     : event!.descriptionEn ?? '',
+                              //     ),
+                              //   ),
+                              // ),
+                              // SizedBox(
+                              //   height: width * 0.012,
+                              // ),
+                              // isExpanded
+                              //     ? Align(
+                              //         alignment: AppUtil.rtlDirection2(context)
+                              //             ? Alignment.bottomRight
+                              //             : Alignment.bottomLeft,
+                              //         child: GestureDetector(
+                              //           onTap: () {
+                              //             setState(() => isExpanded = false);
+                              //           },
+                              //           child: Padding(
+                              //             padding:
+                              //                 const EdgeInsets.only(top: 8.0),
+                              //             child: CustomText(
+                              //               text: AppUtil.rtlDirection2(context)
+                              //                   ? "القليل"
+                              //                   : "Show less",
+                              //               color: blue,
+                              //               fontFamily:
+                              //                   AppUtil.rtlDirection2(context)
+                              //                       ? 'SF Arabic'
+                              //                       : 'SF Pro',
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       )
+                              //     : Align(
+                              //         alignment: AppUtil.rtlDirection2(context)
+                              //             ? Alignment.bottomRight
+                              //             : Alignment.bottomLeft,
+                              //         child: GestureDetector(
+                              //           onTap: () =>
+                              //               setState(() => isExpanded = true),
+                              //           child: Padding(
+                              //             padding:
+                              //                 const EdgeInsets.only(top: 8.0),
+                              //             child: CustomText(
+                              //               text: "readMore".tr,
+                              //               color: blue,
+                              //               fontFamily:
+                              //                   AppUtil.rtlDirection2(context)
+                              //                       ? 'SF Arabic'
+                              //                       : 'SF Pro',
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       ),
                               SizedBox(
                                 height: width * 0.025,
                               ),
@@ -489,7 +500,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                       ),
                                       markers: {
                                         Marker(
-                                          markerId: MarkerId("marker1"),
+                                          markerId: const MarkerId("marker1"),
                                           position: event == null
                                               ? locLatLang
                                               : LatLng(
@@ -665,7 +676,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return CustomAlertDialog();
+                                          return const CustomAlertDialog();
                                         },
                                       );
                                     }

@@ -11,19 +11,29 @@ class ReadMoreWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
     return Align(
-      alignment: Alignment.topRight,
+      alignment: AppUtil.rtlDirection2(context)
+          ? Alignment.bottomRight
+          : Alignment.bottomLeft,
       child: ReadMoreText(
         text,
-        colorClickableText: starGreyColor,
-        trimExpandedText: 'showLess'.tr,
+        textDirection: AppUtil.rtlDirection2(context)
+            ? TextDirection.rtl
+            : TextDirection.ltr,
+        colorClickableText: blue,
+        moreStyle: TextStyle(
+          color: blue,
+          fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+        ),
+        trimExpandedText: '  ${'showLess'.tr}',
         trimCollapsedText: 'readMore'.tr,
         textAlign: TextAlign.start,
         trimMode: TrimMode.Line,
-        trimLines: 4,
+        trimLines: 3,
         style: TextStyle(
           fontSize: width * 0.038,
           fontFamily: AppUtil.SfFontType(context),
           fontWeight: FontWeight.w400,
+          color: starGreyColor,
         ),
       ),
     );

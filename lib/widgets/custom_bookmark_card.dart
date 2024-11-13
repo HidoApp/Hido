@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../utils/app_util.dart';
 
 class CustomBookmarkCard extends StatefulWidget {
-  CustomBookmarkCard({Key? key}) : super(key: key);
+  const CustomBookmarkCard({Key? key}) : super(key: key);
 
   @override
   State<CustomBookmarkCard> createState() => _CustomBookmarkCardState();
@@ -23,10 +23,10 @@ class _CustomBookmarkCardState extends State<CustomBookmarkCard> {
 
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           boxShadow: [
             BoxShadow(
-                offset: Offset(1, 1),
+                offset: const Offset(1, 1),
                 blurRadius: 10,
                 color: colorDarkGrey.withOpacity(0.3))
           ]),

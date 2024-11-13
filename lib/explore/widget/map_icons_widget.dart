@@ -58,11 +58,11 @@ class MapIconsWidget extends StatelessWidget {
           ),
           child: GestureDetector(
             onTap: () {
-              ProfileController _profileController =
+              ProfileController profileController0 =
                   Get.put(ProfileController());
               Get.to(() => AppUtil.isGuest()
                   ? const SignInScreen()
-                  : MessagesScreen(profileController: _profileController));
+                  : MessagesScreen(profileController: profileController0));
             },
             child: SvgPicture.asset(
               'assets/icons/Communication.svg',

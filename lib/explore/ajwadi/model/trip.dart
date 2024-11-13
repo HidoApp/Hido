@@ -15,9 +15,8 @@ class Trip {
   final Coordinate? coordinates;
 
   Trip({
-    
-    this.id, 
-    this.tripOption, 
+    this.id,
+    this.tripOption,
     this.nameAr,
     this.nameEn,
     this.descriptionAr,
@@ -58,7 +57,7 @@ class Trip {
       'price': price,
       'visitors': visitors,
       'image': images,
-      'coordinates': coordinates == null ? null : coordinates!.toJson(),
+      'coordinates': coordinates?.toJson(),
     };
   }
 }

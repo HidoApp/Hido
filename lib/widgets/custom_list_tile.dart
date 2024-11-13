@@ -34,7 +34,7 @@ class CustomListTile extends StatelessWidget {
         leading: RepaintBoundary(
           child: SvgPicture.asset(
             leading,
-            color: iconColor ?? null,
+            color: iconColor,
           ),
         ),
         trailing: Icon(

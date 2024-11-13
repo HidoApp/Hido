@@ -34,7 +34,7 @@ class AccountTile extends StatelessWidget {
             ),
             if (titleHint != null)
               ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 350),
+                constraints: const BoxConstraints(maxWidth: 350),
                 child: CustomText(
                   text: titleHint,
                   fontSize: MediaQuery.of(context).size.width * 0.033,

@@ -164,8 +164,8 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                 },
                 child: Padding(
                   padding: AppUtil.rtlDirection2(context)
-                      ? EdgeInsets.only(left: 30, bottom: 4)
-                      : EdgeInsets.only(right: 30, bottom: 4),
+                      ? const EdgeInsets.only(left: 30, bottom: 4)
+                      : const EdgeInsets.only(right: 30, bottom: 4),
                   //padding: EdgeInsets.symmetric(horizontal: width * 0.041),
                   child: CustomText(
                     text: widget.profileController.isEditing.value
@@ -183,11 +183,11 @@ class _ProfileDetailsState extends State<TouriestProfile> {
           ],
           leading: Padding(
             padding: AppUtil.rtlDirection2(context)
-                ? EdgeInsets.only(bottom: 4, right: 30, top: 4)
+                ? const EdgeInsets.only(bottom: 4, right: 30, top: 4)
                 // : EdgeInsets.only(top: 9, right: 30)
-                : EdgeInsets.only(bottom: 4, left: 30, top: 4),
+                : const EdgeInsets.only(bottom: 4, left: 30, top: 4),
             child: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back_ios,
                 size: 19,
                 color: Colors.black,
@@ -325,7 +325,8 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                                 controller: _controllerNationalies,
                                 dropdownHeight: 200,
                                 inputDecoration: BoxDecoration(
-                                    border: Border.all(color: borderGrey,width: 1),
+                                    border:
+                                        Border.all(color: borderGrey, width: 1),
                                     borderRadius: BorderRadius.circular(8)),
                                 hint: 'chooseNationality'.tr,
                                 borderRadius: 8,
@@ -427,16 +428,18 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                                   ValueItem(
                                       label: 'Russian'.tr, value: 'Russian'),
                                 ],
-                            
+
                                 selectionType: SelectionType.multi,
-                            
+
                                 chipConfig: ChipConfig(
                                     wrapType: WrapType.scroll,
                                     backgroundColor: graySubSmallText,
                                     labelColor: black,
                                     radius: 5,
-                                    deleteIcon:Icon(
-                                    Icons.close_outlined,size: 20,) ,
+                                    deleteIcon: const Icon(
+                                      Icons.close_outlined,
+                                      size: 20,
+                                    ),
                                     labelPadding: EdgeInsets.symmetric(
                                         horizontal: width * 0.02),
                                     deleteIconColor: black),
@@ -444,7 +447,7 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                                 inputDecoration: BoxDecoration(
                                     border: Border.all(color: borderGrey),
                                     borderRadius: BorderRadius.circular(8)),
-                            
+
                                 optionTextStyle: TextStyle(
                                     fontSize: width * 0.041,
                                     fontFamily: AppUtil.SfFontType(context),
@@ -455,7 +458,7 @@ class _ProfileDetailsState extends State<TouriestProfile> {
                                     fontFamily: AppUtil.SfFontType(context),
                                     color: borderGrey,
                                     fontWeight: FontWeight.w400),
-                            
+
                                 // selectedOptionIcon:
                                 //     const Icon(Icons.check_circle),
                               )

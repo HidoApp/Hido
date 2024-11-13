@@ -34,7 +34,7 @@ class LocationService {
           (isPermission == LocationPermission.always ||
               isPermission == LocationPermission.whileInUse)) {
         _currentLocation = await Geolocator.getCurrentPosition().timeout(
-          Duration(seconds: 10),
+          const Duration(seconds: 10),
           onTimeout: () {
             throw TimeoutException(
                 "Location information could not be obtained within the requested time.");

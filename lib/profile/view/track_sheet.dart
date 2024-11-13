@@ -68,14 +68,14 @@ class _TrackSheetState extends State<TrackSheet> {
           builder: (_, controller) {
             return Container(
               // padding: EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(30)),
                 color: Colors.white,
               ),
               child: Stack(
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -89,7 +89,7 @@ class _TrackSheetState extends State<TrackSheet> {
                         Container(
                             child: Row(
                           children: [
-                            Container(
+                            SizedBox(
                               height: 75,
                               width: 65,
                               child: ClipRRect(
@@ -100,10 +100,10 @@ class _TrackSheetState extends State<TrackSheet> {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
-                            Column(
+                            const Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -139,16 +139,16 @@ class _TrackSheetState extends State<TrackSheet> {
                                 ]),
                           ],
                         )),
-                        SizedBox(
+                        const SizedBox(
                           height: 30,
                         ),
-                        CustomText(
+                        const CustomText(
                           text: '07-08 Sep',
                           color: darkGrey,
                           fontSize: 36,
                           fontWeight: FontWeight.w900,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         CustomText(
@@ -156,7 +156,7 @@ class _TrackSheetState extends State<TrackSheet> {
                           color: almostGrey,
                           fontSize: 16,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 25,
                         ),
                         Expanded(
@@ -167,10 +167,10 @@ class _TrackSheetState extends State<TrackSheet> {
 
                             itemCount: orderStatus.length,
                             separatorBuilder: (_, i) => Container(
-                              padding: EdgeInsets.symmetric(vertical: 4),
+                              padding: const EdgeInsets.symmetric(vertical: 4),
                               alignment: Alignment.centerLeft,
                               height: 40,
-                              child: VerticalDivider(
+                              child: const VerticalDivider(
                                 thickness: 1,
                                 color: colorGreen,
                               ),
@@ -180,7 +180,7 @@ class _TrackSheetState extends State<TrackSheet> {
                                 children: [
                                   ClipOval(
                                     child: Container(
-                                      padding: EdgeInsets.all(3),
+                                      padding: const EdgeInsets.all(3),
                                       color: orderStatus[i]['status'] == 'no'
                                           ? almostGrey
                                           : colorGreen,
@@ -194,7 +194,7 @@ class _TrackSheetState extends State<TrackSheet> {
                                               'assets/icons/white_loader.svg'),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 20,
                                   ),
                                   CustomText(
@@ -208,7 +208,7 @@ class _TrackSheetState extends State<TrackSheet> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 25,
                         ),
                       ],
@@ -217,13 +217,14 @@ class _TrackSheetState extends State<TrackSheet> {
                   Positioned(
                     bottom: -2,
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       height: 130,
                       width: width,
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(color: almostGrey),
-                          borderRadius: BorderRadius.all(Radius.circular(40))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(40))),
                       child: Row(children: [
                         ClipOval(
                           child: Image.asset(
@@ -234,7 +235,7 @@ class _TrackSheetState extends State<TrackSheet> {
                         const SizedBox(
                           width: 20,
                         ),
-                        Column(
+                        const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -249,7 +250,7 @@ class _TrackSheetState extends State<TrackSheet> {
                             )
                           ],
                         ),
-                        Spacer(),
+                        const Spacer(),
                         SvgPicture.asset('assets/icons/call_Icon2.svg')
                       ]),
                     ),

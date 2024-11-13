@@ -15,7 +15,7 @@ class SwitchAcount extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     return Container(
       //height: 200,
-      padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
       decoration: BoxDecoration(
           color: fromAjwady ? lightBlack : Colors.white,
           borderRadius: BorderRadius.circular(25)),
@@ -28,7 +28,7 @@ class SwitchAcount extends StatelessWidget {
             fontSize: 24,
             color: fromAjwady ? Colors.white : black,
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           CustomText(
@@ -47,7 +47,7 @@ class SwitchAcount extends StatelessWidget {
                 ? Icons.arrow_back_outlined
                 : Icons.arrow_forward_outlined),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
         ],

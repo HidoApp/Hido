@@ -30,7 +30,7 @@ class AdventureTicketData extends StatelessWidget {
   OverlayEntry? _overlayEntry;
 
   void _showOverlay(BuildContext context) {
-    final overlay = Overlay.of(context)!;
+    final overlay = Overlay.of(context);
 
     _overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -44,13 +44,14 @@ class AdventureTicketData extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: Text(
-             'Copied'.tr,
+              'Copied'.tr,
               style: TextStyle(
                 color: Colors.white,
                 fontFamily:
@@ -66,7 +67,7 @@ class AdventureTicketData extends StatelessWidget {
 
     overlay.insert(_overlayEntry!);
 
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       _overlayEntry?.remove();
     });
   }
@@ -97,7 +98,7 @@ class AdventureTicketData extends StatelessWidget {
             Text(
               '#${adventure == null ? booking!.id!.substring(0, 7) : adventure!.booking!.last.id.substring(0, 7)}',
               style: TextStyle(
-                color: Color(0xFFB9B8C1),
+                color: const Color(0xFFB9B8C1),
                 fontSize: 13,
                 fontFamily:
                     AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
@@ -106,7 +107,7 @@ class AdventureTicketData extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 12),
+        const SizedBox(height: 12),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -122,7 +123,7 @@ class AdventureTicketData extends StatelessWidget {
             ),
             Row(
               children: [
-                icon ?? SizedBox.shrink(),
+                icon ?? const SizedBox.shrink(),
                 Text(
                   AppUtil.getBookingTypeText(context, bookTypeText ?? ''),
                   style: TextStyle(
@@ -333,10 +334,10 @@ class AdventureTicketData extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
-        DottedSeparator(
+        const DottedSeparator(
           color: almostGrey,
           height: 1,
         ),
@@ -377,7 +378,7 @@ class AdventureTicketData extends StatelessWidget {
           child: Text(
             'Location'.tr,
             style: TextStyle(
-              color: Color(0xFF37B268),
+              color: const Color(0xFF37B268),
               fontSize: 18,
               fontFamily: AppUtil.SfFontType(context),
               fontWeight: FontWeight.w600,

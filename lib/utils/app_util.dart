@@ -98,8 +98,8 @@ class AppUtil {
   }
 
   static bool isTokeValidate(String token) {
-    final _getStorage = GetStorage();
-    var token = _getStorage.read('accessToken') ?? '';
+    final getStorage = GetStorage();
+    var token = getStorage.read('accessToken') ?? '';
     var isExpired = JwtDecoder.isExpired(token);
 
     return isExpired;
@@ -136,15 +136,15 @@ class AppUtil {
   }
 
   static bool isDateBefore24Hours(String Date) {
-    final String timeZoneName = 'Asia/Riyadh';
+    const String timeZoneName = 'Asia/Riyadh';
     late tz.Location location;
 
     tz.initializeTimeZones();
     location = tz.getLocation(timeZoneName);
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
     DateTime parsedDate = DateTime.parse(Date);
-    final tripDateInRiyadh =
-        tz.TZDateTime.from(parsedDate, location).subtract(Duration(hours: 3));
+    final tripDateInRiyadh = tz.TZDateTime.from(parsedDate, location)
+        .subtract(const Duration(hours: 3));
 
     Duration difference = tripDateInRiyadh.difference(currentDateInRiyadh);
 
@@ -168,7 +168,7 @@ class AppUtil {
 
     // Convert the parsed trip date to the Riyadh time zone
     final tripDateInRiyadh = tz.TZDateTime.from(parsedTripDate, location)
-        .subtract(Duration(hours: 3));
+        .subtract(const Duration(hours: 3));
 
     // Calculate the difference
     final difference = tripDateInRiyadh.difference(currentDateInRiyadh);
@@ -180,7 +180,7 @@ class AppUtil {
   }
 
   static bool areAllDatesAfter24Hours(List<dynamic> dates) {
-    final String timeZoneName = 'Asia/Riyadh';
+    const String timeZoneName = 'Asia/Riyadh';
     late tz.Location location;
 
     tz.initializeTimeZones();
@@ -189,7 +189,7 @@ class AppUtil {
 
     for (DateTime date in dates) {
       final DateInRiyadh =
-          tz.TZDateTime.from(date, location).subtract(Duration(hours: 3));
+          tz.TZDateTime.from(date, location).subtract(const Duration(hours: 3));
 
       Duration difference = DateInRiyadh.difference(currentDateInRiyadh);
 
@@ -214,10 +214,8 @@ class AppUtil {
   static String formatSelectedDates(
       RxList<dynamic> dates, BuildContext context) {
     // Convert dynamic list to List<DateTime>
-    List<DateTime> dateTimeList = dates
-        .where((date) => date is DateTime)
-        .map((date) => date as DateTime)
-        .toList();
+    List<DateTime> dateTimeList =
+        dates.whereType<DateTime>().map((date) => date as DateTime).toList();
 
     if (dateTimeList.isEmpty) {
       return 'DD/MM/YYYY';
@@ -450,8 +448,8 @@ class AppUtil {
   }
 
   static bool isGuest() {
-    final _getStorage = GetStorage();
-    final String token = _getStorage.read('accessToken') ?? '';
+    final getStorage = GetStorage();
+    final String token = getStorage.read('accessToken') ?? '';
     return token.isEmpty;
   }
 
@@ -464,8 +462,8 @@ class AppUtil {
             horizontal: width * 0.041, vertical: width * 0.029),
         clipBehavior: Clip.none, // No clipping to avoid any implicit border
         decoration: ShapeDecoration(
-          color:
-              Color(0xFFEEFBDF), // Light pink background color for the message
+          color: const Color(
+              0xFFEEFBDF), // Light pink background color for the message
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
                 8), // Reduced border radius for less rounded corners
@@ -481,7 +479,7 @@ class AppUtil {
             Expanded(
               child: CustomText(
                 text: msg, // Dynamic message text
-                color: Color(0xFF3F6E0D), // Text color
+                color: const Color(0xFF3F6E0D), // Text color
                 fontSize: width * 0.038,
                 maxlines: 200,
                 fontFamily: SfFontType(context),
@@ -536,8 +534,8 @@ class AppUtil {
             horizontal: width * 0.041, vertical: width * 0.029),
         clipBehavior: Clip.none, // No clipping to avoid any implicit border
         decoration: ShapeDecoration(
-          color:
-              Color(0xFFFBEAE9), // Light pink background color for the message
+          color: const Color(
+              0xFFFBEAE9), // Light pink background color for the message
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
                 8), // Reduced border radius for less rounded corners
@@ -553,7 +551,7 @@ class AppUtil {
             Expanded(
               child: CustomText(
                 text: msg, // Dynamic message text
-                color: Color(0xFFDC362E), // Text color
+                color: const Color(0xFFDC362E), // Text color
                 fontSize: width * 0.038,
                 maxlines: 300,
                 fontFamily: SfFontType(context),

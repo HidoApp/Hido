@@ -121,7 +121,7 @@ class ReviewCard extends StatelessWidget {
             maxlines: 500,
             color: graySmallText,
           ),
-          SizedBox(height: 10), //comment sperated
+          const SizedBox(height: 10), //comment sperated
         ],
         const Divider(
           color: lightGrey,

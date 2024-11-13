@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:intl/intl.dart';
 
 class SelectDateTime extends StatefulWidget {
-  SelectDateTime({
+  const SelectDateTime({
     Key? key,
   }) : super(key: key);
 
@@ -91,7 +91,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                           color: _EventrController.DateErrorMessage.value &&
                                   _EventrController.isEventDateSelcted.value
                               ? colorRed
-                              : Color(0xFFB9B8C1)),
+                              : const Color(0xFFB9B8C1)),
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
@@ -192,7 +192,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                   width: 1,
                                   color: DurationErrorMessage ?? false
                                       ? colorRed
-                                      : Color(0xFFB9B8C1)),
+                                      : const Color(0xFFB9B8C1)),
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
@@ -209,7 +209,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                               MainAxisAlignment.end,
                                           children: [
                                             Container(
-                                              decoration: BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Color(0xffffffff),
                                                 border: Border(
                                                   bottom: BorderSide(
@@ -395,7 +395,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                           ? colorRed
                                           : DurationErrorMessage ?? false
                                               ? colorRed
-                                              : Color(0xFFB9B8C1)),
+                                              : const Color(0xFFB9B8C1)),
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
@@ -412,7 +412,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                               MainAxisAlignment.end,
                                           children: [
                                             Container(
-                                              decoration: BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Color(0xffffffff),
                                                 border: Border(
                                                   bottom: BorderSide(

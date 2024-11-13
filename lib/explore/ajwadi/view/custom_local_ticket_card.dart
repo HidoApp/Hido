@@ -20,7 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CustomLocalTicketCard extends StatefulWidget {
-  CustomLocalTicketCard({
+  const CustomLocalTicketCard({
     Key? key,
   }) : super(key: key);
 
@@ -157,7 +157,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
   }
 
   void isDateBefore24Hours() {
-    final String timeZoneName = 'Asia/Riyadh';
+    const String timeZoneName = 'Asia/Riyadh';
     late tz.Location location;
 
     tz.initializeTimeZones();
@@ -174,6 +174,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
     }
   }
 
+  @override
   void initState() {
     super.initState();
 
@@ -209,7 +210,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
 
   @override
   Widget build(BuildContext context) {
-    final TouristExploreController _touristExploreController =
+    final TouristExploreController touristExploreController =
         Get.put(TouristExploreController());
 
     final width = MediaQuery.of(context).size.width;
@@ -258,7 +259,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                       .nextTrip.value.requestName!.nameAr
                                   : _tripController
                                       .nextTrip.value.requestName!.nameEn,
-                              color: Color(0xFF070708),
+                              color: const Color(0xFF070708),
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
                               height: 0,
@@ -287,40 +288,38 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                             ElevatedButton(
                               onPressed: () {
                                 Get.to(() => ChatScreen(
-                                    chatId: _tripController
-                                        .nextTrip.value.booking!.chatId,
-                                        isTourist: false,
-                                        
-                                        
-                                        ));
+                                      chatId: _tripController
+                                          .nextTrip.value.booking!.chatId,
+                                      isTourist: false,
+                                    ));
                               },
                               style: ButtonStyle(
-                                padding: MaterialStateProperty.all(
-                                  EdgeInsets.symmetric(
+                                padding: WidgetStateProperty.all(
+                                  const EdgeInsets.symmetric(
                                       horizontal: 16, vertical: 6),
                                 ),
                                 surfaceTintColor:
-                                    MaterialStateProperty.all(Colors.white),
-                                textStyle: MaterialStateProperty.all(
+                                    WidgetStateProperty.all(Colors.white),
+                                textStyle: WidgetStateProperty.all(
                                   TextStyle(
-                                    color: Color(0xFF37B268),
+                                    color: const Color(0xFF37B268),
                                     fontSize: 13,
                                     fontFamily: AppUtil.SfFontType(context),
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
                                 fixedSize:
-                                    MaterialStateProperty.all(Size(80, 40)),
-                                shape: MaterialStateProperty.all(
+                                    WidgetStateProperty.all(const Size(80, 40)),
+                                shape: WidgetStateProperty.all(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(4),
-                                    side: BorderSide(
+                                    side: const BorderSide(
                                       color: Color(0xFF37B268),
                                       width: 1,
                                     ),
                                   ),
                                 ),
-                                elevation: MaterialStateProperty.all(0),
+                                elevation: WidgetStateProperty.all(0),
                               ),
                               child: FittedBox(
                                 child: CustomText(
@@ -336,9 +335,9 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                   ? Center(
                                       child: Padding(
                                       padding: AppUtil.rtlDirection2(context)
-                                          ? EdgeInsets.only(left: 15.0)
-                                          : EdgeInsets.only(right: 15.0),
-                                      child: SizedBox(
+                                          ? const EdgeInsets.only(left: 15.0)
+                                          : const EdgeInsets.only(right: 15.0),
+                                      child: const SizedBox(
                                         width: 25.0, // Set the width
                                         height: 25.0, // Set
                                         child: CircularProgressIndicator
@@ -505,18 +504,18 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                                           seconds: 1));
                                                 },
                                       style: ButtonStyle(
-                                        padding: MaterialStateProperty.all(
-                                          EdgeInsets.symmetric(
+                                        padding: WidgetStateProperty.all(
+                                          const EdgeInsets.symmetric(
                                               horizontal: 10, vertical: 8),
                                         ),
                                         backgroundColor: isTripStart.value
-                                            ? MaterialStateProperty.all(
+                                            ? WidgetStateProperty.all(
                                                 colorGreen)
-                                            : MaterialStateProperty.all(
+                                            : WidgetStateProperty.all(
                                                 lightGrey),
-                                        fixedSize: MaterialStateProperty.all(
-                                            Size(89, 40)),
-                                        shape: MaterialStateProperty.all(
+                                        fixedSize: WidgetStateProperty.all(
+                                            const Size(89, 40)),
+                                        shape: WidgetStateProperty.all(
                                           RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(4),
@@ -528,14 +527,14 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                             ),
                                           ),
                                         ),
-                                        elevation: MaterialStateProperty.all(0),
+                                        elevation: WidgetStateProperty.all(0),
                                       ),
                                       child: FittedBox(
                                         child: CustomText(
                                           text: getActivityProgressText(
                                               _tripController.nextStep.value,
                                               context),
-                                          color: Color.fromARGB(
+                                          color: const Color.fromARGB(
                                               255, 255, 255, 255),
                                           fontSize: width * 0.03,
                                           fontFamily:
@@ -560,7 +559,8 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                   ),
                   // SizedBox(height: width * 0.03),
                   MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                    data: MediaQuery.of(context)
+                        .copyWith(textScaler: TextScaler.linear(1.0)),
                     child: ExpandedTile(
                       contentseparator: 12,
                       trailing: Directionality(
@@ -572,7 +572,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                 text: AppUtil.rtlDirection2(context)
                                     ? 'القليل'
                                     : 'See less',
-                                color: Color(0xFF36B268),
+                                color: const Color(0xFF36B268),
                                 fontSize: 13,
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
@@ -581,7 +581,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                               )
                             : CustomText(
                                 text: 'seeMore'.tr,
-                                color: Color(0xFF36B268),
+                                color: const Color(0xFF36B268),
                                 fontSize: 13,
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
@@ -607,7 +607,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                           //         fontWeight: FontWeight.w500,
                           //       )
                           //     :
-                          Text(''),
+                          const Text(''),
                       content: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -616,7 +616,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                 ' ${AppUtil.formatBookingDate(context, _tripController.nextTrip.value.booking!.date!)}',
                             image: "assets/icons/date.svg",
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
 
                           ItineraryTile(
                             title:
@@ -625,7 +625,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                           ),
                           //SizedBox(height: width * 0.025),
 
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           ItineraryTile(
                             title: address,
                             image: 'assets/icons/map_pin.svg',
@@ -634,7 +634,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                             line: true,
                           ),
 
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
 
                           ItineraryTile(
                             title:
@@ -642,7 +642,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                             image: "assets/icons/guests.svg",
                           ),
 
-                          SizedBox(height: 11),
+                          const SizedBox(height: 11),
 
                           // _controller.isExpanded
                           //     ? CustomText(

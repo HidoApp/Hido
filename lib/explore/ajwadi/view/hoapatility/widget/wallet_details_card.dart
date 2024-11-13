@@ -10,6 +10,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+
 class WalletDetailsCard extends StatefulWidget {
   const WalletDetailsCard(
       {Key? key,
@@ -32,7 +33,7 @@ class WalletDetailsCard extends StatefulWidget {
 
 class _WalletDetailsCardState extends State<WalletDetailsCard> {
   late final PaymentController _paymentController;
-    final _touristExploreController = Get.put(TouristExploreController());
+  final _touristExploreController = Get.put(TouristExploreController());
 
   Booking? profileBooking;
   bool isLoading = false; // Track loading state
@@ -50,16 +51,18 @@ class _WalletDetailsCardState extends State<WalletDetailsCard> {
   void initState() {
     super.initState();
     _paymentController = Get.put(PaymentController());
-    if (widget.transaction!.details!.bookingId!.isNotEmpty && widget.date == 'event') {
+    if (widget.transaction!.details!.bookingId!.isNotEmpty &&
+        widget.date == 'event') {
       log(widget.transaction!.id ?? '');
       getBooking();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Skeletonizer(
-        enabled:_touristExploreController.isBookingByIdLoading.value,
-        child: Column(
+      enabled: _touristExploreController.isBookingByIdLoading.value,
+      child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,11 +70,13 @@ class _WalletDetailsCardState extends State<WalletDetailsCard> {
           Text(
             widget.transaction?.updated?.isEmpty ?? true
                 ? '3 June 2024'
-                : AppUtil.formatBookingDate(context, widget.transaction!.updated!),
+                : AppUtil.formatBookingDate(
+                    context, widget.transaction!.updated!),
             style: TextStyle(
-              color: Color(0xFF070708),
+              color: const Color(0xFF070708),
               fontSize: 13,
-              fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
               fontWeight: FontWeight.w500,
               height: 1.5,
             ),
@@ -89,7 +94,8 @@ class _WalletDetailsCardState extends State<WalletDetailsCard> {
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 0.50, color: Color(0xFFE2E2E2)),
+                    side:
+                        const BorderSide(width: 0.50, color: Color(0xFFE2E2E2)),
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
@@ -98,20 +104,20 @@ class _WalletDetailsCardState extends State<WalletDetailsCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: ShapeDecoration(
-                        color: widget.color?? Color(0xFFE9EBF6),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(9999),
+                        padding: const EdgeInsets.all(12),
+                        decoration: ShapeDecoration(
+                          color: widget.color ?? const Color(0xFFE9EBF6),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(9999),
+                          ),
                         ),
-                      ),
-                      child: SvgPicture.asset('assets/icons/${widget.icon}.svg')
-                    ),
+                        child: SvgPicture.asset(
+                            'assets/icons/${widget.icon}.svg')),
                     const SizedBox(width: 8),
                     Text(
-                    profileBooking?.nameEn??'Bank Transfer',
+                      profileBooking?.nameEn ?? 'Bank Transfer',
                       style: TextStyle(
-                        color: Color(0xFF070708),
+                        color: const Color(0xFF070708),
                         fontSize: 13,
                         fontFamily: AppUtil.rtlDirection2(context)
                             ? 'SF Arabic'
@@ -131,7 +137,7 @@ class _WalletDetailsCardState extends State<WalletDetailsCard> {
                               '-1,400.00',
                               textAlign: TextAlign.right,
                               style: TextStyle(
-                                color: Color(0xFF070708),
+                                color: const Color(0xFF070708),
                                 fontSize: 15,
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
@@ -145,7 +151,7 @@ class _WalletDetailsCardState extends State<WalletDetailsCard> {
                               'SAR',
                               textAlign: TextAlign.right,
                               style: TextStyle(
-                                color: Color(0xFF070708),
+                                color: const Color(0xFF070708),
                                 fontSize: 11,
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'
@@ -164,7 +170,7 @@ class _WalletDetailsCardState extends State<WalletDetailsCard> {
                               '00.00',
                               textAlign: TextAlign.right,
                               style: TextStyle(
-                                color: Color(0xFFB9B8C1),
+                                color: const Color(0xFFB9B8C1),
                                 fontSize: 12,
                                 fontFamily: AppUtil.rtlDirection2(context)
                                     ? 'SF Arabic'

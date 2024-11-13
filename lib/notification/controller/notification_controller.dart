@@ -4,42 +4,49 @@ import 'package:get/get.dart';
 import 'dart:developer';
 import 'package:ajwad_v4/notification/notification.dart';
 
-
 class NotificationController extends GetxController {
   var isSendingDeviceToken = false.obs;
   var isNotificationLoading = false.obs;
-  var notifications = <Notifications>[].obs;  
+  var notifications = <Notifications>[].obs;
 
- 
- 
   Future<List<Notifications>?> getNotifications({
     required BuildContext context,
-  
-    
-  } ) async {
+  }) async {
     try {
       isNotificationLoading(true);
       final data =
           await NotificationServices.getNotifications(context: context);
-          log("enter noty screen");
-       if (data != null) {
-        notifications(data); 
+      log("enter noty screen");
+      if (data != null) {
+        notifications(data);
         return notifications.value;
-      }
-       else {
+      } else {
         return null;
       }
     } catch (e) {
-       isNotificationLoading(false);
-       log(e.toString());
+      isNotificationLoading(false);
+      log(e.toString());
       return null;
     } finally {
       isNotificationLoading(false);
     }
   }
 
- 
-
+  Future<void> updateNotifications(
+      {required BuildContext context,
+      List<String>? unreadNotificationIds}) async {
+    try {
+      isNotificationLoading(true);
+      final data = await NotificationServices.updateNotifications(
+          context: context, unreadNotificationIds: unreadNotificationIds);
+    } catch (e) {
+      isNotificationLoading(false);
+      log(e.toString());
+      return null;
+    } finally {
+      isNotificationLoading(false);
+    }
+  }
 
   Future<bool> sendDeviceToken({required BuildContext context}) async {
     try {

@@ -330,7 +330,7 @@ class _EditHospitalityState extends State<EditHospitality> {
       PriceEmpty = _priceController.text.isEmpty;
       if (_priceController.text.isNotEmpty) {
         int? price = int.tryParse(_priceController.text);
-        PriceLarger = price == null || price! < 150;
+        PriceLarger = price == null || price < 150;
 
         //check if price not int
         String priceText = _priceController.text;
@@ -620,8 +620,8 @@ class _EditHospitalityState extends State<EditHospitality> {
           // Get.offAll(() => const AjwadiBottomBar());
           Get.back();
           Get.back();
-          final _experienceController = Get.put(AjwadiExploreController());
-          _experienceController.getAllExperiences(context: context);
+          final experienceController = Get.put(AjwadiExploreController());
+          experienceController.getAllExperiences(context: context);
         });
       } else {
         // Get.offAll(AddExperienceInfo());
@@ -672,7 +672,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(8.0)),
                           ),
-                          content: Container(
+                          content: SizedBox(
                             width: double.infinity,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -786,10 +786,10 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 Get.back();
                                                 Get.back();
                                                 Get.back();
-                                                final _experienceController =
+                                                final experienceController =
                                                     Get.put(
                                                         AjwadiExploreController());
-                                                _experienceController
+                                                experienceController
                                                     .getAllExperiences(
                                                         context: context);
                                               });
@@ -865,7 +865,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                 ),
 
                 bottomNavigationBar: Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                         left: 16.0, right: 16.0, bottom: 24.0, top: 16),
                     child: Obx(
                       () => _eventController.isImagesLoading.value ||
@@ -963,7 +963,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                       ToggleSwitch(
                                         minWidth: 55,
                                         cornerRadius: 12,
-                                        activeBgColors: [
+                                        activeBgColors: const [
                                           [Colors.white],
                                           [Colors.white]
                                         ],
@@ -1017,7 +1017,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                     : FontWeight.w500,
                                           ),
                                         ],
-                                        customHeights: [90, 90],
+                                        customHeights: const [90, 90],
                                         onToggle: (index) {
                                           setState(() {
                                             _selectedLanguageIndex = index!;
@@ -1487,13 +1487,13 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                             horizontal: -4,
                                                             vertical: -4),
                                                     fillColor:
-                                                        MaterialStateProperty
+                                                        WidgetStateProperty
                                                             .resolveWith<
                                                                 Color>((Set<
-                                                                    MaterialState>
+                                                                    WidgetState>
                                                                 states) {
                                                       if (states.contains(
-                                                          MaterialState
+                                                          WidgetState
                                                               .selected)) {
                                                         return Colors.green;
                                                       }
@@ -1541,13 +1541,13 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                             horizontal: -4,
                                                             vertical: -4),
                                                     fillColor:
-                                                        MaterialStateProperty
+                                                        WidgetStateProperty
                                                             .resolveWith<
                                                                 Color>((Set<
-                                                                    MaterialState>
+                                                                    WidgetState>
                                                                 states) {
                                                       if (states.contains(
-                                                          MaterialState
+                                                          WidgetState
                                                               .selected)) {
                                                         return Colors.green;
                                                       }
@@ -1595,13 +1595,13 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                             horizontal: -4,
                                                             vertical: -4),
                                                     fillColor:
-                                                        MaterialStateProperty
+                                                        WidgetStateProperty
                                                             .resolveWith<
                                                                 Color>((Set<
-                                                                    MaterialState>
+                                                                    WidgetState>
                                                                 states) {
                                                       if (states.contains(
-                                                          MaterialState
+                                                          WidgetState
                                                               .selected)) {
                                                         return Colors.green;
                                                       }
@@ -2468,12 +2468,12 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                     const VisualDensity(
                                                         horizontal: -4,
                                                         vertical: -4),
-                                                fillColor: MaterialStateProperty
+                                                fillColor: WidgetStateProperty
                                                     .resolveWith<Color>(
-                                                        (Set<MaterialState>
+                                                        (Set<WidgetState>
                                                             states) {
                                                   if (states.contains(
-                                                      MaterialState.selected)) {
+                                                      WidgetState.selected)) {
                                                     return colorGreen;
                                                   }
                                                   return dotGreyColor;
@@ -2518,12 +2518,12 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                     const VisualDensity(
                                                         horizontal: -4,
                                                         vertical: -4),
-                                                fillColor: MaterialStateProperty
+                                                fillColor: WidgetStateProperty
                                                     .resolveWith<Color>(
-                                                        (Set<MaterialState>
+                                                        (Set<WidgetState>
                                                             states) {
                                                   if (states.contains(
-                                                      MaterialState.selected)) {
+                                                      WidgetState.selected)) {
                                                     return colorGreen;
                                                   }
                                                   return dotGreyColor;
@@ -2568,12 +2568,12 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                     const VisualDensity(
                                                         horizontal: -4,
                                                         vertical: -4),
-                                                fillColor: MaterialStateProperty
+                                                fillColor: WidgetStateProperty
                                                     .resolveWith<Color>(
-                                                        (Set<MaterialState>
+                                                        (Set<WidgetState>
                                                             states) {
                                                   if (states.contains(
-                                                      MaterialState.selected)) {
+                                                      WidgetState.selected)) {
                                                     return colorGreen;
                                                   }
                                                   return dotGreyColor;

@@ -79,8 +79,8 @@ class FirebaseApi {
     if (message.notification != null) {
       log(// get arabic key
           'Notification message also contained: ${message.notification!.title}, ${message.notification!.body}, ${message.data["title"]}, ${message.data["body"]}');
-      _showDialog(message.notification!.title, message.notification!.body,
-          message.data["title"], message.data["body"]);
+      // _showDialog(message.notification!.title, message.notification!.body,
+      //     message.data["title"], message.data["body"]);
     }
   }
 

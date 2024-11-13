@@ -108,12 +108,12 @@ class _AddExperienceInfoState extends State<AddExperienceInfo> {
                 height: 48,
                 clipBehavior: Clip.antiAlias,
                 decoration: ShapeDecoration(
-                  color: Color(0xFF36B268),
+                  color: const Color(0xFF36B268),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(9999),
                   ),
                 ),
-                child: Center(
+                child: const Center(
                     child: Icon(
                   Icons.add,
                   color: Colors.white,

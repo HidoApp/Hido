@@ -201,8 +201,8 @@ class _FindAjwadyState extends State<FindAjwady> {
                                     ),
                                     CustomText(
                                       text: AppUtil.rtlDirection2(context)
-                                          ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)} '
-                                          : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToGo!)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking!.timeToReturn!)}',
+                                          ? 'من ${AppUtil.formatStringTimeWithLocale(context, widget.booking.timeToGo)} إلى ${AppUtil.formatStringTimeWithLocale(context, widget.booking.timeToReturn)} '
+                                          : 'Pick up: ${AppUtil.formatStringTimeWithLocale(context, widget.booking.timeToGo)}, Drop off: ${AppUtil.formatStringTimeWithLocale(context, widget.booking.timeToReturn)}',
                                       color: starGreyColor,
                                       fontSize: width * 0.03,
                                       fontWeight: FontWeight.w400,
@@ -319,7 +319,7 @@ class _FindAjwadyState extends State<FindAjwady> {
                     ),
                   ),
                   if (_offerController.offers.isEmpty) ...[
-                    SizedBox(
+                    const SizedBox(
                       height: 17,
                     ),
                   ],
@@ -384,7 +384,7 @@ class _FindAjwadyState extends State<FindAjwady> {
                                   _offerController.firstThreeImages.length,
                               child: CircleAvatar(
                                 radius: 18,
-                                backgroundColor: Color(0xFFD4F2E0),
+                                backgroundColor: const Color(0xFFD4F2E0),
                                 child: CustomText(
                                   text: (_offerController.offers.length -
                                           _offerController

@@ -46,8 +46,8 @@ class ProfileService {
 
       id = jwtToken.id;
     }
-    log("ID :" + id);
-    log("Profile :" + profileId);
+    log("ID :$id");
+    log("Profile :$profileId");
     if (profileId != "") {
       id = profileId;
     }
@@ -64,7 +64,7 @@ class ProfileService {
     log(response.statusCode.toString());
 
     if (response.statusCode == 200) {
-          log(response.body.toString());
+      log(response.body.toString());
       var profile = jsonDecode(response.body);
 
       return Profile.fromJson(profile);

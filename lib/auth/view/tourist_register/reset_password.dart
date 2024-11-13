@@ -8,10 +8,8 @@ import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({Key? key}) : super(key: key);
@@ -49,7 +47,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 fontWeight: FontWeight.w500,
                 fontSize: width * 0.051,
               ),
-              SizedBox(height: width*0.03,),
+              SizedBox(
+                height: width * 0.03,
+              ),
               CustomText(
                 text: "passwordReset".tr,
                 fontWeight: FontWeight.w500,

@@ -180,7 +180,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
                 return Align(
                   alignment: Alignment.bottomCenter,
-                  child: Container(
+                  child: SizedBox(
                     height: _currentIndex == 0
                         ? height * 0.776
                         // 650
@@ -247,7 +247,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                                       child: CustomText(
                                         text: tab.title.tr,
                                         textAlign: TextAlign.center,
-                                        color: Color(0xFF36B268),
+                                        color: const Color(0xFF36B268),
                                         fontSize: width * 0.055,
                                         maxlines: 2,
                                         fontFamily: 'HT Rakik',
@@ -273,7 +273,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
               mainAxisSize: MainAxisSize.min,
               children: [
                 MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                  data: MediaQuery.of(context)
+                      .copyWith(textScaler: TextScaler.linear(1.0)),
                   // data: MediaQuery.of(context)
                   //     .copyWith(textScaler: const TextScaler.linear(1.0)),
                   child: Padding(
@@ -363,8 +364,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                               ? TextAlign.end
                               : TextAlign.start,
                           color: _currentIndex == 0
-                              ? Color(0xFFDCDCE0)
-                              : Color(0xFFB9B8C1),
+                              ? const Color(0xFFDCDCE0)
+                              : const Color(0xFFB9B8C1),
                           fontSize: 16,
                           fontFamily: AppUtil.SfFontType(context),
                           fontWeight: FontWeight.w500,
@@ -395,7 +396,7 @@ class ArcPainter extends CustomPainter {
       ..lineTo(size.width, size.height) // Draw a straight line to the right top
       ..lineTo(size.width, 0) // Draw a straight line to the top right corner
       ..close(); // Close the path
-    canvas.drawPath(whiteArc, Paint()..color = Color(0xFFF9F9F9));
+    canvas.drawPath(whiteArc, Paint()..color = const Color(0xFFF9F9F9));
   }
 
   @override
@@ -482,7 +483,7 @@ class _DotIndicatorState extends State<_DotIndicator>
         widget.index == widget.currentIndex - 4) {
       dotColor = colorGreen; // Previous index color
     } else {
-      dotColor = Color(0xFFDCDCE0); // Other indexes color
+      dotColor = const Color(0xFFDCDCE0); // Other indexes color
     }
 
     return GestureDetector(
@@ -517,7 +518,8 @@ class _DotIndicatorState extends State<_DotIndicator>
                 duration: const Duration(milliseconds: 300),
                 height: 12.0,
                 width: 12.0,
-                margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 2.0),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 15.0, horizontal: 2.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: dotColor,

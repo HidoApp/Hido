@@ -82,7 +82,7 @@ class _TotalWidgetState extends State<TotalWidget> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    TextSpan(text: '  '),
+                    const TextSpan(text: '  '),
                     TextSpan(
                       text: 'sar'.tr,
                       style: TextStyle(

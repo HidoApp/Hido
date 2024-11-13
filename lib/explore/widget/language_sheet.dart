@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
@@ -33,7 +32,7 @@ class _LanguageSheetState extends State<LanguageSheet> {
         right: 24,
         bottom: 32,
       ),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(24),
@@ -53,7 +52,7 @@ class _LanguageSheetState extends State<LanguageSheet> {
         children: [
           const BottomSheetIndicator(),
 
-          SizedBox(height: 18),
+          const SizedBox(height: 18),
           // Language preference text
           Text(
             'preferLang'.tr,
@@ -64,7 +63,7 @@ class _LanguageSheetState extends State<LanguageSheet> {
               fontWeight: FontWeight.w500,
             ),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Row(
             children: [
               Radio<String>(
@@ -77,7 +76,7 @@ class _LanguageSheetState extends State<LanguageSheet> {
                 },
                 activeColor: Colors.green,
               ),
-              SizedBox(width: 4),
+              const SizedBox(width: 4),
               Text(
                 'arabic'.tr,
                 style: TextStyle(
@@ -103,7 +102,7 @@ class _LanguageSheetState extends State<LanguageSheet> {
                 },
                 activeColor: Colors.green,
               ),
-              SizedBox(width: 4),
+              const SizedBox(width: 4),
               Text(
                 'english'.tr,
                 style: TextStyle(

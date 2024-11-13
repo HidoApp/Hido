@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -9,9 +8,7 @@ import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class CustomCard extends StatefulWidget {
-  const CustomCard({
-    
-    super.key});
+  const CustomCard({super.key});
 
   @override
   _CustomCardState createState() => _CustomCardState();
@@ -19,9 +16,8 @@ class CustomCard extends StatefulWidget {
 
 class _CustomCardState extends State<CustomCard> {
   // You can initialize variables here
- 
-   PaymentController  _paymentController = Get.put(PaymentController());
 
+  final PaymentController _paymentController = Get.put(PaymentController());
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +25,11 @@ class _CustomCardState extends State<CustomCard> {
 
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return  Obx(
+    return Obx(
       () => Container(
         width: double.infinity,
         height: 137,
-        decoration: ShapeDecoration(
+        decoration: const ShapeDecoration(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(12)),
           ),
@@ -57,7 +53,7 @@ class _CustomCardState extends State<CustomCard> {
                 child: Container(
                   width: 36,
                   height: 36,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     color: Color.fromARGB(228, 233, 235, 246),
                   ),
@@ -69,23 +65,25 @@ class _CustomCardState extends State<CustomCard> {
                 text: AppUtil.rtlDirection2(context)
                     ? "إجمالي المحفظة"
                     : 'Total balance',
-                color: Color(0xFFB9B8C1),
+                color: const Color(0xFFB9B8C1),
                 fontSize: 13,
                 fontFamily:
                     AppUtil.rtlDirection2(context) ? "SF Arabic" : 'SF Pro',
                 fontWeight: FontWeight.w500,
                 height: 0,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 4,
               ),
               MediaQuery(
-                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+                data: MediaQuery.of(context)
+                    .copyWith(textScaler: TextScaler.linear(1.0)),
                 child: Text.rich(TextSpan(children: [
                   TextSpan(
-                    text:  _paymentController.wallet.value.totalInitiatedAmount.toString(),
+                    text: _paymentController.wallet.value.totalInitiatedAmount
+                        .toString(),
                     style: TextStyle(
-                      color: Color(0xFF070708),
+                      color: const Color(0xFF070708),
                       fontSize: AppUtil.rtlDirection(context) ? 28 : 28,
                       fontFamily: 'HT Rakik',
                       fontWeight: FontWeight.w500,
@@ -93,7 +91,7 @@ class _CustomCardState extends State<CustomCard> {
                   ),
                   TextSpan(
                     text: AppUtil.rtlDirection2(context) ? " ر.س " : ' SAR',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xFFB9B8C1),
                       fontSize: 20,
                       fontFamily: 'HT Rakik',
@@ -110,5 +108,4 @@ class _CustomCardState extends State<CustomCard> {
       ),
     );
   }
-
 }

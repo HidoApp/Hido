@@ -39,7 +39,7 @@ class _NextActivityState extends State<LastActivity> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
-            shadows: [
+            shadows: const [
               BoxShadow(
                 color: Color(0x3FC7C7C7),
                 blurRadius: 15,
@@ -58,15 +58,17 @@ class _NextActivityState extends State<LastActivity> {
                   left: 40,
                   top: 27,
                   child: Obx(
-                    () => Container(
+                    () => SizedBox(
                       width: 279,
                       height: 1.50,
                       child: LinearProgressIndicator(
                         value: _tripController.progress.value,
-                        backgroundColor: Color(0xFFDCDCE0),
+                        backgroundColor: const Color(0xFFDCDCE0),
                         valueColor: _tripController.progress.value == 0.1
-                            ? AlwaysStoppedAnimation<Color>(Color(0xFFDCDCE0))
-                            : AlwaysStoppedAnimation<Color>(Color(0xFF36B268)),
+                            ? const AlwaysStoppedAnimation<Color>(
+                                Color(0xFFDCDCE0))
+                            : const AlwaysStoppedAnimation<Color>(
+                                Color(0xFF36B268)),
                       ),
                     ),
                   ),
@@ -74,7 +76,7 @@ class _NextActivityState extends State<LastActivity> {
                 Positioned(
                   left: 12,
                   top: AppUtil.rtlDirection2(context) ? 16 : 14,
-                  child: Container(
+                  child: SizedBox(
                     width: 334,
                     child: Obx(
                       () => Row(
@@ -144,7 +146,7 @@ class _NextActivityState extends State<LastActivity> {
   }
 
   Widget buildStep({required String text, required bool isActive}) {
-    return Container(
+    return SizedBox(
       width: 64,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -154,13 +156,15 @@ class _NextActivityState extends State<LastActivity> {
           Padding(
             padding: const EdgeInsets.only(top: 2),
             child: SvgPicture.asset('assets/icons/slider.svg',
-                color: isActive ? Color(0xFF36B268) : Color(0xFFDCDCE0),
+                color: isActive
+                    ? const Color(0xFF36B268)
+                    : const Color(0xFFDCDCE0),
                 height: 20,
                 width: 20),
           ),
           CustomText(
             text: text,
-            color: isActive ? Color(0xFF36B268) : Color(0xFFDCDCE0),
+            color: isActive ? const Color(0xFF36B268) : const Color(0xFFDCDCE0),
             fontSize: 11,
             fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
             fontWeight: FontWeight.w500,

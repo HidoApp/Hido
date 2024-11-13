@@ -26,7 +26,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CustomText(
+        const CustomText(
           text: "Time to go",
           color: Colors.black,
           fontSize: 14,
@@ -75,7 +75,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
                                   horizontal: 16.0,
                                   vertical: 5.0,
                                 ),
-                                child: CustomText(
+                                child: const CustomText(
                                   text: "confirm",
                                   color: colorGreen,
                                 ),

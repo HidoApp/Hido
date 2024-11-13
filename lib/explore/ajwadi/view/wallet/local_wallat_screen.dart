@@ -46,13 +46,13 @@ class _LocalWalletScreenState extends State<LocalWalletScreen> {
           padding: const EdgeInsets.only(left: 16, right: 16),
           child: Column(
             children: [
-              Center(
+              const Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 24, top: 10),
+                  padding: EdgeInsets.only(bottom: 24, top: 10),
                   child: CustomCard(),
                 ),
               ),
-              SizedBox(height: 25),
+              const SizedBox(height: 25),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -61,7 +61,7 @@ class _LocalWalletScreenState extends State<LocalWalletScreen> {
                       AppUtil.rtlDirection2(context)
                           ? "المعاملات المالية"
                           : 'Financial transactions',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFF070708),
                         fontSize: 17,
                         fontFamily: 'HT Rakik',
@@ -71,14 +71,14 @@ class _LocalWalletScreenState extends State<LocalWalletScreen> {
                       textDirection: TextDirection.ltr,
                     ),
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   if (_paymentController.wallet.value.transactions!.isNotEmpty)
                     SingleChildScrollView(
-                      child: Obx(()=>
-                        ListView.separated(
+                      child: Obx(
+                        () => ListView.separated(
                           shrinkWrap: true,
-                          itemCount:
-                              _paymentController.wallet.value.transactions!.length,
+                          itemCount: _paymentController
+                              .wallet.value.transactions!.length,
                           separatorBuilder: (context, index) {
                             return const SizedBox(
                               height: 11,
@@ -87,23 +87,24 @@ class _LocalWalletScreenState extends State<LocalWalletScreen> {
                           itemBuilder: (context, index) {
                             final transaction = _paymentController
                                 .wallet.value.transactions![index];
-                                          
-                            if ( transaction.details!.placeId!.isNotEmpty) {
+
+                            if (transaction.details!.placeId!.isNotEmpty) {
                               return WalletDetailsCard(
                                   transaction: transaction,
                                   icon: 'tour_category',
-                                  date:'tour',
+                                  date: 'tour',
                                   color: const Color(0xFFECF9F1));
                             }
-                            if ( transaction.details!.adventureId!.isNotEmpty) {
+                            if (transaction.details!.adventureId!.isNotEmpty) {
                               return WalletDetailsCard(
-                                 transaction: transaction,
+                                transaction: transaction,
                                 icon: 'adventure_category',
-                                date:'adve',
+                                date: 'adve',
                                 color: const Color(0xFFF9F4EC),
                               );
                             }
-                            if ( transaction.details!.hospitalityId!.isNotEmpty) {
+                            if (transaction
+                                .details!.hospitalityId!.isNotEmpty) {
                               return WalletDetailsCard(
                                 transaction: transaction,
                                 icon: 'host_category',
@@ -111,7 +112,7 @@ class _LocalWalletScreenState extends State<LocalWalletScreen> {
                                 color: const Color(0xFFF5F2F8),
                               );
                             }
-                            if ( transaction.details!.eventId!.isNotEmpty) {
+                            if (transaction.details!.eventId!.isNotEmpty) {
                               return WalletDetailsCard(
                                 transaction: transaction,
                                 icon: 'event_category',
@@ -119,6 +120,7 @@ class _LocalWalletScreenState extends State<LocalWalletScreen> {
                                 date: 'event',
                               );
                             }
+                            return null;
                           },
                         ),
                       ),

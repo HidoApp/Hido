@@ -104,7 +104,7 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
               bottomNavigationBar: Obx(() => Skeletonizer(
                     enabled: _profileController.isProfileLoading.value,
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: 8),
+                      padding: const EdgeInsets.only(bottom: 8),
                       child: BottomNavigationBar(
                         elevation: 0,
                         enableFeedback: false,

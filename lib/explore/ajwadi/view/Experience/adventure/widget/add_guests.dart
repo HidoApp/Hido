@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import '../../../../../../services/controller/adventure_controller.dart';
 
 class AddGuests extends StatefulWidget {
-  AddGuests({
+  const AddGuests({
     Key? key,
     required this.adventureController,
   }) : super(key: key);
@@ -19,7 +19,7 @@ class AddGuests extends StatefulWidget {
 }
 
 class _AddGuestsState extends State<AddGuests> {
-   TextEditingController _textField1Controller = TextEditingController();
+  final TextEditingController _textField1Controller = TextEditingController();
   int? _selectedRadio;
 
   final _formKey = GlobalKey<FormState>();
@@ -27,13 +27,7 @@ class _AddGuestsState extends State<AddGuests> {
   @override
   void initState() {
     super.initState();
-
-    
-    
   }
-  
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +42,7 @@ class _AddGuestsState extends State<AddGuests> {
           color: black,
           fontSize: 17,
           fontWeight: FontWeight.w500,
-           fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
-                          : 'SF Pro',
+          fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
         ),
         SizedBox(
           height: width * 0.02,
@@ -72,7 +65,7 @@ class _AddGuestsState extends State<AddGuests> {
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 1, color: Color(0xFFB9B8C1)),
+                    side: const BorderSide(width: 1, color: Color(0xFFB9B8C1)),
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
@@ -82,19 +75,19 @@ class _AddGuestsState extends State<AddGuests> {
                       text: "guests".tr,
                       fontWeight: FontWeight.w400,
                       color: Graytext,
-                      fontFamily: AppUtil.rtlDirection2(context)?'SF Arabic'
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
                           : 'SF Pro',
                       fontSize: 15,
                     ),
-                    Spacer(),
+                    const Spacer(),
                     GestureDetector(
                         onTap: () {
                           if (widget.adventureController.seletedSeat.value >
                               0) {
                             setState(() {
                               widget.adventureController.seletedSeat.value =
-                                  widget.adventureController.seletedSeat
-                                          .value -
+                                  widget.adventureController.seletedSeat.value -
                                       1;
                             });
                           }
@@ -127,7 +120,6 @@ class _AddGuestsState extends State<AddGuests> {
                   ],
                 ),
               ),
-              
             ],
           ),
         ),

@@ -53,7 +53,7 @@ class _MyAccountState extends State<MyAccount> {
     // Combine the sections
     log(firstDigit + maskedSection + lastTwoDigits);
     if (AppUtil.rtlDirection2(context)) {
-      return '\u202A' + (firstDigit + maskedSection + lastTwoDigits) + '\u202C';
+      return '\u202A$firstDigit$maskedSection$lastTwoDigits\u202C';
       //  return String.fromCharCodes((firstDigit + maskedSection + lastTwoDigits).runes.toList().reversed);
     } else {
       return firstDigit + maskedSection + lastTwoDigits;

@@ -21,7 +21,7 @@ class _BookingScreenState extends State<BookingScreen>
   int tabIndex = 0;
   List<String> status = ['canceled', 'waiting', 'confirmed'];
 
-  TouristExploreController _touristExploreController =
+  final TouristExploreController _touristExploreController =
       Get.put(TouristExploreController());
 
   @override

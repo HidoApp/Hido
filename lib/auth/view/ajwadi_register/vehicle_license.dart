@@ -118,7 +118,9 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                               FocusScope.of(context).previousFocus();
                             }
                           },
-                          validator: (p0) {},
+                          validator: (p0) {
+                            return null;
+                          },
                           hint: '1',
                           keyboardType: TextInputType.number,
                           formatter: FilteringTextInputFormatter.digitsOnly,
@@ -132,7 +134,9 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                               FocusScope.of(context).previousFocus();
                             }
                           },
-                          validator: (p0) {},
+                          validator: (p0) {
+                            return null;
+                          },
                           keyboardType: TextInputType.number,
                           hint: '2',
                           formatter: FilteringTextInputFormatter.digitsOnly,
@@ -147,7 +151,9 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                             }
                           },
                           keyboardType: TextInputType.number,
-                          validator: (p0) {},
+                          validator: (p0) {
+                            return null;
+                          },
                           hint: '3',
                           formatter: FilteringTextInputFormatter.digitsOnly,
                         ),
@@ -161,7 +167,9 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                             }
                           },
                           keyboardType: TextInputType.number,
-                          validator: (p0) {},
+                          validator: (p0) {
+                            return null;
+                          },
                           hint: '4',
                           formatter: FilteringTextInputFormatter.digitsOnly,
                         ),
@@ -176,7 +184,9 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                               FocusScope.of(context).previousFocus();
                             }
                           },
-                          validator: (p0) {},
+                          validator: (p0) {
+                            return null;
+                          },
                           hint: 'A',
                           formatter: FilteringTextInputFormatter.allow(RegExp(
                               r'[a-zA-Z]')), // Only allow English letters
@@ -190,7 +200,9 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                               FocusScope.of(context).previousFocus();
                             }
                           },
-                          validator: (p0) {},
+                          validator: (p0) {
+                            return null;
+                          },
                           hint: 'B',
                           formatter: FilteringTextInputFormatter.allow(RegExp(
                               r'[a-zA-Z]')), // Only allow English letters
@@ -204,7 +216,9 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                               FocusScope.of(context).previousFocus();
                             }
                           },
-                          validator: (p0) {},
+                          validator: (p0) {
+                            return null;
+                          },
                           hint: 'C',
                           formatter: FilteringTextInputFormatter.allow(
                             RegExp(r'[a-zA-Z]'),
@@ -238,7 +252,7 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
     final button = _pickupRide
         .map((key, values) {
           final value = Container(
-            margin: EdgeInsets.only(left: 2),
+            margin: const EdgeInsets.only(left: 2),
             child: GestureDetector(
               onTap: () {
                 _authController.selectedRide.value = key;

@@ -36,7 +36,7 @@ class CancelBookingDialog extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
       ),
-      content: Container(
+      content: SizedBox(
         width: double.infinity,
         // height: AppUtil.rtlDirection2(context) ? 140 : 138,
         child: Column(
@@ -48,7 +48,7 @@ class CancelBookingDialog extends StatelessWidget {
             ),
             CustomText(
               textAlign: TextAlign.center,
-              color: Color(0xFF070708),
+              color: const Color(0xFF070708),
               fontSize: 15,
               fontFamily: AppUtil.SfFontType(context),
               fontWeight: FontWeight.w500,
@@ -63,7 +63,7 @@ class CancelBookingDialog extends StatelessWidget {
               textAlign: TextAlign.center,
               fontSize: 15,
               fontWeight: FontWeight.w400,
-              color: Color(0xFF41404A),
+              color: const Color(0xFF41404A),
               text: 'noteDo'.tr,
               // text:!AppUtil.rtlDirection2(context)?"Here is what you can do":"لم نتمكن من العثور على أي مرشدين محليين متاحين في التاريخ والموقع الذي اخترته",
               fontFamily: AppUtil.SfFontType(context),
@@ -121,18 +121,17 @@ class CancelBookingDialog extends StatelessWidget {
                           //   await Get.delete<TimerController>(force: true);
                         }
                         Get.offAll(const TouristBottomBar());
-                        AmplitudeService.amplitude.track(
-                             BaseEvent('Tour Successfully canceled before payment',
-                                 ));
-
+                        AmplitudeService.amplitude.track(BaseEvent(
+                          'Tour Successfully canceled before payment',
+                        ));
                       } else {
                         if (context.mounted) {
                           AppUtil.errorToast(context, 'noEndTrip'.tr);
                           await Future.delayed(const Duration(seconds: 2));
                         }
-                           AmplitudeService.amplitude.track(
-                             BaseEvent('Tour Cancellation Faild before Payment',
-                                 ));
+                        AmplitudeService.amplitude.track(BaseEvent(
+                          'Tour Cancellation Faild before Payment',
+                        ));
                       }
                     },
                     child: Container(
@@ -141,7 +140,7 @@ class CancelBookingDialog extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 4),
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: Color(0xFFDC362E),
+                            color: const Color(0xFFDC362E),
                             width: 2,
                           ),
                           borderRadius: BorderRadius.circular(4),
@@ -151,7 +150,7 @@ class CancelBookingDialog extends StatelessWidget {
                             fontSize: 15,
                             fontFamily: AppUtil.SfFontType(context),
                             fontWeight: FontWeight.w500,
-                            color: Color(0xFFDC362E),
+                            color: const Color(0xFFDC362E),
                             text: 'cancelTrip'.tr)),
                   )),
           ],

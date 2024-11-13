@@ -63,7 +63,7 @@ class _TouristReviewsScreenState extends State<TouristReviewsScreen> {
                       );
                     },
                     itemBuilder: (context, index) {
-                      return ReviewCard(
+                      return const ReviewCard(
                         name: 'John Doe',
                         rating: 4,
                         description: 'Great product! Really enjoyed using it.',

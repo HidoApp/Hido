@@ -6,7 +6,7 @@ import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
 class CustomOrderCard extends StatefulWidget {
-  CustomOrderCard({Key? key, this.isPast = false}) : super(key: key);
+  const CustomOrderCard({Key? key, this.isPast = false}) : super(key: key);
 
   final bool isPast;
   @override
@@ -20,10 +20,10 @@ class _CustomOrderCardState extends State<CustomOrderCard> {
     double height = MediaQuery.of(context).size.height;
 
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Row(
           children: [
-            Container(
+            SizedBox(
               height: 115,
               width: 94,
               child: ClipRRect(
@@ -34,30 +34,30 @@ class _CustomOrderCardState extends State<CustomOrderCard> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomText(
+                const CustomText(
                   text: '#162432',
                   textDecoration: TextDecoration.underline,
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 2,
                 ),
-                CustomText(
+                const CustomText(
                   text: 'SAR 450.00',
                   fontSize: 18,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
-                CustomText(
+                const CustomText(
                   text: '3 item',
                   color: almostGrey,
                 ),
@@ -83,14 +83,14 @@ class _CustomOrderCardState extends State<CustomOrderCard> {
                                   )),
                                   context: context,
                                   builder: (context) {
-                                    return TrackSheet();
+                                    return const TrackSheet();
                                   });
                             },
                             title: "Track Order",
                             customWidth: width * 0.28,
                             height: 18,
                           ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     widget.isPast
@@ -107,7 +107,7 @@ class _CustomOrderCardState extends State<CustomOrderCard> {
                                   )),
                                   context: context,
                                   builder: (context) {
-                                    return OrderRateSheet();
+                                    return const OrderRateSheet();
                                   });
                             },
                             title: "Rate",

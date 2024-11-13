@@ -53,7 +53,7 @@ class CategoryCard extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: RepaintBoundary(
-                    child: SvgPicture.asset('assets/icons/${icon}.svg')),
+                    child: SvgPicture.asset('assets/icons/$icon.svg')),
               ),
 
               const SizedBox(height: 12),
@@ -61,7 +61,7 @@ class CategoryCard extends StatelessWidget {
 
               CustomText(
                 text: title!,
-                color: Color(0xFF070708),
+                color: const Color(0xFF070708),
                 fontSize: 13,
                 fontFamily:
                     AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',

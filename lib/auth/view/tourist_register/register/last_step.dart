@@ -53,7 +53,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
   TextEditingController controller = TextEditingController();
 
   var _number = '';
-  var _countryCode = '+966'.obs;
+  final _countryCode = '+966'.obs;
 
   @override
   void initState() {
@@ -214,7 +214,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
                       keyboardType: TextInputType.number,
                       validator: false,
                       validatorHandle: (number) {
-                        if (number == null || number!.isEmpty) {
+                        if (number == null || number.isEmpty) {
                           return 'fieldRequired'.tr;
                         }
                         var fullNumber = _countryCode + number;
@@ -227,6 +227,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
                           log('length issue');
                           return 'invalidPhone'.tr;
                         }
+                        return null;
                       },
                       onChanged: (number) => _number = number,
                     ),
@@ -251,7 +252,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
+                      SizedBox(
                         width: double.infinity,
                         height: width * 0.12,
                         child: SearchField<ValueItem>(

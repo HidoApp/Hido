@@ -24,10 +24,10 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
   List<Booking> _upcomingTicket = [];
-  List<Booking> _pastTicket = [];
+  final List<Booking> _pastTicket = [];
 
-  List<Booking> _upcomingBookings = [];
-  List<Booking> _pastBookings = [];
+  final List<Booking> _upcomingBookings = [];
+  final List<Booking> _pastBookings = [];
   bool _isPushNotificationDismissed = false;
 
   String days = '';
@@ -35,7 +35,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   //List<int> disabledIndices = [];
   static List<int> canceledIndices = [];
   static List<int> removeIndices = [];
-  Set<int> viewedNotifications = Set<int>();
+  Set<int> viewedNotifications = <int>{};
   List<String> notificationMessages = []; // List to hold notification messages
 
   final ProfileController _profileController = Get.put(ProfileController());
@@ -66,7 +66,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         tz.initializeTimeZones();
 
         // Get the Riyadh time zone location
-        final String timeZoneName = 'Asia/Riyadh';
+        const String timeZoneName = 'Asia/Riyadh';
         final tz.Location location = tz.getLocation(timeZoneName);
 
         DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
@@ -86,11 +86,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
           _upcomingBookings.add(booking);
 
           notificationMessages.add(AppUtil.rtlDirection2(context)
-              ? days = " بعد يومين , عند الساعة " +
-                  AppUtil.formatStringTimeWithLocale(context, booking.timeToGo)
-              : days = " is after two day at " +
-                  AppUtil.formatStringTimeWithLocale(
-                      context, booking.timeToGo));
+              ? days =
+                  " بعد يومين , عند الساعة ${AppUtil.formatStringTimeWithLocale(context, booking.timeToGo)}"
+              : days =
+                  " is after two day at ${AppUtil.formatStringTimeWithLocale(context, booking.timeToGo)}");
 
           //  notificationMessages.add( AppUtil.rtlDirection2(context)
           //    ? days = " بعد يوم , عند الساعة " +AppUtil.formatStringTimeWithLocale(context, booking.timeToGo)
@@ -115,22 +114,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
           if (bookingDateWithoutTime.isAtSameMomentAs(todayWithoutTime)) {
             _upcomingBookings.add(booking);
             notificationMessages.add(AppUtil.rtlDirection2(context)
-                ? days = " اليوم عند الساعة " +
-                    AppUtil.formatStringTimeWithLocale(
-                        context, booking.timeToGo)
-                : days = " is today at " +
-                    AppUtil.formatStringTimeWithLocale(
-                        context, booking.timeToGo));
+                ? days =
+                    " اليوم عند الساعة ${AppUtil.formatStringTimeWithLocale(context, booking.timeToGo)}"
+                : days =
+                    " is today at ${AppUtil.formatStringTimeWithLocale(context, booking.timeToGo)}");
           } else {
             _upcomingBookings.add(booking);
 
             notificationMessages.add(AppUtil.rtlDirection2(context)
-                ? days = " غدا عند الساعة " +
-                    AppUtil.formatStringTimeWithLocale(
-                        context, booking.timeToGo)
-                : days = " is tomorrow at " +
-                    AppUtil.formatStringTimeWithLocale(
-                        context, booking.timeToGo));
+                ? days =
+                    " غدا عند الساعة ${AppUtil.formatStringTimeWithLocale(context, booking.timeToGo)}"
+                : days =
+                    " is tomorrow at ${AppUtil.formatStringTimeWithLocale(context, booking.timeToGo)}");
           }
         } else {
           setState(() {
@@ -172,6 +167,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     disableNotification(index);
   }
 
+  @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
@@ -254,7 +250,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   itemBuilder: (context, index) {
                     // Display the push notification at the top (index 0)
                     if (message != null) {
-                      if (index == 0 && !_isPushNotificationDismissed)
+                      if (index == 0 && !_isPushNotificationDismissed) {
                         return Dismissible(
                           key:
                               UniqueKey(), // Use a unique key for the dismissible item
@@ -270,11 +266,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             });
                           }, // Swipe to dismiss from right to left
                           child: PushNotificationCrd(
+                            isRead: false,
                             message: message!.notification!.body.toString(),
                             isRtl: AppUtil.rtlDirection2(context),
                             width: width,
                           ),
                         );
+                      }
                     }
 
                     int adjustedIndex = 0;
@@ -290,7 +288,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     // Handle the card notifications
                     final isDisabled = canceledIndices.contains(adjustedIndex);
                     if (isDisabled) {
-                      return SizedBox();
+                      return const SizedBox();
                     }
 
                     // Ensure the adjusted index is within the bounds of _upcomingBookings
@@ -363,6 +361,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     } else {
                       widget.hasNotifications = false;
                     }
+                    return null;
                   }),
             // Column(
             //   crossAxisAlignment: CrossAxisAlignment.start,

@@ -95,7 +95,7 @@ class _CalenderDialogState extends State<CalenderDialog> {
                           widget.avilableDate != null ? defineSelectable : null,
                       selectionMode: DateRangePickerSelectionMode.single,
                       selectionColor: colorGreen,
-                      selectionTextStyle: TextStyle(),
+                      selectionTextStyle: const TextStyle(),
                       selectionShape: DateRangePickerSelectionShape.circle,
                       todayHighlightColor: colorGreen,
                       startRangeSelectionColor: colorGreen,

@@ -10,13 +10,13 @@ class CustomMarker extends StatelessWidget {
     return Container(
       height: 40,
       width: 80,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(5))),
       child: Row(
         children: [
           CustomText(text: title),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           CustomPaint(size: const Size(20, 20), painter: DrawTriangle()),

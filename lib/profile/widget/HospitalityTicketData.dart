@@ -29,7 +29,7 @@ class HostTicketData extends StatelessWidget {
   OverlayEntry? _overlayEntry;
 
   void _showOverlay(BuildContext context) {
-    final overlay = Overlay.of(context)!;
+    final overlay = Overlay.of(context);
 
     _overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -43,7 +43,8 @@ class HostTicketData extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.circular(8.0),
@@ -65,7 +66,7 @@ class HostTicketData extends StatelessWidget {
 
     overlay.insert(_overlayEntry!);
 
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       _overlayEntry?.remove();
     });
   }
@@ -81,10 +82,10 @@ class HostTicketData extends StatelessWidget {
           children: [
             GestureDetector(
                 onTap: () {
-                  Clipboard.setData(
-                      ClipboardData(text:  hospitality == null?
-                       booking!.id!.substring(0, 7):
-                     hospitality!.booking!.last.id.substring(0, 7) ));
+                  Clipboard.setData(ClipboardData(
+                      text: hospitality == null
+                          ? booking!.id!.substring(0, 7)
+                          : hospitality!.booking!.last.id.substring(0, 7)));
                   _showOverlay(context);
                 },
                 child: SvgPicture.asset(
@@ -94,11 +95,9 @@ class HostTicketData extends StatelessWidget {
                 )),
             const SizedBox(width: 8),
             Text(
-              '#${hospitality == null?
-                       booking!.id!.substring(0, 7):
-                     hospitality!.booking!.last.id.substring(0, 7)}',
+              '#${hospitality == null ? booking!.id!.substring(0, 7) : hospitality!.booking!.last.id.substring(0, 7)}',
               style: TextStyle(
-                color: Color(0xFFB9B8C1),
+                color: const Color(0xFFB9B8C1),
                 fontSize: 13,
                 fontFamily:
                     AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
@@ -107,8 +106,7 @@ class HostTicketData extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 12),
-
+        const SizedBox(height: 12),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -124,7 +122,7 @@ class HostTicketData extends StatelessWidget {
             ),
             Row(
               children: [
-                icon ?? SizedBox.shrink(),
+                icon ?? const SizedBox.shrink(),
                 Text(
                   AppUtil.getBookingTypeText(context, bookTypeText ?? ''),
                   style: TextStyle(
@@ -178,91 +176,92 @@ class HostTicketData extends StatelessWidget {
                 ),
               ],
             ),
-            if( hospitality == null || (hospitality != null &&  hospitality!.daysInfo.isNotEmpty))
-
-            const SizedBox(height: 12),
-           if( hospitality == null || (hospitality != null &&  hospitality!.daysInfo.isNotEmpty))
-
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'pickUp1'.tr,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: starGreyColor,
-                        fontSize: width * 0.035,
-                        fontFamily: AppUtil.SfFontType(context),
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      hospitality == null
-                          ? AppUtil.formatStringTime(context, booking!.timeToGo)
-                          : AppUtil.formatTimeOnly(
-                              context, hospitality!.daysInfo.last.startTime),
-                      style: TextStyle(
-                        color: black,
-                        fontSize: width * 0.038,
-                        fontFamily: AppUtil.SfFontType(context),
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 40),
-                Expanded(
-                  child: Column(
+            if (hospitality == null ||
+                (hospitality != null && hospitality!.daysInfo.isNotEmpty))
+              const SizedBox(height: 12),
+            if (hospitality == null ||
+                (hospitality != null && hospitality!.daysInfo.isNotEmpty))
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: Text(
-                          'dropOff1'.tr,
-                          style: TextStyle(
-                            color: starGreyColor,
-                            fontSize: width * 0.035,
-                            fontFamily: AppUtil.SfFontType(context),
-                            fontWeight: FontWeight.w500,
-                            height: 0,
-                          ),
+                      Text(
+                        'pickUp1'.tr,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: starGreyColor,
+                          fontSize: width * 0.035,
+                          fontFamily: AppUtil.SfFontType(context),
+                          fontWeight: FontWeight.w500,
+                          height: 0,
                         ),
                       ),
                       const SizedBox(height: 5),
-                      SizedBox(
-                        width: double.infinity,
-                        child: Text(
-                          hospitality == null
-                              ? AppUtil.formatStringTime(
-                                  context, booking!.timeToReturn)
-                              : AppUtil.formatTimeOnly(
-                                  context, hospitality!.daysInfo.last.endTime),
-                          style: TextStyle(
-                            color: black,
-                            fontSize: width * 0.038,
-                            fontFamily: AppUtil.SfFontType(context),
-                            fontWeight: FontWeight.w500,
-                            height: 0,
-                          ),
+                      Text(
+                        hospitality == null
+                            ? AppUtil.formatStringTime(
+                                context, booking!.timeToGo)
+                            : AppUtil.formatTimeOnly(
+                                context, hospitality!.daysInfo.last.startTime),
+                        style: TextStyle(
+                          color: black,
+                          fontSize: width * 0.038,
+                          fontFamily: AppUtil.SfFontType(context),
+                          fontWeight: FontWeight.w500,
+                          height: 0,
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
+                  const SizedBox(width: 40),
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                          child: Text(
+                            'dropOff1'.tr,
+                            style: TextStyle(
+                              color: starGreyColor,
+                              fontSize: width * 0.035,
+                              fontFamily: AppUtil.SfFontType(context),
+                              fontWeight: FontWeight.w500,
+                              height: 0,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        SizedBox(
+                          width: double.infinity,
+                          child: Text(
+                            hospitality == null
+                                ? AppUtil.formatStringTime(
+                                    context, booking!.timeToReturn)
+                                : AppUtil.formatTimeOnly(context,
+                                    hospitality!.daysInfo.last.endTime),
+                            style: TextStyle(
+                              color: black,
+                              fontSize: width * 0.038,
+                              fontFamily: AppUtil.SfFontType(context),
+                              fontWeight: FontWeight.w500,
+                              height: 0,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             const SizedBox(height: 12),
             Column(
               mainAxisSize: MainAxisSize.min,
@@ -389,15 +388,15 @@ class HostTicketData extends StatelessWidget {
             ),
           ],
         ),
-       const SizedBox(
+        const SizedBox(
           height: 4,
         ),
-      const  DottedSeparator(
+        const DottedSeparator(
           color: almostGrey,
           height: 1,
         ),
         const SizedBox(height: 25),
-        Container(
+        SizedBox(
           width: double.infinity,
           child: GestureDetector(
             onTap: () async {
@@ -413,7 +412,7 @@ class HostTicketData extends StatelessWidget {
             child: Text(
               'Location'.tr,
               style: TextStyle(
-                color: Color(0xFF37B268),
+                color: const Color(0xFF37B268),
                 fontSize: 18,
                 fontFamily: AppUtil.SfFontType(context),
                 fontWeight: FontWeight.w600,

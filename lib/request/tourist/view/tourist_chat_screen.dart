@@ -177,7 +177,7 @@ class _TouristChatScreenState extends State<TouristChatScreen> {
                                   Get.back();
                                 }
                               },
-                              child: Text('Done'),
+                              child: const Text('Done'),
                             ),
                           ],
                         ),
@@ -247,7 +247,7 @@ class _TouristChatScreenState extends State<TouristChatScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               child: CustomButton(
                 onPressed: () {
-                  Get.to((() => CheckOutScreen()));
+                  Get.to((() => const CheckOutScreen()));
                 },
                 title: 'pay'.tr,
                 icon: AppUtil.rtlDirection2(context)
@@ -354,7 +354,7 @@ class _TouristChatScreenState extends State<TouristChatScreen> {
                         color: Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(12)),
                       ),
-                      padding: EdgeInsets.only(top: 20),
+                      padding: const EdgeInsets.only(top: 20),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 10),

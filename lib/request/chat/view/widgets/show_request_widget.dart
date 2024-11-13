@@ -72,7 +72,7 @@ class _ShowRequestWidgetState extends State<ShowRequestWidget> {
                                 .value
                                 .senderImage!),
                           )
-                        :  CircleAvatar(
+                        : const CircleAvatar(
                             backgroundImage:
                                 AssetImage('assets/images/app_icon.jpeg'),
                           ),
@@ -96,7 +96,7 @@ class _ShowRequestWidgetState extends State<ShowRequestWidget> {
           ),
           Text(
             'checkText'.tr,
-            textAlign:TextAlign.center ,
+            textAlign: TextAlign.center,
             style: const TextStyle(
               color: colorDarkGrey,
               fontSize: 12,
@@ -178,7 +178,6 @@ class _CustomCheckWidget extends StatelessWidget {
   final bool isLast;
   final void Function()? onTap;
   _CustomCheckWidget({
-    super.key,
     this.isChecked = true,
     this.isLast = false,
     this.isBold = false,

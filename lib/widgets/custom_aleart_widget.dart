@@ -19,7 +19,7 @@ class CustomAlertDialog extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(8.0)),
       ),
-      content: Container(
+      content: SizedBox(
         width: double.infinity,
         height: height * 0.18,
         child: Column(
@@ -31,7 +31,7 @@ class CustomAlertDialog extends StatelessWidget {
               height: 48,
               padding: const EdgeInsets.all(8),
               decoration: ShapeDecoration(
-                color: Color(0xFFFBEAE9),
+                color: const Color(0xFFFBEAE9),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(9999),
                 ),
@@ -42,11 +42,11 @@ class CustomAlertDialog extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             CustomText(
               textAlign: TextAlign.center,
               color: black,
-              fontSize: width*0.038,
+              fontSize: width * 0.038,
               fontFamily: AppUtil.SfFontType(context),
               fontWeight: FontWeight.w500,
               text: AppUtil.rtlDirection2(context)
@@ -56,7 +56,7 @@ class CustomAlertDialog extends StatelessWidget {
             const SizedBox(height: 2),
             CustomText(
               textAlign: TextAlign.center,
-              fontSize: width*0.038,
+              fontSize: width * 0.038,
               fontWeight: FontWeight.w400,
               maxlines: 100,
               color: black,

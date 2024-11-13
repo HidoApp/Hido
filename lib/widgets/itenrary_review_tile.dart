@@ -56,7 +56,7 @@ class ReviewItenraryTile extends StatelessWidget {
               )
             ],
           ),
-          Spacer(),
+          const Spacer(),
           Row(
             children: [
               Text.rich(

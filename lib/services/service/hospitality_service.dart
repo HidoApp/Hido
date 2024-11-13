@@ -59,10 +59,10 @@ class HospitalityService {
     String token = getStorage.read('accessToken') ?? "";
 
     if (token != '' && JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
+      final authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
+      var user = await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
@@ -105,10 +105,10 @@ class HospitalityService {
     String token = getStorage.read('accessToken') ?? "";
 
     if (JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
+      final authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
+      var user = await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
@@ -165,10 +165,10 @@ class HospitalityService {
     String token = getStorage.read('accessToken') ?? "";
 
     if (JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
+      final authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
+      var user = await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
@@ -269,10 +269,10 @@ class HospitalityService {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
     if (JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
+      final authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
+      var user = await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
@@ -454,10 +454,10 @@ class HospitalityService {
     String token = getStorage.read('accessToken') ?? "";
 
     if (token != '' && JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
+      final authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
+      var user = await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
@@ -490,10 +490,10 @@ class HospitalityService {
     String token = getStorage.read('accessToken') ?? "";
 
     if (token != '' && JwtDecoder.isExpired(token)) {
-      final _authController = Get.put(AuthController());
+      final authController = Get.put(AuthController());
 
       String refreshToken = getStorage.read('refreshToken');
-      var user = await _authController.refreshToken(
+      var user = await authController.refreshToken(
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
@@ -644,7 +644,7 @@ class HospitalityService {
       UploadImage imageIbject;
       var jsonImage;
 
-      await response.stream.transform(utf8.decoder).listen((value) {
+      response.stream.transform(utf8.decoder).listen((value) {
         id = UploadImage.fromJson(jsonDecode(value)).id;
         filePath = UploadImage.fromJson(jsonDecode(value)).filePath;
         if (UploadImage.fromJson(jsonDecode(value)).publicId != null) {

@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
@@ -44,7 +43,7 @@ class _EventTicketDataState extends State<EventTicketData> {
   OverlayEntry? _overlayEntry;
 
   void _showOverlay(BuildContext context) {
-    final overlay = Overlay.of(context)!;
+    final overlay = Overlay.of(context);
 
     _overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -58,7 +57,8 @@ class _EventTicketDataState extends State<EventTicketData> {
         child: Material(
           color: Colors.transparent,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.circular(8.0),
@@ -80,7 +80,7 @@ class _EventTicketDataState extends State<EventTicketData> {
 
     overlay.insert(_overlayEntry!);
 
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       _overlayEntry?.remove();
     });
   }
@@ -113,7 +113,7 @@ class _EventTicketDataState extends State<EventTicketData> {
             Text(
               '#${widget.event == null ? widget.booking!.id!.substring(0, 7) : widget.event!.booking!.last.id!.substring(0, 7)}',
               style: TextStyle(
-                color: Color(0xFFB9B8C1),
+                color: const Color(0xFFB9B8C1),
                 fontSize: 13,
                 fontFamily:
                     AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
@@ -122,7 +122,7 @@ class _EventTicketDataState extends State<EventTicketData> {
             ),
           ],
         ),
-        SizedBox(height: 12),
+        const SizedBox(height: 12),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -394,7 +394,7 @@ class _EventTicketDataState extends State<EventTicketData> {
             child: Text(
               'Location'.tr,
               style: TextStyle(
-                color: Color(0xFF37B268),
+                color: const Color(0xFF37B268),
                 fontSize: 18,
                 fontFamily: AppUtil.SfFontType(context),
                 fontWeight: FontWeight.w600,

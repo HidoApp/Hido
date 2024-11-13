@@ -211,7 +211,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                               child: SizedBox(
                                 width: width * 0.5,
                                 child: _offerController.isOfferLoading.value
-                                    ? Center(
+                                    ? const Center(
                                         child: CircularProgressIndicator
                                             .adaptive())
                                     : Padding(
@@ -331,10 +331,10 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
                   indicatorSize: TabBarIndicatorSize.tab,
                   labelColor: colorGreen,
                   unselectedLabelColor: colorDarkGrey,
-                  dividerColor: Color(0xFFB9B8C1),
-                  overlayColor: MaterialStatePropertyAll(
+                  dividerColor: const Color(0xFFB9B8C1),
+                  overlayColor: WidgetStatePropertyAll(
                       const Color.fromARGB(255, 255, 255, 255)),
-                  indicatorPadding: EdgeInsets.only(top: 12),
+                  indicatorPadding: const EdgeInsets.only(top: 12),
                   tabs: [
                     Tab(
                       text: "aboutMe".tr,

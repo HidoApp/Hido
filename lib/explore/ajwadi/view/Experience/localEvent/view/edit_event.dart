@@ -61,7 +61,7 @@ class _EditEventState extends State<EditEvent> {
 
   final TextEditingController eventTitleControllerAr = TextEditingController();
   final TextEditingController eventBioControllerAr = TextEditingController();
-  TextEditingController _textField1Controller = TextEditingController();
+  final TextEditingController _textField1Controller = TextEditingController();
 
   String address = '';
 
@@ -177,7 +177,7 @@ class _EditEventState extends State<EditEvent> {
   final TextEditingController _guestsController = TextEditingController();
   List<String> imageUrls = [];
 
-  int? _selectedRadio1 = 1;
+  final int? _selectedRadio1 = 1;
   int guestNum = 0;
   String startTime = '';
   String endTime = '';
@@ -454,8 +454,8 @@ class _EditEventState extends State<EditEvent> {
 
       locationUrl = getLocationUrl(_servicesController.pickUpLocLatLang.value);
     });
-    log('go ${newTimeToGo}');
-    log('go ${newTimeToReturn}');
+    log('go $newTimeToGo');
+    log('go $newTimeToReturn');
   }
 
   String getLocationUrl(LatLng location) {
@@ -512,7 +512,7 @@ class _EditEventState extends State<EditEvent> {
               ),
               child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -540,8 +540,8 @@ class _EditEventState extends State<EditEvent> {
           // Get.offAll(() => const AjwadiBottomBar());
           Get.back();
           Get.back();
-          final _experienceController = Get.put(AjwadiExploreController());
-          _experienceController.getAllExperiences(context: context);
+          final experienceController = Get.put(AjwadiExploreController());
+          experienceController.getAllExperiences(context: context);
         });
       } else {}
     } catch (e) {}
@@ -590,7 +590,7 @@ class _EditEventState extends State<EditEvent> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(8.0)),
                           ),
-                          content: Container(
+                          content: SizedBox(
                             width: double.infinity,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -601,7 +601,7 @@ class _EditEventState extends State<EditEvent> {
                                 ),
                                 CustomText(
                                   textAlign: TextAlign.center,
-                                  color: Color(0xFFDC362E),
+                                  color: const Color(0xFFDC362E),
                                   fontSize: width * 0.038,
                                   fontFamily: AppUtil.SfFontType(context),
                                   fontWeight: FontWeight.w500,
@@ -614,7 +614,7 @@ class _EditEventState extends State<EditEvent> {
                                   textAlign: TextAlign.center,
                                   fontSize: width * 0.038,
                                   fontWeight: FontWeight.w400,
-                                  color: Color(0xFF41404A),
+                                  color: const Color(0xFF41404A),
                                   text: 'DeleteNote'.tr,
                                   fontFamily: AppUtil.rtlDirection2(context)
                                       ? 'SF Arabic'
@@ -626,7 +626,7 @@ class _EditEventState extends State<EditEvent> {
                                 Obx(
                                   () => _servicesController
                                           .isEventDeleteLoading.value
-                                      ? Center(
+                                      ? const Center(
                                           child: CircularProgressIndicator
                                               .adaptive())
                                       : GestureDetector(
@@ -659,7 +659,8 @@ class _EditEventState extends State<EditEvent> {
                                                     child: Container(
                                                       width: double.infinity,
                                                       padding:
-                                                          EdgeInsets.all(16),
+                                                          const EdgeInsets.all(
+                                                              16),
                                                       child: Column(
                                                         mainAxisSize:
                                                             MainAxisSize.min,
@@ -675,8 +676,10 @@ class _EditEventState extends State<EditEvent> {
                                                                   width * 0.04),
                                                           Text(
                                                             'DeleteDone'.tr,
-                                                            style: TextStyle(
-                                                                fontSize: 15),
+                                                            style:
+                                                                const TextStyle(
+                                                                    fontSize:
+                                                                        15),
                                                             textDirection: AppUtil
                                                                     .rtlDirection2(
                                                                         context)
@@ -694,10 +697,10 @@ class _EditEventState extends State<EditEvent> {
                                                 Get.back();
                                                 Get.back();
                                                 Get.back();
-                                                final _experienceController =
+                                                final experienceController =
                                                     Get.put(
                                                         AjwadiExploreController());
-                                                _experienceController
+                                                experienceController
                                                     .getAllExperiences(
                                                         context: context);
                                               });
@@ -717,7 +720,7 @@ class _EditEventState extends State<EditEvent> {
                                                 vertical: 3),
                                             alignment: Alignment.center,
                                             decoration: BoxDecoration(
-                                              color: Color(0xFFDC362E),
+                                              color: const Color(0xFFDC362E),
                                               borderRadius:
                                                   BorderRadius.circular(4),
                                             ),
@@ -747,7 +750,7 @@ class _EditEventState extends State<EditEvent> {
                                           vertical: 3),
                                       decoration: BoxDecoration(
                                         border: Border.all(
-                                          color: Color(0xFFDC362E),
+                                          color: const Color(0xFFDC362E),
                                           width: 2,
                                         ),
                                         borderRadius: BorderRadius.circular(4),
@@ -760,7 +763,7 @@ class _EditEventState extends State<EditEvent> {
                                                   ? 'SF Arabic'
                                                   : 'SF Pro',
                                           fontWeight: FontWeight.w500,
-                                          color: Color(0xFFDC362E),
+                                          color: const Color(0xFFDC362E),
                                           text: 'cancel'.tr)),
                                 ),
                               ],
@@ -773,14 +776,13 @@ class _EditEventState extends State<EditEvent> {
                 ),
 
                 bottomNavigationBar: Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                         left: 16.0, right: 16.0, bottom: 24.0, top: 16),
                     child: Obx(
                       () => _servicesController.isImagesLoading.value ||
                               _servicesController.isEditEventLoading.value
-                          ? Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 160),
+                          ? const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 160),
                               child: CircularProgressIndicator.adaptive(),
                             )
                           : CustomButton(
@@ -856,7 +858,7 @@ class _EditEventState extends State<EditEvent> {
                             const Divider(
                               color: lightGrey,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 14,
                             ),
 
@@ -870,21 +872,23 @@ class _EditEventState extends State<EditEvent> {
                                       ToggleSwitch(
                                         minWidth: 55,
                                         cornerRadius: 12,
-                                        activeBgColors: [
+                                        activeBgColors: const [
                                           [Colors.white],
                                           [Colors.white]
                                         ],
                                         activeBorders: [
                                           Border.all(
-                                              color: Color(0xFFF5F5F5),
+                                              color: const Color(0xFFF5F5F5),
                                               width: 2.0),
                                           Border.all(
-                                              color: Color(0xFFF5F5F5),
+                                              color: const Color(0xFFF5F5F5),
                                               width: 2.0),
                                         ],
-                                        activeFgColor: Color(0xFF070708),
-                                        inactiveBgColor: Color(0xFFF5F5F5),
-                                        inactiveFgColor: Color(0xFF9392A0),
+                                        activeFgColor: const Color(0xFF070708),
+                                        inactiveBgColor:
+                                            const Color(0xFFF5F5F5),
+                                        inactiveFgColor:
+                                            const Color(0xFF9392A0),
                                         initialLabelIndex:
                                             _selectedLanguageIndex,
                                         totalSwitches: 2,
@@ -922,7 +926,7 @@ class _EditEventState extends State<EditEvent> {
                                                     : FontWeight.w500,
                                           ),
                                         ],
-                                        customHeights: [90, 90],
+                                        customHeights: const [90, 90],
                                         onToggle: (index) {
                                           setState(() {
                                             _selectedLanguageIndex = index!;
@@ -951,7 +955,7 @@ class _EditEventState extends State<EditEvent> {
                                                   ? 'عنوان التجربة'
                                                   : 'Experience title',
                                               style: TextStyle(
-                                                color: Color(0xFF070708),
+                                                color: const Color(0xFF070708),
                                                 fontSize: 17,
                                                 fontFamily:
                                                     _selectedLanguageIndex == 0
@@ -982,11 +986,11 @@ class _EditEventState extends State<EditEvent> {
                                                                 0
                                                             ? titleArEmpty
                                                                 ? colorRed
-                                                                : Color(
+                                                                : const Color(
                                                                     0xFFB9B8C1)
                                                             : titleENEmpty
                                                                 ? colorRed
-                                                                : Color(
+                                                                : const Color(
                                                                     0xFFB9B8C1),
                                                   ),
                                                   borderRadius:
@@ -1008,7 +1012,8 @@ class _EditEventState extends State<EditEvent> {
                                                             ? 'مثال: منزل دانا'
                                                             : 'example: Dana’s house',
                                                     hintStyle: TextStyle(
-                                                      color: Color(0xFFB9B8C1),
+                                                      color: const Color(
+                                                          0xFFB9B8C1),
                                                       fontSize: 15,
                                                       fontFamily:
                                                           _selectedLanguageIndex ==
@@ -1031,9 +1036,9 @@ class _EditEventState extends State<EditEvent> {
                                             ),
                                             if (titleArEmpty &&
                                                 _selectedLanguageIndex == 0)
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 8.0),
+                                              const Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 8.0),
                                                 child: Text(
                                                   'يجب إضافة عنوان للتجربة ',
                                                   style: TextStyle(
@@ -1046,9 +1051,9 @@ class _EditEventState extends State<EditEvent> {
                                               ),
                                             if (_selectedLanguageIndex == 1 &&
                                                 titleENEmpty)
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 8.0),
+                                              const Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 8.0),
                                                 child: Text(
                                                   'You need to add a title ',
                                                   style: TextStyle(
@@ -1075,7 +1080,7 @@ class _EditEventState extends State<EditEvent> {
                                                   ? 'الوصف'
                                                   : 'Description',
                                               style: TextStyle(
-                                                color: Color(0xFF070708),
+                                                color: const Color(0xFF070708),
                                                 fontSize: 17,
                                                 fontFamily:
                                                     _selectedLanguageIndex == 0
@@ -1105,11 +1110,11 @@ class _EditEventState extends State<EditEvent> {
                                                               0
                                                           ? bioArEmpty
                                                               ? colorRed
-                                                              : Color(
+                                                              : const Color(
                                                                   0xFFB9B8C1)
                                                           : bioEnEmpty
                                                               ? colorRed
-                                                              : Color(
+                                                              : const Color(
                                                                   0xFFB9B8C1)),
                                                   borderRadius:
                                                       BorderRadius.circular(8),
@@ -1148,7 +1153,8 @@ class _EditEventState extends State<EditEvent> {
                                                         ? 'أذكر أبرز ما يميزها ولماذا يجب على السياح زيارتها'
                                                         : 'highlight what makes it unique and why tourists should visit',
                                                     hintStyle: TextStyle(
-                                                      color: Color(0xFFB9B8C1),
+                                                      color: const Color(
+                                                          0xFFB9B8C1),
                                                       fontSize: 15,
                                                       fontFamily:
                                                           _selectedLanguageIndex ==
@@ -1171,9 +1177,9 @@ class _EditEventState extends State<EditEvent> {
                                             ),
                                             if (bioEnEmpty &&
                                                 _selectedLanguageIndex == 1)
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 8.0),
+                                              const Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 8.0),
                                                 child: Text(
                                                   'You need to add a discription for the experience',
                                                   style: TextStyle(
@@ -1186,9 +1192,9 @@ class _EditEventState extends State<EditEvent> {
                                               ),
                                             if (bioArEmpty &&
                                                 _selectedLanguageIndex == 0)
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 8.0),
+                                              const Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 8.0),
                                                 child: Text(
                                                   "يجب إضافة وصف للتجربة ",
                                                   style: TextStyle(
@@ -1207,7 +1213,8 @@ class _EditEventState extends State<EditEvent> {
                                                     ? '*يجب ألا يتجاوز الوصف 150 كلمة'
                                                     : '*the description must not exceed 150 words',
                                                 style: TextStyle(
-                                                  color: Color(0xFFB9B8C1),
+                                                  color:
+                                                      const Color(0xFFB9B8C1),
                                                   fontSize: 11,
                                                   fontFamily:
                                                       _selectedLanguageIndex ==
@@ -1267,7 +1274,8 @@ class _EditEventState extends State<EditEvent> {
                                                   width: 1,
                                                   color: guestEmpty
                                                       ? colorRed
-                                                      : Color(0xFFB9B8C1)),
+                                                      : const Color(
+                                                          0xFFB9B8C1)),
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                             ),
@@ -1317,7 +1325,7 @@ class _EditEventState extends State<EditEvent> {
                                                   ? 'يجب ان تستقبل شخص على الأقل '
                                                   : 'You need to add at least one Person',
                                               style: TextStyle(
-                                                color: Color(0xFFDC362E),
+                                                color: const Color(0xFFDC362E),
                                                 fontSize: 11,
                                                 fontFamily:
                                                     AppUtil.rtlDirection2(
@@ -1383,7 +1391,7 @@ class _EditEventState extends State<EditEvent> {
                                                             .DateErrorMessage
                                                             .value
                                                     ? colorRed
-                                                    : Color(0xFFB9B8C1)),
+                                                    : const Color(0xFFB9B8C1)),
                                             borderRadius:
                                                 BorderRadius.circular(8),
                                           ),
@@ -1511,7 +1519,7 @@ class _EditEventState extends State<EditEvent> {
                                                             : DurationErrorMessage ??
                                                                     false
                                                                 ? colorRed
-                                                                : Color(
+                                                                : const Color(
                                                                     0xFFB9B8C1)),
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -1772,7 +1780,8 @@ class _EditEventState extends State<EditEvent> {
                                                           : "Select The Time"
                                                       : '',
                                                   style: TextStyle(
-                                                    color: Color(0xFFDC362E),
+                                                    color:
+                                                        const Color(0xFFDC362E),
                                                     fontSize: width * 0.028,
                                                     fontFamily:
                                                         AppUtil.rtlDirection2(
@@ -1837,7 +1846,7 @@ class _EditEventState extends State<EditEvent> {
                                                             : DurationErrorMessage ??
                                                                     false
                                                                 ? colorRed
-                                                                : Color(
+                                                                : const Color(
                                                                     0xFFB9B8C1)),
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -2107,8 +2116,8 @@ class _EditEventState extends State<EditEvent> {
                                                                 ? "يجب أن لايسبق وقت بدء التجربة"
                                                                 : "*Can’t be before start time",
                                                         style: TextStyle(
-                                                          color:
-                                                              Color(0xFFDC362E),
+                                                          color: const Color(
+                                                              0xFFDC362E),
                                                           fontSize:
                                                               width * 0.028,
                                                           fontFamily: AppUtil
@@ -2158,14 +2167,15 @@ class _EditEventState extends State<EditEvent> {
                                     Stack(
                                       children: [
                                         ClipRRect(
-                                          borderRadius: BorderRadius.all(
+                                          borderRadius: const BorderRadius.all(
                                               Radius.circular(12)),
                                           child: Container(
                                             decoration: BoxDecoration(
                                               color:
                                                   almostGrey.withOpacity(0.2),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(12)),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(12)),
                                             ),
                                             height: 246,
                                             width: double.infinity,
@@ -2186,7 +2196,8 @@ class _EditEventState extends State<EditEvent> {
                                               ),
                                               markers: {
                                                 Marker(
-                                                  markerId: MarkerId("marker1"),
+                                                  markerId:
+                                                      const MarkerId("marker1"),
                                                   position: _currentPosition,
                                                   draggable: true,
                                                   onDragEnd:
@@ -2217,13 +2228,14 @@ class _EditEventState extends State<EditEvent> {
                                             height: 45,
                                             decoration: BoxDecoration(
                                               color: Colors.white,
-                                              borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(12),
-                                                  bottomRight:
-                                                      Radius.circular(12)),
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                      bottomLeft:
+                                                          Radius.circular(12),
+                                                      bottomRight:
+                                                          Radius.circular(12)),
                                               border: Border.all(
-                                                color: Color(
+                                                color: const Color(
                                                     0xFFE2E2E2), // Change this to your desired border color
                                                 width:
                                                     2, // Change this to your desired border width
@@ -2241,12 +2253,12 @@ class _EditEventState extends State<EditEvent> {
                                                 children: [
                                                   Center(
                                                     child: _isLoading
-                                                        ? CircularProgressIndicator
+                                                        ? const CircularProgressIndicator
                                                             .adaptive()
                                                         : Text(
                                                             address,
                                                             style: TextStyle(
-                                                              color: Color(
+                                                              color: const Color(
                                                                   0xFF9392A0),
                                                               fontSize: 13,
                                                               fontFamily: AppUtil
@@ -2299,7 +2311,7 @@ class _EditEventState extends State<EditEvent> {
                                       decoration: InputDecoration(
                                         hintText: '00.00 SAR /per person',
                                         hintStyle: TextStyle(
-                                          color: Color(0xFFB9B8C1),
+                                          color: const Color(0xFFB9B8C1),
                                           fontSize: 15,
                                           fontFamily:
                                               AppUtil.rtlDirection2(context)
@@ -2311,7 +2323,7 @@ class _EditEventState extends State<EditEvent> {
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         ),
-                                        focusedBorder: OutlineInputBorder(
+                                        focusedBorder: const OutlineInputBorder(
                                           borderSide: BorderSide(
                                             width: 1,
                                             color: Graytext,
@@ -2321,14 +2333,15 @@ class _EditEventState extends State<EditEvent> {
                                           borderSide: BorderSide(
                                             width: 1,
                                             color: PriceEmpty || PriceDouble
-                                                ? Color(0xFFDC362E)
-                                                : Color(0xFFB9B8C1),
+                                                ? const Color(0xFFDC362E)
+                                                : const Color(0xFFB9B8C1),
                                           ),
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         ),
-                                        contentPadding: EdgeInsets.symmetric(
-                                            horizontal: 15),
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 15),
                                       ),
                                       keyboardType: TextInputType.number,
                                     ),
@@ -2345,7 +2358,7 @@ class _EditEventState extends State<EditEvent> {
                                                   ? 'You need to add a valid price'
                                                   : '*The price must be an integer value only',
                                           style: TextStyle(
-                                            color: Color(0xFFDC362E),
+                                            color: const Color(0xFFDC362E),
                                             fontSize: width * 0.028,
                                             fontFamily:
                                                 AppUtil.rtlDirection2(context)

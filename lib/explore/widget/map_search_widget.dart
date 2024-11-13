@@ -76,6 +76,7 @@ class _MapSearchWidgetState extends State<MapSearchWidget> {
             borderRadius: BorderRadius.circular(25),
           ),
           child: Obx(
+
             () => Form(
               key: _formKey,
               child: CustomTextField(

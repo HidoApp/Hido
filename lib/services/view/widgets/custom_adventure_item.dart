@@ -55,13 +55,15 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
 
-         if(placemark.subLocality!.isEmpty){
-         if (placemark.administrativeArea!.isEmpty)
-         return '${placemark.thoroughfare}';
-         else
-          return '${placemark.administrativeArea}';
-         } else
-        return '${placemark.subLocality}';
+        if (placemark.subLocality!.isEmpty) {
+          if (placemark.administrativeArea!.isEmpty) {
+            return '${placemark.thoroughfare}';
+          } else {
+            return '${placemark.administrativeArea}';
+          }
+        } else {
+          return '${placemark.subLocality}';
+        }
       }
     } catch (e) {}
     return '';
@@ -82,8 +84,9 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
   void initState() {
     super.initState();
 
-    if (widget.lang!.isNotEmpty && widget.lang!.isNotEmpty)
+    if (widget.lang!.isNotEmpty && widget.lang!.isNotEmpty) {
       _fetchAddress(widget.lang!, widget.long!);
+    }
   }
 
   @override
@@ -154,8 +157,8 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
                           Obx(
                             () => CustomText(
                               text: address.value.isNotEmpty
-                                ?'${ widget.location}, ${address.value}'
-                                : widget.location,
+                                  ? '${widget.location}, ${address.value}'
+                                  : widget.location,
                               fontSize: 11,
                               fontFamily: AppUtil.rtlDirection2(context)
                                   ? 'SF Arabic'

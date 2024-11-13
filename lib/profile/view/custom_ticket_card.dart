@@ -41,13 +41,15 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
 
       if (placemarks.isNotEmpty) {
         Placemark placemark = placemarks.first;
-        if(placemark.subLocality!.isEmpty){
-         if (placemark.administrativeArea!.isEmpty)
-         return '${placemark.thoroughfare}';
-         else
-          return '${placemark.administrativeArea}';
-         } else
-        return '${placemark.subLocality}';
+        if (placemark.subLocality!.isEmpty) {
+          if (placemark.administrativeArea!.isEmpty) {
+            return '${placemark.thoroughfare}';
+          } else {
+            return '${placemark.administrativeArea}';
+          }
+        } else {
+          return '${placemark.subLocality}';
+        }
       }
     } catch (e) {}
     return '';
@@ -98,7 +100,7 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
 
   @override
   Widget build(BuildContext context) {
-    final TouristExploreController _touristExploreController =
+    final TouristExploreController touristExploreController =
         Get.put(TouristExploreController());
     Place? thePlace;
     // log(widget.booking.cost!);
@@ -118,7 +120,7 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
             }
           : widget.booking.orderStatus == 'PENDING'
               ? () {
-                  _touristExploreController
+                  touristExploreController
                       .getPlaceById(
                     id: widget.booking.place?.id,
                     context: context,
@@ -143,8 +145,8 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: width * 0.041),
         child: Container(
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 255, 255, 255),
+          decoration: const BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
             borderRadius: BorderRadius.all(Radius.circular(7.36)),
             boxShadow: [
               BoxShadow(
@@ -176,7 +178,7 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                     // fit: BoxFit.cover,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 Expanded(
@@ -254,31 +256,10 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                           ),
                           CustomText(
                             text: address.isNotEmpty
-                            ? AppUtil.rtlDirection2(context)
-                                            ? '${widget.booking.bookingType == "place"
-                                      ? widget.booking.place!.regionAr!
-                                      : widget.booking.bookingType ==
-                                              "hospitality"
-                                          ? widget.booking.hospitality!.regionAr
-                                          : widget.booking.bookingType ==
-                                                  'event'
-                                              ? widget.booking.event!.regionAr
-                                              : widget.booking.adventure!
-                                                      .regionAr ??
-                                                  ''}, ${address}'
-                                            : '${widget.booking.bookingType == "place"
-                                      ? widget.booking.place!.regionEn!
-                                      : widget.booking.bookingType ==
-                                              "hospitality"
-                                          ? widget.booking.hospitality!.regionEn
-                                          : widget.booking.bookingType ==
-                                                  'event'
-                                              ? widget.booking.event!.regionEn
-                                              : widget.booking.adventure!
-                                                      .regionEn ??
-                                                  'Riyadh'}, ${address}'
-                                      :"",
-                            
+                                ? AppUtil.rtlDirection2(context)
+                                    ? '${widget.booking.bookingType == "place" ? widget.booking.place!.regionAr! : widget.booking.bookingType == "hospitality" ? widget.booking.hospitality!.regionAr : widget.booking.bookingType == 'event' ? widget.booking.event!.regionAr : widget.booking.adventure!.regionAr ?? ''}, $address'
+                                    : '${widget.booking.bookingType == "place" ? widget.booking.place!.regionEn! : widget.booking.bookingType == "hospitality" ? widget.booking.hospitality!.regionEn : widget.booking.bookingType == 'event' ? widget.booking.event!.regionEn : widget.booking.adventure!.regionEn ?? 'Riyadh'}, $address'
+                                : "",
 
                             //  AppUtil.rtlDirection2(context)
                             //     ? widget.booking.bookingType == "place"
@@ -327,7 +308,7 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Row(
@@ -351,7 +332,7 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                                     widget.booking.orderStatus! == 'FINISHED'
                                 ? colorGreen
                                 : widget.booking.orderStatus! == 'CANCELED'
-                                    ? Color(0xFFDC362E)
+                                    ? const Color(0xFFDC362E)
                                     : colorDarkGrey,
                           ),
                         ],

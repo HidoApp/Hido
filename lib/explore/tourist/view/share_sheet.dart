@@ -34,7 +34,7 @@ class _ShareSheetState extends State<ShareSheet> {
               return Container(
                 decoration: BoxDecoration(
                     color: widget.fromAjwady ? lightBlack : Colors.white,
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(30),
                         topLeft: Radius.circular(30))),
                 padding: const EdgeInsets.all(16),
@@ -74,17 +74,17 @@ class _ShareSheetState extends State<ShareSheet> {
                             Column(
                               children: [
                                 Container(
-                                    padding: EdgeInsets.all(7),
+                                    padding: const EdgeInsets.all(7),
                                     height: 40,
                                     width: 40,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                         color: lightGreyColor,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10))),
                                     child: SvgPicture.asset(
                                       "assets/icons/copyLink.svg",
                                     )),
-                                SizedBox(
+                                const SizedBox(
                                   height: 15,
                                 ),
                                 CustomText(
@@ -192,7 +192,7 @@ class _ShareSheetState extends State<ShareSheet> {
                             )
                           ],
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Container(
                           height: 60,
                           width: 270,

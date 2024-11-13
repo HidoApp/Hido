@@ -153,7 +153,7 @@ class _ServiceScreenState extends State<ServiceScreen>
               pinned: false,
               centerTitle: false,
               leading: Padding(
-                padding: EdgeInsets.only(left: 16, right: 16, bottom: 18),
+                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 18),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -339,7 +339,7 @@ class _ServiceScreenState extends State<ServiceScreen>
 
                   Obx(
                     () => Container(
-                      padding: EdgeInsets.only(top: 8),
+                      padding: const EdgeInsets.only(top: 8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(width * 0.03),
@@ -388,7 +388,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                   ),
                   Obx(
                     () => Container(
-                      padding: EdgeInsets.only(top: 8),
+                      padding: const EdgeInsets.only(top: 8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(width * 0.03),
@@ -511,7 +511,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                             : _srvicesController.tabIndex.value == 1
                                 ? 'saudiAdventure'.tr
                                 : 'saudiEvent'.tr,
-                        color: Color(0xFF070708),
+                        color: const Color(0xFF070708),
                         fontSize: width * 0.043,
                         fontWeight: FontWeight.w500,
                       ),

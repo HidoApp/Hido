@@ -20,15 +20,14 @@ class ImagesSliderWidget extends StatelessWidget {
             // image: NetworkImage(
             //   image,
             // ),
-             image: isNetworkImage
-              ? NetworkImage(image) : FileImage(File(
-                                  (image as XFile).path))
-                              as ImageProvider,
-                // ? CachedNetworkImageProvider(
-                //     // errorListener: (p0) =>
-                //     //     Image.asset('assets/images/Placeholder.png'),
-                //    image)
-              //  : FileImage(File((image as XFile).path)) as ImageProvider,
+            image: isNetworkImage
+                ? NetworkImage(image)
+                : FileImage(File((image as XFile).path)) as ImageProvider,
+            // ? CachedNetworkImageProvider(
+            //     // errorListener: (p0) =>
+            //     //     Image.asset('assets/images/Placeholder.png'),
+            //    image)
+            //  : FileImage(File((image as XFile).path)) as ImageProvider,
             fit: BoxFit.cover,
           ),
           borderRadius: BorderRadius.circular(16),
@@ -59,7 +58,7 @@ class ImagesSliderWidget extends StatelessWidget {
                   ),
                   child: Text(
                     'Coverphoto'.tr,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 13,
                       fontFamily: 'SF Pro',

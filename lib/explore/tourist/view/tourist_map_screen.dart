@@ -64,6 +64,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   final ProfileController _profileController = Get.put(ProfileController());
   final _sheetController = SolidController();
 
+
   late String days;
   bool isStarChecked = false;
   int startIndex = -1;
@@ -85,6 +86,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
         .getUpcommingTicket(context: context)
         .then((value) {
       checkForProgress();
+      return null;
     });
   }
 
