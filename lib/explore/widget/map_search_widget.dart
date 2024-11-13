@@ -24,6 +24,7 @@ class MapSearchWidget extends StatefulWidget {
 
 class _MapSearchWidgetState extends State<MapSearchWidget> {
   final _touristExploreController = Get.put(TouristExploreController());
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -75,27 +76,33 @@ class _MapSearchWidgetState extends State<MapSearchWidget> {
             borderRadius: BorderRadius.circular(25),
           ),
           child: Obx(
-            () => CustomTextField(
-              borderColor: Colors.transparent,
-              raduis: 25,
-              verticalHintPadding: AppUtil.rtlDirection2(context) ? 0 : 10,
-              height: 34,
-              enable: !_touristExploreController.isTouristMapLoading.value,
-              hintText: 'search'.tr,
-              prefixIcon: Padding(
-                padding: const EdgeInsets.all(8),
-                child: RepaintBoundary(
-                  child: SvgPicture.asset(
-                    'assets/icons/General.svg',
-                    width: 10,
-                    height: 1,
+
+            () => Form(
+              key: _formKey,
+              child: CustomTextField(
+                borderColor: Colors.transparent,
+                raduis: 25,
+                verticalHintPadding: AppUtil.rtlDirection2(context) ? 0 : 10,
+                height: 34,
+                enable: !_touristExploreController.isTouristMapLoading.value,
+                hintText: 'search'.tr,
+                prefixIcon: Padding(
+                  padding: EdgeInsets.all(8),
+                  child: RepaintBoundary(
+                    child: SvgPicture.asset(
+                      'assets/icons/General.svg',
+                      width: 10,
+                      height: 1,
+                    ),
                   ),
                 ),
+                focusNode: focusNode,
+                controller: controller,
+                onFieldSubmitted: (p0) {
+                  if (p0.isEmpty) return;
+                },
+                onChanged: (value) {},
               ),
-              focusNode: focusNode,
-              controller: controller,
-              onFieldSubmitted: (p0) {},
-              onChanged: (value) {},
             ),
           ),
         );

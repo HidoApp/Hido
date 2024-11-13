@@ -34,22 +34,19 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 
 class TouristMapScreen extends StatefulWidget {
-  const TouristMapScreen({super.key, this.fromAjwady = false});
-
-  final bool fromAjwady;
+  const TouristMapScreen({
+    super.key,
+  });
 
   @override
   State<TouristMapScreen> createState() => _TouristMapScreenState();
 }
 
 class _TouristMapScreenState extends State<TouristMapScreen> {
-  late GoogleMapController mapController;
   final _touristExploreController = Get.put(TouristExploreController());
   final Completer<GoogleMapController> _controller = Completer();
-  final Set<Marker> _userMarkers = {};
-  final Set<Marker> _markers = {};
+
   LatLng _currentLocation = const LatLng(24.7136, 46.6753);
-  late final GoogleMapController _googleMapController;
   String? _darkMapStyle;
   final colors = [
     Colors.transparent,
@@ -59,12 +56,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   ];
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
-  final titles = [
-    'ALL',
-    'EVENT',
-    'PLACE',
-    'ADVENTURE',
-  ];
+
   // late List<Place> searchedPlaces;
   String? selectedTitle;
 
@@ -72,8 +64,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   final ProfileController _profileController = Get.put(ProfileController());
   final _sheetController = SolidController();
 
-  // List<Booking> _EndTicket = [];
-  final List<Booking> _upcomingBookings = [];
+
   late String days;
   bool isStarChecked = false;
   int startIndex = -1;
@@ -367,9 +358,11 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
             child: Column(
               children: [
                 // text field and icons
-                MapSearchWidget(
-                  userLocation: userLocation,
-                ),
+                // RepaintBoundary(
+                //   child: MapSearchWidget(
+                //     userLocation: userLocation,
+                //   ),
+                // ),
                 SizedBox(
                   height: width * 0.03,
                 ),
