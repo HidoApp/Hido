@@ -449,6 +449,7 @@ class HospitalityService {
   static Future<Summary?> getHospitalitySummaryById({
     required BuildContext context,
     required String id,
+    required String date,
   }) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
@@ -464,7 +465,7 @@ class HospitalityService {
 
     final response = await http.get(
       Uri.parse('$baseUrl/hospitality/$id/summary')
-          .replace(queryParameters: ({'id': id})),
+          .replace(queryParameters: ({'date': date, 'id': id})),
       headers: {
         'Accept': 'application/json',
         if (token != '') 'Authorization': 'Bearer $token',

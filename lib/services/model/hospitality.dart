@@ -1,6 +1,7 @@
 import 'package:ajwad_v4/auth/models/user.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/explore/tourist/model/coordinates.dart';
+import 'package:ajwad_v4/services/model/booking_dates.dart';
 import 'package:ajwad_v4/services/model/days_info.dart';
 
 class Hospitality {
@@ -27,6 +28,7 @@ class Hospitality {
   final HostUser user;
   final String status;
   final String? touristsGender;
+  final List<BookingDates>? bookingDates;
 
   Hospitality({
     required this.id,
@@ -54,6 +56,7 @@ class Hospitality {
     required this.daysInfo,
     required this.user,
     required this.status,
+    this.bookingDates,
   });
   factory Hospitality.fromJson(Map<String, dynamic> json) {
     return Hospitality(
@@ -95,6 +98,11 @@ class Hospitality {
       //     .toList(),
       daysInfo: json['daysInfo'] != null
           ? (json['daysInfo'] as List).map((e) => DayInfo.fromJson(e)).toList()
+          : [],
+      bookingDates: json['bookingDates'] != null
+          ? (json['bookingDates'] as List)
+              .map((e) => BookingDates.fromJson(e))
+              .toList()
           : [],
     );
   }

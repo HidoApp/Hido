@@ -374,7 +374,7 @@ String getBookingTypeText(BuildContext context, String bookingType) {
       case 'place':
         return 'جولة';
       case 'adventure':
-        return 'مغامرة';
+        return 'نشاط';
       case 'hospitality':
         return 'ضيافة';
       case 'event':

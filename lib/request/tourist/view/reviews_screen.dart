@@ -26,7 +26,9 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
   void getRtings() {
     // RatingService.getRtings(profileId: widget.profileId, context: context);
     _rattingController.getRatings(
-        context: context, profileId: widget.profileId);
+        context: context,
+        profileId: widget.profileId,
+        ratingType: 'RATED_USER');
   }
 
   @override

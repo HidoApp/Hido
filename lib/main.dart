@@ -32,25 +32,25 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   log(// get arabic key
       'Notification message backgroundd: ${message.notification!.title}, ${message.notification!.body}, ${message.data["title"]}, ${message.data["body"]}');
-  // final context = navigatorKey.currentContext; // Get context from navigatorKey
-  // if (context == null) return; // Check if context is null
-  // AppUtil.notifyToast(
-  //   context,
-  //   message.data["title"],
-  //   message.data["body"],
-  //   message.notification!.title,
-  //   message.notification!.body,
-  //   () {
-  //     navigatorKey.currentState?.pushNamed(
-  //       '/notification_screen',
-  //       arguments: {
-  //         'title': message.notification!
-  //             .title, // Assuming you meant to use `titleEn` and `bodyEn`
-  //         'body': message.notification!.body,
-  //       },
-  //     );
-  //   },
-  // );
+  final context = navigatorKey.currentContext; // Get context from navigatorKey
+  if (context == null) return; // Check if context is null
+  AppUtil.notifyToast(
+    context,
+    message.data["title"],
+    message.data["body"],
+    message.notification!.title,
+    message.notification!.body,
+    () {
+      navigatorKey.currentState?.pushNamed(
+        '/notification_screen',
+        arguments: {
+          'title': message.notification!
+              .title, // Assuming you meant to use `titleEn` and `bodyEn`
+          'body': message.notification!.body,
+        },
+      );
+    },
+  );
 }
 
 // Initialize shared preferences

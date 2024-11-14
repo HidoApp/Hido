@@ -257,12 +257,12 @@ class LocalNotification {
 
     if (day == 'today') {
       descreption = AppUtil.rtlDirection2(context)
-          ? "اليوم ستبدأ مغامرة $PlaceName الخاصة بك"
-          : "Your $PlaceName adventure  will begin $day";
+          ? "اليوم سيبدأ نشاط $PlaceName الخاصة بك"
+          : "Your $PlaceName activity will begin $day";
     } else {
       descreption = AppUtil.rtlDirection2(context)
-          ? "متبقي $day وستبدأ مغامرة $PlaceName الخاصة بك"
-          : "$day left and your $PlaceName adventure begins ";
+          ? "متبقي $day وستبدأ نشاط $PlaceName الخاصة بك"
+          : "$day left and your $PlaceName activity begins ";
     }
 
     await flutterLocalNotificationsPlugin.zonedSchedule(

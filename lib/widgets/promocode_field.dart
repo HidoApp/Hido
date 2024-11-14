@@ -24,6 +24,7 @@ class PromocodeField extends StatefulWidget {
 
 class _PromocodeFieldState extends State<PromocodeField> {
   final _paymentController = Get.put(PaymentController());
+
   void couponDiscountPercentage(String code, Coupon coupon) async {
     _paymentController.validateType.value = 'applied';
     double discountPrice = AppUtil.couponPercentageCalculating(

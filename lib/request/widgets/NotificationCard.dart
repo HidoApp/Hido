@@ -99,8 +99,8 @@ class NotificationCrd extends StatelessWidget {
                                                 : "Your next host in "
                                             : isAdve
                                                 ? isRtl
-                                                    ? " مغامرتك القادمه إلى "
-                                                    : "Your next adventure "
+                                                    ? " نشاطك القادمه إلى "
+                                                    : "Your next activity "
                                                 : isRtl
                                                     ? " فعاليتك القادمة إلى "
                                                     : "Your next event ",

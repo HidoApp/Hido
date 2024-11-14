@@ -156,7 +156,7 @@ class _CustomWalletCardState extends State<CustomWalletCard> {
         case 'place':
           return 'جولة';
         case 'adventure':
-          return 'مغامرة';
+          return 'نشاط';
         case 'hospitality':
           return 'ضيافة';
         case 'event':

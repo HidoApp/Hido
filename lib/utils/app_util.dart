@@ -508,7 +508,7 @@ class AppUtil {
         case 'place':
           return 'جولة';
         case 'adventure':
-          return 'مغامرة';
+          return 'نشاط';
         case 'hospitality':
           return 'ضيافة';
         case 'event':
@@ -825,8 +825,9 @@ class AppUtil {
     required double price,
   }) {
     var copounPrice = couponPercentage / 100;
-    var hidoFee = hidoPercentage * price;
-    return hidoFee * copounPrice;
+    return copounPrice * price;
+    // var hidoFee = hidoPercentage * price;
+    // return hidoFee * copounPrice;
   }
 
   static double couponAmountCalculating({
@@ -834,8 +835,9 @@ class AppUtil {
     required int couponAmount,
     required double price,
   }) {
-    var hidoFee = hidoPercentage * price;
-    return hidoFee - couponAmount;
+    return couponAmount.toDouble();
+    // var hidoFee = hidoPercentage * price;
+    // return hidoFee - couponAmount;
   }
 
   static String formatTo12HourTime(String isoTimestamp) {

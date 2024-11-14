@@ -16,10 +16,12 @@ import '../../../../services/model/summary.dart';
 class SummaryScreen extends StatefulWidget {
   // final ProfileController profileController;
   final String hospitalityId;
+  final String date;
 
   const SummaryScreen({
     super.key,
     required this.hospitalityId,
+    required this.date,
   });
 
   @override
@@ -46,7 +48,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
   void gethospitalitySummary() async {
     _summary = await _servicesController.getHospitalitySummaryById(
-        context: context, id: widget.hospitalityId);
+        context: context, id: widget.hospitalityId, date: widget.date);
 
     for (var guest in _summary!.guestList) {
       totalFemales += guest.female;
@@ -125,242 +127,251 @@ class _SummaryScreenState extends State<SummaryScreen> {
         'Summary'.tr,
       ),
       body: Obx(
-        () => Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: _servicesController.isHospitalityByIdLoading.value
-              ? const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                )
-              : _summary == null || _summary!.guestList.isEmpty
-                  ? Column(
-                      children: [
-                        Expanded(
-                          child: SizedBox(
-                              height: height * 0.84,
-                              width: width,
-                              child: CustomEmptyWidget(
-                                title: 'noSummary'.tr,
-                                image: 'empty_summary',
-                                subtitle: 'noSummarySub'.tr,
-                              )),
-                        ),
-                      ],
-                    )
-                  : Container(
-                      width: 358,
-                      height: 476,
-                      padding: const EdgeInsets.all(12),
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(
-                              width: 1, color: Color(0xFFDCDCE0)),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+        () => Align(
+          alignment: Alignment.topCenter,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: _servicesController.isHospitalityByIdLoading.value
+                ? const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  )
+                : _summary == null || _summary!.guestList.isEmpty
+                    ? Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8),
-                            child: Row(
+                          Expanded(
+                            child: SizedBox(
+                                height: height * 0.84,
+                                width: width,
+                                child: CustomEmptyWidget(
+                                  title: 'noSummary'.tr,
+                                  image: 'empty_summary',
+                                  subtitle: 'noSummarySub'.tr,
+                                )),
+                          ),
+                        ],
+                      )
+                    : Container(
+                        width: 358,
+                        height: 476,
+                        padding: const EdgeInsets.all(12),
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                                width: 1, color: Color(0xFFDCDCE0)),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: Row(
+                                children: [
+                                  GestureDetector(
+                                      onTap: () {
+                                        if (_summary != null &&
+                                            _summary!.id.isNotEmpty) {
+                                          Clipboard.setData(ClipboardData(
+                                              text: _summary!.id
+                                                  .substring(0, 7)));
+                                          _showOverlay(context);
+                                        }
+                                      },
+                                      child: SvgPicture.asset(
+                                        'assets/icons/Summary.svg',
+                                        width: 20,
+                                        height: 20,
+                                      )),
+                                  const SizedBox(width: 8),
+                                  CustomText(
+                                    text: '#${_summary?.id.substring(0, 7)}',
+                                    color: const Color(0xFFB9B8C1),
+                                    fontSize: 13,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            const Divider(
+                                color: Color(0xFFDCDCE0), thickness: 1),
+                            const SizedBox(height: 12),
+                            // Second Row: Title Place and Booking Date
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                GestureDetector(
-                                    onTap: () {
-                                      if (_summary != null &&
-                                          _summary!.id.isNotEmpty) {
-                                        Clipboard.setData(ClipboardData(
-                                            text:
-                                                _summary!.id.substring(0, 7)));
-                                        _showOverlay(context);
-                                      }
-                                    },
-                                    child: SvgPicture.asset(
-                                      'assets/icons/Summary.svg',
-                                      width: 20,
-                                      height: 20,
-                                    )),
-                                const SizedBox(width: 8),
                                 CustomText(
-                                  text: '#${_summary?.id.substring(0, 7)}',
-                                  color: const Color(0xFFB9B8C1),
-                                  fontSize: 13,
+                                  text: AppUtil.rtlDirection2(context)
+                                      ? _summary?.titleAr ?? ''
+                                      : _summary?.titleEn ?? '',
+                                  color: const Color(0xFF070708),
+                                  fontSize: 16,
                                   fontFamily: AppUtil.rtlDirection2(context)
                                       ? 'SF Arabic'
                                       : 'SF Pro',
                                   fontWeight: FontWeight.w500,
+                                ),
+                                if (_summary!.daysInfo.isNotEmpty)
+                                  CustomText(
+                                    text: formatBookingDate(
+                                        context,
+                                        _summary?.daysInfo.first.startTime ??
+                                            ''),
+                                    color: const Color(0xFF070708),
+                                    fontSize: 15,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            const Divider(
+                                color: Color(0xFFDCDCE0), thickness: 1),
+                            const SizedBox(height: 12),
+                            // Third Row: Time, Number of Male and Women, and Cost
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (_summary!.daysInfo.isNotEmpty)
+                                  CustomText(
+                                    // AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime??'','hh:mm a'),
+                                    text:
+                                        '${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime ?? '', 'hh:mm a')} - ${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.endTime ?? '', 'hh:mm a')}',
+                                    color: const Color(0xFF070708),
+                                    fontSize: 12,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                const SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    CustomText(
+                                      text: '$totalFemales ${'Women'.tr}',
+                                      color: const Color(0xFF070708),
+                                      fontSize: 12,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    CustomText(
+                                      text: '∙',
+                                      color: const Color(0xFF070708),
+                                      fontSize: 12,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    CustomText(
+                                      text: '$totalMales ${'Men'.tr}',
+                                      color: const Color(0xFF070708),
+                                      fontSize: 12,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    CustomText(
+                                      text: '${_summary?.cost}',
+                                      color: const Color(0xFF070708),
+                                      fontSize: 12,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    CustomText(
+                                      text: 'sar'.tr,
+                                      color: const Color(0xFF070708),
+                                      fontSize: 12,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ),
-                          const SizedBox(height: 12),
-                          const Divider(color: Color(0xFFDCDCE0), thickness: 1),
-                          const SizedBox(height: 12),
-                          // Second Row: Title Place and Booking Date
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomText(
-                                text: AppUtil.rtlDirection2(context)
-                                    ? _summary?.titleAr ?? ''
-                                    : _summary?.titleEn ?? '',
-                                color: const Color(0xFF070708),
-                                fontSize: 16,
-                                fontFamily: AppUtil.rtlDirection2(context)
-                                    ? 'SF Arabic'
-                                    : 'SF Pro',
-                                fontWeight: FontWeight.w500,
-                              ),
-                              if (_summary!.daysInfo.isNotEmpty)
-                                CustomText(
-                                  text: formatBookingDate(context,
-                                      _summary?.daysInfo.first.startTime ?? ''),
-                                  color: const Color(0xFF070708),
-                                  fontSize: 15,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontWeight: FontWeight.w500,
-                                ),
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-                          const Divider(color: Color(0xFFDCDCE0), thickness: 1),
-                          const SizedBox(height: 12),
-                          // Third Row: Time, Number of Male and Women, and Cost
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (_summary!.daysInfo.isNotEmpty)
-                                CustomText(
-                                  // AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime??'','hh:mm a'),
-                                  text:
-                                      '${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime ?? '', 'hh:mm a')} - ${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.endTime ?? '', 'hh:mm a')}',
-                                  color: const Color(0xFF070708),
-                                  fontSize: 12,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              const SizedBox(height: 8),
-                              Row(
-                                children: [
-                                  CustomText(
-                                    text: '$totalFemales ${'Women'.tr}',
-                                    color: const Color(0xFF070708),
-                                    fontSize: 12,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  const SizedBox(width: 4),
-                                  CustomText(
-                                    text: '∙',
-                                    color: const Color(0xFF070708),
-                                    fontSize: 12,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  const SizedBox(width: 4),
-                                  CustomText(
-                                    text: '$totalMales ${'Men'.tr}',
-                                    color: const Color(0xFF070708),
-                                    fontSize: 12,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 8),
-                              Row(
-                                children: [
-                                  CustomText(
-                                    text: '${_summary?.cost}',
-                                    color: const Color(0xFF070708),
-                                    fontSize: 12,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  const SizedBox(width: 4),
-                                  CustomText(
-                                    text: 'sar'.tr,
-                                    color: const Color(0xFF070708),
-                                    fontSize: 12,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-                          const Divider(color: Color(0xFFDCDCE0), thickness: 1),
-                          const SizedBox(height: 12),
-                          // Fourth Row: Guest List
-                          CustomText(
-                            text: AppUtil.rtlDirection2(context)
-                                ? 'لائحة الضيوف'
-                                : 'Guest list',
-                            color: const Color(0xFF070708),
-                            fontSize: 16,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                            fontWeight: FontWeight.w600,
-                          ),
-
-                          const SizedBox(height: 12),
-                          Expanded(
-                            child: ListView.builder(
-                              itemCount: _summary?.guestList.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 8.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      CustomText(
-                                        text: _summary?.guestList[index].name ??
-                                            '',
-                                        color: const Color(0xFF41404A),
-                                        fontSize: 13,
-                                        fontFamily:
-                                            AppUtil.rtlDirection2(context)
-                                                ? 'SF Arabic'
-                                                : 'SF Pro',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                      CustomText(
-                                        text:
-                                            '${_summary?.guestList[index].female} ${'Women'.tr} - ${_summary?.guestList[index].male} ${'Men'.tr}',
-                                        color: const Color(0xFFB9B8C1),
-                                        fontSize: 12,
-                                        fontFamily:
-                                            AppUtil.rtlDirection2(context)
-                                                ? 'SF Arabic'
-                                                : 'SF Pro',
-                                        fontWeight: FontWeight.w400,
-                                        height: 0,
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
+                            const SizedBox(height: 12),
+                            const Divider(
+                                color: Color(0xFFDCDCE0), thickness: 1),
+                            const SizedBox(height: 12),
+                            // Fourth Row: Guest List
+                            CustomText(
+                              text: AppUtil.rtlDirection2(context)
+                                  ? 'لائحة الضيوف'
+                                  : 'Guest list',
+                              color: const Color(0xFF070708),
+                              fontSize: 16,
+                              fontFamily: AppUtil.rtlDirection2(context)
+                                  ? 'SF Arabic'
+                                  : 'SF Pro',
+                              fontWeight: FontWeight.w600,
                             ),
-                          ),
-                        ],
+
+                            const SizedBox(height: 12),
+                            Expanded(
+                              child: ListView.builder(
+                                itemCount: _summary?.guestList.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CustomText(
+                                          text:
+                                              _summary?.guestList[index].name ??
+                                                  '',
+                                          color: const Color(0xFF41404A),
+                                          fontSize: 13,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        CustomText(
+                                          text:
+                                              '${_summary?.guestList[index].female} ${'Women'.tr} - ${_summary?.guestList[index].male} ${'Men'.tr}',
+                                          color: const Color(0xFFB9B8C1),
+                                          fontSize: 12,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                          fontWeight: FontWeight.w400,
+                                          height: 0,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
+          ),
         ),
       ),
     );

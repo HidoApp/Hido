@@ -249,23 +249,27 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                         : TextDirection.ltr,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
+                        padding: const EdgeInsets.only(top: 8.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText(
-                              text: AppUtil.rtlDirection2(context)
-                                  ? _tripController
-                                      .nextTrip.value.requestName!.nameAr
-                                  : _tripController
-                                      .nextTrip.value.requestName!.nameEn,
-                              color: const Color(0xFF070708),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              height: 0,
-                              fontFamily: !AppUtil.rtlDirection2(context)
-                                  ? 'SF Pro'
-                                  : 'SF Arabic',
+                            FittedBox(
+                              fit: BoxFit.fitWidth,
+                              child: CustomText(
+                                text: AppUtil.rtlDirection2(context)
+                                    ? _tripController
+                                        .nextTrip.value.requestName!.nameAr
+                                    : _tripController
+                                        .nextTrip.value.requestName!.nameEn,
+                                color: const Color(0xFF070708),
+                                fontSize: AppUtil.rtlDirection2(context)
+                                    ? width * 0.041
+                                    : width * 0.036,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: !AppUtil.rtlDirection2(context)
+                                    ? 'SF Pro'
+                                    : 'SF Arabic',
+                              ),
                             ),
                             // SizedBox(height: 4),
                             // CustomText(
@@ -717,7 +721,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
         case 'place':
           return 'جولة';
         case 'adventure':
-          return 'مغامرة';
+          return 'نشاط';
         case 'hospitality':
           return 'ضيافة';
         case 'event':

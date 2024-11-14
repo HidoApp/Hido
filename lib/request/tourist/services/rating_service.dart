@@ -14,40 +14,56 @@ import 'package:http/http.dart' as http;
 
 class RatingService {
   static Future<List<Rating>?> getRtings(
-      {required BuildContext context, required String profileId}) async {
+      {required BuildContext context,
+      required String profileId,
+      String? ratingType}) async {
     //check token
-    log("jwtToken");
-    final getStorage = GetStorage();
-    String token = getStorage.read('accessToken');
-    log('isExpired');
-    log(JwtDecoder.isExpired(token).toString());
-    if (JwtDecoder.isExpired(token)) {
-      String refreshToken = getStorage.read('refreshToken');
-      User? user = await AuthService.refreshToken(
-          refreshToken: refreshToken, context: context);
-      if (user != null) {
-        final Token jwtToken = AuthService.jwtForToken(user.refreshToken)!;
-        log(jwtToken.id);
-        token = jwtToken.id;
+    try {
+      log("jwtToken");
+      final getStorage = GetStorage();
+      String token = getStorage.read('accessToken');
+      log('isExpired');
+      log(JwtDecoder.isExpired(token).toString());
+      if (JwtDecoder.isExpired(token)) {
+        String refreshToken = getStorage.read('refreshToken');
+        User? user = await AuthService.refreshToken(
+            refreshToken: refreshToken, context: context);
+        if (user != null) {
+          final Token jwtToken = AuthService.jwtForToken(user.refreshToken)!;
+          log(jwtToken.id);
+          token = jwtToken.id;
+        }
       }
-    }
-    final response = await http.get(
-      Uri.parse(
-        "$baseUrl/rating/$profileId",
-      ),
-      headers: {
-        'Accept': 'application/json',
-        "Content-Type": "application/json",
-        'Authorization': 'Bearer $token',
-      },
-    );
-    if (response.statusCode == 200) {
-      List<dynamic> rating = jsonDecode(response.body);
-      return rating.map((review) => Rating.fromJson(review)).toList();
-    } else {
-      // String errorMessage = jsonDecode(response.body)['message'];
+      final response = await http.get(
+        Uri.parse(
+          "$baseUrl/rating/$profileId",
+        ).replace(queryParameters: {
+          'ratingType': ratingType,
+        }),
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
+        },
+      );
+      log(response.statusCode.toString());
+      log(response.body.toString());
+
+      if (response.statusCode == 200) {
+        List<dynamic> rating = jsonDecode(response.body);
+        return rating.map((review) => Rating.fromJson(review)).toList();
+      } else {
+        String errorMessage = jsonDecode(response.body)['message'];
+        log(errorMessage.toString());
+        if (context.mounted) {
+          AppUtil.errorToast(context, 'error');
+        }
+      }
+    } catch (e) {
+      // Handle exceptions
+      log('Exception caught: $e');
       if (context.mounted) {
-        AppUtil.errorToast(context, "errorMessage");
+        AppUtil.errorToast(context, "An error occurred. Please try again.");
       }
       return null;
     }

@@ -244,8 +244,9 @@ class CustomExperienceCard extends StatelessWidget {
                               child: ElevatedButton(
                                 onPressed: () {
                                   if (type == 'hospitality') {
-                                    Get.to(SummaryScreen(
-                                        hospitalityId: experience.id));
+                                    // Get.to(SummaryScreen(
+                                    //     hospitalityId: experience.id
+                                    //     ));
                                   } else if (type == 'adventure') {
                                     Get.to(AdventureSummaryScreen(
                                         adventureId: experience.id));
@@ -310,7 +311,7 @@ class CustomExperienceCard extends StatelessWidget {
         case 'place':
           return 'جولة';
         case 'adventure':
-          return 'مغامرة';
+          return 'نشاط';
         case 'hospitality':
           return 'ضيافة';
         case 'event':

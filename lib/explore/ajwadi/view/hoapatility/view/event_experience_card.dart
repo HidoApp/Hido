@@ -64,7 +64,8 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
     log(difference.toString());
     log((difference.inHours <= 24).toString());
 
-    return difference.inHours <= 24 && !difference.inHours.isNegative;
+    return (difference.inHours <= 24 || difference.inHours >= 24) &&
+        !difference.inHours.isNegative;
     // return difference.inHours <= 24 && difference.inHours > 0;
   }
 
@@ -383,7 +384,7 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
         case 'place':
           return 'جولة';
         case 'adventure':
-          return 'مغامرة';
+          return 'نشاط';
         case 'hospitality':
           return 'ضيافة';
         case 'event':

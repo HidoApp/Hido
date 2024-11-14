@@ -329,7 +329,7 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
             bookTypeText: widget.bookTypeText);
 
       case 'adventure':
-      case 'مغامرة':
+      case 'نشاط':
         if (widget.adventure == null) {
           return AdventureTicketData(
               booking: widget.booking!,
