@@ -3,6 +3,8 @@ import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/edit_adve
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/bookmark.dart';
 import 'package:ajwad_v4/profile/services/bookmark_services.dart';
+import 'package:ajwad_v4/request/tourist/controllers/rating_controller.dart';
+import 'package:ajwad_v4/reviews/allReviewsScreen.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/view/service_local_info.dart';
@@ -53,6 +55,8 @@ late double width, height;
 class _AdventureDetailsState extends State<AdventureDetails> {
   final _adventureController = Get.put(AdventureController());
   final _profileController = Get.put(ProfileController());
+  final _rattingController = Get.put(RatingController());
+
   int _currentIndex = 0;
   bool isExpanded = false;
   bool isAviailable = false;
@@ -513,6 +517,50 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                     ),
                                   ),
                                 ],
+                              ),
+                              SizedBox(
+                                height: width * 0.028,
+                              ),
+                              const Divider(
+                                color: lightGrey,
+                              ),
+                              SizedBox(
+                                height: width * 0.025,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Get.to(() => CommonReviewsScreen(
+                                        id: widget.adventureId,
+                                        ratingType: 'ADVENTURE',
+                                      ));
+                                },
+                                child: Align(
+                                    alignment: AppUtil.rtlDirection2(context)
+                                        ? Alignment.centerRight
+                                        : Alignment.centerLeft,
+                                    child: Row(
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            CustomText(
+                                              text: '${"reviews".tr}',
+                                              color: const Color(0xFF070708),
+                                              fontSize: width * 0.0461,
+                                              fontFamily: 'HT Rakik',
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ],
+                                        ),
+                                        const Spacer(),
+                                        Icon(
+                                          Icons.arrow_forward_ios,
+                                          color: starGreyColor,
+                                          size: width * 0.046,
+                                        )
+                                      ],
+                                    )),
                               ),
                               if (widget.isLocal) ...[
                                 SizedBox(

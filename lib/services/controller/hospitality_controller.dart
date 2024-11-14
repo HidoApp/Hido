@@ -389,11 +389,12 @@ class HospitalityController extends GetxController {
   Future<Summary?> getHospitalitySummaryById({
     required BuildContext context,
     required String id,
+    required String date,
   }) async {
     try {
       isHospitalityByIdLoading(true);
       final data = await HospitalityService.getHospitalitySummaryById(
-          context: context, id: id);
+          context: context, id: id, date: date);
       return data;
     } catch (e) {
       isHospitalityByIdLoading(false);

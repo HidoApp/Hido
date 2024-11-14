@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/view/event_summary_screen.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/Experience/summary_screen.dart';
 import 'package:ajwad_v4/services/model/booking_dates.dart';
+import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
@@ -16,20 +18,21 @@ import 'package:intl/intl.dart' as intel;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 
-class EventExperienceCard extends StatefulWidget {
-  const EventExperienceCard(
+class HospitalityExperienceCard extends StatefulWidget {
+  const HospitalityExperienceCard(
       {Key? key, required this.experience, this.type, this.isPast = false})
       : super(key: key);
 
-  final Event experience;
+  final Hospitality experience;
   final String? type;
   final bool isPast;
 
   @override
-  State<EventExperienceCard> createState() => _EventExperienceCardState();
+  State<HospitalityExperienceCard> createState() =>
+      _HospitalityExperienceCardState();
 }
 
-class _EventExperienceCardState extends State<EventExperienceCard> {
+class _HospitalityExperienceCardState extends State<HospitalityExperienceCard> {
   @override
   void initState() {
     super.initState();
@@ -60,11 +63,12 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
     //   return true;
     // }
     Duration difference = parsedDateInRiyadh.difference(currentDateInRiyadh);
-    log('deference ${widget.experience.nameEn}');
+    log('deference ${widget.experience.titleEn}');
     log(difference.toString());
     log((difference.inHours <= 24).toString());
 
-    return difference.inHours <= 24 && !difference.inHours.isNegative;
+    return (difference.inHours <= 24 || difference.inHours >= 24) &&
+        !difference.inHours.isNegative;
     // return difference.inHours <= 24 && difference.inHours > 0;
   }
 
@@ -78,7 +82,7 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
     DateTime parsedDate = DateTime.parse(date);
     final parsedDateInRiyadh = tz.TZDateTime.from(parsedDate, location)
         .subtract(const Duration(hours: 3));
-    log(widget.experience.nameAr.toString());
+    log(widget.experience.titleAr.toString());
     log(parsedDate.toString());
     log(parsedDateInRiyadh.toString());
     log(currentDateInRiyadh.toString());
@@ -140,8 +144,8 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
                 child: ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(6.57)),
                     child: ImageCacheWidget(
-                      image: widget.experience.image!.isNotEmpty
-                          ? widget.experience.image![0]
+                      image: widget.experience.images.isNotEmpty
+                          ? widget.experience.images[0]
                           : 'assets/images/Placeholder.png',
                       height: height * 0.06,
                       width: width * 0.132,
@@ -162,8 +166,8 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
                         children: [
                           CustomText(
                             text: AppUtil.rtlDirection2(context)
-                                ? widget.experience.nameAr
-                                : widget.experience.nameEn,
+                                ? widget.experience.titleAr
+                                : widget.experience.titleEn,
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             fontFamily: AppUtil.rtlDirection2(context)
@@ -220,8 +224,8 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
                   child: isDateBefore24Hours(selectedDate!)
                       ? ElevatedButton(
                           onPressed: () {
-                            Get.to(EventSummaryScreen(
-                              eventId: widget.experience.id,
+                            Get.to(SummaryScreen(
+                              hospitalityId: widget.experience.id,
                               date: selectedDate!,
                             ));
                           },
@@ -383,7 +387,7 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
         case 'place':
           return 'جولة';
         case 'adventure':
-          return 'مغامرة';
+          return 'نشاط';
         case 'hospitality':
           return 'ضيافة';
         case 'event':

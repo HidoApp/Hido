@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:ajwad_v4/auth/models/token.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/widget/language_sheet.dart';
@@ -13,6 +14,7 @@ import 'package:ajwad_v4/profile/view/terms&conditions.dart';
 import 'package:ajwad_v4/profile/view/my_account.dart';
 import 'package:ajwad_v4/profile/view/profile_touriest.dart';
 import 'package:ajwad_v4/request/widgets/ContactDialog.dart';
+import 'package:ajwad_v4/reviews/allReviewsScreen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_list_tile.dart';
@@ -24,6 +26,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -36,7 +39,6 @@ class ProfileScreen extends StatefulWidget {
 
   final bool fromAjwady;
   final ProfileController profileController;
-  // final Profile? profile;
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -45,7 +47,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   late double width, height;
   double totalRating = 0.0;
-//
+  final getStorage = GetStorage();
   final _profileController = Get.put(ProfileController());
   // final storage = GetStorage();
   //var isTourGuide  = false;
@@ -57,6 +59,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       getProfile();
     }
     totalRating = calculateOverallRating();
+
+    String token = getStorage.read('accessToken');
+    Token jwtToken = AuthService.jwtForToken(token)!;
+    //
   }
 
   void getProfile() async {
@@ -311,6 +317,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Expanded(
                   child: Column(
                     children: [
+                      if (widget.fromAjwady)
+                        CustomListTile(
+                          title: "reviews".tr,
+                          leading: "assets/icons/reviewProfile.svg",
+                          iconColor: black,
+                          onTap: () async {
+                            final getStorage = GetStorage();
+
+                            String token = getStorage.read('accessToken');
+
+                            Token jwtToken = AuthService.jwtForToken(token)!;
+                            //
+
+                            Get.to(() => CommonReviewsScreen(
+                                  id: jwtToken.id ?? '',
+                                  ratingType: 'RATED_USER',
+                                ));
+                          },
+                        ),
                       CustomListTile(
                         title: "Language".tr,
                         leading: "assets/icons/language.svg",

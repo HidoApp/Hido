@@ -1329,7 +1329,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                     ),
                                     CustomText(
                                       text: AppUtil.rtlDirection2(context)
-                                          ? "أيام المغامرة"
+                                          ? "أيام النشاط"
                                           : "Available Dates",
                                       color: black,
                                       fontSize: 17,

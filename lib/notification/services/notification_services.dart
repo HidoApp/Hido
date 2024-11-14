@@ -104,27 +104,35 @@ class NotificationServices {
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
-    final response = await http.put(
-      Uri.parse('$baseUrl/notification'),
-      body: json.encode({
-        {
-          "ids": unreadNotificationIds,
+
+    if (unreadNotificationIds!.isNotEmpty) {
+      // Log the exact JSON payload being sent to confirm it's correct
+      final requestBody = {
+        "ids": unreadNotificationIds, // Ensure this is a List<String>
+      };
+      log("Request Body: ${json.encode(requestBody)}");
+
+      final response = await http.put(
+        Uri.parse('$baseUrl/notification'),
+        body: json.encode(requestBody),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          if (token.isNotEmpty) 'Authorization': 'Bearer $token',
         },
-      }),
-      headers: {
-        'Accept': 'application/json',
-        if (token != '') 'Authorization': 'Bearer $token',
-      },
-    );
-    log("");
-    log(response.body.toString());
-    if (response.statusCode == 200) {
-      log(response.statusCode.toString());
-    } else {
-      String errorMessage = jsonDecode(response.body)['message'];
-      if (context.mounted) {
-        AppUtil.errorToast(context, errorMessage);
+      );
+
+      log("Response Body: ${response.body}");
+      if (response.statusCode == 200) {
+        log("Status Code: ${response.statusCode}");
+      } else {
+        String errorMessage = jsonDecode(response.body)['message'];
+        if (context.mounted) {
+          AppUtil.errorToast(context, errorMessage);
+        }
       }
+    } else {
+      log("No unread notifications to update.");
     }
   }
 }

@@ -2,6 +2,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
+import 'package:ajwad_v4/widgets/read_more_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -64,17 +65,17 @@ class ReviewCard extends StatelessWidget {
                     children: [
                       CustomText(
                         text: name,
-                        fontSize: width * 0.042,
+                        fontSize: width * 0.03,
                         fontFamily: AppUtil.SfFontType(context),
                         color: black,
                         fontWeight: FontWeight.w500,
                       ),
                       CustomText(
                         text: formatBookingDate(context, created),
-                        fontSize: width * 0.03,
+                        fontSize: width * 0.028,
                         fontWeight: FontWeight.w500,
                         fontFamily: AppUtil.SfFontType(context),
-                        color: starGreyColor,
+                        color: Color(0xFFBFBFBF),
                       )
                     ],
                   ),
@@ -110,16 +111,24 @@ class ReviewCard extends StatelessWidget {
 
         //description
         if (description.isNotEmpty || description != "") ...[
-          CustomText(
-            text: description,
-            textAlign: AppUtil.rtlDirection2(context)
-                ? TextAlign.right
-                : TextAlign.left,
-            fontFamily: AppUtil.SfFontType(context),
-            fontSize: width * 0.044,
-            fontWeight: FontWeight.w400,
-            maxlines: 500,
-            color: graySmallText,
+          // CustomText(
+          //   text: description,
+          //   textAlign: AppUtil.rtlDirection2(context)
+          //       ? TextAlign.right
+          //       : TextAlign.left,
+          //   fontFamily: AppUtil.SfFontType(context),
+          //   fontSize: width * 0.044,
+          //   fontWeight: FontWeight.w400,
+          //   maxlines: 500,
+          //   color: graySmallText,
+          // ),
+          ReadMoreWidget(
+            text:
+                'My recent tour in Tuwaiq Mountain with a local guide was absolutely incredible! The guides extensive knowledge and genuine passion for the culture made the experience truly unforgettable. From exploring the',
+            fontSize: width * 0.03,
+            fontWeight: FontWeight.w500,
+            color: black,
+            moreColor: Color(0xFFA0A0A0),
           ),
           const SizedBox(height: 10), //comment sperated
         ],

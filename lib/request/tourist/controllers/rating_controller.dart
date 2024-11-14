@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/request/tourist/models/rating.dart';
 import 'package:ajwad_v4/request/tourist/services/rating_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,16 +15,19 @@ class RatingController extends GetxController {
   var placeRate = 0.0;
 
   Future<List<Rating>?> getRatings(
-      {required BuildContext context, required String profileId}) async {
+      {required BuildContext context,
+      required String profileId,
+      String? ratingType}) async {
     try {
       isRatingsLoading(true);
-      final data =
-          await RatingService.getRtings(context: context, profileId: profileId);
+      final data = await RatingService.getRtings(
+          context: context, profileId: profileId, ratingType: ratingType);
 
       ratings(data);
 
       return ratings;
     } catch (e) {
+      log(e.toString());
       return null;
     } finally {
       isRatingsLoading(false);

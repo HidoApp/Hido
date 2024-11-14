@@ -48,69 +48,66 @@ class _NextActivityState extends State<LastActivity> {
               ),
             ],
           ),
-          child: Padding(
-            padding: AppUtil.rtlDirection2(context)
-                ? const EdgeInsets.only(top: 8.0, bottom: 8)
-                : const EdgeInsets.only(top: 0, bottom: 0),
-            child: Stack(
-              children: [
-                Positioned(
-                  left: 40,
-                  top: 27,
+          child: Stack(
+            children: [
+              Positioned(
+                left: 56,
+                right: 56,
+                top: AppUtil.rtlDirection2(context) ? 39 : 36,
+                child: Obx(
+                  () => SizedBox(
+                    width: 279,
+                    height: 1.50,
+                    child: LinearProgressIndicator(
+                      value: _tripController.progress.value,
+                      backgroundColor: const Color(0xFFDCDCE0),
+                      valueColor: _tripController.progress.value == 0.1
+                          ? const AlwaysStoppedAnimation<Color>(
+                              Color(0xFFDCDCE0))
+                          : const AlwaysStoppedAnimation<Color>(
+                              Color(0xFF36B268)),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 30,
+                right: 30,
+                top: AppUtil.rtlDirection2(context) ? 28 : 25,
+                child: SizedBox(
+                  width: 334,
                   child: Obx(
-                    () => SizedBox(
-                      width: 279,
-                      height: 1.50,
-                      child: LinearProgressIndicator(
-                        value: _tripController.progress.value,
-                        backgroundColor: const Color(0xFFDCDCE0),
-                        valueColor: _tripController.progress.value == 0.1
-                            ? const AlwaysStoppedAnimation<Color>(
-                                Color(0xFFDCDCE0))
-                            : const AlwaysStoppedAnimation<Color>(
-                                Color(0xFF36B268)),
-                      ),
+                    () => Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: AppUtil.rtlDirection2(context)
+                          ? MainAxisAlignment.spaceBetween
+                          : MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: AppUtil.rtlDirection2(context)
+                          ? CrossAxisAlignment.start
+                          : CrossAxisAlignment.center,
+                      children: [
+                        buildStep(
+                          text: 'Ontheway'.tr,
+                          isActive: _tripController.progress.value >= 0.25,
+                        ),
+                        buildStep(
+                          text: 'Arrived'.tr,
+                          isActive: _tripController.progress.value >= 0.5,
+                        ),
+                        buildStep(
+                          text: 'Tourtime'.tr,
+                          isActive: _tripController.progress.value >= 0.75,
+                        ),
+                        buildStep(
+                          text: 'Completed'.tr,
+                          isActive: _tripController.progress.value == 1.0,
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                Positioned(
-                  left: 12,
-                  top: AppUtil.rtlDirection2(context) ? 16 : 14,
-                  child: SizedBox(
-                    width: 334,
-                    child: Obx(
-                      () => Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: AppUtil.rtlDirection2(context)
-                            ? MainAxisAlignment.spaceBetween
-                            : MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: AppUtil.rtlDirection2(context)
-                            ? CrossAxisAlignment.start
-                            : CrossAxisAlignment.center,
-                        children: [
-                          buildStep(
-                            text: 'Ontheway'.tr,
-                            isActive: _tripController.progress.value >= 0.25,
-                          ),
-                          buildStep(
-                            text: 'Arrived'.tr,
-                            isActive: _tripController.progress.value >= 0.5,
-                          ),
-                          buildStep(
-                            text: 'Tourtime'.tr,
-                            isActive: _tripController.progress.value >= 0.75,
-                          ),
-                          buildStep(
-                            text: 'Completed'.tr,
-                            isActive: _tripController.progress.value == 1.0,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         // SizedBox(height: 16),

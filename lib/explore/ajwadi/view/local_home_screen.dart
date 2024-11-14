@@ -2,6 +2,7 @@ import 'package:ajwad_v4/explore/ajwadi/model/last_activity.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/custom_local_ticket_card.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/local_ticket_screen.dart';
 import 'package:ajwad_v4/notification/notifications_screen.dart';
+import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/profile/view/my_account.dart';
 import 'package:ajwad_v4/profile/widget/prodvided_services_sheet.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
@@ -37,6 +38,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
   final _profileController = Get.put(ProfileController());
   final _tripController = Get.put(TripController());
   final _requestController = Get.put(RequestController());
+  final PaymentController _paymentController = Get.put(PaymentController());
 
   NextActivity? nextTrip;
 
@@ -97,52 +99,16 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                     SizedBox(
                       width: width * 0.8728,
                       //height: 60,
-                      height: width * 0.102,
+                      height: width * 0.08,
                     ),
                     // SizedBox(height: 16),
-                    Row(
+
+                    Column(
                       children: [
-                        MediaQuery(
-                          data: MediaQuery.of(context)
-                              .copyWith(textScaler: TextScaler.linear(1.0)),
-                          child: RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: AppUtil.rtlDirection2(context)
-                                      ? "ياهلا"
-                                      : 'Welcome ',
-                                  style: const TextStyle(
-                                    color: Color.fromRGBO(7, 7, 8, 1),
-                                    fontSize: 20,
-                                    fontFamily: 'HT Rakik',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0.07,
-                                    letterSpacing: 0.80,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: _profileController
-                                          .isProfileLoading.value
-                                      ? ""
-                                      : ' ${_profileController.profile.name ?? "".split(' ').take(1).join(' ')}',
-                                  style: TextStyle(
-                                    color: const Color(0xFF37B268),
-                                    fontSize: width * 0.051,
-                                    fontFamily: 'HT Rakik',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0.07,
-                                    letterSpacing: 0.80,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        const Spacer(),
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 11.0),
+                          padding: EdgeInsets.only(bottom: width * 0.09),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               InkWell(
                                 onTap: () {
@@ -153,7 +119,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                 },
                                 child: SizedBox(
                                   width: 36,
-                                  height: 24,
+                                  height: 22,
                                   child: SvgPicture.asset(
                                       'assets/icons/Communication_black.svg'),
                                 ),
@@ -172,9 +138,83 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                             ],
                           ),
                         ),
+                        Row(
+                          children: [
+                            MediaQuery(
+                              data: MediaQuery.of(context)
+                                  .copyWith(textScaler: TextScaler.linear(1.0)),
+                              child: RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: AppUtil.rtlDirection2(context)
+                                          ? "ياهلا"
+                                          : 'Welcome ',
+                                      style: const TextStyle(
+                                        color: Color.fromRGBO(7, 7, 8, 1),
+                                        fontSize: 20,
+                                        fontFamily: 'HT Rakik',
+                                        fontWeight: FontWeight.w500,
+                                        height: 0.07,
+                                        letterSpacing: 0.80,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: _profileController
+                                              .isProfileLoading.value
+                                          ? ""
+                                          : ' ${_profileController.profile.name ?? "".split(' ').take(1).join(' ')}',
+                                      style: TextStyle(
+                                        color: const Color(0xFF37B268),
+                                        fontSize: width * 0.051,
+                                        fontFamily: 'HT Rakik',
+                                        fontWeight: FontWeight.w500,
+                                        height: 0.07,
+                                        letterSpacing: 0.80,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            //const Spacer(),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(bottom: 11.0),
+                            //   child: Row(
+                            //     children: [
+                            //       InkWell(
+                            //         onTap: () {
+                            //           ProfileController profileController =
+                            //               Get.put(ProfileController());
+                            //           Get.to(() => MessagesScreen(
+                            //               profileController: profileController));
+                            //         },
+                            //         child: SizedBox(
+                            //           width: 36,
+                            //           height: 24,
+                            //           child: SvgPicture.asset(
+                            //               'assets/icons/Communication_black.svg'),
+                            //         ),
+                            //       ),
+                            //       InkWell(
+                            //         onTap: () {
+                            //           Get.to(() => NotificationsScreen());
+                            //         },
+                            //         child: SizedBox(
+                            //           width: 36,
+                            //           height: 24,
+                            //           child: SvgPicture.asset(
+                            //               'assets/icons/AlertBlack2.svg'),
+                            //         ),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
+                          ],
+                        ),
                       ],
                     ),
-                    const SizedBox(height: 1),
+                    SizedBox(height: width * 0.02),
                     SizedBox(
                       width: double.infinity,
                       height: 168,

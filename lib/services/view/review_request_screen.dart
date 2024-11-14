@@ -296,7 +296,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
         case 'place':
           return 'جولة';
         case 'adventure':
-          return 'مغامرة';
+          return 'نشاط';
         case 'hospitality':
           return 'ضيافة';
         case 'event':

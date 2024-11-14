@@ -16,10 +16,10 @@ import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 class OfferScreen extends StatefulWidget {
   const OfferScreen({
     super.key,
-    required this.place,
+    this.place,
     required this.booking,
   });
-  final Place place;
+  final Place? place;
   final Booking booking;
 
   @override

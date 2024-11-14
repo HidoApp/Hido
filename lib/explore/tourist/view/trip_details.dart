@@ -10,9 +10,10 @@ import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/bookmark.dart';
 import 'package:ajwad_v4/profile/services/bookmark_services.dart';
+import 'package:ajwad_v4/request/tourist/controllers/rating_controller.dart';
 // import 'package:ajwad_v4/request/tourist/models/offer.dart';
 import 'package:ajwad_v4/request/tourist/view/find_ajwady.dart';
-import 'package:ajwad_v4/reviews/touristReviewsScreen.dart';
+import 'package:ajwad_v4/reviews/allReviewsScreen.dart';
 
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
@@ -64,6 +65,7 @@ class _TripDetailsState extends State<TripDetails> {
   final RequestController _RequestController = Get.put(RequestController());
 
   final _profileController = Get.put(ProfileController());
+  final _rattingController = Get.put(RatingController());
 
   int _currentIndex = 0;
   var locLatLang = const LatLng(24.9470921, 45.9903698);
@@ -548,7 +550,10 @@ class _TripDetailsState extends State<TripDetails> {
                       ),
                       InkWell(
                         onTap: () {
-                          Get.to(() => const TouristReviewsScreen());
+                          Get.to(() => CommonReviewsScreen(
+                                id: widget.place!.id ?? '',
+                                ratingType: 'PLACE',
+                              ));
                         },
                         child: Align(
                             alignment: AppUtil.rtlDirection2(context)
@@ -560,7 +565,7 @@ class _TripDetailsState extends State<TripDetails> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     CustomText(
-                                      text: '${"reviews".tr} (5)',
+                                      text: '${"reviews".tr}',
                                       color: const Color(0xFF070708),
                                       fontSize: width * 0.0461,
                                       fontFamily: 'HT Rakik',

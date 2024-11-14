@@ -559,17 +559,15 @@ class _HostInfoReviewState extends State<HostInfoReview> {
             const SizedBox(height: 6),
             SizedBox(
               width: double.infinity,
-              child: FittedBox(
-                child: CustomText(
-                  text: widget.experienceType == 'hospitality'
-                      ? 'explination'.tr
-                      : 'explinationAdve'.tr,
-                  color: const Color(0xFF9392A0),
-                  fontSize: 15,
-                  fontFamily:
-                      AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                  fontWeight: FontWeight.w400,
-                ),
+              child: CustomText(
+                text: widget.experienceType == 'hospitality'
+                    ? 'explination'.tr
+                    : 'explinationAdve'.tr,
+                color: const Color(0xFF9392A0),
+                fontSize: 15,
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
+                fontWeight: FontWeight.w400,
               ),
             ),
             const SizedBox(height: 20),

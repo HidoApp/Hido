@@ -7,6 +7,7 @@ import 'package:ajwad_v4/firebase_api.dart';
 import 'package:ajwad_v4/firebase_options.dart';
 import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
 import 'package:ajwad_v4/notification/notifications_screen.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/error_screen_widget.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -31,9 +32,25 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   log(// get arabic key
       'Notification message backgroundd: ${message.notification!.title}, ${message.notification!.body}, ${message.data["title"]}, ${message.data["body"]}');
-
-  // You can perform background operations here, like updating the UI or storing data locally.
-  // Note that you cannot interact directly with the UI from here.
+  final context = navigatorKey.currentContext; // Get context from navigatorKey
+  if (context == null) return; // Check if context is null
+  AppUtil.notifyToast(
+    context,
+    message.data["title"],
+    message.data["body"],
+    message.notification!.title,
+    message.notification!.body,
+    () {
+      navigatorKey.currentState?.pushNamed(
+        '/notification_screen',
+        arguments: {
+          'title': message.notification!
+              .title, // Assuming you meant to use `titleEn` and `bodyEn`
+          'body': message.notification!.body,
+        },
+      );
+    },
+  );
 }
 
 // Initialize shared preferences
