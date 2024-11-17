@@ -64,7 +64,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   final ProfileController _profileController = Get.put(ProfileController());
   final _sheetController = SolidController();
 
-
   late String days;
   bool isStarChecked = false;
   int startIndex = -1;
@@ -187,7 +186,6 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     _touristExploreController.customMarkers.value = List.generate(
       _touristExploreController.touristModel.value!.places!.length,
       (index) {
-        print(index);
         return MarkerData(
             marker: Marker(
                 onTap: () {
