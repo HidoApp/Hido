@@ -632,6 +632,7 @@ class AuthController extends GetxController {
     }
     log(appVersion.versionNumber ?? "NO Ver");
     log(version);
+   
     if (appVersion.versionNumber == version) {
     } else {
       showDialog(
