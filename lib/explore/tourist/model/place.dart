@@ -77,4 +77,6 @@ class Place {
       'coordinates': coordinates,
     };
   }
+
+  toLowerCase() {}
 }

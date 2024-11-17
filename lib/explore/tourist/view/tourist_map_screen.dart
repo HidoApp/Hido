@@ -307,7 +307,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   @override
   Widget build(BuildContext context) {
     print("Screen full");
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return Scaffold(
       bottomSheet: Obx(
         () => _touristExploreController.isActivityProgressLoading.value
@@ -361,6 +361,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                 //     userLocation: userLocation,
                 //   ),
                 // ),
+
                 SizedBox(
                   height: width * 0.03,
                 ),

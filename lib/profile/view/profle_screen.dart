@@ -5,6 +5,7 @@ import 'package:ajwad_v4/auth/models/token.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/widget/language_sheet.dart';
+import 'package:ajwad_v4/explore/widget/map_search_widget.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/bookmark_screen.dart';
@@ -113,6 +114,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("object");
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return Obx(() => Skeletonizer(
