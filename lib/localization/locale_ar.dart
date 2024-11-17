@@ -696,5 +696,5 @@ const localeAr = {
   'updateApp': 'حدّث التطبيق ',
   'updateAppContent':
       'يجب عليك التحديث للاستمتاع بالميزات الجديدة وتحسينات الأداء',
-  'showLess': "القليل",
+  'showLess': "القليل", "apply": 'تطبيق'
 };

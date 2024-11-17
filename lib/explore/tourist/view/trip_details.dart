@@ -56,8 +56,6 @@ class TripDetails extends StatefulWidget {
   State<TripDetails> createState() => _TripDetailsState();
 }
 
-late double width, height;
-
 class _TripDetailsState extends State<TripDetails> {
   final TouristExploreController _touristExploreController =
       Get.put(TouristExploreController());
@@ -169,8 +167,8 @@ class _TripDetailsState extends State<TripDetails> {
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
-    height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.sizeOf(context).width;
+    final height = MediaQuery.sizeOf(context).height;
     log("Trip Details");
     return Scaffold(
         backgroundColor: widget.fromAjwady ? lightBlack : Colors.white,
