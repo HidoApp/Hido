@@ -704,4 +704,5 @@ const localeEn = {
   'updateAppContent':
       'You have to update to enjoy the new features and performance improvements',
   'showLess': "Show less",
+  "apply": 'Apply'
 };
