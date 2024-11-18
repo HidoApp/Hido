@@ -147,7 +147,7 @@ class _BookingSheetState extends State<BookingSheet> {
     bool validateTime() {
       final Duration totalTime = newTimeToReturn.difference(newTimeToGo);
       final Duration eightHours = const Duration(hours: 8);
-      final Duration fourHours = const Duration(hours: 4);
+      //final Duration fourHours = const Duration(hours: 4);
       final Duration adjustedTotalTime = totalTime.isNegative
           ? totalTime +
               const Duration(
@@ -156,7 +156,7 @@ class _BookingSheetState extends State<BookingSheet> {
           : totalTime;
       // ? totalTime + Duration(days: 1) +Duration(hours: 1);
 
-      if (adjustedTotalTime >= fourHours && adjustedTotalTime <= eightHours) {
+      if (adjustedTotalTime <= eightHours) {
         setState(() {
           DurationErrorMessage = false;
         });
@@ -1097,8 +1097,8 @@ class _BookingSheetState extends State<BookingSheet> {
                                 AppUtil.errorToast(
                                     context,
                                     AppUtil.rtlDirection2(context)
-                                        ? "يجب أن تكون مدة الجولة بين ٤ و ٨ ساعات"
-                                        : "The Tour duration must be between 4 and 8 hours");
+                                        ? "يجب أن تكون مدة الجولة لاتزيد عن ٨ ساعات"
+                                        : "The Tour duration must be not exceeding 8 hours");
                               }
                             } else {}
                           },
