@@ -371,12 +371,12 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                         const SizedBox(height: 20)
                                       ],
                                     )
-                                  : Column(
+                                  : const Column(
                                       children: [
                                         //  SizedBox(height: 11),
                                         CustomLocalTicketCard(),
 
-                                        const SizedBox(height: 11),
+                                         SizedBox(height: 11),
                                       ],
                                     ),
                             ),
