@@ -91,7 +91,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return Obx(
       () => _profileController.isInternetConnected.value
           ? Scaffold(

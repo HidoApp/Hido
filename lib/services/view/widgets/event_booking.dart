@@ -44,7 +44,7 @@ class _BottomEventBookingState extends State<BottomEventBooking> {
   Widget build(BuildContext context) {
     log(_eventController.address.value);
     final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: width * 0.041),
@@ -110,7 +110,6 @@ class _BottomEventBookingState extends State<BottomEventBooking> {
                                 topRight: Radius.circular(width * 0.06)),
                           ));
                     } else {
-
                       Get.bottomSheet(
                           EventBookingSheet(
                             event: widget.event,

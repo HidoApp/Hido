@@ -29,7 +29,7 @@ class _ScheduleContainerWidgetState extends State<ScheduleContainerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
 
     return Container(
         padding: !widget.isReview

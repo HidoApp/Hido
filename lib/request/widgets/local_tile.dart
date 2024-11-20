@@ -7,7 +7,7 @@ import 'package:flutter_svg/svg.dart';
 class LocalTile extends StatelessWidget {
   const LocalTile(
       {super.key,
-     this.tripNumber,
+      this.tripNumber,
       required this.subtitle,
       this.tripRate,
       this.isRating = false});
@@ -17,21 +17,23 @@ class LocalTile extends StatelessWidget {
   final bool isRating;
   @override
   Widget build(BuildContext context) {
-   final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
 
     return Column(
       children: [
         Directionality(
-          textDirection:AppUtil.rtlDirection2(context)? TextDirection.ltr:TextDirection.rtl,
+          textDirection: AppUtil.rtlDirection2(context)
+              ? TextDirection.ltr
+              : TextDirection.rtl,
           child: Row(
             children: [
               CustomText(
-                fontSize:width*0.038,
+                fontSize: width * 0.038,
                 fontWeight: FontWeight.w500,
-                text:(tripNumber?.toString() ?? tripRate?.toString()),
+                text: (tripNumber?.toString() ?? tripRate?.toString()),
                 color: black,
-                fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
-        
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
               ),
               if (isRating)
                 const SizedBox(
@@ -48,8 +50,8 @@ class LocalTile extends StatelessWidget {
         CustomText(
           text: subtitle,
           fontWeight: FontWeight.w500,
-          fontSize: width*0.038,
-          fontFamily: AppUtil.rtlDirection2(context)? 'SF Arabic':'SF Pro',
+          fontSize: width * 0.038,
+          fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
           color: black,
         )
       ],

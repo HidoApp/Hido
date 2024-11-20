@@ -11,7 +11,7 @@ class SwitchAcount extends StatelessWidget {
   final bool fromAjwady;
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.sizeOf(context).width;
     double height = MediaQuery.of(context).size.height;
     return Container(
       //height: 200,

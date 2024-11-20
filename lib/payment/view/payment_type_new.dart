@@ -332,13 +332,13 @@ class _PaymentTypeState extends State<PaymentType> {
   void paymentWebViewStcPay() async {
     // webview for Stc pay
     if (invoice != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              PaymentWebView(url: invoice!.url!, title: 'payment'.tr),
+      Get.to(
+        () => PaymentWebView(
+          url: invoice!.url!,
+          title: 'payment'.tr,
         ),
-      ).then((value) async {
+      )!
+          .then((value) async {
         Invoice? checkInvoice;
         checkInvoice = await _paymentController.getPaymentId(
             context: context, id: invoice!.payId!);
@@ -721,7 +721,7 @@ class _PaymentTypeState extends State<PaymentType> {
   @override
   Widget build(BuildContext context) {
     log(widget.price.toString());
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return Obx(
       () => Scaffold(
         bottomNavigationBar: Padding(

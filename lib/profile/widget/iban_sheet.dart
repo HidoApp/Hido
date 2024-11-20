@@ -23,7 +23,7 @@ class _IbanSheetState extends State<IbanSheet> {
   var iban = "";
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
 
     return Container(
       width: double.infinity,

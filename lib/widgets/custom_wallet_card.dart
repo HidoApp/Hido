@@ -38,7 +38,7 @@ class _CustomWalletCardState extends State<CustomWalletCard> {
   Widget build(BuildContext context) {
     Place? thePlace;
 
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.of(context).size.height;
     return Obx(
       () => Skeletonizer(

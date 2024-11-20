@@ -454,7 +454,7 @@ class AppUtil {
   }
 
   static successToast(context, msg) {
-    var width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.sizeOf(context).width;
     Flushbar(
       messageText: Container(
         width: double.infinity,
@@ -526,7 +526,7 @@ class AppUtil {
   }
 
   static errorToast(BuildContext context, String msg) {
-    var width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.sizeOf(context).width;
     Flushbar(
       messageText: Container(
         width: double.infinity,
@@ -576,7 +576,7 @@ class AppUtil {
 
   static notifyToast(BuildContext context, String? titleAr, String? bodyAr,
       String? titleEn, String? bodyEn, VoidCallback onTap) {
-    var width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.sizeOf(context).width;
     Flushbar(
       messageText: GestureDetector(
         onTap: onTap, // Trigger the onTap callback when the toast is tapped
@@ -645,7 +645,7 @@ class AppUtil {
   }
 
   static connectionToast(BuildContext context, String msg) {
-    var width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.sizeOf(context).width;
 
     Flushbar(
       messageText: Container(

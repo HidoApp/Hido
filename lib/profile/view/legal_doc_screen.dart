@@ -20,7 +20,7 @@ class _LegalDocumentState extends State<LegalDocument> {
   final _profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return Scaffold(
       appBar: CustomAppBar('legalDoc'.tr),
       body: ScreenPadding(

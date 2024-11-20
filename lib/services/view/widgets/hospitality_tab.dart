@@ -11,7 +11,7 @@
 
 //   @override
 //   Widget build(BuildContext context) {
-//     final double width = MediaQuery.of(context).size.width;
+//     final double width = MediaQuery.sizeOf(context).width;
 //     return SingleChildScrollView(
 //       padding: const EdgeInsets.symmetric(
 //         horizontal: 20,

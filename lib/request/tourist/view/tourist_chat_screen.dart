@@ -228,7 +228,7 @@ class _TouristChatScreenState extends State<TouristChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.sizeOf(context).width;
     final double height = MediaQuery.of(context).size.height;
 
     return Scaffold(

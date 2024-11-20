@@ -86,7 +86,7 @@ class _RequestCardState extends State<RequestCard> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return Container(
       height: _controller.isExpanded ? width * 0.9 : width * 0.48,
       padding: EdgeInsets.symmetric(

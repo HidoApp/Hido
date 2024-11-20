@@ -15,7 +15,7 @@ class CustomOutlinedButton extends StatelessWidget {
   final void Function() onTap;
   @override
   Widget build(BuildContext context) {
-        final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
 
     return GestureDetector(
       onTap: onTap,
@@ -30,9 +30,9 @@ class CustomOutlinedButton extends StatelessWidget {
         child: CustomText(
           text: title,
           color: titleColor!,
-                fontFamily: 'HT Rakik',
-            fontSize: width*0.038,
-           fontWeight: FontWeight.w500,
+          fontFamily: 'HT Rakik',
+          fontSize: width * 0.038,
+          fontWeight: FontWeight.w500,
         ),
       ),
     );

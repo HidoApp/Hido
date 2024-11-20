@@ -20,7 +20,7 @@ class _ErrorReportSheetState extends State<ErrorReportSheet> {
   var _description = '';
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
 
     return Container(
       // height: 200,

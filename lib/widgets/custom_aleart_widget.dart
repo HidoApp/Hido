@@ -11,7 +11,7 @@ class CustomAlertDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.sizeOf(context).width;
     var height = MediaQuery.of(context).size.height;
     return AlertDialog(
       backgroundColor: Colors.white,

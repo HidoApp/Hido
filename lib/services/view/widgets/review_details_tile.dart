@@ -17,7 +17,7 @@ class ReviewDetailsTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -26,15 +26,15 @@ class ReviewDetailsTile extends StatelessWidget {
           // margin: EdgeInsets.only(
           //     left: image == 'assets/icons/meal.svg' ? 3 : 0,
           //     right: image == 'assets/icons/meal.svg' ? 2 : 0),
-          child:
-         widthh!=0
-         ? SvgPicture.asset(image,width: widthh,)
-         : SvgPicture.asset(image),
-
-
+          child: widthh != 0
+              ? SvgPicture.asset(
+                  image,
+                  width: widthh,
+                )
+              : SvgPicture.asset(image),
         ),
         SizedBox(
-          width: width*0.026,
+          width: width * 0.026,
         ),
         CustomText(
           text: title,

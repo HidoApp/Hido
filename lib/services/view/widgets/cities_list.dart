@@ -34,7 +34,7 @@ class _CitiesListState extends State<CitiesList> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
 
     return SizedBox(
       height: width * 0.080,

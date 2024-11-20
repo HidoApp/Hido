@@ -15,7 +15,7 @@ class CustomChips extends StatelessWidget {
   final Color textColor;
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return Container(
       padding: EdgeInsets.symmetric(
           horizontal: width * 0.04205, vertical: width * 0.01),

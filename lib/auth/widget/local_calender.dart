@@ -17,7 +17,7 @@ class LocalCalender extends StatelessWidget {
   void Function() onPressed;
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return AlertDialog(
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,

@@ -144,7 +144,7 @@ class _ReivewItentraryCardState extends State<ReivewItentraryCard> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
 
     return Card(
       elevation: 10,

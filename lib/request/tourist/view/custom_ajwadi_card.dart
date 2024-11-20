@@ -18,12 +18,12 @@ class CustomAjwadiCard extends StatelessWidget {
 
   final String name;
   final String image;
-  final int  price, tripNumber;
-   final double rating;
+  final int price, tripNumber;
+  final double rating;
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
 
     return Container(
       decoration: ShapeDecoration(

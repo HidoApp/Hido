@@ -78,7 +78,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
     print(widget.offerController!.totalPrice.value *
         widget.offerController!.offerDetails.value.booking!.guestNumber!);
 
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return Obx(
       () => _RequestController.isBookingLoading.value
           ? const Scaffold(
