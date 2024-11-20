@@ -630,17 +630,18 @@ class AuthController extends GetxController {
     if (appVersion == null || appVersion.versionNumber == null) {
       return;
     }
+
     // log(appVersion.versionNumber ?? "NO Ver");
     // log(version);
 
     if (appVersion.versionNumber == version) {
       log('Same Version');
     } else {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (ctx) => const AppVersionDialog(),
-      );
+      // showDialog(
+      //   context: context,
+      //   barrierDismissible: false,
+      //   builder: (ctx) => const AppVersionDialog(),
+      // );
     }
   }
 }

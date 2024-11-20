@@ -8,7 +8,7 @@ class ReadMoreWidget extends StatelessWidget {
   const ReadMoreWidget({
     super.key,
     required this.text,
-    this.color = starGreyColor,
+    this.color = black,
     this.fontSize,
     this.moreColor,
     this.fontWeight = FontWeight.w400,
@@ -33,7 +33,7 @@ class ReadMoreWidget extends StatelessWidget {
             : TextDirection.ltr,
         colorClickableText: moreColor ?? blue,
         moreStyle: TextStyle(
-          color: moreColor ?? blue,
+          color: moreColor ?? Color(0xFFA0A0A0),
           fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
         ),
         trimExpandedText: '  ${'showLess'.tr}',

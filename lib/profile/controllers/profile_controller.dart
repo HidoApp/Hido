@@ -30,6 +30,7 @@ class ProfileController extends GetxController {
   var pastTicket = <Booking>[].obs;
   var chatList = <ChatModel>[].obs;
   var actionsList = <ActivityProgress>[].obs;
+
   var profile = Profile();
   var isEmailOtp = false.obs;
   var isEditing = false.obs;

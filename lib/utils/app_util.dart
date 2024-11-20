@@ -519,8 +519,10 @@ class AppUtil {
     } else {
       if (bookingType == 'place') {
         return "Tour";
+      } else if (bookingType == 'adventure') {
+        return "Activity";
       } else {
-        return bookingType;
+        return bookingType.capitalizeFirst ?? '';
       }
     }
   }

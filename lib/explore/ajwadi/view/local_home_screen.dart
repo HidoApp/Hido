@@ -1,6 +1,11 @@
+import 'dart:developer';
+
+import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/last_activity.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/custom_local_ticket_card.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/local_ticket_screen.dart';
+import 'package:ajwad_v4/notification/controller/notification_controller.dart';
+import 'package:ajwad_v4/notification/customBadge.dart';
 import 'package:ajwad_v4/notification/notifications_screen.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/profile/view/my_account.dart';
@@ -10,6 +15,8 @@ import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:badges/badges.dart' as badges;
+
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_wallet_card.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +46,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
   final _tripController = Get.put(TripController());
   final _requestController = Get.put(RequestController());
   final PaymentController _paymentController = Get.put(PaymentController());
+  final _notifyController = Get.put(NotificationController());
 
   NextActivity? nextTrip;
 
@@ -124,16 +132,16 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                       'assets/icons/Communication_black.svg'),
                                 ),
                               ),
-                              InkWell(
+                              CustomBadge(
                                 onTap: () {
                                   Get.to(() => NotificationsScreen());
+                                  log(_notifyController.notifyCount.value
+                                      .toString());
+                                  _notifyController.notifyCount.value = 0;
                                 },
-                                child: SizedBox(
-                                  width: 36,
-                                  height: 24,
-                                  child: SvgPicture.asset(
-                                      'assets/icons/AlertBlack2.svg'),
-                                ),
+                                iconPath: 'assets/icons/AlertBlack2.svg',
+                                badgeCount: _notifyController.notifyCount,
+                                badgeColor: Colors.red,
                               ),
                             ],
                           ),

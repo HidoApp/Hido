@@ -543,10 +543,10 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                 ),
                               ],
                               if (!widget.isLocal) ...[
-                                if (hideLocation)
-                                  SizedBox(
-                                    height: width * 0.025,
-                                  ),
+                                // if (hideLocation)
+                                SizedBox(
+                                  height: width * 0.028,
+                                ),
                                 const Divider(
                                   color: lightGrey,
                                 ),

@@ -85,9 +85,9 @@ class PushNotificationCrd extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(
-          height: 13,
-        )
+        // const SizedBox(
+        //   height: 13,
+        // )
       ],
     );
   }

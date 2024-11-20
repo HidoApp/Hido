@@ -156,6 +156,9 @@ class _BookingSheetState extends State<BookingSheet> {
           : totalTime;
       // ? totalTime + Duration(days: 1) +Duration(hours: 1);
 
+
+      // if (adjustedTotalTime >= fourHours && adjustedTotalTime <= eightHours) {
+
       if (adjustedTotalTime <= eightHours) {
         setState(() {
           DurationErrorMessage = false;
@@ -976,6 +979,16 @@ class _BookingSheetState extends State<BookingSheet> {
                                     newTimeToGo.hour,
                                     newTimeToGo.minute,
                                     newTimeToGo.second);
+                                // if (newTimeToGoInRiyadh
+                                //     .isAfter(nowPlusTwoHours))
+                                if (newTimeToGoInRiyadh
+                                    .isAfter(currentDateInRiyadh)) {
+                                  if (!_touristExploreController
+                                      .TimeErrorMessage.value) {
+                                    _touristExploreController
+                                        .isBookedMade(true);
+                                    DateErrorMessage = false;
+
 
                                 if (!_touristExploreController
                                     .TimeErrorMessage.value) {
@@ -1082,6 +1095,12 @@ class _BookingSheetState extends State<BookingSheet> {
                                   }
                                 } else {
                                   AppUtil.errorToast(
+//                                       context,
+//                                       AppUtil.rtlDirection2(context)
+//                                           ? "يجب أن يكون وقت الجولة أكبر من الوقت الحالي"
+//                                           : "The tour time must be after the current time.");
+//                                   // ? "يجب أن يكون وقت الجولة بعد ساعتين على الأقل من الوقت الحالي"
+//                                   // : "The tour time must be at least two hours after the current time.");
                                       context, 'TimeDuration'.tr);
                                   await Future.delayed(
                                       const Duration(seconds: 3));
@@ -1090,8 +1109,11 @@ class _BookingSheetState extends State<BookingSheet> {
                                 AppUtil.errorToast(
                                     context,
                                     AppUtil.rtlDirection2(context)
-                                        ? "يجب أن يكون وقت الجولة بعد ساعتين على الأقل من الوقت الحالي"
-                                        : "The tour time must be at least two hours after the current time.");
+                                        ? "يجب أن لا تزيد مدة الجولة عن ٨ ساعات"
+                                        : "The Tour duration must be 8 hours or less");
+                                // ? "يجب أن تكون مدة الجولة بين ٤ و ٨ ساعات"
+                                // : "The Tour duration must be between 4 and 8 hours");
+
                               }
                             } else {
                               AppUtil.errorToast(
