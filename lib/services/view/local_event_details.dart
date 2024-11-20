@@ -158,7 +158,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
+    width = MediaQuery.sizeOf(context).width;
     height = MediaQuery.of(context).size.height;
 
     return Obx(

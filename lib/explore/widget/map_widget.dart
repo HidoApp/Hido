@@ -24,8 +24,17 @@ class _MapWidgetState extends State<MapWidget> {
   void dispose() {
     // TODO: implement dispose
     log("dis map");
-    // _touristExploreController.customMarkers.value = [];
+    _touristExploreController.customMarkers.value = [];
+    controllerDispose();
     super.dispose();
+  }
+
+  void controllerDispose() async {
+    if (_controller.isCompleted) {
+      final GoogleMapController mapController = await _controller.future;
+      mapController.dispose(); // Dispose of the GoogleMapController
+      log("Controller Dis");
+    }
   }
 
   @override

@@ -63,7 +63,6 @@ class _TripDetailsState extends State<TripDetails> {
   final RequestController _RequestController = Get.put(RequestController());
 
   final _profileController = Get.put(ProfileController());
-  final _rattingController = Get.put(RatingController());
 
   int _currentIndex = 0;
   var locLatLang = const LatLng(24.9470921, 45.9903698);

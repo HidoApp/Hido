@@ -33,7 +33,7 @@ class _TripBookingWidgetState extends State<TripBookingWidget> {
   OfferController offerController = Get.put(OfferController());
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: () async {

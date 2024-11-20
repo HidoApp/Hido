@@ -66,7 +66,7 @@ class _ServicesCardState extends State<ServicesCard> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width * 0.041),
       child: GestureDetector(

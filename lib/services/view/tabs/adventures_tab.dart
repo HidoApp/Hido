@@ -38,7 +38,7 @@ class _AdventuresTabState extends State<AdventuresTab> {
 
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.sizeOf(context).width;
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(horizontal: 0, vertical: width * 0.082),
       // padding: EdgeInsets.symmetric(

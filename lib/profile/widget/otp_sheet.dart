@@ -30,7 +30,7 @@ class _OtpSheetState extends State<OtpSheet> {
   final _authController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
 
     return Container(
       //height: width * .769,

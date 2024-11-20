@@ -31,7 +31,7 @@ class _EventsTabState extends State<EventsTab> {
 
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.sizeOf(context).width;
     return SingleChildScrollView(
       child: Padding(
         // padding: EdgeInsets.symmetric(

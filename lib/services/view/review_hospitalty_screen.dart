@@ -60,7 +60,7 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
     //
     final height = MediaQuery.of(context).size.height;
 
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(

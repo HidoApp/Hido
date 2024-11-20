@@ -13,7 +13,7 @@ class MapMarker extends StatelessWidget {
   // final void Function() onTap;
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return RepaintBoundary(
       child: Column(children: [
         Container(

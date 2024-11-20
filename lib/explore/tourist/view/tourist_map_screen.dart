@@ -362,9 +362,9 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                 //   ),
                 // ),
 
-                SizedBox(
-                  height: width * 0.03,
-                ),
+                // SizedBox(
+                //   height: width * 0.03,
+                // ),
                 if (!AppUtil.isGuest()) const MapIconsWidget()
               ],
             ),

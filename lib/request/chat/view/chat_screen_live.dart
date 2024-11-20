@@ -93,7 +93,7 @@ class _ChatScreenLiveState extends State<ChatScreenLive> {
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
+    width = MediaQuery.sizeOf(context).width;
 
     return Scaffold(
       backgroundColor: lightGreyBackground,

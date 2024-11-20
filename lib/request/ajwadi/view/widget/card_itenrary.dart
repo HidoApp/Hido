@@ -118,7 +118,7 @@ class _ItineraryCardState extends State<ItineraryCard> {
   Widget build(BuildContext context) {
     log(widget.booking.timeToGo ?? "");
     log(widget.booking.timeToReturn ?? "");
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return Obx(
       () => Container(
         // height:

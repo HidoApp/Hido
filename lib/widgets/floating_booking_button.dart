@@ -41,7 +41,7 @@ class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: width * 0.041),
       color: Colors.white,
@@ -223,7 +223,7 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: width * 0.041),
       color: Colors.white,

@@ -81,7 +81,7 @@ class _PromocodeFieldState extends State<PromocodeField> {
     final width = MediaQuery.sizeOf(context).width;
     return Row(
       children: [
-        if (!AppUtil.rtlDirection2(context)) ...{
+        if (AppUtil.rtlDirection2(context)) ...{
           SizedBox(
             width: width * 0.256,
             child: CustomButton(
@@ -140,7 +140,7 @@ class _PromocodeFieldState extends State<PromocodeField> {
             ),
           ),
         ),
-        if (AppUtil.rtlDirection2(context)) ...{
+        if (!AppUtil.rtlDirection2(context)) ...{
           SizedBox(
             width: width * 0.03,
           ),

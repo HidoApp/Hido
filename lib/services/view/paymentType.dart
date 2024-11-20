@@ -92,7 +92,7 @@ class _PaymentTypeScreenState extends State<PaymentTypeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return Obx(
       () => _RequestController.isBookingLoading.value
           ? const Scaffold(

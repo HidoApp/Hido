@@ -57,7 +57,7 @@ class _BookmarkCardState extends State<BookmarkCard> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return Container(
         decoration: BoxDecoration(
             boxShadow: const [BoxShadow(blurRadius: 8, color: Colors.black26)],

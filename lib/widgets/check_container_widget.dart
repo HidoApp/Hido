@@ -31,7 +31,7 @@ class _CheckContainerWidgetState extends State<CheckContainerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
 
     return Container(
         padding: const EdgeInsets.only(

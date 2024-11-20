@@ -21,7 +21,7 @@ class CreditForm extends StatelessWidget {
   final TextEditingController cardCvv;
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return Form(
         child: SingleChildScrollView(
       child: Column(

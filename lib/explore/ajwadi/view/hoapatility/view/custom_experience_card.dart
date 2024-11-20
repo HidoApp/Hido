@@ -57,7 +57,7 @@ class CustomExperienceCard extends StatelessWidget {
         Get.put(TouristExploreController());
     Place? thePlace;
 
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.of(context).size.height;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width * 0.041),
