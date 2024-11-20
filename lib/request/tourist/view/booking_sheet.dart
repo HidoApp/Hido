@@ -135,7 +135,7 @@ class _BookingSheetState extends State<BookingSheet> {
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.sizeOf(context).width;
+    width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     time = DateTime.now();
     returnTime = DateTime.now();
@@ -156,9 +156,7 @@ class _BookingSheetState extends State<BookingSheet> {
           : totalTime;
       // ? totalTime + Duration(days: 1) +Duration(hours: 1);
 
-
       // if (adjustedTotalTime >= fourHours && adjustedTotalTime <= eightHours) {
-
       if (adjustedTotalTime <= eightHours) {
         setState(() {
           DurationErrorMessage = false;
@@ -180,8 +178,8 @@ class _BookingSheetState extends State<BookingSheet> {
 
     // h = time.hour.toString();
 
-    // DateTime nowPlusTwoHours =
-    //     currentDateInRiyadh.add(const Duration(hours: 2));
+    DateTime nowPlusTwoHours =
+        currentDateInRiyadh.add(const Duration(hours: 2));
 
     return DraggableScrollableSheet(
         initialChildSize: 0.8,
@@ -989,121 +987,116 @@ class _BookingSheetState extends State<BookingSheet> {
                                         .isBookedMade(true);
                                     DateErrorMessage = false;
 
+                                    // AppUtil.successToast(
+                                    //     context, 'TIME AND DATE IS SELECTED');
 
-                                if (!_touristExploreController
-                                    .TimeErrorMessage.value) {
-                                  _touristExploreController.isBookedMade(true);
-                                  DateErrorMessage = false;
-
-                                  // AppUtil.successToast(
-                                  //     context, 'TIME AND DATE IS SELECTED');
-
-                                  //  Navigator.pop(context);
-                                  if (widget.place != null) {
-                                    final isSuccess =
-                                        await _touristExploreController
-                                            .bookPlace(
-                                                placeId: widget.place!.id!,
-                                                timeToGo: DateFormat('HH:mm:ss')
-                                                    .format(newTimeToGo),
-                                                timeToReturn:
-                                                    DateFormat(
-                                                            'HH:mm:ss')
-                                                        .format(
-                                                            newTimeToReturn),
-                                                date: _touristExploreController
-                                                    .selectedDate.value
-                                                    .substring(0, 10),
-                                                guestNumber: guestNum,
-                                                cost: guestNum *
-                                                    widget.place!.price!,
-                                                lng: _touristExploreController
-                                                    .pickUpLocLatLang
-                                                    .value
-                                                    .longitude
-                                                    .toString(),
-                                                lat: _touristExploreController
-                                                    .pickUpLocLatLang
-                                                    .value
-                                                    .latitude
-                                                    .toString(),
-                                                vehicle: selectedRide,
-                                                context: context);
-
-                                    if (isSuccess) {
-                                      Place? thePlace =
+                                    //  Navigator.pop(context);
+                                    if (widget.place != null) {
+                                      final isSuccess =
                                           await _touristExploreController
-                                              .getPlaceById(
-                                                  id: widget.place!.id!,
+                                              .bookPlace(
+                                                  placeId: widget.place!.id!,
+                                                  timeToGo: DateFormat(
+                                                          'HH:mm:ss')
+                                                      .format(newTimeToGo),
+                                                  timeToReturn: DateFormat(
+                                                          'HH:mm:ss')
+                                                      .format(newTimeToReturn),
+                                                  date: _touristExploreController
+                                                      .selectedDate.value
+                                                      .substring(0, 10),
+                                                  guestNumber: guestNum,
+                                                  cost: guestNum *
+                                                      widget.place!.price!,
+                                                  lng: _touristExploreController
+                                                      .pickUpLocLatLang
+                                                      .value
+                                                      .longitude
+                                                      .toString(),
+                                                  lat: _touristExploreController
+                                                      .pickUpLocLatLang
+                                                      .value
+                                                      .latitude
+                                                      .toString(),
+                                                  vehicle: selectedRide,
                                                   context: context);
 
-                                      // final Identify identify1 = Identify();
-                                      // identify1.setOnce(
-                                      //     'sign_up_date', '2015-08-24');
-                                      // Amplitude.getInstance()
-                                      //     .identify(identify1);
+                                      if (isSuccess) {
+                                        Place? thePlace =
+                                            await _touristExploreController
+                                                .getPlaceById(
+                                                    id: widget.place!.id!,
+                                                    context: context);
 
-                                      // amplitude.logEvent('MyApp startup',
-                                      //     eventProperties: {
-                                      //       'friend_num': 10,
-                                      //       'is_heavy_user': true
-                                      //     });
+                                        // final Identify identify1 = Identify();
+                                        // identify1.setOnce(
+                                        //     'sign_up_date', '2015-08-24');
+                                        // Amplitude.getInstance()
+                                        //     .identify(identify1);
 
-                                      // Log event to Amplitude when the form is completed
-                                      AmplitudeService.amplitude.track(
-                                          BaseEvent('Successfully Book tour',
-                                              eventProperties: {
-                                            'selected_date':
-                                                _touristExploreController
-                                                    .selectedDate.value,
-                                            'selected_time_to_go':
-                                                newTimeToGo.toString(),
-                                            'selected_time_to_return':
-                                                newTimeToReturn.toString(),
-                                            // 'location_set': true,
-                                            'vehicle_selected': selectedRide,
-                                            'placeName': thePlace?.nameEn,
-                                          }));
+                                        // amplitude.logEvent('MyApp startup',
+                                        //     eventProperties: {
+                                        //       'friend_num': 10,
+                                        //       'is_heavy_user': true
+                                        //     });
 
-                                      Get.back();
+                                        // Log event to Amplitude when the form is completed
+                                        AmplitudeService.amplitude.track(
+                                            BaseEvent('Successfully Book tour',
+                                                eventProperties: {
+                                              'selected_date':
+                                                  _touristExploreController
+                                                      .selectedDate.value,
+                                              'selected_time_to_go':
+                                                  newTimeToGo.toString(),
+                                              'selected_time_to_return':
+                                                  newTimeToReturn.toString(),
+                                              // 'location_set': true,
+                                              'vehicle_selected': selectedRide,
+                                              'placeName': thePlace?.nameEn,
+                                            }));
 
-                                      Get.to(
-                                        () => FindAjwady(
-                                          place: thePlace!,
-                                          booking: thePlace.booking![0],
-                                          placeId: thePlace.id!,
-                                        ),
-                                      );
-                                    } else {
-                                      
-                                      AppUtil.errorToast(
-                                          context, 'somthingWentWrong'.tr);
-                                      AmplitudeService.amplitude.track(
-                                          BaseEvent('Failed Book tour',
-                                              eventProperties: {
-                                            'selected_date':
-                                                _touristExploreController
-                                                    .selectedDate.value,
-                                            'selected_time_to_go':
-                                                newTimeToGo.toString(),
-                                            'selected_time_to_return':
-                                                newTimeToReturn.toString(),
-                                            // 'location_set': true,
-                                            'vehicle_selected': selectedRide,
-                                          }));
+                                        Get.back();
+
+                                        Get.to(
+                                          () => FindAjwady(
+                                            place: thePlace!,
+                                            booking: thePlace.booking![0],
+                                            placeId: thePlace.id!,
+                                          ),
+                                        );
+                                      } else {
+                                        AppUtil.errorToast(
+                                            context, 'somthingWentWrong'.tr);
+                                        AmplitudeService.amplitude.track(
+                                            BaseEvent('Failed Book tour',
+                                                eventProperties: {
+                                              'selected_date':
+                                                  _touristExploreController
+                                                      .selectedDate.value,
+                                              'selected_time_to_go':
+                                                  newTimeToGo.toString(),
+                                              'selected_time_to_return':
+                                                  newTimeToReturn.toString(),
+                                              // 'location_set': true,
+                                              'vehicle_selected': selectedRide,
+                                            }));
+                                      }
                                     }
+                                  } else {
+                                    AppUtil.errorToast(
+                                        context, 'TimeDuration'.tr);
+                                    await Future.delayed(
+                                        const Duration(seconds: 3));
                                   }
                                 } else {
                                   AppUtil.errorToast(
-//                                       context,
-//                                       AppUtil.rtlDirection2(context)
-//                                           ? "يجب أن يكون وقت الجولة أكبر من الوقت الحالي"
-//                                           : "The tour time must be after the current time.");
-//                                   // ? "يجب أن يكون وقت الجولة بعد ساعتين على الأقل من الوقت الحالي"
-//                                   // : "The tour time must be at least two hours after the current time.");
-                                      context, 'TimeDuration'.tr);
-                                  await Future.delayed(
-                                      const Duration(seconds: 3));
+                                      context,
+                                      AppUtil.rtlDirection2(context)
+                                          ? "يجب أن يكون وقت الجولة أكبر من الوقت الحالي"
+                                          : "The tour time must be after the current time.");
+                                  // ? "يجب أن يكون وقت الجولة بعد ساعتين على الأقل من الوقت الحالي"
+                                  // : "The tour time must be at least two hours after the current time.");
                                 }
                               } else {
                                 AppUtil.errorToast(
@@ -1111,17 +1104,8 @@ class _BookingSheetState extends State<BookingSheet> {
                                     AppUtil.rtlDirection2(context)
                                         ? "يجب أن لا تزيد مدة الجولة عن ٨ ساعات"
                                         : "The Tour duration must be 8 hours or less");
-                                // ? "يجب أن تكون مدة الجولة بين ٤ و ٨ ساعات"
-                                // : "The Tour duration must be between 4 and 8 hours");
-
                               }
-                            } else {
-                              AppUtil.errorToast(
-                                  context,
-                                  AppUtil.rtlDirection2(context)
-                                      ? "يجب أن تكون مدة الجولة لاتزيد عن ٨ ساعات"
-                                      : "The Tour duration must be not exceeding 8 hours");
-                            }
+                            } else {}
                           },
                           icon: AppUtil.rtlDirection2(context)
                               ? const Icon(Icons.arrow_back_ios)
