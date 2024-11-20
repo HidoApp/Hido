@@ -72,7 +72,7 @@ class _DrivingSheetState extends State<DrivingSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return Container(
       width: double.infinity,
       //  height: width * 0.628,

@@ -105,7 +105,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
+    width = MediaQuery.sizeOf(context).width;
     height = MediaQuery.of(context).size.height;
     return Obx(
       () => chatController.isGetChatByIdLoading.value ||

@@ -104,7 +104,7 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
         Get.put(TouristExploreController());
     Place? thePlace;
     // log(widget.booking.cost!);
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.of(context).size.height;
     return InkWell(
       onTap: widget.booking.orderStatus == 'ACCEPTED'

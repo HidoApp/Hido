@@ -87,7 +87,7 @@ class _FindAjwadyState extends State<FindAjwady> {
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
+    width = MediaQuery.sizeOf(context).width;
     height = MediaQuery.of(context).size.height;
 
     return Scaffold(

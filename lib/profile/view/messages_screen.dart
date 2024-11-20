@@ -28,7 +28,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.sizeOf(context).width;
     final double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -53,14 +53,16 @@ class _MessagesScreenState extends State<MessagesScreen> {
                       enabled: widget.profileController.isChatLoading.value,
                       child: widget.profileController.chatList.isEmpty
                           ? Column(
-                             crossAxisAlignment: CrossAxisAlignment.center,
-                             mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                              height:width*0.5,),
-                              Center(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  height: width * 0.5,
+                                ),
+                                Center(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal:18.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 18.0),
                                     child: CustomEmptyWidget(
                                       title: 'noMessages'.tr,
                                       image: 'noCommunication',
@@ -68,8 +70,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
                                     ),
                                   ),
                                 ),
-                            ],
-                          )
+                              ],
+                            )
                           : ListView.separated(
                               shrinkWrap: true,
                               itemCount:

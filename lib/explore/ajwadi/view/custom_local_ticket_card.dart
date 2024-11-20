@@ -213,7 +213,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
     final TouristExploreController touristExploreController =
         Get.put(TouristExploreController());
 
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.of(context).size.height;
 
     return InkWell(
@@ -253,9 +253,11 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            FittedBox(
-                              fit: BoxFit.fitWidth,
+                            SizedBox(
+                              width: width * 0.35,
                               child: CustomText(
+                                maxlines: 2,
+                                textOverflow: TextOverflow.ellipsis,
                                 text: AppUtil.rtlDirection2(context)
                                     ? _tripController
                                         .nextTrip.value.requestName!.nameAr
@@ -264,7 +266,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                 color: const Color(0xFF070708),
                                 fontSize: AppUtil.rtlDirection2(context)
                                     ? width * 0.041
-                                    : width * 0.036,
+                                    : width * 0.035,
                                 fontWeight: FontWeight.w500,
                                 fontFamily: !AppUtil.rtlDirection2(context)
                                     ? 'SF Pro'

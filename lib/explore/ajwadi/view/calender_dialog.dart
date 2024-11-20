@@ -63,7 +63,7 @@ class _CalenderDialogState extends State<CalenderDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return AlertDialog(
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,

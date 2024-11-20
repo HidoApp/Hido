@@ -23,7 +23,7 @@ class _PhoneSheetState extends State<PhoneSheet> {
   var mobile = '';
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     final hieht = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),

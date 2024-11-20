@@ -5,6 +5,7 @@ import 'package:ajwad_v4/auth/models/token.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/widget/language_sheet.dart';
+import 'package:ajwad_v4/explore/widget/map_search_widget.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/bookmark_screen.dart';
@@ -21,6 +22,7 @@ import 'package:ajwad_v4/widgets/custom_list_tile.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:ajwad_v4/widgets/local_auth_mark.dart';
+import 'package:ajwad_v4/widgets/payment_web_view.dart';
 import 'package:ajwad_v4/widgets/verion_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -113,8 +115,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
-    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.sizeOf(context).width;
+    height = MediaQuery.sizeOf(context).height;
     return Obx(() => Skeletonizer(
         enabled: _profileController.isProfileLoading.value,
         child: Scaffold(
@@ -369,6 +371,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ));
                         },
                       ),
+                      // CustomListTile(
+                      //   title: "terms".tr,
+                      //   leading: "assets/icons/help_icon.svg",
+                      //   // fromAjwady: widget.fromAjwady,
+                      //   onTap: () {
+                      //     Get.to(
+                      //       () => PaymentWebView(
+                      //           url:
+                      //               'https://www.google.com/search?gs_ssp=eJzj4tTP1TcwMU02T1JgNGB0YPBiS8_PT89JBQBASQXT&q=google&rlz=1C5CHFA_enSA1117SA1117&oq=goog&gs_lcrp=EgZjaHJvbWUqEggBEC4YJxjHARjRAxiABBiKBTIGCAAQRRg8MhIIARAuGCcYxwEY0QMYgAQYigUyBggCEEUYOTIGCAMQRRhAMgYIBBBFGEEyBggFEEUYQTIGCAYQRRg8MgYIBxBFGDzSAQgyMDEyajBqN6gCCLACAQ&sourceid=chrome&ie=UTF-8',
+                      //           title: 'payment'.tr),
+                      //     );
+                      //   },
+                      // ),
                       CustomListTile(
                         title: "contactUs".tr,
                         leading: "assets/icons/contact_us_icon.svg",

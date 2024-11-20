@@ -4,6 +4,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/coupon.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class PromocodeField extends StatefulWidget {
 
 class _PromocodeFieldState extends State<PromocodeField> {
   final _paymentController = Get.put(PaymentController());
-
+  var code = '';
   void couponDiscountPercentage(String code, Coupon coupon) async {
     _paymentController.validateType.value = 'applied';
     double discountPrice = AppUtil.couponPercentageCalculating(
@@ -77,52 +78,103 @@ class _PromocodeFieldState extends State<PromocodeField> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    return Obx(
-      () => Form(
-        child: CustomTextField(
-          textInputAction: TextInputAction.done,
-          height: width * 0.14,
-          hintText: 'addpromocode'.tr,
-          onFieldSubmitted: (code) async {
-            if (code.isEmpty) {
-              return;
-            }
-            final coupon = await _paymentController.getCouponByCode(
-                context: context, code: code, type: widget.type);
-            if (coupon == null) {
-              _paymentController.validateType.value = 'invalid';
-              return;
-            }
-            _paymentController.minSpend(coupon.minSpend!);
-            if (widget.price < coupon.minSpend!) {
-              _paymentController.validateType.value = 'invalid';
-              _paymentController.isUnderMinSpend.value = true;
-              return;
-            }
-            _paymentController.isUnderMinSpend.value = false;
-            if (coupon.discountPercentage != null) {
-              couponDiscountPercentage(code, coupon);
-            } else {
-              couponDiscountAmount(code, coupon);
-            }
-          },
-          onChanged: (value) {
-            _paymentController.isUnderMinSpend.value = false;
-            _paymentController.validateType.value = '';
-          },
-          suffixIcon: Padding(
-            padding: EdgeInsets.symmetric(horizontal: width * .030),
-            child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: _paymentController.isCouponByCodeLoading.value
-                    ? [
-                        const CircularProgressIndicator(),
-                      ]
-                    : buildPrefix(width)),
+    final width = MediaQuery.sizeOf(context).width;
+    return Row(
+      children: [
+        if (AppUtil.rtlDirection2(context)) ...{
+          SizedBox(
+            width: width * 0.256,
+            child: CustomButton(
+              title: "apply".tr,
+              onPressed: () async {
+                if (code.isEmpty) {
+                  return;
+                }
+                final coupon = await _paymentController.getCouponByCode(
+                    context: context, code: code, type: widget.type);
+                if (coupon == null) {
+                  _paymentController.validateType.value = 'invalid';
+                  return;
+                }
+                _paymentController.minSpend(coupon.minSpend!);
+                if (widget.price < coupon.minSpend!) {
+                  _paymentController.validateType.value = 'invalid';
+                  _paymentController.isUnderMinSpend.value = true;
+                  return;
+                }
+                _paymentController.isUnderMinSpend.value = false;
+                if (coupon.discountPercentage != null) {
+                  couponDiscountPercentage(code, coupon);
+                } else {
+                  couponDiscountAmount(code, coupon);
+                }
+              },
+            ),
+          ),
+          SizedBox(
+            width: width * 0.03,
+          ),
+        },
+        Expanded(
+          child: Obx(
+            () => CustomTextField(
+              textInputAction: TextInputAction.done,
+              height: width * 0.14,
+              hintText: 'addpromocode'.tr,
+              onFieldSubmitted: (code) async {},
+              onChanged: (value) {
+                code = value;
+                _paymentController.isUnderMinSpend.value = false;
+                _paymentController.validateType.value = '';
+              },
+              suffixIcon: Padding(
+                padding: EdgeInsets.symmetric(horizontal: width * .030),
+                child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: _paymentController.isCouponByCodeLoading.value
+                        ? [
+                            const CircularProgressIndicator(),
+                          ]
+                        : buildPrefix(width)),
+              ),
+            ),
           ),
         ),
-      ),
+        if (!AppUtil.rtlDirection2(context)) ...{
+          SizedBox(
+            width: width * 0.03,
+          ),
+          SizedBox(
+            width: width * 0.256,
+            child: CustomButton(
+              title: "apply".tr,
+              onPressed: () async {
+                if (code.isEmpty) {
+                  return;
+                }
+                final coupon = await _paymentController.getCouponByCode(
+                    context: context, code: code, type: widget.type);
+                if (coupon == null) {
+                  _paymentController.validateType.value = 'invalid';
+                  return;
+                }
+                _paymentController.minSpend(coupon.minSpend!);
+                if (widget.price < coupon.minSpend!) {
+                  _paymentController.validateType.value = 'invalid';
+                  _paymentController.isUnderMinSpend.value = true;
+                  return;
+                }
+                _paymentController.isUnderMinSpend.value = false;
+                if (coupon.discountPercentage != null) {
+                  couponDiscountPercentage(code, coupon);
+                } else {
+                  couponDiscountAmount(code, coupon);
+                }
+              },
+            ),
+          ),
+        }
+      ],
     );
   }
 

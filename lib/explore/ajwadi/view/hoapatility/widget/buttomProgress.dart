@@ -400,7 +400,7 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.of(context).size.height;
 
     final TextEditingController textField1Controller =
@@ -791,7 +791,7 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.of(context).size.height;
 
     return Column(
@@ -1719,7 +1719,7 @@ class _AddGuestsState extends State<AddGuests> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.of(context).size.height;
 
     return Column(
@@ -2009,7 +2009,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.of(context).size.height;
 
     return Column(

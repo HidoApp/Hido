@@ -109,7 +109,7 @@ class _TourStepperState extends State<TourStepper> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
 
     return Scaffold(
       body: Obx(() => nextStep()),

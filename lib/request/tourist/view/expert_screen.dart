@@ -19,24 +19,22 @@ class ExpertScreen extends StatefulWidget {
 class _ExpertScreenState extends State<ExpertScreen> {
   @override
   Widget build(BuildContext context) {
-        final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
 
     return Padding(
         padding: const EdgeInsets.all(16.0),
-        child:widget.profileController.profile.userInterests?.isEmpty??true?
-         Center(
-          child: CustomText(
-            text: "noExpertise".tr,
-            fontSize: width*0.04,
-              fontFamily:!AppUtil.rtlDirection2(context)
-                                  ? 'SF Pro'
-                                  : 'SF Arabic',
-             fontWeight: FontWeight.w400,
-            color: starGreyColor,
-          ),
-        ):Container()
-        
-        );
+        child: widget.profileController.profile.userInterests?.isEmpty ?? true
+            ? Center(
+                child: CustomText(
+                  text: "noExpertise".tr,
+                  fontSize: width * 0.04,
+                  fontFamily:
+                      !AppUtil.rtlDirection2(context) ? 'SF Pro' : 'SF Arabic',
+                  fontWeight: FontWeight.w400,
+                  color: starGreyColor,
+                ),
+              )
+            : Container());
   }
 }
 //  ListView.separated(

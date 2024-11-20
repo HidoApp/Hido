@@ -19,7 +19,7 @@ class _ProdvidedServicesSheetState extends State<ProdvidedServicesSheet> {
   bool tourSelected = false;
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
 
     return Container(
         width: double.infinity,

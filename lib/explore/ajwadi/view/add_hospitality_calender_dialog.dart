@@ -73,7 +73,7 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
             DateTime.tryParse(widget.srvicesController!.selectedDate.value);
       }
     }
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return AlertDialog(
       backgroundColor: Colors.white,
       surfaceTintColor: Colors.white,

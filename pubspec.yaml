@@ -21,7 +21,6 @@ version: 1.4.6+1
 
 environment:
   sdk: ">=2.18.5 <3.0.0"
-
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
@@ -106,6 +105,7 @@ dependencies:
 
   image: any
   galleryimage: ^2.0.1
+  search_page: ^2.3.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

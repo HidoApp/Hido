@@ -21,7 +21,7 @@ class GuestSignInScreen extends StatefulWidget {
 class _GuestSignInScreenState extends State<GuestSignInScreen> {
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     return SafeArea(
       child: Scaffold(
         body: Container(

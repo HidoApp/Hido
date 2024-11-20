@@ -33,7 +33,7 @@ class _LocalWalletScreenState extends State<LocalWalletScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.sizeOf(context).width;
     final double height = MediaQuery.of(context).size.height;
 
     return Scaffold(

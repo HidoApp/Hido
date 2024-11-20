@@ -84,7 +84,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.sizeOf(context).width;
     final double height = MediaQuery.of(context).size.height;
     return Obx(
       () => Skeletonizer(
@@ -379,12 +379,12 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                         const SizedBox(height: 20)
                                       ],
                                     )
-                                  : Column(
+                                  : const Column(
                                       children: [
                                         //  SizedBox(height: 11),
                                         CustomLocalTicketCard(),
 
-                                        const SizedBox(height: 11),
+                                        SizedBox(height: 11),
                                       ],
                                     ),
                             ),

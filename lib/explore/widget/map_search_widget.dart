@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
@@ -24,7 +26,6 @@ class MapSearchWidget extends StatefulWidget {
 
 class _MapSearchWidgetState extends State<MapSearchWidget> {
   final _touristExploreController = Get.put(TouristExploreController());
-  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +58,7 @@ class _MapSearchWidgetState extends State<MapSearchWidget> {
         color: lightGrey,
       ),
       suggestionsCallback: (search) {
+        log(search);
         if (AppUtil.rtlDirection2(context)) {
           return _touristExploreController.touristModel.value!.places!
               .where((place) =>
@@ -76,33 +78,29 @@ class _MapSearchWidgetState extends State<MapSearchWidget> {
             borderRadius: BorderRadius.circular(25),
           ),
           child: Obx(
-
-            () => Form(
-              key: _formKey,
-              child: CustomTextField(
-                borderColor: Colors.transparent,
-                raduis: 25,
-                verticalHintPadding: AppUtil.rtlDirection2(context) ? 0 : 10,
-                height: 34,
-                enable: !_touristExploreController.isTouristMapLoading.value,
-                hintText: 'search'.tr,
-                prefixIcon: Padding(
-                  padding: EdgeInsets.all(8),
-                  child: RepaintBoundary(
-                    child: SvgPicture.asset(
-                      'assets/icons/General.svg',
-                      width: 10,
-                      height: 1,
-                    ),
+            () => CustomTextField(
+              borderColor: Colors.transparent,
+              raduis: 25,
+              verticalHintPadding: AppUtil.rtlDirection2(context) ? 0 : 10,
+              height: 34,
+              enable: !_touristExploreController.isTouristMapLoading.value,
+              hintText: 'search'.tr,
+              prefixIcon: Padding(
+                padding: EdgeInsets.all(8),
+                child: RepaintBoundary(
+                  child: SvgPicture.asset(
+                    'assets/icons/General.svg',
+                    width: 10,
+                    height: 1,
                   ),
                 ),
-                focusNode: focusNode,
-                controller: controller,
-                onFieldSubmitted: (p0) {
-                  if (p0.isEmpty) return;
-                },
-                onChanged: (value) {},
               ),
+              focusNode: focusNode,
+              controller: controller,
+              onFieldSubmitted: (p0) {
+                if (p0.isEmpty) return;
+              },
+              onChanged: (value) {},
             ),
           ),
         );
@@ -136,12 +134,11 @@ class _MapSearchWidgetState extends State<MapSearchWidget> {
         );
       },
       onSelected: (place) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (ctx) => TripDetails(
-                  fromAjwady: false,
-                  place: place,
-                  userLocation: widget.userLocation,
-                )));
+        Get.to(() => TripDetails(
+              fromAjwady: false,
+              place: place,
+              userLocation: widget.userLocation,
+            ));
         AmplitudeService.amplitude
             .track(BaseEvent('Select tour site from the map', eventProperties: {
           'Place name': place.nameEn,

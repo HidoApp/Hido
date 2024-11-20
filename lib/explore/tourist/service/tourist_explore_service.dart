@@ -131,7 +131,8 @@ class TouristExploreService {
               "cost": cost,
               "vehicleType": vehicle,
             }));
-
+    log(response.statusCode.toString());
+    log(response.body);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       return true;
