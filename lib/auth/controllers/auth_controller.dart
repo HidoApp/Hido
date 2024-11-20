@@ -632,14 +632,14 @@ class AuthController extends GetxController {
     }
     log(appVersion.versionNumber ?? "NO Ver");
     log(version);
-   
+
     if (appVersion.versionNumber == version) {
     } else {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (ctx) => const AppVersionDialog(),
-      );
+      // showDialog(
+      //   context: context,
+      //   barrierDismissible: false,
+      //   builder: (ctx) => const AppVersionDialog(),
+      // );
     }
   }
 }

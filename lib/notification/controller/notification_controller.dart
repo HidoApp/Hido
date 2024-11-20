@@ -8,7 +8,7 @@ class NotificationController extends GetxController {
   var isSendingDeviceToken = false.obs;
   var isNotificationLoading = false.obs;
   var isNotificationUpdateLoading = false.obs;
-
+  var notifyCount = 0.obs;
   var notifications = <Notifications>[].obs;
 
   Future<List<Notifications>?> getNotifications({

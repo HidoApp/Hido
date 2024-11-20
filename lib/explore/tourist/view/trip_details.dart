@@ -564,12 +564,17 @@ class _TripDetailsState extends State<TripDetails> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    CustomText(
-                                      text: '${"reviews".tr}',
-                                      color: const Color(0xFF070708),
-                                      fontSize: width * 0.0461,
-                                      fontFamily: 'HT Rakik',
-                                      fontWeight: FontWeight.w500,
+                                    Obx(
+                                      () => CustomText(
+                                        text: _rattingController
+                                                .ratings.isNotEmpty
+                                            ? '${"reviews".tr} (${_rattingController.ratings.length})'
+                                            : '${"reviews".tr} (0)',
+                                        color: const Color(0xFF070708),
+                                        fontSize: width * 0.0461,
+                                        fontFamily: 'HT Rakik',
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
                                   ],
                                 ),

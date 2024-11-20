@@ -6,6 +6,8 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/firebase_api.dart';
 import 'package:ajwad_v4/firebase_options.dart';
 import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
+import 'package:ajwad_v4/notification/controller/notification_controller.dart';
+import 'package:ajwad_v4/notification/customBadge.dart';
 import 'package:ajwad_v4/notification/notifications_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/error_screen_widget.dart';
@@ -18,6 +20,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -30,27 +33,49 @@ final navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  log(// get arabic key
-      'Notification message backgroundd: ${message.notification!.title}, ${message.notification!.body}, ${message.data["title"]}, ${message.data["body"]}');
-  final context = navigatorKey.currentContext; // Get context from navigatorKey
-  if (context == null) return; // Check if context is null
-  AppUtil.notifyToast(
-    context,
-    message.data["title"],
-    message.data["body"],
-    message.notification!.title,
-    message.notification!.body,
-    () {
-      navigatorKey.currentState?.pushNamed(
-        '/notification_screen',
-        arguments: {
-          'title': message.notification!
-              .title, // Assuming you meant to use `titleEn` and `bodyEn`
-          'body': message.notification!.body,
-        },
-      );
-    },
+  final String? locale = PlatformDispatcher.instance.locale.languageCode;
+  log('WidgetsBinding Locale: $locale');
+  final String platformLocale = Platform.localeName;
+  log('Platform Locale: $platformLocale');
+
+  // Determine Arabic based on both approaches
+  final isArabic = (locale == 'ar') || platformLocale.startsWith('ar');
+  log('Is Arabic: $isArabic');
+
+  // Fetch localized notification details
+  final title = !isArabic
+      ? message.data["title"] ?? message.notification?.title
+      : message.notification?.title;
+  final body = !isArabic
+      ? message.data["body"] ?? message.notification?.body
+      : message.notification?.body;
+
+  // Log the details for debugging
+  log('Notification message background: $title, $body');
+
+  // Display the notification
+  const AndroidNotificationDetails androidPlatformChannelSpecifics =
+      AndroidNotificationDetails(
+    'high_importance_channel', // ID for the notification channel
+    'High Importance Notifications', // Name of the channel
+    channelDescription: 'This channel is used for important notifications.',
+    importance: Importance.high,
+    priority: Priority.high,
   );
+  const NotificationDetails platformChannelSpecifics =
+      NotificationDetails(android: androidPlatformChannelSpecifics);
+
+  await flutterLocalNotificationsPlugin.show(
+    0, // Notification ID (unique)
+    title, // Notification title
+    body, // Notification body
+    platformChannelSpecifics,
+  );
+  final _notifyController = Get.put(NotificationController());
+
+  _notifyController.notifyCount.value = _notifyController.notifyCount.value + 1;
+  log("hjkkk");
+  log(_notifyController.notifyCount.value.toString());
 }
 
 // Initialize shared preferences

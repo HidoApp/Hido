@@ -66,37 +66,43 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   void fetchUnreadNotificationIds(BuildContext context) async {
-    _srvicesController.getNotifications(context: context).then((_) {
+    try {
+      await _srvicesController.getNotifications(context: context);
+
       log("Entered fetchUnreadNotificationIds");
       log("Notifications empty: ${_srvicesController.notifications.isEmpty}");
 
       // Step 3: Filter notifications to find ones with "isRead" as false
+      unreadNotificationIds.clear();
       for (var notification in _srvicesController.notifications) {
         if (notification.isRead == false) {
           unreadNotificationIds.add(notification.id ?? '');
         }
       }
 
-      log("Unread notifications count: ${unreadNotificationIds.first}");
+      log("Unread notifications count: ${unreadNotificationIds.length}");
+
       if (unreadNotificationIds.isNotEmpty) {
         // Step 4: Send the list of unread notification IDs to the other endpoint
-        _srvicesController.updateNotifications(
+        await _srvicesController.updateNotifications(
           context: context,
           unreadNotificationIds: unreadNotificationIds,
         );
       } else {
         log("No unread notifications to update.");
       }
-    }).catchError((error) {
-      // Handle any errors from getNotifications
+    } catch (error) {
       log("Error fetching notifications: $error");
-    });
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    fetchUnreadNotificationIds(context);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      fetchUnreadNotificationIds(context);
+    });
   }
 
   void _dismissNotification(int index) {
@@ -132,7 +138,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                         // !widget.hasNotifications &&
                         _srvicesController.notifications.isEmpty
                             ? Padding(
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                   // top: height / 3,
                                   left: 16,
                                   right: 16,
@@ -147,92 +153,105 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                 ),
                               )
                             : ListView.builder(
+                                padding: EdgeInsets
+                                    .zero, // Remove padding around the ListView
+
                                 shrinkWrap: true,
                                 itemCount:
                                     _srvicesController.notifications.length,
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
+                                    //  userRole = getStorage.read('userRole') ?? '';
+
                                     onTap: () async {
-                                      // if (_srvicesController
-                                      //         .notifications[index]
-                                      //         .notificationType ==
-                                      //     'EVENT_SUMMARY') {
-                                      //   Get.to(EventSummaryScreen(
-                                      //     eventId: _srvicesController
-                                      //             .notifications[index]
-                                      //             .entityId ??
-                                      //         '',
-                                      //     date: '',
-                                      //   ));
-                                      // } else if (_srvicesController
-                                      //         .notifications[index]
-                                      //         .notificationType ==
-                                      //     'HOSPITALITY_SUMMARY') {
-                                      //   Get.to(SummaryScreen(
-                                      //     hospitalityId: _srvicesController
-                                      //             .notifications[index]
-                                      //             .entityId ??
-                                      //         '',
-                                      //     date: '',
-                                      //   ));
-                                      // } else if (_srvicesController
-                                      //         .notifications[index]
-                                      //         .notificationType ==
-                                      //     'ADVENTURE_SUMMARY') {
-                                      //   Get.to(AdventureSummaryScreen(
-                                      //     adventureId: _srvicesController
-                                      //             .notifications[index]
-                                      //             .entityId ??
-                                      //         '',
-                                      //   ));
-                                      // } else if (_srvicesController
-                                      //         .notifications[index]
-                                      //         .notificationType ==
-                                      //     'TOUR_PROGRESS') {
-                                      //   Get.offAll(
-                                      //       () => const TouristBottomBar());
-                                      // } else if (_srvicesController
-                                      //         .notifications[index]
-                                      //         .notificationType ==
-                                      //     'NEW_REQUEST') {
-                                      //   // Get.to(() => const AjwadiBottomBar());
-                                      //   Get.to(() => const NewRequestScreen());
-                                      // } else if (_srvicesController
-                                      //         .notifications[index]
-                                      //         .notificationType ==
-                                      //     'NEW_OFFER') {
-                                      //   final RequestController
-                                      //       _RequestController =
-                                      //       Get.put(RequestController());
+                                      if (_srvicesController
+                                              .notifications[index]
+                                              .notificationType ==
+                                          'EVENT_SUMMARY') {
+                                        Get.back();
 
-                                      //   Booking? theBooking;
+                                        Get.to(EventSummaryScreen(
+                                          eventId: _srvicesController
+                                                  .notifications[index]
+                                                  .entityId ??
+                                              '',
+                                          date: '',
+                                        ));
+                                      } else if (_srvicesController
+                                              .notifications[index]
+                                              .notificationType ==
+                                          'HOSPITALITY_SUMMARY') {
+                                        Get.back();
+                                        Get.to(SummaryScreen(
+                                          hospitalityId: _srvicesController
+                                                  .notifications[index]
+                                                  .entityId ??
+                                              '',
+                                          date: '',
+                                        ));
+                                      } else if (_srvicesController
+                                              .notifications[index]
+                                              .notificationType ==
+                                          'ADVENTURE_SUMMARY') {
+                                        Get.back();
+                                        Get.to(AdventureSummaryScreen(
+                                          adventureId: _srvicesController
+                                                  .notifications[index]
+                                                  .entityId ??
+                                              '',
+                                        ));
+                                      } else if (_srvicesController
+                                              .notifications[index]
+                                              .notificationType ==
+                                          'TOUR_PROGRESS') {
+                                        Get.offAll(
+                                            () => const TouristBottomBar());
+                                      } else if (_srvicesController
+                                              .notifications[index]
+                                              .notificationType ==
+                                          'NEW_REQUEST') {
+                                        // Get.to(() => const AjwadiBottomBar(
+                                        //     initialIndex: 1));
+                                      } else if (_srvicesController
+                                              .notifications[index]
+                                              .notificationType ==
+                                          'NEW_OFFER') {
+                                        Get.back();
 
-                                      //   theBooking = await _RequestController
-                                      //       .getBookingById(
-                                      //     context: context,
-                                      //     bookingId: _srvicesController
-                                      //             .notifications[index]
-                                      //             .entityId ??
-                                      //         '',
-                                      //   ).then((value) {
-                                      //     if (theBooking != null) {
-                                      //       Get.to(() => OfferScreen(
-                                      //             booking: theBooking!,
-                                      //           ));
-                                      //     }
-                                      //   });
-                                      // } else if (_srvicesController
-                                      //         .notifications[index]
-                                      //         .notificationType ==
-                                      //     'OFFER_ACCEPTED') {
-                                      //   Get.to(
-                                      //     () => LocalTicketScreen(
-                                      //       servicesController:
-                                      //           Get.put(TripController()),
-                                      //       type: 'tour',
-                                      //     ),
-                                      //   );
-                                      // }
+                                        final RequestController
+                                            _RequestController =
+                                            Get.put(RequestController());
+
+                                        Booking? theBooking;
+
+                                        theBooking = await _RequestController
+                                            .getBookingById(
+                                          context: context,
+                                          bookingId: _srvicesController
+                                                  .notifications[index]
+                                                  .entityId ??
+                                              '',
+                                        ).then((value) {
+                                          if (theBooking != null) {
+                                            Get.to(() => OfferScreen(
+                                                  booking: theBooking!,
+                                                ));
+                                          }
+                                        });
+                                      } else if (_srvicesController
+                                              .notifications[index]
+                                              .notificationType ==
+                                          'OFFER_ACCEPTED') {
+                                        log('hkiy');
+                                        Get.back();
+                                        Get.to(
+                                          () => LocalTicketScreen(
+                                            servicesController:
+                                                Get.put(TripController()),
+                                            type: 'tour',
+                                          ),
+                                        );
+                                      }
                                     },
                                     child: PushNotificationCrd(
                                       isRead: _srvicesController

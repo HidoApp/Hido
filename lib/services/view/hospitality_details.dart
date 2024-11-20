@@ -513,12 +513,17 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            CustomText(
-                                              text: '${"reviews".tr}',
-                                              color: const Color(0xFF070708),
-                                              fontSize: width * 0.0461,
-                                              fontFamily: 'HT Rakik',
-                                              fontWeight: FontWeight.w500,
+                                            Obx(
+                                              () => CustomText(
+                                                text: _rattingController
+                                                        .ratings.isNotEmpty
+                                                    ? '${"reviews".tr} (${_rattingController.ratings.length})'
+                                                    : '${"reviews".tr} (0)',
+                                                color: const Color(0xFF070708),
+                                                fontSize: width * 0.0461,
+                                                fontFamily: 'HT Rakik',
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -543,10 +548,10 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                 ),
                               ],
                               if (!widget.isLocal) ...[
-                                if (hideLocation)
-                                  SizedBox(
-                                    height: width * 0.025,
-                                  ),
+                                // if (hideLocation)
+                                SizedBox(
+                                  height: width * 0.028,
+                                ),
                                 const Divider(
                                   color: lightGrey,
                                 ),

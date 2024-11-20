@@ -238,7 +238,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
           return;
         }
-// Your tour is going to start at
+        // Your tour is going to start at
 
 // جولتك بتبدأ الساعة
         getActivityProgress();

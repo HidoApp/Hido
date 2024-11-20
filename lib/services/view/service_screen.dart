@@ -1,6 +1,7 @@
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/controller/advertisement_controller.dart';
+import 'package:ajwad_v4/notification/controller/notification_controller.dart';
 import 'package:ajwad_v4/notification/notifications_screen.dart';
 import 'package:ajwad_v4/profile/view/ticket_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
@@ -39,6 +40,7 @@ class _ServiceScreenState extends State<ServiceScreen>
   final _regionsController = Get.put(RegionsController());
   final ProfileController _profileController = Get.put(ProfileController());
   final _AdverController = Get.put(AdvertisementController());
+  final _notifyController = Get.put(NotificationController());
 
   @override
   void initState() {
@@ -241,12 +243,16 @@ class _ServiceScreenState extends State<ServiceScreen>
                                   width: width * 0.02,
                                 ),
                                 HomeIconButton(
-                                    onTap: () {
-                                      Get.to(() => AppUtil.isGuest()
-                                          ? const SignInScreen()
-                                          : NotificationsScreen());
-                                    },
-                                    icon: 'assets/icons/Alerts_white.svg')
+                                  onTap: () {
+                                    Get.to(() => NotificationsScreen());
+                                    _notifyController.notifyCount.value = 0;
+                                  },
+                                  icon: 'assets/icons/Alerts_white.svg',
+                                  badgeCount: _notifyController
+                                      .notifyCount, // Reactive badge count
+                                  badgeColor: Colors
+                                      .red, // Optional: customize the badge color
+                                ),
                               ],
                             )
                           : const SizedBox(),

@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/notification/controller/notification_controller.dart';
+import 'package:ajwad_v4/notification/customBadge.dart';
 import 'package:ajwad_v4/notification/notifications_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
@@ -15,6 +19,8 @@ class MapIconsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _notifyController = Get.put(NotificationController());
+
     final width = MediaQuery.sizeOf(context).width;
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -81,18 +87,36 @@ class MapIconsWidget extends StatelessWidget {
               Radius.circular(width * 0.04),
             ),
           ),
-          child: GestureDetector(
-              onTap: () => Get.to(
-                    () => AppUtil.isGuest()
-                        ? const SignInScreen()
-                        : NotificationsScreen(),
-                  ),
-              child: RepaintBoundary(
-                child: SvgPicture.asset(
-                  'assets/icons/Alerts.svg',
-                  color: colorGreen,
-                ),
-              )),
+          child: CustomBadge(
+            onTap: () {
+              Get.to(
+                () => AppUtil.isGuest()
+                    ? const SignInScreen()
+                    : NotificationsScreen(),
+              );
+              log(_notifyController.notifyCount.value.toString());
+              _notifyController.notifyCount.value = 0;
+            },
+            iconPath: 'assets/icons/Alerts.svg',
+            iconColor: colorGreen,
+            badgeCount: _notifyController.notifyCount,
+            badgeColor: Colors.red,
+            width: 24,
+            height: 24,
+          ),
+
+          //  GestureDetector(
+          //     onTap: () => Get.to(
+          //           () => AppUtil.isGuest()
+          //               ? const SignInScreen()
+          //               : NotificationsScreen(),
+          //         ),
+          //     child: RepaintBoundary(
+          //       child: SvgPicture.asset(
+          //         'assets/icons/Alerts.svg',
+          //         color: colorGreen,
+          //       ),
+          //     )),
         ),
         SizedBox(
           width: width * 0.030,
