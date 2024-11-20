@@ -119,7 +119,7 @@ class OfferService {
   static Future<AcceptedOffer?> acceptOffer({
     required BuildContext context,
     required String offerId,
-    required String invoiceId,
+    String? invoiceId,
     String? couponId,
     required List<Schedule> schedules,
   }) async {
@@ -142,7 +142,7 @@ class OfferService {
     final response = await http.post(
       Uri.parse('$baseUrl/offer/$offerId/accept').replace(
         queryParameters: {
-          'paymentId': invoiceId,
+          if (invoiceId != "") 'paymentId': invoiceId,
           'offerId': offerId,
           if (couponId != '') 'codeId': couponId
         },
@@ -220,7 +220,7 @@ class OfferService {
           'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body));
-     log(response.statusCode.toString());
+    log(response.statusCode.toString());
     if (response.statusCode == 200) {
       log('inter 200');
       return true;

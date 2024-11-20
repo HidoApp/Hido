@@ -107,7 +107,7 @@ class AdventureService {
       token = getStorage.read('accessToken');
     }
     Map<String, dynamic> queryParameters = {
-      'paymentId': invoiceId,
+      if (invoiceId != '') 'paymentId': invoiceId,
       'adventureId': adventureID,
       if (couponId != '') 'codeId': couponId
     };
@@ -126,13 +126,7 @@ class AdventureService {
     log(response.statusCode.toString());
     log(response.body);
     if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
-
-      if (data['orderStatus'] == 'checked') {
-        return true;
-      } else {
-        return false;
-      }
+      return true;
     } else {
       String errorMessage = jsonDecode(response.body)['orderStatus'];
 

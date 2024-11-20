@@ -33,13 +33,16 @@ class _PromocodeFieldState extends State<PromocodeField> {
       couponPercentage: coupon.discountPercentage!,
       price: widget.price,
     );
-    _paymentController.discountPrice.value = discountPrice > coupon.maxDiscount!
-        ? coupon.maxDiscount!.toDouble()
-        : discountPrice;
+    _paymentController.discountPrice.value =
+        discountPrice > coupon.maxDiscount! && coupon.maxDiscount != 0
+            ? coupon.maxDiscount!.toDouble()
+            : discountPrice;
 
     _paymentController.finalPrice(
       widget.price - _paymentController.discountPrice.value,
     );
+    _paymentController.isPriceFree.value =
+        _paymentController.finalPrice.value == 0;
     _paymentController.couponId(coupon.id);
     // log(_paymentController.couponId.value);
     // log(_paymentController.discountPrice.value.toString());
@@ -61,9 +64,9 @@ class _PromocodeFieldState extends State<PromocodeField> {
       widget.price - _paymentController.discountPrice.value,
     );
     _paymentController.couponId(coupon.id);
-    log(_paymentController.couponId.value);
-    log(_paymentController.discountPrice.value.toString());
-    log(_paymentController.finalPrice.value.toString());
+    // log(_paymentController.couponId.value);
+    // log(_paymentController.discountPrice.value.toString());
+    // log(_paymentController.finalPrice.value.toString());
   }
 
   @override
@@ -126,6 +129,7 @@ class _PromocodeFieldState extends State<PromocodeField> {
                 code = value;
                 _paymentController.isUnderMinSpend.value = false;
                 _paymentController.validateType.value = '';
+                _paymentController.isPriceFree(false);
               },
               suffixIcon: Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * .030),

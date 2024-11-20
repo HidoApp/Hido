@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/coordinates.dart';
 import 'package:ajwad_v4/services/model/days_info.dart';
@@ -825,6 +827,7 @@ class AppUtil {
     required double price,
   }) {
     var copounPrice = couponPercentage / 100;
+    log(copounPrice.toString());
     return copounPrice * price;
     // var hidoFee = hidoPercentage * price;
     // return hidoFee * copounPrice;

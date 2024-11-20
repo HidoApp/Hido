@@ -394,7 +394,7 @@ class EventService {
 
   static Future<bool> checkAndBookEvent(
       {required BuildContext context,
-      required String paymentId,
+      String? paymentId,
       required String eventId,
       required double cost,
       required String dayId,
@@ -415,7 +415,7 @@ class EventService {
     final response = await http.post(
         Uri.parse("$baseUrl/event/booking/$eventId").replace(
           queryParameters: {
-            'paymentId': paymentId,
+            if (paymentId != "") 'paymentId': paymentId,
             'eventId': eventId,
             if (couponId != '') 'codeId': couponId
           },

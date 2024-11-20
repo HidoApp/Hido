@@ -99,7 +99,6 @@ class HospitalityService {
     required String dayId,
     required int numOfMale,
     required int numOfFemale,
-    required double cost,
   }) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
@@ -115,7 +114,7 @@ class HospitalityService {
 
     Map<String, dynamic> queryParameters = {
       'hospitalityId': hospitalityId,
-      'paymentId': paymentId,
+      if (paymentId != null) 'paymentId': paymentId,
       if (couponId != '') 'codeId': couponId
     };
 
@@ -138,15 +137,10 @@ class HospitalityService {
           'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body));
-
+    log(response.statusCode.toString());
+    log(response.body.toString());
     if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
-
-      if (data['message'] == 'checked') {
-        return true;
-      } else {
-        return false;
-      }
+      return true;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
 

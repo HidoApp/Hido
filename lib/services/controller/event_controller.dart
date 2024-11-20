@@ -275,9 +275,9 @@ class EventController extends GetxController {
 
   Future<bool> checkAndBookEvent(
       {required BuildContext context,
-      required String paymentId,
+       String ?paymentId,
       required String eventId,
-      required double cost,
+       double? cost,
       required String dayId,
       required int person,
       String? couponId,
@@ -286,9 +286,9 @@ class EventController extends GetxController {
       ischeckBookingLoading(true);
       final data = await EventService.checkAndBookEvent(
           context: context,
-          paymentId: paymentId,
+          paymentId: paymentId??"",
           eventId: eventId,
-          cost: cost,
+          cost: cost??0,
           dayId: dayId,
           person: person,
           couponId: couponId,

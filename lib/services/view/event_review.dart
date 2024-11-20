@@ -1,10 +1,13 @@
 import 'dart:developer';
 
 import 'package:ajwad_v4/amplitude_service.dart';
+import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/view/payment_type_new.dart';
+import 'package:ajwad_v4/profile/view/ticket_details_screen.dart';
+import 'package:ajwad_v4/request/local_notification.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/view/widgets/review_details_tile.dart';
 import 'package:ajwad_v4/services/view/widgets/review_guests.dart';
@@ -16,6 +19,7 @@ import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
 import 'package:ajwad_v4/widgets/promocode_field.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class EventReview extends StatefulWidget {
@@ -38,6 +42,40 @@ class _EventReviewState extends State<EventReview> {
     finalCost = (widget.event.price! * widget.person).toDouble();
     log(widget.person.toString());
     log(finalCost.toString());
+  }
+
+  void freeEventBooking() async {
+    await _eventController.checkAndBookEvent(
+        context: context,
+        eventId: widget.event.id,
+        couponId: paymentController.couponId.value,
+        dayId:
+            widget.event.daysInfo![_eventController.selectedDateIndex.value].id,
+        person: widget.person,
+        date: _eventController.selectedDate.value);
+    if (!mounted) return;
+
+    final updatedEvent = await _eventController.getEventById(
+        context: context, id: widget.event.id);
+    if (!mounted) return;
+    Get.offAll(() => const TouristBottomBar());
+    log("inside adventure");
+    log("${updatedEvent!.booking?.last.id}");
+    LocalNotification().showEventNotification(
+        context,
+        updatedEvent.booking?.last.id,
+        _eventController.selectedDate.value,
+        updatedEvent.nameEn,
+        updatedEvent.nameAr);
+    Get.to(() => TicketDetailsScreen(
+          event: updatedEvent,
+          icon: SvgPicture.asset('assets/icons/event.svg'),
+          bookTypeText: "event",
+        ));
+
+    AmplitudeService.amplitude.track(BaseEvent(
+      'Get Event Ticket',
+    ));
   }
 
   @override
@@ -193,27 +231,33 @@ class _EventReviewState extends State<EventReview> {
                     SizedBox(
                       height: width * 0.051,
                     ),
-                    Obx(() => _eventController.ischeckBookingLoading.value
+                    Obx(() => _eventController.ischeckBookingLoading.value ||
+                            _eventController.isEventByIdLoading.value
                         ? const Center(
                             child: CircularProgressIndicator.adaptive())
                         : CustomButton(
                             onPressed: () async {
-                              Get.to(
-                                () => PaymentType(
-                                  event: widget.event,
-                                  type: 'event',
-                                  personNumber: widget.person,
-                                  price: paymentController.validateType.value ==
-                                          'applied'
-                                      ? paymentController.finalPrice.value
-                                      : (widget.event.price! * widget.person)
-                                          .toDouble(),
-                                  eventController: _eventController,
-                                ),
-                              );
-                              AmplitudeService.amplitude.track(BaseEvent(
-                                'Go to payment screen',
-                              ));
+                              if (paymentController.isPriceFree.value) {
+                                freeEventBooking();
+                              } else {
+                                Get.to(
+                                  () => PaymentType(
+                                    event: widget.event,
+                                    type: 'event',
+                                    personNumber: widget.person,
+                                    price: paymentController
+                                                .validateType.value ==
+                                            'applied'
+                                        ? paymentController.finalPrice.value
+                                        : (widget.event.price! * widget.person)
+                                            .toDouble(),
+                                    eventController: _eventController,
+                                  ),
+                                );
+                                AmplitudeService.amplitude.track(BaseEvent(
+                                  'Go to payment screen',
+                                ));
+                              }
                             },
                             title: 'checkout'.tr))
                   ],

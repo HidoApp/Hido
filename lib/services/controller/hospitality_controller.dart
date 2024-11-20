@@ -118,24 +118,23 @@ class HospitalityController extends GetxController {
     required String dayId,
     required int numOfMale,
     required int numOfFemale,
-    required double cost,
   }) async {
     try {
       isCheckAndBookLoading(true);
       print(
-          '   \n hospitalityId:$hospitalityId, paymentId: $paymentId,\n ,date: $date,dayId: $dayId, numOfFemale: $numOfFemale, numOfMale: $numOfMale, cost: $cost');
+          '   \n hospitalityId:$hospitalityId, paymentId: $paymentId,\n ,date: $date,dayId: $dayId, numOfFemale: $numOfFemale, numOfMale: $numOfMale, ');
 
       final data = await HospitalityService.checkAndBookHospitality(
-          context: context,
-          hospitalityId: hospitalityId,
-          paymentId: paymentId,
-          date: date,
-          dayId: dayId,
-          numOfFemale: numOfFemale,
-          numOfMale: numOfMale,
-          couponId: couponId,
-          cost: cost);
-
+        context: context,
+        hospitalityId: hospitalityId,
+        paymentId: paymentId,
+        date: date,
+        dayId: dayId,
+        numOfFemale: numOfFemale,
+        numOfMale: numOfMale,
+        couponId: couponId,
+      );
+      
       return data;
     } catch (e) {
       isCheckAndBookLoading(false);
@@ -420,6 +419,4 @@ class HospitalityController extends GetxController {
       isHospitalityDeleteLoading(false);
     }
   }
-
-  void getAllAdvertisement({required BuildContext context}) {}
 }

@@ -490,16 +490,16 @@ class _PaymentTypeState extends State<PaymentType> {
   void hospitalityBooking(Invoice checkInvoice) async {
     // if paid the check flag will change to true
     isSuccess = await widget.servicesController!.checkAndBookHospitality(
-        context: context,
-        paymentId: checkInvoice.id,
-        hospitalityId: widget.hospitality!.id,
-        date: widget.servicesController!.selectedDate.value,
-        dayId: widget.hospitality!
-            .daysInfo[widget.servicesController!.selectedDateIndex.value].id,
-        numOfMale: widget.male!,
-        numOfFemale: widget.female!,
-        couponId: _paymentController.couponId.value,
-        cost: widget.price);
+      context: context,
+      paymentId: checkInvoice.id,
+      hospitalityId: widget.hospitality!.id,
+      date: widget.servicesController!.selectedDate.value,
+      dayId: widget.hospitality!
+          .daysInfo[widget.servicesController!.selectedDateIndex.value].id,
+      numOfMale: widget.male!,
+      numOfFemale: widget.female!,
+      couponId: _paymentController.couponId.value,
+    );
     if (!mounted) return;
 
     final updatedHospitality = await widget.servicesController!

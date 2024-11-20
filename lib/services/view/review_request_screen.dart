@@ -1,9 +1,14 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/amplitude_service.dart';
+import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/view/payment_type_new.dart';
+import 'package:ajwad_v4/profile/view/ticket_details_screen.dart';
+import 'package:ajwad_v4/request/local_notification.dart';
 import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
 import 'package:ajwad_v4/services/view/widgets/review_details_tile.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -16,7 +21,9 @@ import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:ajwad_v4/explore/tourist/model/booking.dart' as book;
 
 import '../../explore/tourist/model/place.dart';
 import '../../request/ajwadi/controllers/request_controller.dart';
@@ -70,6 +77,40 @@ class _ReviewRequestState extends State<ReviewRequest> {
 
     thePlace = await _touristExploreController.getPlaceById(
         id: widget.place!.id!, context: context);
+  }
+
+  void freeTourBooking() async {
+    await widget.offerController!.acceptOffer(
+      context: context,
+      couponId: paymentController.couponId.value,
+      offerId: widget.offerController!.offerDetails.value.id!,
+      schedules: widget.offerController!.updateScheduleList,
+    );
+    if (!mounted) return;
+    final book.Booking? fetchedBooking =
+        await _RequestController.getBookingById(
+            context: context, bookingId: widget.booking!.id!);
+    if (!mounted) return;
+    Get.offAll(() => const TouristBottomBar());
+    Get.to(() => TicketDetailsScreen(
+          booking: fetchedBooking,
+          icon: SvgPicture.asset('assets/icons/place.svg'),
+          bookTypeText: 'place',
+          isTour: true,
+        ));
+    LocalNotification().showNotification(
+      context,
+      fetchedBooking?.id,
+      fetchedBooking?.timeToGo,
+      fetchedBooking?.date,
+      fetchedBooking?.user?.profile.name,
+      fetchedBooking?.requestName?.nameEn,
+      fetchedBooking?.requestName?.nameAr,
+    );
+
+    AmplitudeService.amplitude.track(BaseEvent(
+      'Get Tour Ticket',
+    ));
   }
 
   PaymentController paymentController = Get.put(PaymentController());
@@ -223,50 +264,55 @@ class _ReviewRequestState extends State<ReviewRequest> {
                               ),
                               const Spacer(),
                               CustomText(
-                                text:
-                                    '${"sar".tr} ${paymentController.discountPrice.toString()}-',
-                                fontSize: width * 0.038,
-                                fontFamily: AppUtil.SfFontType(context),
-                                color: starGreyColor,
-                              )
+                                  text:
+                                      '${"sar".tr} ${paymentController.discountPrice.toString()}-',
+                                  fontSize: width * 0.038,
+                                  fontFamily: AppUtil.SfFontType(context),
+                                  color: starGreyColor)
                             ],
                           ),
                         ],
                         SizedBox(
                           height: width * 0.02,
                         ),
-                        paymentController.isPaymenInvoiceLoading.value
-                            ? const CircularProgressIndicator.adaptive()
+                        paymentController.isPaymenInvoiceLoading.value ||
+                                widget.offerController!.isAcceptOfferLoading
+                                    .value ||
+                                _RequestController.isBookingLoading.value
+                            ? const Center(
+                                child: CircularProgressIndicator.adaptive())
                             : CustomButton(
                                 title: 'checkout'.tr,
                                 icon: const Icon(Icons.keyboard_arrow_right,
                                     color: Colors.white),
                                 onPressed: () async {
-                                  for (var item in widget
-                                      .offerController!.updateScheduleList) {}
-                                  Get.to(
-                                    () => PaymentType(
-                                      price: paymentController
-                                                  .validateType.value ==
-                                              'applied'
-                                          ? paymentController.finalPrice.value
-                                          : (widget.offerController!.totalPrice
-                                                      .value *
-                                                  widget
-                                                      .offerController!
-                                                      .offerDetails
-                                                      .value
-                                                      .booking!
-                                                      .guestNumber!)
-                                              .toDouble(),
-                                      type: 'tour',
-                                      offerController: widget.offerController,
-                                      booking: widget.booking,
-                                    ),
-                                  );
-                                  AmplitudeService.amplitude.track(BaseEvent(
-                                    'Go to payment screen',
-                                  ));
+                                  if (paymentController.isPriceFree.value) {
+                                    freeTourBooking();
+                                  } else {
+                                    Get.to(
+                                      () => PaymentType(
+                                        price: paymentController
+                                                    .validateType.value ==
+                                                'applied'
+                                            ? paymentController.finalPrice.value
+                                            : (widget.offerController!
+                                                        .totalPrice.value *
+                                                    widget
+                                                        .offerController!
+                                                        .offerDetails
+                                                        .value
+                                                        .booking!
+                                                        .guestNumber!)
+                                                .toDouble(),
+                                        type: 'tour',
+                                        offerController: widget.offerController,
+                                        booking: widget.booking,
+                                      ),
+                                    );
+                                    AmplitudeService.amplitude.track(BaseEvent(
+                                      'Go to payment screen',
+                                    ));
+                                  }
                                 }),
                         const SizedBox(height: 10),
                         CustomButton(
