@@ -19,9 +19,9 @@ class Booking {
   final int? guestNumber;
   final GuestInfo? guestInfo;
   final RequestName? requestName;
-   final String? titleAr;
+  final String? titleAr;
   final String? titleEn;
-    final String? nameAr;
+  final String? nameAr;
   final String? nameEn;
   final String? vehicleType;
   final String? orderStatus;
@@ -36,6 +36,7 @@ class Booking {
   // final Event? event;
   final String? profileId;
   final String? cost;
+  final bool? hasPayment;
   Booking(
       {required this.id,
       this.placeId,
@@ -61,9 +62,9 @@ class Booking {
       this.requestName,
       this.titleAr,
       this.titleEn,
-        this.nameAr,
+      this.nameAr,
       this.nameEn,
-
+      this.hasPayment
       // this.event,
       });
 
@@ -105,6 +106,8 @@ class Booking {
           ? null
           : Adventure.fromJson(json['adventure']),
 
+      hasPayment: json['hasPayment'] ?? true,
+
       user: json["user"] == null ? null : BookUser.fromJson(json['user']),
       //offers: json['offers'] == null ? null : (json['offers'] as List).map((offer) => Offer.fromJson(offer as Map<String, dynamic>)).toList(),
       offers: json['offers'] == null
@@ -128,11 +131,12 @@ class Booking {
       'offers': offers?.map((offer) => offer.toJson()).toList(),
       'guestInfo': guestInfo?.toJson(),
       'profileId': profileId,
-      'nameEn':nameEn,
-      'nameAr':nameAr,
-      'titleAr':titleAr,
-      'titleEn':titleEn,
-      'localId':localId
+      'nameEn': nameEn,
+      'nameAr': nameAr,
+      'titleAr': titleAr,
+      'titleEn': titleEn,
+      'localId': localId,
+      'hasPayment': hasPayment
 //     this.profileId
     };
   }

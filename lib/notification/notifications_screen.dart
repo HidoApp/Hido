@@ -12,6 +12,9 @@ import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/ajwadi/view/new_request_screen.dart';
 import 'package:ajwad_v4/request/tourist/view/offers_screen.dart';
 import 'package:ajwad_v4/request/widgets/PushNotificationCard.dart';
+import 'package:ajwad_v4/services/controller/adventure_controller.dart';
+import 'package:ajwad_v4/services/controller/event_controller.dart';
+import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -169,37 +172,63 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                               .notificationType ==
                                           'EVENT_SUMMARY') {
                                         Get.back();
+                                        Get.to(() => LocalTicketScreen(
+                                              servicesController:
+                                                  Get.put(EventController()),
+                                              type: 'event',
+                                            ));
+                                        //Get.back();
 
-                                        Get.to(EventSummaryScreen(
-                                          eventId: _srvicesController
-                                                  .notifications[index]
-                                                  .entityId ??
-                                              '',
-                                          date: '',
-                                        ));
+                                        // Get.to(EventSummaryScreen(
+                                        //   eventId: _srvicesController
+                                        //           .notifications[index]
+                                        //           .entityId ??
+                                        //       '',
+                                        //   date: _srvicesController
+                                        //           .notifications[index]
+                                        //           .data!["data"] ??
+                                        //       '',
+                                        // ));
                                       } else if (_srvicesController
                                               .notifications[index]
                                               .notificationType ==
                                           'HOSPITALITY_SUMMARY') {
                                         Get.back();
-                                        Get.to(SummaryScreen(
-                                          hospitalityId: _srvicesController
-                                                  .notifications[index]
-                                                  .entityId ??
-                                              '',
-                                          date: '',
-                                        ));
+                                        Get.to(() => LocalTicketScreen(
+                                              servicesController: Get.put(
+                                                  HospitalityController()),
+                                              type: 'hospitality',
+                                            ));
+                                        // Get.back();
+                                        // Get.to(SummaryScreen(
+                                        //   hospitalityId: _srvicesController
+                                        //           .notifications[index]
+                                        //           .entityId ??
+                                        //       '',
+                                        //   date: _srvicesController
+                                        //           .notifications[index]
+                                        //           .data!["date"] ??
+                                        //       '',
+                                        // ));
                                       } else if (_srvicesController
                                               .notifications[index]
                                               .notificationType ==
                                           'ADVENTURE_SUMMARY') {
                                         Get.back();
-                                        Get.to(AdventureSummaryScreen(
-                                          adventureId: _srvicesController
-                                                  .notifications[index]
-                                                  .entityId ??
-                                              '',
-                                        ));
+                                        Get.to(
+                                          () => LocalTicketScreen(
+                                            servicesController:
+                                                Get.put(AdventureController()),
+                                            type: 'adventure',
+                                          ),
+                                        );
+                                        // Get.back();
+                                        // Get.to(AdventureSummaryScreen(
+                                        //   adventureId: _srvicesController
+                                        //           .notifications[index]
+                                        //           .entityId ??
+                                        //       '',
+                                        // ));
                                       } else if (_srvicesController
                                               .notifications[index]
                                               .notificationType ==
@@ -241,7 +270,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                       } else if (_srvicesController
                                               .notifications[index]
                                               .notificationType ==
-                                          'OFFER_ACCEPTED') {
+                                          'REQUEST_ACCEPTED') {
                                         log('hkiy');
                                         Get.back();
                                         Get.to(

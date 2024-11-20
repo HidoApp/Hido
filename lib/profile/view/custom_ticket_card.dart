@@ -234,7 +234,7 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                                   width: 4,
                                 ),
                                 CustomText(
-                                  text: getBookingTypeText(
+                                  text: AppUtil.getBookingTypeText(
                                       context, widget.booking.bookingType!),
                                   fontSize: width * 0.03,
                                   fontWeight: FontWeight.w500,

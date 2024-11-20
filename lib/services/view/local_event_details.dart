@@ -549,17 +549,12 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Obx(
-                                              () => CustomText(
-                                                text: _rattingController
-                                                        .ratings.isNotEmpty
-                                                    ? '${"reviews".tr} (${_rattingController.ratings.length})'
-                                                    : '${"reviews".tr} (0)',
-                                                color: const Color(0xFF070708),
-                                                fontSize: width * 0.0461,
-                                                fontFamily: 'HT Rakik',
-                                                fontWeight: FontWeight.w500,
-                                              ),
+                                            CustomText(
+                                              text: '${"reviews".tr}',
+                                              color: const Color(0xFF070708),
+                                              fontSize: width * 0.0461,
+                                              fontFamily: 'HT Rakik',
+                                              fontWeight: FontWeight.w500,
                                             ),
                                           ],
                                         ),

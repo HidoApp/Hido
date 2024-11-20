@@ -123,8 +123,7 @@ class ReviewCard extends StatelessWidget {
           //   color: graySmallText,
           // ),
           ReadMoreWidget(
-            text:
-                'My recent tour in Tuwaiq Mountain with a local guide was absolutely incredible! The guides extensive knowledge and genuine passion for the culture made the experience truly unforgettable. From exploring the',
+            text: description,
             fontSize: width * 0.03,
             fontWeight: FontWeight.w500,
             color: black,

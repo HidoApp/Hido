@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
@@ -47,6 +49,9 @@ class _SummaryScreenState extends State<SummaryScreen> {
   //List<String> status = ['canceled', 'waiting', 'confirmed'];
 
   void gethospitalitySummary() async {
+    log("test");
+    log(widget.hospitalityId);
+    log(widget.date);
     _summary = await _servicesController.getHospitalitySummaryById(
         context: context, id: widget.hospitalityId, date: widget.date);
 
@@ -217,10 +222,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                 ),
                                 if (_summary!.daysInfo.isNotEmpty)
                                   CustomText(
-                                    text: formatBookingDate(
-                                        context,
-                                        _summary?.daysInfo.first.startTime ??
-                                            ''),
+                                    text:
+                                        formatBookingDate(context, widget.date),
                                     color: const Color(0xFF070708),
                                     fontSize: 15,
                                     fontFamily: AppUtil.rtlDirection2(context)

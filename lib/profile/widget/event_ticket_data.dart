@@ -140,8 +140,7 @@ class _EventTicketDataState extends State<EventTicketData> {
               children: [
                 widget.icon ?? const SizedBox.shrink(),
                 Text(
-                  AppUtil.getBookingTypeText(
-                      context, widget.bookTypeText ?? ''),
+                  ' ${AppUtil.getBookingTypeText(context, widget.bookTypeText ?? '')}',
                   style: TextStyle(
                     color: black,
                     fontSize: width * 0.038,

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
@@ -95,7 +97,8 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //   profileBooking?.offers?.first.user!.profile.name ??
+    log("lkkk");
+    log(widget.booking!.hasPayment.toString());
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -289,7 +292,8 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                 widget.event == null &&
                 widget.hospitality == null &&
                 !widget.isTour!) ...[
-              if (widget.booking!.orderStatus == 'ACCEPTED') ...[
+              if (widget.booking!.orderStatus == 'ACCEPTED' &&
+                  widget.booking!.hasPayment == true) ...[
                 CustomButton(
                   onPressed: () {
                     Get.bottomSheet(
@@ -481,7 +485,8 @@ class TicketData extends StatelessWidget {
                   child: icon!,
                 ),
                 CustomText(
-                  text: AppUtil.getBookingTypeText(context, bookTypeText!),
+                  text:
+                      ' ${AppUtil.getBookingTypeText(context, bookTypeText!)}',
                   color: black,
                   fontSize: width * 0.038,
                   fontFamily: AppUtil.SfFontType(context),

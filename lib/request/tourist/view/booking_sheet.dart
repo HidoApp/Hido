@@ -147,7 +147,7 @@ class _BookingSheetState extends State<BookingSheet> {
     bool validateTime() {
       final Duration totalTime = newTimeToReturn.difference(newTimeToGo);
       final Duration eightHours = const Duration(hours: 8);
-      final Duration fourHours = const Duration(hours: 4);
+      //final Duration fourHours = const Duration(hours: 4);
       final Duration adjustedTotalTime = totalTime.isNegative
           ? totalTime +
               const Duration(
@@ -156,7 +156,8 @@ class _BookingSheetState extends State<BookingSheet> {
           : totalTime;
       // ? totalTime + Duration(days: 1) +Duration(hours: 1);
 
-      if (adjustedTotalTime >= fourHours && adjustedTotalTime <= eightHours) {
+      // if (adjustedTotalTime >= fourHours && adjustedTotalTime <= eightHours) {
+      if (adjustedTotalTime <= eightHours) {
         setState(() {
           DurationErrorMessage = false;
         });
@@ -976,8 +977,10 @@ class _BookingSheetState extends State<BookingSheet> {
                                     newTimeToGo.hour,
                                     newTimeToGo.minute,
                                     newTimeToGo.second);
+                                // if (newTimeToGoInRiyadh
+                                //     .isAfter(nowPlusTwoHours))
                                 if (newTimeToGoInRiyadh
-                                    .isAfter(nowPlusTwoHours)) {
+                                    .isAfter(currentDateInRiyadh)) {
                                   if (!_touristExploreController
                                       .TimeErrorMessage.value) {
                                     _touristExploreController
@@ -1090,15 +1093,19 @@ class _BookingSheetState extends State<BookingSheet> {
                                   AppUtil.errorToast(
                                       context,
                                       AppUtil.rtlDirection2(context)
-                                          ? "يجب أن يكون وقت الجولة بعد ساعتين على الأقل من الوقت الحالي"
-                                          : "The tour time must be at least two hours after the current time.");
+                                          ? "يجب أن يكون وقت الجولة أكبر من الوقت الحالي"
+                                          : "The tour time must be after the current time.");
+                                  // ? "يجب أن يكون وقت الجولة بعد ساعتين على الأقل من الوقت الحالي"
+                                  // : "The tour time must be at least two hours after the current time.");
                                 }
                               } else {
                                 AppUtil.errorToast(
                                     context,
                                     AppUtil.rtlDirection2(context)
-                                        ? "يجب أن تكون مدة الجولة بين ٤ و ٨ ساعات"
-                                        : "The Tour duration must be between 4 and 8 hours");
+                                        ? "يجب أن لا تزيد مدة الجولة عن ٨ ساعات"
+                                        : "The Tour duration must be 8 hours or less");
+                                // ? "يجب أن تكون مدة الجولة بين ٤ و ٨ ساعات"
+                                // : "The Tour duration must be between 4 and 8 hours");
                               }
                             } else {}
                           },

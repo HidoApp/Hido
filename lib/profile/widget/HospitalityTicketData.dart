@@ -124,7 +124,7 @@ class HostTicketData extends StatelessWidget {
               children: [
                 icon ?? const SizedBox.shrink(),
                 Text(
-                  AppUtil.getBookingTypeText(context, bookTypeText ?? ''),
+                  ' ${AppUtil.getBookingTypeText(context, bookTypeText ?? '')}',
                   style: TextStyle(
                     color: black,
                     fontSize: width * 0.038,
