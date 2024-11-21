@@ -43,10 +43,10 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   log('Is Arabic: $isArabic');
 
   // Fetch localized notification details
-  final title = !isArabic
+  final title = isArabic
       ? message.data["title"] ?? message.notification?.title
       : message.notification?.title;
-  final body = !isArabic
+  final body = isArabic
       ? message.data["body"] ?? message.notification?.body
       : message.notification?.body;
 
