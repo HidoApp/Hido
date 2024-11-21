@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/amplitude_service.dart';
+import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
+import 'package:ajwad_v4/profile/view/ticket_details_screen.dart';
+import 'package:ajwad_v4/request/local_notification.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/view/widgets/review_details_tile.dart';
@@ -14,6 +19,7 @@ import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
 import 'package:ajwad_v4/widgets/promocode_field.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 
@@ -43,6 +49,44 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
   void initState() {
     super.initState();
     finalCost = (widget.adventure.price * widget.person).toDouble();
+  }
+
+  void freeAdventureBooking() async {
+    final isSucces = await _adventureController.checkAdventureBooking(
+      adventureID: widget.adventure.id,
+      context: context,
+      personNumber: widget.person,
+      couponId: paymentController.couponId.value,
+    );
+    if (!mounted) return;
+
+    if (isSucces) {
+      final updatedAdventure = await _adventureController.getAdvdentureById(
+          context: context, id: widget.adventure.id);
+      if (!mounted) return;
+      Get.offAll(() => const TouristBottomBar());
+      Get.to(() => TicketDetailsScreen(
+            adventure: updatedAdventure,
+            icon: SvgPicture.asset('assets/icons/adventure.svg'),
+            bookTypeText: "adventure",
+          ));
+      log("inside adventure");
+      // log("${updatedAdventure!.booking?.last.id}");
+      log(widget.adventure.date!);
+      log(widget.adventure.nameEn!);
+      log(widget.adventure.nameAr!);
+
+      LocalNotification().showAdventureNotification(
+          context,
+          updatedAdventure!.booking?.last.id,
+          updatedAdventure.date,
+          updatedAdventure.nameEn,
+          updatedAdventure.nameAr);
+
+      AmplitudeService.amplitude.track(BaseEvent(
+        'Get Adventure Ticket',
+      ));
+    }
   }
 
   @override
@@ -195,27 +239,34 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                     ),
                     Obx(() => _adventureController
                                 .ischeckBookingLoading.value ||
+                            _adventureController.isAdventureByIdLoading.value ||
                             paymentController.isPaymenInvoiceLoading.value
                         ? const Center(
                             child: CircularProgressIndicator.adaptive())
                         : CustomButton(
                             onPressed: () async {
-                              Get.to(
-                                () => PaymentType(
-                                  adventure: widget.adventure,
-                                  type: 'adventure',
-                                  personNumber: widget.person,
-                                  price: paymentController.validateType.value ==
-                                          'applied'
-                                      ? paymentController.finalPrice.value
-                                      : (widget.adventure.price * widget.person)
-                                          .toDouble(),
-                                ),
-                              );
+                              if (paymentController.isPriceFree.value) {
+                                freeAdventureBooking();
+                              } else {
+                                Get.to(
+                                  () => PaymentType(
+                                    adventure: widget.adventure,
+                                    type: 'adventure',
+                                    personNumber: widget.person,
+                                    price:
+                                        paymentController.validateType.value ==
+                                                'applied'
+                                            ? paymentController.finalPrice.value
+                                            : (widget.adventure.price *
+                                                    widget.person)
+                                                .toDouble(),
+                                  ),
+                                );
 
-                              AmplitudeService.amplitude.track(BaseEvent(
-                                'Go to payment screen',
-                              ));
+                                AmplitudeService.amplitude.track(BaseEvent(
+                                  'Go to payment screen',
+                                ));
+                              }
                             },
                             title: 'checkout'.tr))
                   ],

@@ -9,6 +9,7 @@ import 'package:ajwad_v4/payment/service/coupon_service.dart';
 
 import 'package:ajwad_v4/payment/service/payment_service.dart';
 import 'package:ajwad_v4/request/tourist/models/schedule.dart';
+import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,6 +40,13 @@ class PaymentController extends GetxController {
   var minSpend = 0.obs;
   var couponId = ''.obs;
   var discountPrice = 0.0.obs;
+  var isPriceFree = false.obs;
+  @override
+  onClose() {
+    isPriceFree(false);
+    discountPrice(0);
+  }
+
   Future<PaymentResult?> payWithCreditCard({
     required BuildContext context,
     required String requestId,
@@ -257,5 +265,29 @@ class PaymentController extends GetxController {
       isCouponByCodeLoading(false);
     }
     return null;
+  }
+
+  void freeBooking({
+    required String type,
+    void Function()? onHospitality,
+    void Function()? onAdventure,
+    void Function()? onTour,
+    void Function()? onEvent,
+  }) {
+    switch (type) {
+      case 'adventure':
+        onAdventure!();
+        break;
+      case 'tour':
+        onTour!();
+        break;
+      case 'hospitality':
+        onHospitality!();
+        break;
+      case 'event':
+        onEvent!();
+        break;
+      default:
+    }
   }
 }

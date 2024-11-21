@@ -98,7 +98,7 @@ class AdventureController extends GetxController {
           adventureID: adventureID,
           personNumber: personNumber,
           couponId: couponId,
-          invoiceId: invoiceId);
+          invoiceId: invoiceId ?? "");
 
       return data;
     } catch (e) {

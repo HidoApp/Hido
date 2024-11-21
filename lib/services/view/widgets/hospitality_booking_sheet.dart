@@ -1220,26 +1220,20 @@ class _ReservaationDetailsAdventureWidgetState
                                         final isSuccess = await widget
                                             .serviceController
                                             .checkAndBookHospitality(
-                                                context: context,
-                                                hospitalityId:
-                                                    widget.hospitality!.id,
-                                                date: widget.serviceController
-                                                    .selectedDate.value,
+                                          context: context,
+                                          hospitalityId: widget.hospitality!.id,
+                                          date: widget.serviceController
+                                              .selectedDate.value,
 
-                                                //   '${widget.hospitality!.daysInfo[widget.serviceController.selectedDateIndex.value].startTime.substring(11)}',
-                                                dayId: widget
-                                                    .hospitality!
-                                                    .daysInfo[widget
-                                                        .serviceController
-                                                        .selectedDateIndex
-                                                        .value]
-                                                    .id,
-                                                numOfMale: maleGuestNum,
-                                                numOfFemale: femaleGuestNum,
-                                                cost:
-                                                    (widget.hospitality!.price *
-                                                            guestNum)
-                                                        .toDouble());
+                                          //   '${widget.hospitality!.daysInfo[widget.serviceController.selectedDateIndex.value].startTime.substring(11)}',
+                                          dayId: widget
+                                              .hospitality!
+                                              .daysInfo[widget.serviceController
+                                                  .selectedDateIndex.value]
+                                              .id,
+                                          numOfMale: maleGuestNum,
+                                          numOfFemale: femaleGuestNum,
+                                        );
 
                                         if (isSuccess) {
                                           invoice ??= await paymentController
@@ -1277,11 +1271,6 @@ class _ReservaationDetailsAdventureWidgetState
                                                     .serviceController
                                                     .checkAndBookHospitality(
                                                         context: context,
-                                                        cost: (widget
-                                                                    .hospitality!
-                                                                    .price *
-                                                                guestNum)
-                                                            .toDouble(),
                                                         date: widget
                                                             .serviceController
                                                             .selectedDate

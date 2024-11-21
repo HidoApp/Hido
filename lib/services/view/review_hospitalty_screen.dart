@@ -1,10 +1,15 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:developer';
+
 import 'package:ajwad_v4/amplitude_service.dart';
+import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/view/payment_type_new.dart';
+import 'package:ajwad_v4/profile/view/ticket_details_screen.dart';
+import 'package:ajwad_v4/request/local_notification.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/view/widgets/review_details_tile.dart';
@@ -18,6 +23,7 @@ import 'package:ajwad_v4/widgets/payment_web_view.dart';
 import 'package:ajwad_v4/widgets/promocode_field.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../request/ajwadi/controllers/request_controller.dart';
@@ -51,9 +57,50 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
         (widget.maleGuestNum + widget.femaleGuestNum).toDouble();
   }
 
-  final RequestController _RequestController = Get.put(RequestController());
-
   PaymentController paymentController = Get.put(PaymentController());
+  void freeHospitaltyBooking() async {
+    final isSucces = await widget.servicesController.checkAndBookHospitality(
+      context: context,
+      hospitalityId: widget.hospitality.id,
+      date: widget.servicesController.selectedDate.value,
+      dayId: widget.hospitality
+          .daysInfo[widget.servicesController.selectedDateIndex.value].id,
+      numOfMale: widget.maleGuestNum,
+      numOfFemale: widget.femaleGuestNum,
+      couponId: paymentController.couponId.value,
+    );
+    if (!mounted) return;
+    log("isSucces");
+    log(isSucces.toString());
+    if (isSucces) {
+      final updatedHospitality = await widget.servicesController
+          .getHospitalityById(context: context, id: widget.hospitality.id);
+      log(updatedHospitality!.booking!.last.guestInfo.male.toString());
+      log(updatedHospitality.booking!.last.guestInfo.female.toString());
+      log(updatedHospitality.booking!.last.guestInfo.dayId.toString());
+
+      Get.offAll(() => const TouristBottomBar());
+
+      Get.to(() => TicketDetailsScreen(
+            hospitality: updatedHospitality,
+            icon: SvgPicture.asset('assets/icons/hospitality.svg'),
+            bookTypeText: "hospitality",
+          ));
+
+      AmplitudeService.amplitude.track(BaseEvent(
+        'Get Hospitality Ticket',
+      ));
+
+      LocalNotification().showHospitalityNotification(
+          context,
+          updatedHospitality.booking?.last.id,
+          widget.servicesController.selectedDate.value,
+          updatedHospitality.mealTypeEn,
+          updatedHospitality.mealTypeAr,
+          updatedHospitality.titleEn,
+          updatedHospitality.titleAr);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -246,31 +293,36 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                     Obx(
                       () => widget.servicesController.isCheckAndBookLoading
                                   .value ||
+                              widget.servicesController.isHospitalityByIdLoading
+                                  .value ||
                               paymentController.isPaymenInvoiceLoading.value
                           ? const Center(
                               child: CircularProgressIndicator.adaptive())
                           : CustomButton(
                               onPressed: (() async {
-                                Get.to(
-                                  () => PaymentType(
-                                    price:
-                                        paymentController.validateType.value ==
-                                                'applied'
-                                            ? paymentController.finalPrice.value
-                                            : finalCost,
-                                    type: "hospitality",
-                                    hospitality: widget.hospitality,
-                                    servicesController:
-                                        widget.servicesController,
-                                    male: widget.maleGuestNum,
-                                    female: widget.femaleGuestNum,
-                                  ),
-                                );
+                                if (paymentController.isPriceFree.value) {
+                                  freeHospitaltyBooking();
+                                } else {
+                                  Get.to(
+                                    () => PaymentType(
+                                      price: paymentController
+                                                  .validateType.value ==
+                                              'applied'
+                                          ? paymentController.finalPrice.value
+                                          : finalCost,
+                                      type: "hospitality",
+                                      hospitality: widget.hospitality,
+                                      servicesController:
+                                          widget.servicesController,
+                                      male: widget.maleGuestNum,
+                                      female: widget.femaleGuestNum,
+                                    ),
+                                  );
 
-                                AmplitudeService.amplitude.track(BaseEvent(
-                                  'Go to payment screen',
-                                ));
-                                return;
+                                  AmplitudeService.amplitude.track(BaseEvent(
+                                    'Go to payment screen',
+                                  ));
+                                }
                               }),
                               title: 'checkout'.tr),
                     ),
@@ -283,16 +335,4 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
       ),
     );
   }
-}
-
-Future<void> navigateToPayment(BuildContext context, String url) async {
-  await Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => PaymentWebView(
-        url: url,
-        title: 'Payment',
-      ),
-    ),
-  );
 }

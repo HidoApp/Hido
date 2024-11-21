@@ -27,19 +27,24 @@ class _PromocodeFieldState extends State<PromocodeField> {
   final _paymentController = Get.put(PaymentController());
   var code = '';
   void couponDiscountPercentage(String code, Coupon coupon) async {
+    if (!mounted) return; // Ensure the widget is still active
+
     _paymentController.validateType.value = 'applied';
     double discountPrice = AppUtil.couponPercentageCalculating(
       hidoPercentage: widget.type == 'HOSPITALITY' ? 0.25 : 0.3,
       couponPercentage: coupon.discountPercentage!,
       price: widget.price,
     );
-    _paymentController.discountPrice.value = discountPrice > coupon.maxDiscount!
-        ? coupon.maxDiscount!.toDouble()
-        : discountPrice;
+    _paymentController.discountPrice.value =
+        discountPrice > coupon.maxDiscount! && coupon.maxDiscount != 0
+            ? coupon.maxDiscount!.toDouble()
+            : discountPrice;
 
     _paymentController.finalPrice(
       widget.price - _paymentController.discountPrice.value,
     );
+    _paymentController.isPriceFree.value =
+        _paymentController.finalPrice.value == 0;
     _paymentController.couponId(coupon.id);
     // log(_paymentController.couponId.value);
     // log(_paymentController.discountPrice.value.toString());
@@ -47,6 +52,8 @@ class _PromocodeFieldState extends State<PromocodeField> {
   }
 
   void couponDiscountAmount(String code, Coupon coupon) async {
+    if (!mounted) return; // Ensure the widget is still active
+
     _paymentController.validateType.value = 'applied';
     var discountAmount = AppUtil.couponAmountCalculating(
       hidoPercentage: widget.type == 'HOSPITALITY' ? 0.25 : 0.3,
@@ -61,18 +68,21 @@ class _PromocodeFieldState extends State<PromocodeField> {
       widget.price - _paymentController.discountPrice.value,
     );
     _paymentController.couponId(coupon.id);
-    log(_paymentController.couponId.value);
-    log(_paymentController.discountPrice.value.toString());
-    log(_paymentController.finalPrice.value.toString());
+    // log(_paymentController.couponId.value);
+    // log(_paymentController.discountPrice.value.toString());
+    // log(_paymentController.finalPrice.value.toString());
   }
 
   @override
   void dispose() {
-    _paymentController.discountPrice(0);
-    _paymentController.finalPrice(0);
-    _paymentController.minSpend(0);
-    _paymentController.couponId('');
-    _paymentController.isUnderMinSpend(false);
+    if (mounted) {
+      _paymentController.finalPrice(0);
+      _paymentController.minSpend(0);
+      _paymentController.couponId('');
+      _paymentController.isUnderMinSpend(false);
+      _paymentController.isPriceFree(false);
+    }
+
     super.dispose();
   }
 
@@ -126,6 +136,7 @@ class _PromocodeFieldState extends State<PromocodeField> {
                 code = value;
                 _paymentController.isUnderMinSpend.value = false;
                 _paymentController.validateType.value = '';
+                _paymentController.isPriceFree(false);
               },
               suffixIcon: Padding(
                 padding: EdgeInsets.symmetric(horizontal: width * .030),
