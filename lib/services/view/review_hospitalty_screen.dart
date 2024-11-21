@@ -300,7 +300,9 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                               child: CircularProgressIndicator.adaptive())
                           : CustomButton(
                               onPressed: (() async {
-                                if (paymentController.finalPrice.value != 0) {
+                                if (paymentController.isPriceFree.value) {
+                                  freeHospitaltyBooking();
+                                } else {
                                   Get.to(
                                     () => PaymentType(
                                       price: paymentController
@@ -320,8 +322,6 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                                   AmplitudeService.amplitude.track(BaseEvent(
                                     'Go to payment screen',
                                   ));
-                                } else {
-                                  freeHospitaltyBooking();
                                 }
                               }),
                               title: 'checkout'.tr),

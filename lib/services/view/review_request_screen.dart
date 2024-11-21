@@ -86,31 +86,42 @@ class _ReviewRequestState extends State<ReviewRequest> {
       offerId: widget.offerController!.offerDetails.value.id!,
       schedules: widget.offerController!.updateScheduleList,
     );
+
     if (!mounted) return;
+
     final book.Booking? fetchedBooking =
         await _RequestController.getBookingById(
-            context: context, bookingId: widget.booking!.id!);
-    if (!mounted) return;
-    Get.offAll(() => const TouristBottomBar());
-    Get.to(() => TicketDetailsScreen(
-          booking: fetchedBooking,
-          icon: SvgPicture.asset('assets/icons/place.svg'),
-          bookTypeText: 'place',
-          isTour: true,
-        ));
-    LocalNotification().showNotification(
-      context,
-      fetchedBooking?.id,
-      fetchedBooking?.timeToGo,
-      fetchedBooking?.date,
-      fetchedBooking?.user?.profile.name,
-      fetchedBooking?.requestName?.nameEn,
-      fetchedBooking?.requestName?.nameAr,
+      context: context,
+      bookingId: widget.booking!.id!,
     );
 
-    AmplitudeService.amplitude.track(BaseEvent(
-      'Get Tour Ticket',
-    ));
+    if (!mounted) return;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+
+      // Navigation
+      Get.offAll(() => const TouristBottomBar());
+      Get.to(() => TicketDetailsScreen(
+            booking: fetchedBooking,
+            icon: SvgPicture.asset('assets/icons/place.svg'),
+            bookTypeText: 'place',
+            isTour: true,
+          ));
+
+      // Notification
+      LocalNotification().showNotification(
+        context,
+        fetchedBooking?.id,
+        fetchedBooking?.timeToGo,
+        fetchedBooking?.date,
+        fetchedBooking?.user?.profile.name,
+        fetchedBooking?.requestName?.nameEn,
+        fetchedBooking?.requestName?.nameAr,
+      );
+    });
+
+    AmplitudeService.amplitude.track(BaseEvent('Get Tour Ticket'));
   }
 
   PaymentController paymentController = Get.put(PaymentController());
@@ -275,9 +286,7 @@ class _ReviewRequestState extends State<ReviewRequest> {
                         SizedBox(
                           height: width * 0.02,
                         ),
-                        paymentController.isPaymenInvoiceLoading.value ||
-                                widget.offerController!.isAcceptOfferLoading
-                                    .value ||
+                        widget.offerController!.isAcceptOfferLoading.value ||
                                 _RequestController.isBookingLoading.value
                             ? const Center(
                                 child: CircularProgressIndicator.adaptive())

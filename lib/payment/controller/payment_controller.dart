@@ -41,6 +41,12 @@ class PaymentController extends GetxController {
   var couponId = ''.obs;
   var discountPrice = 0.0.obs;
   var isPriceFree = false.obs;
+  @override
+  onClose() {
+    isPriceFree(false);
+    discountPrice(0);
+  }
+
   Future<PaymentResult?> payWithCreditCard({
     required BuildContext context,
     required String requestId,

@@ -27,6 +27,8 @@ class _PromocodeFieldState extends State<PromocodeField> {
   final _paymentController = Get.put(PaymentController());
   var code = '';
   void couponDiscountPercentage(String code, Coupon coupon) async {
+    if (!mounted) return; // Ensure the widget is still active
+
     _paymentController.validateType.value = 'applied';
     double discountPrice = AppUtil.couponPercentageCalculating(
       hidoPercentage: widget.type == 'HOSPITALITY' ? 0.25 : 0.3,
@@ -50,6 +52,8 @@ class _PromocodeFieldState extends State<PromocodeField> {
   }
 
   void couponDiscountAmount(String code, Coupon coupon) async {
+    if (!mounted) return; // Ensure the widget is still active
+
     _paymentController.validateType.value = 'applied';
     var discountAmount = AppUtil.couponAmountCalculating(
       hidoPercentage: widget.type == 'HOSPITALITY' ? 0.25 : 0.3,
@@ -71,11 +75,14 @@ class _PromocodeFieldState extends State<PromocodeField> {
 
   @override
   void dispose() {
-    _paymentController.discountPrice(0);
-    _paymentController.finalPrice(0);
-    _paymentController.minSpend(0);
-    _paymentController.couponId('');
-    _paymentController.isUnderMinSpend(false);
+    if (mounted) {
+      _paymentController.finalPrice(0);
+      _paymentController.minSpend(0);
+      _paymentController.couponId('');
+      _paymentController.isUnderMinSpend(false);
+      _paymentController.isPriceFree(false);
+    }
+
     super.dispose();
   }
 
