@@ -12,17 +12,21 @@ class CustomBadge extends StatelessWidget {
   final Color? iconColor; // Color of the badge
   final double width; // Width of the icon
   final double height; // Height of the icon
+  final double top; // Height of the icon
+  final double end; // Height of the icon
 
-  const CustomBadge({
-    Key? key,
-    required this.onTap,
-    required this.iconPath,
-    required this.badgeCount,
-    this.iconColor,
-    this.badgeColor = Colors.red,
-    this.width = 36,
-    this.height = 26,
-  }) : super(key: key);
+  const CustomBadge(
+      {Key? key,
+      required this.onTap,
+      required this.iconPath,
+      required this.badgeCount,
+      this.iconColor,
+      this.badgeColor = Colors.red,
+      this.width = 36,
+      this.height = 26,
+      this.end = 7,
+      this.top = 2})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,7 @@ class CustomBadge extends StatelessWidget {
       onTap: onTap,
       child: Obx(
         () => badges.Badge(
-          position: badges.BadgePosition.topEnd(top: 2, end: 7),
+          position: badges.BadgePosition.topEnd(top: top, end: end),
           showBadge: badgeCount.value > 0,
           ignorePointer: false,
           badgeStyle: badges.BadgeStyle(

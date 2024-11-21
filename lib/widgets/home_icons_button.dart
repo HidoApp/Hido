@@ -48,21 +48,13 @@ class HomeIconButton extends StatelessWidget {
             Obx(
               () => badgeCount!.value > 0
                   ? Positioned(
-                      top: 4,
-                      right: 4,
+                      top: 7,
+                      right: 8,
                       child: Container(
                         padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
                           color: badgeColor,
                           shape: BoxShape.circle,
-                        ),
-                        child: Text(
-                          badgeCount!.value.toString(),
-                          style: const TextStyle(
-                            fontSize: 10,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
                         ),
                       ),
                     )

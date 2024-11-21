@@ -631,8 +631,8 @@ class AuthController extends GetxController {
       return;
     }
 
-    // log(appVersion.versionNumber ?? "NO Ver");
-    // log(version);
+    log(appVersion.versionNumber ?? "NO Ver");
+    log(version);
 
     if (appVersion.versionNumber == version) {
       log('Same Version');

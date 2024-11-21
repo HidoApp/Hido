@@ -102,6 +102,8 @@ class MapIconsWidget extends StatelessWidget {
             badgeCount: _notifyController.notifyCount,
             badgeColor: Colors.red,
             width: 24,
+            top: 2,
+            end: 3,
             height: 24,
           ),
 
