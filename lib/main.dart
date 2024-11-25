@@ -9,12 +9,14 @@ import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
 import 'package:ajwad_v4/notification/controller/notification_controller.dart';
 import 'package:ajwad_v4/notification/customBadge.dart';
 import 'package:ajwad_v4/notification/notifications_screen.dart';
+import 'package:ajwad_v4/share/services/share_services.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/error_screen_widget.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -103,6 +105,20 @@ void main() async {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
     await FirebaseApi().initNotifications();
+    FirebaseDynamicLinks.instance.onLink.listen((PendingDynamicLinkData data) {
+      final Uri deepLink = data.link;
+      // Extract information from the deep link
+      // Example:
+      if (deepLink.path == '/products') {
+        // Navigate to the Products screen
+      } else if (deepLink.path == '/profile') {
+        // Navigate to the Profile screen
+      } else {
+        // Handle other cases or show an error message
+      }
+    }).onError((error) {
+      // Handle any errors
+    });
     if (kReleaseMode) {
       await SentryFlutter.init(
         (options) {
@@ -144,7 +160,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     token = _getStorage.read('accessToken') ?? '';
     log('token $token');
 

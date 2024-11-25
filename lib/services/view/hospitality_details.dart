@@ -20,6 +20,7 @@ import 'package:ajwad_v4/widgets/custom_policy_sheet.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/floating_booking_button.dart';
 import 'package:ajwad_v4/widgets/read_more_widget.dart';
+import 'package:ajwad_v4/widgets/share_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -615,57 +616,68 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                         )
                       ],
                     ),
-                    if (!widget.isLocal && !AppUtil.isGuest())
+                    if (!widget.isLocal && !AppUtil.isGuest()) ...[
                       Positioned(
                         top: height * 0.066,
                         right: AppUtil.rtlDirection2(context)
-                            ? width * 0.82
+                            ? width * 0.75
                             : width * 0.072,
                         child: Obx(
-                          () => GestureDetector(
-                            onTap: () {
-                              _profileController.isHospitaltyBookmarked(
-                                  !_profileController
-                                      .isHospitaltyBookmarked.value);
-                              if (_profileController
-                                  .isHospitaltyBookmarked.value) {
-                                final bookmark = Bookmark(
-                                    isBookMarked: true,
-                                    id: hospitalityObj!.id,
-                                    titleEn: hospitalityObj!.titleEn ?? "",
-                                    titleAr: hospitalityObj!.titleAr ?? "",
-                                    image: hospitalityObj!.images.first,
-                                    type: 'hospitality');
-                                BookmarkService.addBookmark(bookmark);
-                                // AppUtil.successToast(
-                                //     context, 'Added to bookmarks');
-                              } else {
-                                BookmarkService.removeBookmark(
-                                    hospitalityObj!.id);
-                                // AppUtil.successToast(
-                                //     context, 'Removed from bookmarks');
-                              }
-                            },
-                            child: Container(
-                                width: 35,
-                                height: 36,
-                                decoration: BoxDecoration(
-                                  color: Colors.white
-                                      .withOpacity(0.20000000298023224),
-                                  shape: BoxShape.circle,
+                          () => Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  _profileController.isHospitaltyBookmarked(
+                                      !_profileController
+                                          .isHospitaltyBookmarked.value);
+                                  if (_profileController
+                                      .isHospitaltyBookmarked.value) {
+                                    final bookmark = Bookmark(
+                                        isBookMarked: true,
+                                        id: hospitalityObj!.id,
+                                        titleEn: hospitalityObj!.titleEn ?? "",
+                                        titleAr: hospitalityObj!.titleAr ?? "",
+                                        image: hospitalityObj!.images.first,
+                                        type: 'hospitality');
+                                    BookmarkService.addBookmark(bookmark);
+                                    // AppUtil.successToast(
+                                    //     context, 'Added to bookmarks');
+                                  } else {
+                                    BookmarkService.removeBookmark(
+                                        hospitalityObj!.id);
+                                    // AppUtil.successToast(
+                                    //     context, 'Removed from bookmarks');
+                                  }
+                                },
+                                child: Container(
+                                  width: 35,
+                                  height: 36,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white
+                                        .withOpacity(0.20000000298023224),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: SvgPicture.asset(
+                                    _profileController
+                                            .isHospitaltyBookmarked.value
+                                        ? "assets/icons/bookmark_fill.svg"
+                                        : "assets/icons/bookmark_icon.svg",
+                                    height: 28,
+                                    color: Colors.white,
+                                  ),
                                 ),
-                                alignment: Alignment.center,
-                                child: SvgPicture.asset(
-                                  _profileController
-                                          .isHospitaltyBookmarked.value
-                                      ? "assets/icons/bookmark_fill.svg"
-                                      : "assets/icons/bookmark_icon.svg",
-                                  height: 28,
-                                  color: Colors.white,
-                                )),
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              const ShareWidget(),
+                            ],
                           ),
                         ),
                       ),
+                    ],
                     if (widget.isLocal)
                       Positioned(
                           top: height * 0.066,

@@ -14,6 +14,7 @@ import 'package:ajwad_v4/widgets/custom_aleart_widget.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/read_more_widget.dart';
+import 'package:ajwad_v4/widgets/share_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -375,83 +376,6 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                         ? event!.descriptionAr ?? ''
                                         : event!.descriptionEn ?? '',
                               ),
-                              // Align(
-                              //   alignment: AppUtil.rtlDirection2(context)
-                              //       ? Alignment.centerRight
-                              //       : Alignment.centerLeft,
-                              //   child: ConstrainedBox(
-                              //     constraints: isExpanded
-                              //         ? const BoxConstraints()
-                              //         : BoxConstraints(maxHeight: width * 0.1),
-                              //     child: CustomText(
-                              //       textDirection: AppUtil.rtlDirection(context)
-                              //           ? TextDirection.ltr
-                              //           : TextDirection.rtl,
-                              //       textOverflow: isExpanded
-                              //           ? TextOverflow.visible
-                              //           : TextOverflow.clip,
-                              //       fontFamily: AppUtil.rtlDirection2(context)
-                              //           ? 'SF Arabic'
-                              //           : 'SF Pro',
-                              //       fontWeight: FontWeight.w400,
-                              //       maxlines: 600,
-                              //       color: const Color(0xFF9392A0),
-                              //       fontSize: width * 0.035,
-                              // text: AppUtil.rtlDirection2(context)
-                              //     ? event!.descriptionAr ?? ''
-                              //     : event!.descriptionEn ?? '',
-                              //     ),
-                              //   ),
-                              // ),
-                              // SizedBox(
-                              //   height: width * 0.012,
-                              // ),
-                              // isExpanded
-                              //     ? Align(
-                              //         alignment: AppUtil.rtlDirection2(context)
-                              //             ? Alignment.bottomRight
-                              //             : Alignment.bottomLeft,
-                              //         child: GestureDetector(
-                              //           onTap: () {
-                              //             setState(() => isExpanded = false);
-                              //           },
-                              //           child: Padding(
-                              //             padding:
-                              //                 const EdgeInsets.only(top: 8.0),
-                              //             child: CustomText(
-                              //               text: AppUtil.rtlDirection2(context)
-                              //                   ? "القليل"
-                              //                   : "Show less",
-                              //               color: blue,
-                              //               fontFamily:
-                              //                   AppUtil.rtlDirection2(context)
-                              //                       ? 'SF Arabic'
-                              //                       : 'SF Pro',
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       )
-                              //     : Align(
-                              //         alignment: AppUtil.rtlDirection2(context)
-                              //             ? Alignment.bottomRight
-                              //             : Alignment.bottomLeft,
-                              //         child: GestureDetector(
-                              //           onTap: () =>
-                              //               setState(() => isExpanded = true),
-                              //           child: Padding(
-                              //             padding:
-                              //                 const EdgeInsets.only(top: 8.0),
-                              //             child: CustomText(
-                              //               text: "readMore".tr,
-                              //               color: blue,
-                              //               fontFamily:
-                              //                   AppUtil.rtlDirection2(context)
-                              //                       ? 'SF Arabic'
-                              //                       : 'SF Pro',
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       ),
                               SizedBox(
                                 height: width * 0.025,
                               ),
@@ -652,49 +576,60 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                         )
                       ],
                     ),
-                    if (!widget.isLocal && !AppUtil.isGuest())
+                    if (!widget.isLocal && !AppUtil.isGuest()) ...[
                       Positioned(
                         top: height * 0.066,
                         right: AppUtil.rtlDirection2(context)
-                            ? width * 0.82
+                            ? width * 0.75
                             : width * 0.072,
-                        child: Obx(
-                          () => GestureDetector(
-                            onTap: () {
-                              _profileController.isEventBookmarked(
-                                  !_profileController.isEventBookmarked.value);
-                              if (_profileController.isEventBookmarked.value) {
-                                final bookmark = Bookmark(
-                                    isBookMarked: true,
-                                    id: event!.id,
-                                    titleEn: event!.nameEn ?? "",
-                                    titleAr: event!.nameAr ?? "",
-                                    image: event!.image!.first,
-                                    type: 'event');
-                                BookmarkService.addBookmark(bookmark);
-                              } else {
-                                BookmarkService.removeBookmark(event!.id);
-                              }
-                            },
-                            child: Container(
-                                width: 35,
-                                height: 36,
-                                decoration: BoxDecoration(
-                                  color: Colors.white
-                                      .withOpacity(0.20000000298023224),
-                                  shape: BoxShape.circle,
-                                ),
-                                alignment: Alignment.center,
-                                child: SvgPicture.asset(
-                                  _profileController.isEventBookmarked.value
-                                      ? "assets/icons/bookmark_fill.svg"
-                                      : "assets/icons/bookmark_icon.svg",
-                                  height: 28,
-                                  color: Colors.white,
-                                )),
-                          ),
+                        child: Row(
+                          children: [
+                            Obx(
+                              () => GestureDetector(
+                                onTap: () {
+                                  _profileController.isEventBookmarked(
+                                      !_profileController
+                                          .isEventBookmarked.value);
+                                  if (_profileController
+                                      .isEventBookmarked.value) {
+                                    final bookmark = Bookmark(
+                                        isBookMarked: true,
+                                        id: event!.id,
+                                        titleEn: event!.nameEn ?? "",
+                                        titleAr: event!.nameAr ?? "",
+                                        image: event!.image!.first,
+                                        type: 'event');
+                                    BookmarkService.addBookmark(bookmark);
+                                  } else {
+                                    BookmarkService.removeBookmark(event!.id);
+                                  }
+                                },
+                                child: Container(
+                                    width: 35,
+                                    height: 36,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white
+                                          .withOpacity(0.20000000298023224),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: SvgPicture.asset(
+                                      _profileController.isEventBookmarked.value
+                                          ? "assets/icons/bookmark_fill.svg"
+                                          : "assets/icons/bookmark_icon.svg",
+                                      height: 28,
+                                      color: Colors.white,
+                                    )),
+                              ),
+                            ),
+                            SizedBox(
+                              width: width * 0.0205,
+                            ),
+                            const ShareWidget()
+                          ],
                         ),
                       ),
+                    ],
                     Positioned(
                       top: height * 0.06,
                       left: AppUtil.rtlDirection2(context)

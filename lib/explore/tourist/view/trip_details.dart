@@ -22,6 +22,7 @@ import 'package:ajwad_v4/widgets/custom_policy_sheet.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:ajwad_v4/widgets/read_more_widget.dart';
+import 'package:ajwad_v4/widgets/share_widget.dart';
 import 'package:ajwad_v4/widgets/sign_sheet.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -653,48 +654,58 @@ class _TripDetailsState extends State<TripDetails> {
               )
             ],
           ),
-          if (!AppUtil.isGuest() && _profileController.profile.id != '')
+          if (!AppUtil.isGuest() && _profileController.profile.id != '') ...[
             Positioned(
               top: height * 0.066,
               right:
                   AppUtil.rtlDirection2(context) ? width * 0.85 : width * 0.09,
               height: 40,
-              child: Obx(
-                () => GestureDetector(
-                  onTap: () {
-                    _profileController.isTourBookmarked(
-                        !_profileController.isTourBookmarked.value);
-                    if (_profileController.isTourBookmarked.value) {
-                      final bookmark = Bookmark(
-                          isBookMarked: true,
-                          id: widget.place!.id!,
-                          titleEn: widget.place!.nameEn ?? "",
-                          titleAr: widget.place!.nameAr ?? "",
-                          image: widget.place!.image!.first,
-                          type: 'tour');
-                      BookmarkService.addBookmark(bookmark);
-                    } else {
-                      BookmarkService.removeBookmark(widget.place!.id!);
-                    }
-                  },
-                  child: Container(
-                      width: 35,
-                      height: 36,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.20000000298023224),
-                        shape: BoxShape.circle,
-                      ),
-                      alignment: Alignment.center,
-                      child: SvgPicture.asset(
-                        _profileController.isTourBookmarked.value
-                            ? "assets/icons/bookmark_fill.svg"
-                            : "assets/icons/bookmark_icon.svg",
-                        height: 28,
-                        color: Colors.white,
-                      )),
-                ),
+              child: Row(
+                children: [
+                  Obx(
+                    () => GestureDetector(
+                      onTap: () {
+                        _profileController.isTourBookmarked(
+                            !_profileController.isTourBookmarked.value);
+                        if (_profileController.isTourBookmarked.value) {
+                          final bookmark = Bookmark(
+                              isBookMarked: true,
+                              id: widget.place!.id!,
+                              titleEn: widget.place!.nameEn ?? "",
+                              titleAr: widget.place!.nameAr ?? "",
+                              image: widget.place!.image!.first,
+                              type: 'tour');
+                          BookmarkService.addBookmark(bookmark);
+                        } else {
+                          BookmarkService.removeBookmark(widget.place!.id!);
+                        }
+                      },
+                      child: Container(
+                          width: 35,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            color:
+                                Colors.white.withOpacity(0.20000000298023224),
+                            shape: BoxShape.circle,
+                          ),
+                          alignment: Alignment.center,
+                          child: SvgPicture.asset(
+                            _profileController.isTourBookmarked.value
+                                ? "assets/icons/bookmark_fill.svg"
+                                : "assets/icons/bookmark_icon.svg",
+                            height: 28,
+                            color: Colors.white,
+                          )),
+                    ),
+                  ),
+                  SizedBox(
+                    width: width * 0.0205,
+                  ),
+                  const ShareWidget()
+                ],
               ),
             ),
+          ],
           Center(
             child: Align(
               alignment: Alignment.center,
