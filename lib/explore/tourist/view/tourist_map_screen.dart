@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
@@ -277,15 +278,26 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
   void getUserActions() async {
     await _profileController.getAllActions(context: context);
+
     if (_profileController.actionsList.isNotEmpty) {
-      Get.bottomSheet(
-              isScrollControlled: true,
-              RatingSheet(
-                activityProgress: _profileController.actionsList.first,
-              ))
-          .then((value) => _profileController.updateUserAction(
-              context: context,
-              id: _profileController.actionsList.first.id ?? ""));
+      if (!mounted) return;
+
+      final activityProgress = _profileController.actionsList.first;
+
+      // Show bottom sheet
+      await Get.bottomSheet(
+          RatingSheet(
+            activityProgress: activityProgress,
+          ),
+          isScrollControlled: true);
+      log("after Rating");
+      // After the bottom sheet is fully dismissed, update user action
+      if (mounted) {
+        await _profileController.updateUserAction(
+          context: context,
+          id: activityProgress.id ?? "",
+        );
+      }
     }
   }
 
@@ -308,6 +320,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
   Widget build(BuildContext context) {
     print("Screen full");
     final width = MediaQuery.sizeOf(context).width;
+
     return Scaffold(
       bottomSheet: Obx(
         () => _touristExploreController.isActivityProgressLoading.value
