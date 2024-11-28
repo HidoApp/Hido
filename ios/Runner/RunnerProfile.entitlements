@@ -6,7 +6,7 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:www.hido.app</string>
+		<string>applinks:hido.page.link</string>
 	</array>
 </dict>
 </plist>

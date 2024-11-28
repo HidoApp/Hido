@@ -8,15 +8,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ShareWidget extends StatelessWidget {
-  const ShareWidget({super.key});
-
+  const ShareWidget({super.key, required this.id, required this.type});
+  final String id;
+  final String type;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        final link = await ShareServices.createLink(id: "12345", type: 'host');
-        final result =
-            await Share.share('check out my website ${link.toString()}');
+        final link = await ShareServices.createLink(id: id, type: type);
+        final result = await Share.share(link.toString());
         if (result.status == ShareResultStatus.success) {
           if (!context.mounted) return;
           AppUtil.successToast(context, "Share was succes");

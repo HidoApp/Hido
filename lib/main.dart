@@ -87,7 +87,6 @@ void main() async {
   //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);//new
 
   await GetStorage.init();
-  await GetStorage.init('map_markers');
   await GetStorage.init('bookmark');
 
   await initializeDateFormatting('ar');
@@ -104,21 +103,7 @@ void main() async {
     );
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-    await FirebaseApi().initNotifications();
-    FirebaseDynamicLinks.instance.onLink.listen((PendingDynamicLinkData data) {
-      final Uri deepLink = data.link;
-      // Extract information from the deep link
-      // Example:
-      if (deepLink.path == '/products') {
-        // Navigate to the Products screen
-      } else if (deepLink.path == '/profile') {
-        // Navigate to the Profile screen
-      } else {
-        // Handle other cases or show an error message
-      }
-    }).onError((error) {
-      // Handle any errors
-    });
+    ShareServices.handleDynamicLinks();
     if (kReleaseMode) {
       await SentryFlutter.init(
         (options) {

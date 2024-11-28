@@ -699,7 +699,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                             SizedBox(
                               width: width * 0.0205,
                             ),
-                            const ShareWidget()
+                            ShareWidget(
+                              id: adventure!.id,
+                              type: 'activity',
+                            )
                           ],
                         ),
                       ),
@@ -726,35 +729,46 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                           right: AppUtil.rtlDirection2(context)
                               ? width * 0.82
                               : width * 0.072,
-                          child: GestureDetector(
-                              onTap: widget.isHasBooking
-                                  ? () async {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return const CustomAlertDialog();
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                  onTap: widget.isHasBooking
+                                      ? () async {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return const CustomAlertDialog();
+                                            },
+                                          );
+                                        }
+                                      : () {
+                                          Get.to(() => EditAdventure(
+                                              adventureObj: adventure!));
                                         },
-                                      );
-                                    }
-                                  : () {
-                                      Get.to(() => EditAdventure(
-                                          adventureObj: adventure!));
-                                    },
-                              child: Container(
-                                width: 36,
-                                height: 36,
-                                decoration: BoxDecoration(
-                                  color: Colors.white
-                                      .withOpacity(0.20000000298023224),
-                                  shape: BoxShape.circle,
-                                ),
-                                alignment: Alignment.center,
-                                child: SvgPicture.asset(
-                                  'assets/icons/editPin.svg',
-                                  height: 28,
-                                  color: Colors.white,
-                                ),
-                              ))),
+                                  child: Container(
+                                    width: 36,
+                                    height: 36,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white
+                                          .withOpacity(0.20000000298023224),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: SvgPicture.asset(
+                                      'assets/icons/editPin.svg',
+                                      height: 28,
+                                      color: Colors.white,
+                                    ),
+                                  )),
+                              SizedBox(
+                                width: width * 0.0205,
+                              ),
+                              ShareWidget(
+                                id: adventure!.id,
+                                type: 'activity',
+                              )
+                            ],
+                          )),
 
                     if (!widget.isLocal && !AppUtil.isGuest())
                       Positioned(

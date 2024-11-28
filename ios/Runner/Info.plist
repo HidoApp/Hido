@@ -2,89 +2,108 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>CFBundleDisplayName</key>
-	<string>Hido هايدو</string>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleLocalizations</key>
-	<array>
-		<string>en</string>
-		<string>ar</string>
-	</array>
-	<key>CFBundleName</key>
-	<string>Hido</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>$(FLUTTER_BUILD_NAME)</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>googlechromes</string>
-		<string>comgooglemaps</string>
-	</array>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>We need access to your camera to take pictures.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>For reliable tours, Hido collects location data throughout your tour, from opening the app until the guided portion ends, to ensure smooth pickups, offer real-time support, and more </string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>For reliable tours, Hido collects location data throughout your tour, from opening the app until the guided portion ends, to ensure smooth pickups, offer real-time support, and more </string>
-	<key>NSLocationUsageDescription</key>
-	<string>For reliable tours, Hido collects location data throughout your tour, from opening the app until the guided portion ends, to ensure smooth pickups, offer real-time support, and more </string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>For reliable tours, Hido collects location data throughout your tour, from opening the app until the guided portion ends, to ensure smooth pickups, offer real-time support, and more </string>
-	<key>NSMotionUsageDescription</key>
-	<string>Motion usage description</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>NSPhotoLibraryAddUsageDescription</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Privacy - Photo Library Usage Description</string>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>fetch</string>
-		<string>remote-notification</string>
-		<string>location</string>
-	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	<key>UIStatusBarStyle</key>
-	<string></string>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	<key>FirebaseDynamicLinksCustomDomains</key>
+    <key>CADisableMinimumFrameDurationOnPhone</key>
+    <true/>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>$(DEVELOPMENT_LANGUAGE)</string>
+    <key>CFBundleDisplayName</key>
+    <string>Hido هايدو</string>
+    <key>CFBundleExecutable</key>
+    <string>$(EXECUTABLE_NAME)</string>
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleLocalizations</key>
+    <array>
+        <string>en</string>
+        <string>ar</string>
+    </array>
+    <key>CFBundleName</key>
+    <string>Hido</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>$(FLUTTER_BUILD_NAME)</string>
+    <key>CFBundleSignature</key>
+    <string>????</string>
+    <key>CFBundleVersion</key>
+    <string>$(FLUTTER_BUILD_NUMBER)</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>googlechromes</string>
+        <string>comgooglemaps</string>
+    </array>
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+    <key>NSCameraUsageDescription</key>
+    <string>We need access to your camera to take pictures.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>For reliable tours, Hido collects location data throughout your tour, from opening the app until the guided portion ends, to ensure smooth pickups, offer real-time support, and more</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>For reliable tours, Hido collects location data throughout your tour, from opening the app until the guided portion ends, to ensure smooth pickups, offer real-time support, and more</string>
+    <key>NSLocationUsageDescription</key>
+    <string>For reliable tours, Hido collects location data throughout your tour, from opening the app until the guided portion ends, to ensure smooth pickups, offer real-time support, and more</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>For reliable tours, Hido collects location data throughout your tour, from opening the app until the guided portion ends, to ensure smooth pickups, offer real-time support, and more</string>
+    <key>NSMotionUsageDescription</key>
+    <string>Motion usage description</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>NSPhotoLibraryAddUsageDescription</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Privacy - Photo Library Usage Description</string>
+    <key>UIApplicationSupportsIndirectInputEvents</key>
+    <true/>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>fetch</string>
+        <string>remote-notification</string>
+        <string>location</string>
+    </array>
+    <key>UILaunchStoryboardName</key>
+    <string>LaunchScreen</string>
+    <key>UIMainStoryboardFile</key>
+    <string>Main</string>
+    <key>UIStatusBarStyle</key>
+    <string></string>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+    <key>UISupportedInterfaceOrientations~ipad</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationPortraitUpsideDown</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+    <key>UIViewControllerBasedStatusBarAppearance</key>
+    <false/>
+    <key>UISupportedExternalAccessoryProtocols</key>
+	<!-- new -->
 <array>
-  <string>https://hido.page.link</string>
+  <string>applinks</string>
 </array>
+<key>com.apple.developer.associated-domains</key>
+<array>
+  <string>applinks:hido.page.link</string>
+</array>
+    <!-- Firebase Dynamic Links -->
+    <key>FirebaseDynamicLinksCustomDomains</key>
+    <array>
+        <string>https://hido.page.link</string>
+		<!-- new -->
+		  <string>https</string>
+
+    </array>
+
+    <!-- Associated Domains for Universal Links -->
+    <key>AssociatedDomains</key>
+    <array>
+        <string>applinks:hido.page.link</string> <!-- Domain for Universal Links -->
+    </array>
 
 </dict>
 </plist>
