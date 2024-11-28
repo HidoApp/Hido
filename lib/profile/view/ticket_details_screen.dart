@@ -97,8 +97,6 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log("lkkk");
-    log(widget.booking!.hasPayment.toString());
     final width = MediaQuery.of(context).size.width;
 
     final height = MediaQuery.of(context).size.height;

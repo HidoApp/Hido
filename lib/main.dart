@@ -74,6 +74,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   final _notifyController = Get.put(NotificationController());
 
   _notifyController.notifyCount.value = _notifyController.notifyCount.value + 1;
+
   log("hjkkk");
   log(_notifyController.notifyCount.value.toString());
 }
