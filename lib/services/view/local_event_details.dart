@@ -74,7 +74,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
     );
   }
 
-  late Event? event;
+  Event? event;
 
   @override
   void initState() {
