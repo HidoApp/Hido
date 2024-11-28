@@ -640,7 +640,9 @@ class AuthController extends GetxController {
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (ctx) => const AppVersionDialog(),
+        // ignore: deprecated_member_use
+        builder: (ctx) => WillPopScope(
+            onWillPop: () async => false, child: const AppVersionDialog()),
       );
     }
   }

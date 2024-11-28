@@ -77,7 +77,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
     );
   }
 
-  late Adventure? adventure;
+  Adventure? adventure;
 
   @override
   void initState() {
