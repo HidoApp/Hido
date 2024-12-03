@@ -20,7 +20,6 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.4.10+15
 
-
 environment:
   sdk: ">=2.18.5 <3.0.0"
 # Dependencies specify other packages that your package needs in order to work.
@@ -87,11 +86,11 @@ dependencies:
   flutter_typeahead: ^5.2.0
   searchfield: ^0.9.8
   skeletonizer: ^1.0.0
-  firebase_core: 
-  firebase_messaging: 
-  firebase_in_app_messaging: 
-  firebase_analytics: 
-  firebase_app_installations: 
+  firebase_core:
+  firebase_messaging:
+  firebase_in_app_messaging:
+  firebase_analytics:
+  firebase_app_installations:
   amplitude_flutter: ^4.0.0-beta.1
   sentry_flutter: ^8.10.1
   package_info_plus:

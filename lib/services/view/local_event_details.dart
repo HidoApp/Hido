@@ -79,7 +79,6 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     //  initializeDateFormatting(); //very important
     getEventById();
