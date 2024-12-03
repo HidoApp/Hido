@@ -15,7 +15,8 @@ class ShareWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        final link = await ShareServices.createLink(id: id, type: type);
+        final link = await ShareServices.generateLink(viewId: id, type: type);
+        log(link.toString());
         final result = await Share.share(link.toString());
         if (result.status == ShareResultStatus.success) {
           if (!context.mounted) return;

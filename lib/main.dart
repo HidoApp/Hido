@@ -103,7 +103,8 @@ void main() async {
     );
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-    ShareServices.handleDynamicLinks();
+    // ShareServices.handleDynamicLinks();
+    await ShareServices.initDynamicLinkClosedApp();
     if (kReleaseMode) {
       await SentryFlutter.init(
         (options) {
@@ -145,12 +146,18 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     token = _getStorage.read('accessToken') ?? '';
     log('token $token');
 
     local = GetStorage().read('language') ??
         Platform.localeName.toLocale().languageCode;
     log("AMMAR");
+    linkHandler();
+  }
+
+  void linkHandler() async {
+    await ShareServices.initDynamicLink(); // Call the handler here
   }
 
   @override
