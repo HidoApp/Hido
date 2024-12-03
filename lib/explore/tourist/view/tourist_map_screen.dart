@@ -6,6 +6,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
+import 'package:ajwad_v4/explore/widget/guide_bottom_sheet.dart';
 import 'package:ajwad_v4/explore/widget/map_icons_widget.dart';
 import 'package:ajwad_v4/explore/widget/map_search_widget.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
@@ -318,9 +319,8 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("Screen full");
+    log("Screen full");
     final width = MediaQuery.sizeOf(context).width;
-
     return Scaffold(
       bottomSheet: Obx(
         () => _touristExploreController.isActivityProgressLoading.value
@@ -357,7 +357,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                       body: const ProgressSheet(),
                     ),
                   )
-                : const SizedBox.shrink(),
+                : const GuideBottomSheet(),
       ),
       body: Stack(
         children: [
