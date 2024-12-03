@@ -75,7 +75,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
     );
   }
 
-  late Hospitality? hospitalityObj;
+  Hospitality? hospitalityObj;
   var hideLocation = true;
   @override
   void initState() {

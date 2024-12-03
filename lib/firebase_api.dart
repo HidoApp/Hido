@@ -328,26 +328,25 @@ class FirebaseApi {
         message.data['type']; // Get the 'type' from the payload
 
     // Navigate based on the type
-    if (messageType == 'KSA') {
-      //navigate to new screen
-      if (!AppUtil.isGuest()) {
-        // navigatorKey.currentState?.pushNamed(
-        //   '/service_screen',
-        //   arguments: message,
-        // );
-        navigatorKey.currentState?.pushNamed(
-          '/notification_screen',
-          arguments: message,
-        );
-      }
-      //         .then((_) {
-      //       // After the first route is pushed, push the second route
-      //       navigatorKey.currentState?.pushNamed(
-      //         '/another_route',
-      //         arguments: message,
-      //       );
-      //     });
-    }
+    //navigate to new screen
+    // if (!AppUtil.isGuest()) {
+    //   // navigatorKey.currentState?.pushNamed(
+    //   //   '/service_screen',
+    //   //   arguments: message,
+    //   // );
+    //   navigatorKey.currentState?.pushNamed(
+    //     '/notification_screen',
+    //     arguments: message,
+    //   );
+    // }
+    //         .then((_) {
+    //       // After the first route is pushed, push the second route
+    //       navigatorKey.currentState?.pushNamed(
+    //         '/another_route',
+    //         arguments: message,
+    //       );
+    //     });
+
     // );
 
     log('Received a message in the App open: ${message.data}');
@@ -364,22 +363,22 @@ class FirebaseApi {
   //handle received messages
   void handleOpenedMessage(RemoteMessage? message) {
     if (message == null) return;
+    _notifyController.notifyCount.value =
+        _notifyController.notifyCount.value + 1;
 
-    String? messageType =
-        message.data['type']; // Get the 'type' from the payload
+    if (!AppUtil.isGuest()) {
+      _notifyController.notifyCount.value = 0;
 
-    navigatorKey.currentState?.pushNamed(
-      '/notification_screen',
-      arguments: message,
-    );
+      navigatorKey.currentState?.pushNamed(
+        '/notification_screen',
+        arguments: message,
+      );
+    }
     log('Received a message in the foreground: ${message.data}');
   }
 
   void handleClosedMessage(RemoteMessage? message) {
     if (message == null) return;
-
-    String? messageType =
-        message.data['type']; // Get the 'type' from the payload
 
     log('Received a message in the background: ${message.data}');
 
@@ -414,6 +413,8 @@ class FirebaseApi {
       titleEn,
       bodyEn,
       () {
+        _notifyController.notifyCount.value = 0;
+
         navigatorKey.currentState?.pushNamed(
           '/notification_screen',
           arguments: {

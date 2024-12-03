@@ -859,25 +859,25 @@ class _PaymentTypeState extends State<PaymentType> {
                 SizedBox(
                   height: width * 0.04,
                 ),
-                Row(
-                  children: [
-                    Radio<PaymentMethod>(
-                      value: PaymentMethod.stcpay,
-                      groupValue: _selectedPaymentMethod,
-                      onChanged: (PaymentMethod? value) {
-                        setState(() {
-                          _selectedPaymentMethod = value;
-                        });
-                      },
-                    ),
-                    RepaintBoundary(
-                      child: SvgPicture.asset(
-                        "assets/icons/stc.svg",
-                        height: width * 0.051,
-                      ),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Radio<PaymentMethod>(
+                //       value: PaymentMethod.stcpay,
+                //       groupValue: _selectedPaymentMethod,
+                //       onChanged: (PaymentMethod? value) {
+                //         setState(() {
+                //           _selectedPaymentMethod = value;
+                //         });
+                //       },
+                //     ),
+                //     RepaintBoundary(
+                //       child: SvgPicture.asset(
+                //         "assets/icons/stc.svg",
+                //         height: width * 0.051,
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 if (Platform.isIOS)
                   Row(
                     children: [
