@@ -9,12 +9,14 @@ import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
 import 'package:ajwad_v4/notification/controller/notification_controller.dart';
 import 'package:ajwad_v4/notification/customBadge.dart';
 import 'package:ajwad_v4/notification/notifications_screen.dart';
+import 'package:ajwad_v4/share/services/share_services.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/error_screen_widget.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -86,7 +88,6 @@ void main() async {
   //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);//new
 
   await GetStorage.init();
-  await GetStorage.init('map_markers');
   await GetStorage.init('bookmark');
 
   await initializeDateFormatting('ar');
@@ -103,7 +104,8 @@ void main() async {
     );
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-    await FirebaseApi().initNotifications();
+    // ShareServices.handleDynamicLinks();
+    await ShareServices.initDynamicLinkClosedApp();
     if (kReleaseMode) {
       await SentryFlutter.init(
         (options) {
@@ -152,6 +154,11 @@ class _MyAppState extends State<MyApp> {
     local = GetStorage().read('language') ??
         Platform.localeName.toLocale().languageCode;
     log("AMMAR");
+    linkHandler();
+  }
+
+  void linkHandler() async {
+    await ShareServices.initDynamicLink(); // Call the handler here
   }
 
   @override

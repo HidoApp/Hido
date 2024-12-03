@@ -40,19 +40,20 @@ class RatingController extends GetxController {
     required String bookingId,
     int? placeRate,
     int? localRate,
-    String? placeReview,
-    String? localReview,
+    required String placeReview,
+    required String localReview,
   }) async {
     try {
       isSendRatingsLoading(true);
       final isSucces = await RatingService.postRating(
-          context: context,
-          localId: localId,
-          bookingId: bookingId,
-          localRate: localRate,
-          localReview: localReview,
-          placeRate: placeRate,
-          placeReview: placeReview);
+        context: context,
+        localId: localId,
+        bookingId: bookingId,
+        localRate: localRate,
+        localReview: localReview,
+        placeRate: placeRate,
+        placeReview: placeReview,
+      );
       return isSucces;
     } catch (e) {
       isSendRatingsLoading(false);

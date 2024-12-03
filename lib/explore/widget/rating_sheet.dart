@@ -22,10 +22,19 @@ class RatingSheet extends StatefulWidget {
 
 class _RatingSheetState extends State<RatingSheet> {
   final _ratingConroller = Get.put(RatingController());
-  var localReview = '';
-  var placeReview = '';
+  // var localReview = '';
+  // var placeReview = '';
+  final _placeReview = TextEditingController();
+  final _localReview = TextEditingController();
   var placeRating = 5;
   var localRating = 5;
+  @override
+  void dispose() {
+    _localReview.dispose();
+    _placeReview.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
@@ -81,13 +90,14 @@ class _RatingSheetState extends State<RatingSheet> {
             ),
             //place review
             CustomTextField(
+              controller: _placeReview,
               height: width * 0.205,
               maxLines: 10,
               keyboardType: TextInputType.multiline,
               textInputAction: TextInputAction.newline,
               // minLines: null,
               //  expand: true,
-              onChanged: (review) => placeReview = review,
+              onChanged: (review) {},
               hintText: 'writeHere'.tr,
             ),
             SizedBox(
@@ -124,10 +134,11 @@ class _RatingSheetState extends State<RatingSheet> {
             //place review
             CustomTextField(
               height: width * 0.205,
+              controller: _localReview,
               maxLines: 10,
               keyboardType: TextInputType.multiline,
               textInputAction: TextInputAction.newline,
-              onChanged: (review) => localReview = review,
+              onChanged: (review) {},
               hintText: 'writeHere'.tr,
             ),
             SizedBox(
@@ -141,30 +152,32 @@ class _RatingSheetState extends State<RatingSheet> {
                   : CustomButton(
                       title: 'submit'.tr,
                       onPressed: () async {
-                        if (localReview.isEmpty &&
-                            placeReview.isEmpty &&
-                            localRating == 0 &&
-                            placeRating == 0) {
-                          Get.back();
-                          return;
-                        }
-                        log(placeReview);
+                        // if (localReview.isEmpty &&
+                        //     placeReview.isEmpty &&
+                        //     localRating == 0 &&
+                        //     placeRating == 0) {
+                        //   Get.back();
+                        //   return;
+                        // }
+                        
+                        log(_placeReview.text);
                         log(placeRating.toString());
-                        log(localReview);
+                        log(_localReview.text);
                         log(localRating.toString());
-                        await _ratingConroller
-                            .postRating(
+                        await _ratingConroller.postRating(
                           context: context,
                           localId: widget.activityProgress.localId!,
                           bookingId: widget.activityProgress.bookingId!,
                           localRate: localRating,
-                          localReview: localReview.isEmpty ? null : localReview,
+                          localReview: _localReview.text.isEmpty
+                              ? "n"
+                              : _localReview.text,
                           placeRate: placeRating,
-                          placeReview: placeReview.isEmpty ? null : placeReview,
-                        )
-                            .then((value) {
-                          Get.back();
-                        });
+                          placeReview: _placeReview.text.isEmpty
+                              ? "n"
+                              : _placeReview.text,
+                        );
+                        Get.back();
                       },
                     ),
             )

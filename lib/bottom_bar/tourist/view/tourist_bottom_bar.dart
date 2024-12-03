@@ -9,6 +9,7 @@ import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/profile/view/guest_sign_in.dart';
 import 'package:ajwad_v4/profile/view/profle_screen.dart';
 import 'package:ajwad_v4/services/view/service_screen.dart';
+import 'package:ajwad_v4/share/services/share_services.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/offline_screen.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,9 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
     _authCntroller.checkAppVersion(context: context);
 
     setInternetConnection();
+ 
   }
+
 
   StreamSubscription? _internetConnection;
   void setInternetConnection() {
@@ -73,20 +76,6 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
   void getProfile() async {
     await _profileController.getProfile(context: context);
     await GetStorage().write('user_id', _profileController.profile.id);
-  }
-
-  void getUserActions() async {
-    await _profileController.getAllActions(context: context);
-    if (_profileController.actionsList.isNotEmpty) {
-      Get.bottomSheet(
-              isScrollControlled: true,
-              RatingSheet(
-                activityProgress: _profileController.actionsList.first,
-              ))
-          .then((value) => _profileController.updateUserAction(
-              context: context,
-              id: _profileController.actionsList.first.id ?? ""));
-    }
   }
 
   @override
