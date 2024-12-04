@@ -32,7 +32,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.sizeOf(context).width;
-    height = MediaQuery.of(context).size.height;
+    height = MediaQuery.sizeOf(context).height;
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: const CustomAppBar(""),

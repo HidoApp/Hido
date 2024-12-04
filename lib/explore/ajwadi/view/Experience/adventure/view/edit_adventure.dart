@@ -489,7 +489,7 @@ class _EditAdventureState extends State<EditAdventure> {
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.sizeOf(context).width;
-    height = MediaQuery.of(context).size.height;
+    height = MediaQuery.sizeOf(context).height;
 
     final TextEditingController textField1Controller =
         _selectedLanguageIndex == 0

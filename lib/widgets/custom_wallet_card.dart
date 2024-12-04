@@ -39,7 +39,7 @@ class _CustomWalletCardState extends State<CustomWalletCard> {
     Place? thePlace;
 
     final width = MediaQuery.sizeOf(context).width;
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
     return Obx(
       () => Skeletonizer(
         enabled: _paymentController.isWalletLoading.value,

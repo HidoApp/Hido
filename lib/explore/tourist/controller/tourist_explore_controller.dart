@@ -36,6 +36,7 @@ class TouristExploreController extends GetxController {
   var currentLocation = const LatLng(24.7136, 46.6753).obs;
   var showSheet = true.obs;
   var updateMap = true.obs;
+  var isGuideAppear = true.obs;
   Rx<ActivityProgress?> activityProgres = ActivityProgress().obs;
   Rx<TouristMapModel?> touristModel = TouristMapModel().obs;
   Rx<Place?> thePlace = Place().obs;

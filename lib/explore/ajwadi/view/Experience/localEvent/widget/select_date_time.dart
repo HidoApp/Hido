@@ -51,7 +51,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

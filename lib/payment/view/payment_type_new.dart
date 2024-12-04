@@ -126,8 +126,21 @@ class _PaymentTypeState extends State<PaymentType> {
         height: 120,
       )).then((value) async {
         Invoice? checkInvoice;
+        if (!mounted) return;
         checkInvoice = await _paymentController.getPaymentId(
             context: context, id: invoice!.payId!);
+        if (!mounted) return;
+
+        if (checkInvoice == null) {
+          log('Another check for payment');
+          checkInvoice = await _paymentController.getPaymentId(
+              context: context, id: invoice!.payId!);
+        }
+        if (checkInvoice != null && checkInvoice.payStatus == 'Pending') {
+          if (!mounted) return;
+          checkInvoice = await _paymentController.getPaymentId(
+              context: context, id: invoice!.payId!);
+        }
         if (checkInvoice == null) {
           if (!mounted) return;
 
@@ -245,8 +258,21 @@ class _PaymentTypeState extends State<PaymentType> {
         title: 'payment'.tr,
       )).then((value) async {
         Invoice? checkInvoice;
+        if (!mounted) return;
         checkInvoice = await _paymentController.getPaymentId(
             context: context, id: invoice!.payId!);
+        if (!mounted) return;
+
+        if (checkInvoice == null) {
+          log('Another check for payment');
+          checkInvoice = await _paymentController.getPaymentId(
+              context: context, id: invoice!.payId!);
+        }
+        if (checkInvoice != null && checkInvoice.payStatus == 'Pending') {
+          if (!mounted) return;
+          checkInvoice = await _paymentController.getPaymentId(
+              context: context, id: invoice!.payId!);
+        }
         if (checkInvoice != null && checkInvoice.payStatus == 'Paid') {
           //if the invoice paid then will booking depend on the type of booking
           AmplitudeService.amplitude.track(BaseEvent(
@@ -340,8 +366,22 @@ class _PaymentTypeState extends State<PaymentType> {
       )!
           .then((value) async {
         Invoice? checkInvoice;
+        if (!mounted) return;
+
         checkInvoice = await _paymentController.getPaymentId(
             context: context, id: invoice!.payId!);
+        if (!mounted) return;
+        if (checkInvoice == null) {
+          log('Another check for payment');
+          checkInvoice = await _paymentController.getPaymentId(
+              context: context, id: invoice!.payId!);
+        }
+        if (checkInvoice != null && checkInvoice.payStatus == 'Pending') {
+          if (!mounted) return;
+          checkInvoice = await _paymentController.getPaymentId(
+              context: context, id: invoice!.payId!);
+        }
+
         if (checkInvoice != null && checkInvoice.payStatus == 'Paid') {
           //if the invoice paid then will booking depend on the type of booking
           AmplitudeService.amplitude.track(BaseEvent(

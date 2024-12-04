@@ -153,7 +153,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.sizeOf(context).width;
-    height = MediaQuery.of(context).size.height;
+    height = MediaQuery.sizeOf(context).height;
 
     return Obx(
       () => _adventureController.isAdventureByIdLoading.value

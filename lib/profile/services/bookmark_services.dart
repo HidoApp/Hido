@@ -6,8 +6,11 @@ class BookmarkService {
 
   // Add a bookmark
   static Future<void> addBookmark(Bookmark bookmark) async {
-    final List<dynamic> bookmarkList =
-        _storage.read(GetStorage().read('user_id')) ?? [];
+    final String userId = GetStorage().read('user_id') ?? "";
+    if (userId.isEmpty) {
+      return;
+    }
+    final List<dynamic> bookmarkList = _storage.read(userId) ?? [];
 
     bookmarkList.add(bookmark.toJson());
     await _storage.write(GetStorage().read('user_id'), bookmarkList);
@@ -15,8 +18,11 @@ class BookmarkService {
 
   // Remove a bookmark
   static Future<void> removeBookmark(String id) async {
-    final List<dynamic> bookmarkList =
-        _storage.read(GetStorage().read('user_id')) ?? [];
+    final String userId = GetStorage().read('user_id') ?? "";
+    if (userId.isEmpty) {
+      return;
+    }
+    final List<dynamic> bookmarkList = _storage.read(userId) ?? [];
     bookmarkList.removeWhere((item) => Bookmark.fromJson(item).id == id);
     await _storage.write(GetStorage().read('user_id'), bookmarkList);
   }

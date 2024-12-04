@@ -12,7 +12,7 @@ class ContactUs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.sizeOf(context).width;
-    double height = MediaQuery.of(context).size.height;
+    double height = MediaQuery.sizeOf(context).height;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
       decoration: BoxDecoration(

@@ -105,7 +105,7 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
   @override
   Widget build(BuildContext context) {
     //
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
 
     final width = MediaQuery.sizeOf(context).width;
     return GestureDetector(

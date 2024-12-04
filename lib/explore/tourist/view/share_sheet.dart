@@ -19,7 +19,7 @@ class _ShareSheetState extends State<ShareSheet> {
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.sizeOf(context).width;
-    height = MediaQuery.of(context).size.height;
+    height = MediaQuery.sizeOf(context).height;
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {

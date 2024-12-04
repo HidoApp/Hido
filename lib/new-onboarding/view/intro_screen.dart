@@ -93,7 +93,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     final width = MediaQuery.sizeOf(context).width;
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9F9),

@@ -69,7 +69,7 @@ class _ShowAjwadiInfoSheetState extends State<ShowAjwadiInfoSheet>
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.sizeOf(context).width;
-    height = MediaQuery.of(context).size.height;
+    height = MediaQuery.sizeOf(context).height;
     return GestureDetector(
       onDoubleTap: () {
         Get.back();

@@ -9,7 +9,7 @@ class CustomReviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.sizeOf(context).width;
-    double height = MediaQuery.of(context).size.height;
+    double height = MediaQuery.sizeOf(context).height;
     return SizedBox(
         //   height: height*0.12,
         width: width,
