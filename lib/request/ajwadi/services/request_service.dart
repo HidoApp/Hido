@@ -99,7 +99,7 @@ class RequestService {
     );
     log("response.statusCode");
     log(response.statusCode.toString());
-     log(response.body.toString());
+    log(response.body.toString());
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
@@ -306,8 +306,10 @@ class RequestService {
     log("response.statusCode");
     log(response.statusCode.toString());
     if (response.statusCode == 200 || response.statusCode == 201) {
+      log("enter");
       if (context.mounted) {
         AppUtil.successToast(context, 'EndRound'.tr);
+        await Future.delayed(const Duration(seconds: 1));
       }
       return true;
     } else {

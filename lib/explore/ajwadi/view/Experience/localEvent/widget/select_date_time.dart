@@ -144,8 +144,8 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         padding: const EdgeInsets.only(bottom: 4),
                         child: CustomText(
                           text: AppUtil.rtlDirection2(context)
-                              ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
-                              : "*Please select a date at least 48 hours from now",
+                              ? "يجب اختيار تاريخ بعد اليوم الحالي"
+                              : "Please choose a date after today",
                           color: colorRed,
                           fontSize: width * 0.028,
                         ),
@@ -178,62 +178,143 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         alignment: AppUtil.rtlDirection(context)
                             ? Alignment.centerLeft
                             : Alignment.centerRight,
-                        child: Container(
-                          height: height * 0.06,
-                          width: width * 0.41,
-                          padding: const EdgeInsets.only(
-                            left: 15,
-                            right: 15,
-                          ),
-                          decoration: ShapeDecoration(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 1,
-                                  color: DurationErrorMessage ?? false
-                                      ? colorRed
-                                      : const Color(0xFFB9B8C1)),
-                              borderRadius: BorderRadius.circular(8),
+                        child: Obx(
+                          () => Container(
+                            height: height * 0.06,
+                            width: width * 0.41,
+                            padding: const EdgeInsets.only(
+                              left: 15,
+                              right: 15,
                             ),
-                          ),
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  showCupertinoModalPopup<void>(
-                                      context: context,
-                                      barrierDismissible: false,
-                                      builder: (BuildContext context) {
-                                        return Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Container(
-                                              decoration: const BoxDecoration(
-                                                color: Color(0xffffffff),
-                                                border: Border(
-                                                  bottom: BorderSide(
-                                                    width: 0.0,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    width: 1,
+                                    color: _EventrController
+                                            .newRangeTimeErrorMessage.value
+                                        ? colorRed
+                                        : DurationErrorMessage ?? false
+                                            ? colorRed
+                                            : const Color(0xFFB9B8C1)),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    showCupertinoModalPopup<void>(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (BuildContext context) {
+                                          return Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xffffffff),
+                                                  border: Border(
+                                                    bottom: BorderSide(
+                                                      width: 0.0,
+                                                    ),
                                                   ),
                                                 ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: <Widget>[
+                                                    CupertinoButton(
+                                                      onPressed: () {
+                                                        _EventrController
+                                                            .isEventTimeSelcted(
+                                                                true);
+                                                        setState(() {
+                                                          Get.back();
+                                                          time = newTimeToGo;
+                                                          _EventrController
+                                                              .selectedStartTime
+                                                              .value = newTimeToGo;
+
+                                                          _EventrController
+                                                                  .TimeErrorMessage.value =
+                                                              AppUtil.isEndTimeLessThanStartTime(
+                                                                  _EventrController
+                                                                      .selectedStartTime
+                                                                      .value,
+                                                                  _EventrController
+                                                                      .selectedEndTime
+                                                                      .value);
+
+                                                          if (_EventrController
+                                                              .isEventTimeSelcted
+                                                              .value) {
+                                                            _EventrController
+                                                                    .newRangeTimeErrorMessage
+                                                                    .value =
+                                                                AppUtil.areAllDatesTimeBefore(
+                                                                    _EventrController
+                                                                        .selectedDates,
+                                                                    _EventrController
+                                                                        .selectedStartTime
+                                                                        .value);
+                                                          }
+                                                          //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
+                                                          //   .format(newTimeToGo) as RxString;
+                                                        });
+                                                      },
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                        horizontal: 16.0,
+                                                        vertical: 5.0,
+                                                      ),
+                                                      child: CustomText(
+                                                        text: "confirm".tr,
+                                                        color: colorGreen,
+                                                        fontSize: 15,
+                                                        fontFamily: AppUtil
+                                                                .rtlDirection2(
+                                                                    context)
+                                                            ? 'SF Arabic'
+                                                            : 'SF Pro',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: <Widget>[
-                                                  CupertinoButton(
-                                                    onPressed: () {
-                                                      _EventrController
-                                                          .isEventTimeSelcted(
-                                                              true);
+                                              Container(
+                                                height: 220,
+                                                width: width,
+                                                margin: EdgeInsets.only(
+                                                  bottom: MediaQuery.of(context)
+                                                      .viewInsets
+                                                      .bottom,
+                                                ),
+                                                child: Container(
+                                                  width: width,
+                                                  color: Colors.white,
+                                                  child: CupertinoDatePicker(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    initialDateTime:
+                                                        newTimeToGo,
+                                                    mode:
+                                                        CupertinoDatePickerMode
+                                                            .time,
+                                                    use24hFormat: false,
+                                                    onDateTimeChanged:
+                                                        (DateTime newT) {
                                                       setState(() {
-                                                        Get.back();
-                                                        time = newTimeToGo;
+                                                        newTimeToGo = newT;
                                                         _EventrController
                                                             .selectedStartTime
-                                                            .value = newTimeToGo;
-
+                                                            .value = newT;
+                                                        //    widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
+                                                        // .format(newTimeToGo) as RxString;
                                                         _EventrController
                                                                 .TimeErrorMessage
                                                                 .value =
@@ -244,110 +325,68 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                                 _EventrController
                                                                     .selectedEndTime
                                                                     .value);
-                                                        //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                        //   .format(newTimeToGo) as RxString;
+
+                                                        if (_EventrController
+                                                            .isEventTimeSelcted
+                                                            .value) {
+                                                          _EventrController
+                                                                  .newRangeTimeErrorMessage
+                                                                  .value =
+                                                              AppUtil.areAllDatesTimeBefore(
+                                                                  _EventrController
+                                                                      .selectedDates,
+                                                                  _EventrController
+                                                                      .selectedStartTime
+                                                                      .value);
+                                                        }
                                                       });
                                                     },
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                      horizontal: 16.0,
-                                                      vertical: 5.0,
-                                                    ),
-                                                    child: CustomText(
-                                                      text: "confirm".tr,
-                                                      color: colorGreen,
-                                                      fontSize: 15,
-                                                      fontFamily:
-                                                          AppUtil.rtlDirection2(
-                                                                  context)
-                                                              ? 'SF Arabic'
-                                                              : 'SF Pro',
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              height: 220,
-                                              width: width,
-                                              margin: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom,
-                                              ),
-                                              child: Container(
-                                                width: width,
-                                                color: Colors.white,
-                                                child: CupertinoDatePicker(
-                                                  backgroundColor: Colors.white,
-                                                  initialDateTime: newTimeToGo,
-                                                  mode: CupertinoDatePickerMode
-                                                      .time,
-                                                  use24hFormat: false,
-                                                  onDateTimeChanged:
-                                                      (DateTime newT) {
-                                                    setState(() {
-                                                      newTimeToGo = newT;
-                                                      _EventrController
-                                                          .selectedStartTime
-                                                          .value = newT;
-                                                      //    widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                      // .format(newTimeToGo) as RxString;
-                                                      _EventrController
-                                                              .TimeErrorMessage
-                                                              .value =
-                                                          AppUtil.isEndTimeLessThanStartTime(
-                                                              _EventrController
-                                                                  .selectedStartTime
-                                                                  .value,
-                                                              _EventrController
-                                                                  .selectedEndTime
-                                                                  .value);
-                                                    });
-                                                  },
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        );
-                                      });
-                                },
-                                child: CustomText(
-                                  text: !_EventrController
-                                          .isEventTimeSelcted.value
-                                      ? AppUtil.rtlDirection2(context)
-                                          ? "00:00 مساء"
-                                          : "00 :00 PM"
-                                      : AppUtil.formatStringTimeWithLocale(
-                                          context,
-                                          DateFormat('HH:mm:ss').format(
-                                              _EventrController
-                                                  .selectedStartTime.value)),
-                                  fontWeight: FontWeight.w400,
-                                  color: Graytext,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontSize: 15,
+                                            ],
+                                          );
+                                        });
+                                  },
+                                  child: CustomText(
+                                    text: !_EventrController
+                                            .isEventTimeSelcted.value
+                                        ? AppUtil.rtlDirection2(context)
+                                            ? "00:00 مساء"
+                                            : "00 :00 PM"
+                                        : AppUtil.formatStringTimeWithLocale(
+                                            context,
+                                            DateFormat('HH:mm:ss').format(
+                                                _EventrController
+                                                    .selectedStartTime.value)),
+                                    fontWeight: FontWeight.w400,
+                                    color: Graytext,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontSize: 15,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
                       Obx(
-                        () => _EventrController.TimeErrorMessage.value
+                        () => _EventrController.TimeErrorMessage.value ||
+                                _EventrController.newRangeTimeErrorMessage.value
                             ? Padding(
                                 padding: const EdgeInsets.only(bottom: 4),
                                 child: CustomText(
-                                  text: '',
-                                  // AppUtil.rtlDirection2(context)
-                                  //     ? "اختر الوقت"
-                                  //     : "Select Time",
+                                  text: _EventrController
+                                          .newRangeTimeErrorMessage.value
+                                      ? 'StartTimeDuration'.tr
+                                      : '',
                                   color: colorRed,
                                   fontSize: width * 0.028,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
                                 ),
                               )
                             : Container(),
@@ -539,13 +578,18 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         ),
                       ),
                       Obx(
-                        () => _EventrController.TimeErrorMessage.value
+                        () => _EventrController.TimeErrorMessage.value ||
+                                _EventrController.newRangeTimeErrorMessage.value
                             ? Padding(
                                 padding: const EdgeInsets.only(bottom: 4),
                                 child: CustomText(
                                   text: AppUtil.rtlDirection2(context)
-                                      ? "يجب أن لايسبق وقت بدء التجربة"
-                                      : "*Can’t be before start time",
+                                      ? _EventrController.TimeErrorMessage.value
+                                          ? "يجب أن لايسبق وقت بدء التجربة"
+                                          : ''
+                                      : _EventrController.TimeErrorMessage.value
+                                          ? "Can’t be before start time"
+                                          : '',
                                   fontSize: width * 0.028,
                                   color: colorRed,
                                   fontFamily: AppUtil.SfFontType(context),

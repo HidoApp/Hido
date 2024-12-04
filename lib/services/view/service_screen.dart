@@ -213,20 +213,20 @@ class _ServiceScreenState extends State<ServiceScreen>
                       child: !AppUtil.isGuest()
                           ? Row(
                               children: [
-                                HomeIconButton(
-                                    onTap: () {
-                                      // ProfileController _profileController =
-                                      //     Get.put(ProfileController());
-                                      Get.to(() => AppUtil.isGuest()
-                                          ? const SignInScreen()
-                                          : TicketScreen(
-                                              profileController:
-                                                  _profileController));
-                                    },
-                                    icon: 'assets/icons/ticket_icon.svg'),
-                                SizedBox(
-                                  width: width * 0.02,
-                                ),
+                                // HomeIconButton(
+                                //     onTap: () {
+                                //       // ProfileController _profileController =
+                                //       //     Get.put(ProfileController());
+                                //       Get.to(() => AppUtil.isGuest()
+                                //           ? const SignInScreen()
+                                //           : TicketScreen(
+                                //               profileController:
+                                //                   _profileController));
+                                //     },
+                                //     icon: 'assets/icons/ticket_icon.svg'),
+                                // SizedBox(
+                                //   width: width * 0.02,
+                                // ),
                                 HomeIconButton(
                                     onTap: () {
                                       // ProfileController _profileController =

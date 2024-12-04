@@ -95,6 +95,7 @@ class _ScheduleContainerWidgetState extends State<ScheduleContainerWidget> {
                         schedule: widget.scheduleList![index],
                         isLast: index == widget.scheduleList!.length - 1,
                         isBold: !(index == 0 || index == 2),
+                        isCircle: true,
                       );
                     } else {
                       return const SizedBox

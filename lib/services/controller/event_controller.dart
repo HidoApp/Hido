@@ -18,7 +18,7 @@ class EventController extends GetxController {
   var isEventListLoading = false.obs;
   var isEventByIdLoading = false.obs;
   var showErrorMaxGuest = false.obs;
-
+  var newRangeTimeErrorMessage = false.obs; // newww
   var ischeckBookingLoading = false.obs;
   var selectedImages = <XFile>[].obs;
   var images = <dynamic>[].obs;
@@ -275,9 +275,9 @@ class EventController extends GetxController {
 
   Future<bool> checkAndBookEvent(
       {required BuildContext context,
-       String ?paymentId,
+      String? paymentId,
       required String eventId,
-       double? cost,
+      double? cost,
       required String dayId,
       required int person,
       String? couponId,
@@ -286,9 +286,9 @@ class EventController extends GetxController {
       ischeckBookingLoading(true);
       final data = await EventService.checkAndBookEvent(
           context: context,
-          paymentId: paymentId??"",
+          paymentId: paymentId ?? "",
           eventId: eventId,
-          cost: cost??0,
+          cost: cost ?? 0,
           dayId: dayId,
           person: person,
           couponId: couponId,

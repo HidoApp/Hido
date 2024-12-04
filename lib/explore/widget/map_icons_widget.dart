@@ -26,34 +26,34 @@ class MapIconsWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         //ticket
-        Container(
-          padding: EdgeInsets.all(width * 0.012),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(
-              Radius.circular(width * 0.04),
-            ),
-          ),
-          child: GestureDetector(
-              onTap: () {
-                ProfileController profileController =
-                    Get.put(ProfileController());
-                Get.to(() => AppUtil.isGuest()
-                    ? const SignInScreen()
-                    : TicketScreen(
-                        profileController: profileController,
-                      ));
-              },
-              child: RepaintBoundary(
-                child: SvgPicture.asset(
-                  'assets/icons/ticket_icon.svg',
-                  color: colorGreen,
-                ),
-              )),
-        ),
-        SizedBox(
-          width: width * 0.030,
-        ),
+        // Container(
+        //   padding: EdgeInsets.all(width * 0.012),
+        //   decoration: BoxDecoration(
+        //     color: Colors.white,
+        //     borderRadius: BorderRadius.all(
+        //       Radius.circular(width * 0.04),
+        //     ),
+        //   ),
+        //   child: GestureDetector(
+        //       onTap: () {
+        //         ProfileController profileController =
+        //             Get.put(ProfileController());
+        //         Get.to(() => AppUtil.isGuest()
+        //             ? const SignInScreen()
+        //             : TicketScreen(
+        //                 profileController: profileController,
+        //               ));
+        //       },
+        //       child: RepaintBoundary(
+        //         child: SvgPicture.asset(
+        //           'assets/icons/ticket_icon.svg',
+        //           color: colorGreen,
+        //         ),
+        //       )),
+        // ),
+        // SizedBox(
+        //   width: width * 0.030,
+        // ),
         Container(
           padding: EdgeInsets.all(width * 0.0128),
           decoration: BoxDecoration(

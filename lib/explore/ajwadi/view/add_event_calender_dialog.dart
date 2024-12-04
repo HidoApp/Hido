@@ -67,6 +67,7 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
   }
 
   List<PickerDateRange> _getInitialSelectedRanges() {
+    if (widget.type == 'event') {}
     if (widget.eventController != null &&
         widget.eventController!.isEventDateSelcted.value) {
       List<PickerDateRange> ranges = [];
@@ -103,6 +104,8 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
 
       return ranges;
     }
+    // widget.srvicesController!.selectedDates([]);
+
     return [];
   }
 
@@ -295,6 +298,14 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                       widget.eventController!.DateErrorMessage.value =
                           !AppUtil.areAllDatesAfter24Hours(
                               widget.eventController!.selectedDates);
+
+                      if (widget.eventController!.isEventTimeSelcted.value) {
+                        widget.eventController!.newRangeTimeErrorMessage.value =
+                            AppUtil.areAllDatesTimeBefore(
+                                widget.eventController!.selectedDates,
+                                widget
+                                    .eventController!.selectedStartTime.value);
+                      }
                     } else if (widget.type == 'book') {
                       widget.touristExploreController!.isBookingDateSelected
                           .value = true;
@@ -314,6 +325,16 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                       widget.srvicesController!.DateErrorMessage.value =
                           !AppUtil.areAllDatesAfter24Hours(
                               widget.srvicesController!.selectedDates);
+                      //new srs
+                      if (widget
+                          .srvicesController!.isHospatilityTimeSelcted.value) {
+                        widget.srvicesController!.newRangeTimeErrorMessage
+                                .value =
+                            AppUtil.areAllDatesTimeBefore(
+                                widget.srvicesController!.selectedDates,
+                                widget.srvicesController!.selectedStartTime
+                                    .value);
+                      }
                     }
 
                     Get.back();

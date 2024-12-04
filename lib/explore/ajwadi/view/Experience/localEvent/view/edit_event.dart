@@ -194,6 +194,8 @@ class _EditEventState extends State<EditEvent> {
 
   bool guestEmpty = false;
   bool PriceEmpty = false;
+  bool PriceLarger = false;
+
   bool PriceDouble = false;
 
   String gender = '';
@@ -323,16 +325,23 @@ class _EditEventState extends State<EditEvent> {
       // DateErrorMessage = !_servicesController.isEventDateSelcted.value;
       // TimeErrorMessage = !_servicesController.isEventTimeSelcted.value;
       _servicesController.EmptyDateErrorMessage.value =
-          !_servicesController.isEventDateSelcted.value;
+          !_servicesController.isEventDateSelcted.value ||
+              _servicesController.selectedDates.isEmpty;
       _servicesController.EmptyTimeErrorMessage.value =
           !_servicesController.isEventTimeSelcted.value;
       _servicesController.DateErrorMessage.value =
           !AppUtil.areAllDatesAfter24Hours(_servicesController.selectedDates);
+      _servicesController.newRangeTimeErrorMessage.value =
+          AppUtil.areAllDatesTimeBefore(_servicesController.selectedDates,
+              _servicesController.selectedStartTime.value);
       // DateDurationError =
       //     !AppUtil.areAllDatesAfter24Hours(_servicesController.selectedDates);
       PriceEmpty = _priceController.text.isEmpty;
 
       if (_priceController.text.isNotEmpty) {
+        int? price = int.tryParse(_priceController.text);
+        PriceLarger = price == null || price < 1;
+
         //check if price not int
         String priceText = _priceController.text;
         RegExp doubleRegex = RegExp(r'^[0-9]*\.[0-9]+$');
@@ -350,8 +359,10 @@ class _EditEventState extends State<EditEvent> {
         !_servicesController.EmptyDateErrorMessage.value &&
         !_servicesController.EmptyTimeErrorMessage.value &&
         !PriceEmpty &&
+        !PriceLarger &&
         !PriceDouble &&
         !_servicesController.TimeErrorMessage.value &&
+        !_servicesController.newRangeTimeErrorMessage.value && //new srs
         _servicesController.images.length >= 3 &&
         !_servicesController.DateErrorMessage.value) {
       if (await uploadImages()) {
@@ -368,6 +379,12 @@ class _EditEventState extends State<EditEvent> {
       if (_servicesController.DateErrorMessage.value) {
         if (context.mounted) {
           AppUtil.errorToast(context, 'DateDuration'.tr);
+          await Future.delayed(const Duration(seconds: 3));
+        }
+      } // new srs
+      else if (_servicesController.newRangeTimeErrorMessage.value) {
+        if (context.mounted) {
+          AppUtil.errorToast(context, 'StartTimeDuration'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
       } else if (_servicesController.TimeErrorMessage.value) {
@@ -427,13 +444,17 @@ class _EditEventState extends State<EditEvent> {
       // _servicesController.selectedDates.value =
       //     widget.eventObj.daysInfo!;
       if (widget.eventObj.daysInfo!.isNotEmpty) {
+        bool allDatesInPast = true;
         for (var info in widget.eventObj.daysInfo!) {
           DateTime startDateTime = DateTime.parse(info.startTime);
-          // DateTime endDateTime = DateTime.parse(info.endTime);
+          if (startDateTime.isAfter(DateTime.now())) {
+            allDatesInPast = false;
+          }
           _servicesController.selectedDates.add(DateTime(
               startDateTime.year, startDateTime.month, startDateTime.day));
-          // _servicesController.selectedDates.add(
-          //     DateTime(endDateTime.year, endDateTime.month, endDateTime.day));
+        }
+        if (allDatesInPast) {
+          _servicesController.selectedDates.clear();
         }
       } else {
         _servicesController.selectedDates.add(DateTime.now());
@@ -1455,8 +1476,8 @@ class _EditEventState extends State<EditEvent> {
                                                   ? "اختر التاريخ"
                                                   : "You need to choose a valid date"
                                               : AppUtil.rtlDirection2(context)
-                                                  ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
-                                                  : "*Please select a date at least 48 hours from now",
+                                                  ? "يجب اختيار تاريخ بعد اليوم الحالي"
+                                                  : "Please choose a date after today",
                                           style: TextStyle(
                                             color: colorRed,
                                             fontSize: width * 0.028,
@@ -1511,10 +1532,11 @@ class _EditEventState extends State<EditEvent> {
                                                     side: BorderSide(
                                                         width: 1,
                                                         color: _servicesController
-                                                                .EmptyTimeErrorMessage
-                                                                .value
-                                                            // TimeErrorMessage ??
-                                                            //         false
+                                                                    .EmptyTimeErrorMessage
+                                                                    .value ||
+                                                                _servicesController
+                                                                    .newRangeTimeErrorMessage
+                                                                    .value
                                                             ? colorRed
                                                             : DurationErrorMessage ??
                                                                     false
@@ -1699,6 +1721,21 @@ class _EditEventState extends State<EditEvent> {
                                                                     _servicesController
                                                                         .selectedEndTime
                                                                         .value);
+
+                                                            //newww  SRS
+                                                            if (_servicesController
+                                                                .isEventDateSelcted
+                                                                .value) {
+                                                              _servicesController
+                                                                      .newRangeTimeErrorMessage
+                                                                      .value =
+                                                                  AppUtil.areAllDatesTimeBefore(
+                                                                      _servicesController
+                                                                          .selectedDates,
+                                                                      _servicesController
+                                                                          .selectedStartTime
+                                                                          .value);
+                                                            }
                                                           });
                                                         }, onChanged: (newT) {
                                                           _servicesController
@@ -1728,6 +1765,20 @@ class _EditEventState extends State<EditEvent> {
                                                                     _servicesController
                                                                         .selectedEndTime
                                                                         .value);
+
+                                                            if (_servicesController
+                                                                .isEventDateSelcted
+                                                                .value) {
+                                                              _servicesController
+                                                                      .newRangeTimeErrorMessage
+                                                                      .value =
+                                                                  AppUtil.areAllDatesTimeBefore(
+                                                                      _servicesController
+                                                                          .selectedDates,
+                                                                      _servicesController
+                                                                          .selectedStartTime
+                                                                          .value);
+                                                            }
                                                           });
                                                         });
                                                       },
@@ -1760,25 +1811,28 @@ class _EditEventState extends State<EditEvent> {
                                             if (_servicesController
                                                     .EmptyTimeErrorMessage
                                                     .value ||
-                                                // TimeErrorMessage ??
-                                                //   false ||
                                                 _servicesController
-                                                    .TimeErrorMessage.value)
+                                                    .TimeErrorMessage.value ||
+                                                _servicesController
+                                                    .newRangeTimeErrorMessage
+                                                    .value)
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     top: 8),
                                                 child: Text(
-                                                  !_servicesController
-                                                              .TimeErrorMessage
-                                                              .value ||
-                                                          _servicesController
-                                                              .EmptyTimeErrorMessage
-                                                              .value
+                                                  _servicesController
+                                                          .EmptyTimeErrorMessage
+                                                          .value
                                                       ? AppUtil.rtlDirection2(
                                                               context)
                                                           ? "يجب اختيار الوقت"
                                                           : "Select The Time"
-                                                      : '',
+                                                      : _servicesController
+                                                              .newRangeTimeErrorMessage
+                                                              .value
+                                                          ? 'StartTimeDuration'
+                                                              .tr
+                                                          : '',
                                                   style: TextStyle(
                                                     color:
                                                         const Color(0xFFDC362E),
@@ -2096,25 +2150,31 @@ class _EditEventState extends State<EditEvent> {
                                                       //         false ||
                                                       _servicesController
                                                           .TimeErrorMessage
+                                                          .value ||
+                                                      _servicesController
+                                                          .newRangeTimeErrorMessage
                                                           .value
                                                   ? Padding(
                                                       padding:
                                                           const EdgeInsets.only(
                                                               top: 8),
                                                       child: Text(
-                                                        !_servicesController
-                                                                .TimeErrorMessage
+                                                        _servicesController
+                                                                .EmptyTimeErrorMessage
                                                                 .value
                                                             ? AppUtil
                                                                     .rtlDirection2(
                                                                         context)
                                                                 ? "يجب اختيار الوقت"
                                                                 : "Select The Time"
-                                                            : AppUtil
-                                                                    .rtlDirection2(
+                                                            : _servicesController
+                                                                    .TimeErrorMessage
+                                                                    .value
+                                                                ? AppUtil.rtlDirection2(
                                                                         context)
-                                                                ? "يجب أن لايسبق وقت بدء التجربة"
-                                                                : "*Can’t be before start time",
+                                                                    ? "يجب أن لايسبق وقت بدء التجربة"
+                                                                    : "Can’t be before start time"
+                                                                : '',
                                                         style: TextStyle(
                                                           color: const Color(
                                                               0xFFDC362E),
@@ -2309,7 +2369,9 @@ class _EditEventState extends State<EditEvent> {
                                     TextField(
                                       controller: _priceController,
                                       decoration: InputDecoration(
-                                        hintText: '00.00 SAR /per person',
+                                        hintText: AppUtil.rtlDirection2(context)
+                                            ? '00.00 ر.س / للفرد'
+                                            : '00.00 SAR / per person',
                                         hintStyle: TextStyle(
                                           color: const Color(0xFFB9B8C1),
                                           fontSize: 15,
@@ -2332,7 +2394,9 @@ class _EditEventState extends State<EditEvent> {
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             width: 1,
-                                            color: PriceEmpty || PriceDouble
+                                            color: PriceEmpty ||
+                                                    PriceLarger ||
+                                                    PriceDouble
                                                 ? const Color(0xFFDC362E)
                                                 : const Color(0xFFB9B8C1),
                                           ),
@@ -2345,7 +2409,9 @@ class _EditEventState extends State<EditEvent> {
                                       ),
                                       keyboardType: TextInputType.number,
                                     ),
-                                    if (PriceEmpty || PriceDouble)
+                                    if (PriceEmpty ||
+                                        PriceLarger ||
+                                        PriceDouble)
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(top: 8.0),
@@ -2353,10 +2419,14 @@ class _EditEventState extends State<EditEvent> {
                                           AppUtil.rtlDirection2(context)
                                               ? PriceEmpty
                                                   ? 'يجب عليك ان تضع السعر المقدر'
-                                                  : '*السعر يجب أن يكون عدد صحيح فقط'
+                                                  : PriceDouble
+                                                      ? '*السعر يجب أن يكون عدد صحيح فقط'
+                                                      : 'السعر يجب أن يكون اكبر من أو يساوي 1'
                                               : PriceEmpty
                                                   ? 'You need to add a valid price'
-                                                  : '*The price must be an integer value only',
+                                                  : PriceDouble
+                                                      ? '*The price must be an integer value only'
+                                                      : 'You need to add a valid price, >= 1',
                                           style: TextStyle(
                                             color: const Color(0xFFDC362E),
                                             fontSize: width * 0.028,

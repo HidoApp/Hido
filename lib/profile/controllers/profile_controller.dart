@@ -84,6 +84,8 @@ class ProfileController extends GetxController {
       log(file.toString());
       final isSucces = await ProfileService.uploadProfileImages(
           file: file, uploadOrUpdate: uploadOrUpdate, context: context);
+      log("enter");
+      log(isSucces.toString());
 
       return isSucces;
     } catch (e) {

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
+import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/view/tourist_map_screen.dart';
 import 'package:ajwad_v4/explore/widget/rating_sheet.dart';
@@ -8,6 +9,7 @@ import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/profile/view/guest_sign_in.dart';
 import 'package:ajwad_v4/profile/view/profle_screen.dart';
+import 'package:ajwad_v4/profile/view/ticket_screen.dart';
 import 'package:ajwad_v4/services/view/service_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/offline_screen.dart';
@@ -103,6 +105,14 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                   const TouristMapScreen(),
                   const ServiceScreen(),
                   // const ShopScreen(),
+                  AppUtil.isGuest()
+                      ? const GuestSignInScreen(
+                          isProfile: false,
+                        )
+                      : TicketScreen(
+                          profileController: _profileController,
+                          fromBottomBar: true,
+                        ),
                   AppUtil.isGuest()
                       ? const GuestSignInScreen()
                       : ProfileScreen(
@@ -208,8 +218,30 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                             padding: const EdgeInsets.only(bottom: 4.0),
                             child: RepaintBoundary(
                               child: SvgPicture.asset(
-                                'assets/icons/my_profile.svg',
+                                'assets/icons/ticket_icon.svg',
                                 color: _profileController.touriestBar.value == 2
+                                    ? colorGreen
+                                    : const Color(0xFFB9B8C1),
+                              ),
+                            ),
+                          ),
+                        ),
+                        label: 'myTickets'.tr,
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Container(
+                          decoration: _profileController.touriestBar.value == 3
+                              ? BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: const [],
+                                )
+                              : const BoxDecoration(),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 4.0),
+                            child: RepaintBoundary(
+                              child: SvgPicture.asset(
+                                'assets/icons/my_profile.svg',
+                                color: _profileController.touriestBar.value == 3
                                     ? colorGreen
                                     : const Color(0xFFB9B8C1),
                               ),

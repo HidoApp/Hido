@@ -107,6 +107,7 @@ class ProfileService {
     if (response.statusCode == 200) {
       // Read the full response as a string
       String responseBody = await response.stream.bytesToString();
+
       try {
         // Decode the JSON response
         final Map<String, dynamic> jsonResponse = jsonDecode(responseBody);

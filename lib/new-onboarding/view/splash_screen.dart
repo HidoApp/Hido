@@ -110,35 +110,37 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF9F9F9),
       body: Stack(
         children: [
-          Center(
-            child: Lottie.asset(
-              'assets/splash_screen_new.json',
-              controller: _controller,
-              onLoaded: (composition) {
-                _controller.duration = composition.duration;
-                _controller.forward();
-              },
-              key: Key('${Random().nextInt(999999999)}'),
-              width: 600,
-              alignment: Alignment.center,
-              fit: BoxFit.contain,
-              errorBuilder: (context, error, stackTrace) {
-                return const Text(
-                  'Failed to load animation',
-                  style: TextStyle(color: Colors.red),
-                );
-              },
-            ),
+          Lottie.asset(
+            'assets/splashScreen.json',
+            controller: _controller,
+            onLoaded: (composition) {
+              _controller.duration = composition.duration;
+              _controller.forward();
+            },
+            key: Key('${Random().nextInt(999999999)}'),
+            fit: BoxFit.cover, // Ensures the animation covers the screen
+            width:
+                MediaQuery.of(context).size.width, // Set width to screen width
+            height: MediaQuery.of(context).size.height, //
+            errorBuilder: (context, error, stackTrace) {
+              debugPrint('Error: $error');
+              debugPrint('StackTrace: $stackTrace');
+              return const Text(
+                'Failed to load animation',
+                style: TextStyle(color: Colors.red),
+              );
+            },
           ),
           Positioned(
             bottom: MediaQuery.of(context).size.width * 0.102,
             left: MediaQuery.of(context).size.width * 0.397,
             // right: MediaQuery.of(context).size.width / 2,
             child: const Center(
-              child: VersionText(),
+              child: VersionText(
+                fromSplash: true,
+              ),
             ),
           )
         ],

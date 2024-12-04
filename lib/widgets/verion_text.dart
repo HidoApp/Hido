@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class VersionText extends StatefulWidget {
-  const VersionText({super.key});
-
+  const VersionText({super.key, this.fromSplash = false});
+  final fromSplash;
   @override
   State<VersionText> createState() => _VerionTextState();
 }
@@ -34,7 +34,7 @@ class _VerionTextState extends State<VersionText> {
       fontSize: MediaQuery.of(context).size.width * 0.03,
       fontWeight: FontWeight.w400,
       fontFamily: AppUtil.SfFontType(context),
-      color: Graytext,
+      color: widget.fromSplash ? Colors.white : Graytext,
     );
   }
 }

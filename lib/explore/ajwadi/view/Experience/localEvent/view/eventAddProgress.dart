@@ -156,6 +156,7 @@ class _EventAddProgressState extends State<EventAddProgress> {
       return _EventController.selectedDates.isNotEmpty &&
           _EventController.isEventTimeSelcted.value &&
           !_EventController.TimeErrorMessage.value &&
+          !_EventController.newRangeTimeErrorMessage.value &&
           !_EventController.DateErrorMessage.value;
     }
     if (activeIndex == 5) {
