@@ -16,7 +16,7 @@ class _CustomBookmarkCardState extends State<CustomBookmarkCard> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.sizeOf(context).width;
-    double height = MediaQuery.of(context).size.height;
+    double height = MediaQuery.sizeOf(context).height;
     return Container(
       // shape: const RoundedRectangleBorder(
       //     bord

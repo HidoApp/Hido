@@ -86,7 +86,7 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.sizeOf(context).width;
-    height = MediaQuery.of(context).size.height;
+    height = MediaQuery.sizeOf(context).height;
 
     return DefaultTabController(
       //animationDuration: Durations.long1

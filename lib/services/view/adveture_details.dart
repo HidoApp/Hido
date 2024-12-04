@@ -14,6 +14,7 @@ import 'package:ajwad_v4/widgets/custom_aleart_widget.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/read_more_widget.dart';
+import 'package:ajwad_v4/widgets/share_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -77,7 +78,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
     );
   }
 
-  late Adventure? adventure;
+  Adventure? adventure;
 
   @override
   void initState() {
@@ -152,7 +153,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.sizeOf(context).width;
-    height = MediaQuery.of(context).size.height;
+    height = MediaQuery.sizeOf(context).height;
 
     return Obx(
       () => _adventureController.isAdventureByIdLoading.value
@@ -647,51 +648,65 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                         )
                       ],
                     ),
-                    if (!widget.isLocal && !AppUtil.isGuest())
+                    if (!widget.isLocal && !AppUtil.isGuest()) ...[
                       Positioned(
                         top: height * 0.066,
                         right: AppUtil.rtlDirection2(context)
-                            ? width * 0.82
+                            ? width * 0.75
                             : width * 0.072,
-                        child: Obx(
-                          () => GestureDetector(
-                            onTap: () {
-                              _profileController.isAdventureBookmarked(
-                                  !_profileController
-                                      .isAdventureBookmarked.value);
-                              if (_profileController
-                                  .isAdventureBookmarked.value) {
-                                final bookmark = Bookmark(
-                                    isBookMarked: true,
-                                    id: adventure!.id,
-                                    titleEn: adventure!.nameEn ?? "",
-                                    titleAr: adventure!.nameAr ?? "",
-                                    image: adventure!.image!.first,
-                                    type: 'adventure');
-                                BookmarkService.addBookmark(bookmark);
-                              } else {
-                                BookmarkService.removeBookmark(adventure!.id);
-                              }
-                            },
-                            child: Container(
-                                width: 35,
-                                height: 36,
-                                decoration: BoxDecoration(
-                                  color: Colors.white
-                                      .withOpacity(0.20000000298023224),
-                                  shape: BoxShape.circle,
-                                ),
-                                alignment: Alignment.center,
-                                child: SvgPicture.asset(
-                                  _profileController.isAdventureBookmarked.value
-                                      ? "assets/icons/bookmark_fill.svg"
-                                      : "assets/icons/bookmark_icon.svg",
-                                  height: 28,
-                                  color: Colors.white,
-                                )),
-                          ),
+                        child: Row(
+                          children: [
+                            Obx(
+                              () => GestureDetector(
+                                onTap: () {
+                                  _profileController.isAdventureBookmarked(
+                                      !_profileController
+                                          .isAdventureBookmarked.value);
+                                  if (_profileController
+                                      .isAdventureBookmarked.value) {
+                                    final bookmark = Bookmark(
+                                        isBookMarked: true,
+                                        id: adventure!.id,
+                                        titleEn: adventure!.nameEn ?? "",
+                                        titleAr: adventure!.nameAr ?? "",
+                                        image: adventure!.image!.first,
+                                        type: 'adventure');
+                                    BookmarkService.addBookmark(bookmark);
+                                  } else {
+                                    BookmarkService.removeBookmark(
+                                        adventure!.id);
+                                  }
+                                },
+                                child: Container(
+                                    width: 35,
+                                    height: 36,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white
+                                          .withOpacity(0.20000000298023224),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: SvgPicture.asset(
+                                      _profileController
+                                              .isAdventureBookmarked.value
+                                          ? "assets/icons/bookmark_fill.svg"
+                                          : "assets/icons/bookmark_icon.svg",
+                                      height: 28,
+                                      color: Colors.white,
+                                    )),
+                              ),
+                            ),
+                            SizedBox(
+                              width: width * 0.0205,
+                            ),
+                            ShareWidget(
+                              id: adventure!.id,
+                              type: 'activity',
+                            )
+                          ],
                         ),
                       ),
+                    ],
                     Positioned(
                       top: height * 0.06,
                       left: AppUtil.rtlDirection2(context)
@@ -714,35 +729,46 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                           right: AppUtil.rtlDirection2(context)
                               ? width * 0.82
                               : width * 0.072,
-                          child: GestureDetector(
-                              onTap: widget.isHasBooking
-                                  ? () async {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return const CustomAlertDialog();
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                  onTap: widget.isHasBooking
+                                      ? () async {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return const CustomAlertDialog();
+                                            },
+                                          );
+                                        }
+                                      : () {
+                                          Get.to(() => EditAdventure(
+                                              adventureObj: adventure!));
                                         },
-                                      );
-                                    }
-                                  : () {
-                                      Get.to(() => EditAdventure(
-                                          adventureObj: adventure!));
-                                    },
-                              child: Container(
-                                width: 36,
-                                height: 36,
-                                decoration: BoxDecoration(
-                                  color: Colors.white
-                                      .withOpacity(0.20000000298023224),
-                                  shape: BoxShape.circle,
-                                ),
-                                alignment: Alignment.center,
-                                child: SvgPicture.asset(
-                                  'assets/icons/editPin.svg',
-                                  height: 28,
-                                  color: Colors.white,
-                                ),
-                              ))),
+                                  child: Container(
+                                    width: 36,
+                                    height: 36,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white
+                                          .withOpacity(0.20000000298023224),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: SvgPicture.asset(
+                                      'assets/icons/editPin.svg',
+                                      height: 28,
+                                      color: Colors.white,
+                                    ),
+                                  )),
+                              SizedBox(
+                                width: width * 0.0205,
+                              ),
+                              ShareWidget(
+                                id: adventure!.id,
+                                type: 'activity',
+                              )
+                            ],
+                          )),
 
                     if (!widget.isLocal && !AppUtil.isGuest())
                       Positioned(

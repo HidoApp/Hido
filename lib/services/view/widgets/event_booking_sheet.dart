@@ -108,7 +108,7 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
     _eventController.showErrorMaxGuest.value = false;
     return Container(
       width: double.infinity,

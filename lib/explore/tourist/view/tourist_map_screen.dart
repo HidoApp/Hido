@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
+import 'package:ajwad_v4/explore/widget/guide_bottom_sheet.dart';
 import 'package:ajwad_v4/explore/widget/map_icons_widget.dart';
 import 'package:ajwad_v4/explore/widget/map_search_widget.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
@@ -277,15 +279,26 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
   void getUserActions() async {
     await _profileController.getAllActions(context: context);
+
     if (_profileController.actionsList.isNotEmpty) {
-      Get.bottomSheet(
-              isScrollControlled: true,
-              RatingSheet(
-                activityProgress: _profileController.actionsList.first,
-              ))
-          .then((value) => _profileController.updateUserAction(
-              context: context,
-              id: _profileController.actionsList.first.id ?? ""));
+      if (!mounted) return;
+
+      final activityProgress = _profileController.actionsList.first;
+
+      // Show bottom sheet
+      await Get.bottomSheet(
+          RatingSheet(
+            activityProgress: activityProgress,
+          ),
+          isScrollControlled: true);
+      log("after Rating");
+      // After the bottom sheet is fully dismissed, update user action
+      if (mounted) {
+        await _profileController.updateUserAction(
+          context: context,
+          id: activityProgress.id ?? "",
+        );
+      }
     }
   }
 
@@ -306,7 +319,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("Screen full");
+    log("Screen full");
     final width = MediaQuery.sizeOf(context).width;
     return Scaffold(
       bottomSheet: Obx(
@@ -344,7 +357,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                       body: const ProgressSheet(),
                     ),
                   )
-                : const SizedBox.shrink(),
+                : const GuideBottomSheet(),
       ),
       body: Stack(
         children: [

@@ -81,7 +81,7 @@ class _ButtomProgressState extends State<ButtomProgress> {
 
   @override
   Widget build(BuildContext context) {
-    var screenHeight = MediaQuery.of(context).size.height;
+    var screenHeight = MediaQuery.sizeOf(context).height;
     var keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
 
     return GestureDetector(
@@ -402,7 +402,7 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
 
     final TextEditingController textField1Controller =
         _selectedLanguageIndex == 0
@@ -793,7 +793,7 @@ class _AddHospitalityLocationState extends State<AddHospitalityLocation> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1721,7 +1721,7 @@ class _AddGuestsState extends State<AddGuests> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -2011,7 +2011,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

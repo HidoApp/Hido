@@ -50,7 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.sizeOf(context).width;
-    height = MediaQuery.of(context).size.height;
+    height = MediaQuery.sizeOf(context).height;
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();

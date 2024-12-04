@@ -214,7 +214,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
         Get.put(TouristExploreController());
 
     final width = MediaQuery.sizeOf(context).width;
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
 
     return InkWell(
       child: Column(

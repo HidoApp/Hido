@@ -56,7 +56,7 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
 
   @override
   Widget build(BuildContext context) {
-    var screenHeight = MediaQuery.of(context).size.height;
+    var screenHeight = MediaQuery.sizeOf(context).height;
     var keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
 
     return GestureDetector(

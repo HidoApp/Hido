@@ -136,7 +136,7 @@ class _BookingSheetState extends State<BookingSheet> {
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
-    height = MediaQuery.of(context).size.height;
+    height = MediaQuery.sizeOf(context).height;
     time = DateTime.now();
     returnTime = DateTime.now();
 

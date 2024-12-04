@@ -116,7 +116,7 @@ class _HospitalityExperienceCardState extends State<HospitalityExperienceCard> {
     Place? thePlace;
 
     final width = MediaQuery.sizeOf(context).width;
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: width * 0.041),
       child: Container(

@@ -116,7 +116,7 @@ class _ProfileDetailsState extends State<TouriestProfile> {
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.sizeOf(context).width;
-    height = MediaQuery.of(context).size.height;
+    height = MediaQuery.sizeOf(context).height;
     return Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(

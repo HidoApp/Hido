@@ -72,8 +72,8 @@ class RatingService {
     required String bookingId,
     int? placeRate,
     int? localRate,
-    String? placeReview,
-    String? localReview,
+    required String placeReview,
+    required String localReview,
   }) async {
     //check token
     log("jwtToken");
@@ -105,9 +105,9 @@ class RatingService {
         },
         body: jsonEncode({
           'rating': placeRate,
-          "description": placeReview,
+          "description": placeReview == "n" ? "" : placeReview,
           "userRating": localRate,
-          "userDescription": localReview
+          "userDescription": localReview == "n" ? "" : localReview
         }));
     log(response.statusCode.toString());
     log(response.body);

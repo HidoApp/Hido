@@ -17,7 +17,7 @@ class _CustomOrderCardState extends State<CustomOrderCard> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.sizeOf(context).width;
-    double height = MediaQuery.of(context).size.height;
+    double height = MediaQuery.sizeOf(context).height;
 
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),

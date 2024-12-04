@@ -26,7 +26,7 @@ class _NextActivityState extends State<LastActivity> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
 
     return Column(
       mainAxisSize: MainAxisSize.min,

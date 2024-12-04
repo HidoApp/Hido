@@ -34,7 +34,7 @@ class _TripBookingWidgetState extends State<TripBookingWidget> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
     return InkWell(
       onTap: () async {
         // setState(() async{

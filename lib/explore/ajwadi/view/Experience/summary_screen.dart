@@ -125,7 +125,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
@@ -420,7 +420,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
 //   @override
 //   Widget build(BuildContext context) {
 //     final width = MediaQuery.sizeOf(context).width;
-//     final height = MediaQuery.of(context).size.height;
+//     final height =MediaQuery.sizeOf(context).height;
 //     return Scaffold(
 //       backgroundColor: Colors.white,
 //       appBar: CustomAppBar(

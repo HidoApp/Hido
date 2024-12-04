@@ -12,7 +12,7 @@ class SwitchAcount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.sizeOf(context).width;
-    double height = MediaQuery.of(context).size.height;
+    double height = MediaQuery.sizeOf(context).height;
     return Container(
       //height: 200,
       padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),

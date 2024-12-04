@@ -47,7 +47,7 @@ class _TrackSheetState extends State<TrackSheet> {
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.sizeOf(context).width;
-    height = MediaQuery.of(context).size.height;
+    height = MediaQuery.sizeOf(context).height;
 
     return GestureDetector(
         behavior: HitTestBehavior.opaque,
