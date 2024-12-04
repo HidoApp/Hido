@@ -169,6 +169,7 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
       return !ajwadiExploreController.isDateEmpty.value &&
           _AdventureControllerController.isAdventureTimeSelcted.value &&
           !_AdventureControllerController.TimeErrorMessage.value &&
+          !_AdventureControllerController.newRangeTimeErrorMessage.value &&
           _AdventureControllerController.DateErrorMessage.value;
     }
 

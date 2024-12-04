@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
@@ -166,10 +168,16 @@ class _HostCalenderDialogState extends State<HostCalenderDialog> {
                   widget.ajwadiExploreController!.isDateEmpty.value = false;
                   widget.advController?.isAdventureDateSelcted.value = true;
                   widget.advController!.selectedDate(selectedDate);
-                  widget
-                    ..advController!.DateErrorMessage.value =
-                        AppUtil.isDateBefore24Hours(
-                            widget.advController!.selectedDate.value);
+                  widget.advController!.DateErrorMessage.value =
+                      AppUtil.isDateBefore24Hours(
+                          widget.advController!.selectedDate.value);
+
+                  if (widget.advController!.isAdventureDateSelcted.value) {
+                    widget.advController!.newRangeTimeErrorMessage.value =
+                        AppUtil.isDateTimeBefore(
+                            widget.advController!.selectedDate.value,
+                            widget.advController!.selectedStartTime.value);
+                  }
                 } else if (widget.type == 'event') {
                   widget.eventController!.isEventDateSelcted.value = true;
                   widget.eventController!.selectedDate(selectedDate);

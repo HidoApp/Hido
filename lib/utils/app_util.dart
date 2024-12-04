@@ -145,12 +145,19 @@ class AppUtil {
     location = tz.getLocation(timeZoneName);
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
     DateTime parsedDate = DateTime.parse(Date);
-    final tripDateInRiyadh = tz.TZDateTime.from(parsedDate, location)
-        .subtract(const Duration(hours: 3));
+    final tripDateInRiyadh = tz.TZDateTime.from(parsedDate, location);
 
-    Duration difference = tripDateInRiyadh.difference(currentDateInRiyadh);
+    // .subtract(const Duration(hours: 3));
 
-    return difference.inHours >= 24;
+    //Duration difference = tripDateInRiyadh.difference(currentDateInRiyadh);
+
+    // return difference.inHours >= 24;
+    //return tripDateInRiyadh.isAfter(currentDateInRiyadh); //before last updated
+
+    return tripDateInRiyadh.isAfter(currentDateInRiyadh) ||
+        (tripDateInRiyadh.year == currentDateInRiyadh.year &&
+            tripDateInRiyadh.month == currentDateInRiyadh.month &&
+            tripDateInRiyadh.day == currentDateInRiyadh.day);
   }
 
   static bool isDateTimeBefore24Hours(String date) {
@@ -170,15 +177,41 @@ class AppUtil {
 
     // Convert the parsed trip date to the Riyadh time zone
     final tripDateInRiyadh = tz.TZDateTime.from(parsedTripDate, location)
-        .subtract(const Duration(hours: 3));
+        .subtract(const Duration(hours: 3)); //new
 
     // Calculate the difference
     final difference = tripDateInRiyadh.difference(currentDateInRiyadh);
 
-    // Print the current time and difference for debugging
-
     // Check if the difference is greater than or equal to 24 hours
-    return difference.inHours > 24;
+
+    // return difference.inHours > 24;
+
+    // return tripDateInRiyadh.isAfter(currentDateInRiyadh); //last one for book before date of trip
+    // log(tripDateInRiyadh.toString());
+    // log(currentDateInRiyadh.toString());
+    // return tripDateInRiyadh.isAfter(currentDateInRiyadh);
+
+    return tripDateInRiyadh.isAfter(currentDateInRiyadh) ||
+        (tripDateInRiyadh.year == currentDateInRiyadh.year &&
+            tripDateInRiyadh.month == currentDateInRiyadh.month &&
+            tripDateInRiyadh.day == currentDateInRiyadh.day);
+
+    //this for compare time "Ammar"
+    // if (tripDateInRiyadh.isAfter(currentDateInRiyadh) ||
+    //     (tripDateInRiyadh.year == currentDateInRiyadh.year &&
+    //         tripDateInRiyadh.month == currentDateInRiyadh.month &&
+    //         tripDateInRiyadh.day == currentDateInRiyadh.day)) {
+    //   if (tripDateInRiyadh.year == currentDateInRiyadh.year &&
+    //       tripDateInRiyadh.month == currentDateInRiyadh.month &&
+    //       tripDateInRiyadh.day == currentDateInRiyadh.day) {
+    //     if (tripDateInRiyadh.isAfter(currentDateInRiyadh)) {
+    //       return true;
+    //     }
+    //   } else {
+    //     return true;
+    //   }
+    // }
+    // return false;
   }
 
   static bool areAllDatesAfter24Hours(List<dynamic> dates) {
@@ -190,17 +223,80 @@ class AppUtil {
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
 
     for (DateTime date in dates) {
-      final DateInRiyadh =
-          tz.TZDateTime.from(date, location).subtract(const Duration(hours: 3));
+      // final DateInRiyadh =
+      //     tz.TZDateTime.from(date, location).subtract(const Duration(hours: 3));
+      final DateInRiyadh = tz.TZDateTime.from(date, location);
 
-      Duration difference = DateInRiyadh.difference(currentDateInRiyadh);
+      // Duration difference = DateInRiyadh.difference(currentDateInRiyadh);
 
-      if (difference.inHours < 24) {
+      // if (difference.inHours < 12) {
+      //   return false;
+      // }
+      log(DateInRiyadh.toString());
+
+      if (DateInRiyadh.isBefore(currentDateInRiyadh) &&
+          !(DateInRiyadh.year == currentDateInRiyadh.year &&
+              DateInRiyadh.month == currentDateInRiyadh.month &&
+              DateInRiyadh.day == currentDateInRiyadh.day)) {
         return false;
-      }
+      } // last ubdate of srs beore change
     }
 
     return true;
+  }
+
+  static bool areAllDatesTimeBefore(List<dynamic> dates, DateTime startTime) {
+    const String timeZoneName = 'Asia/Riyadh';
+    late tz.Location location;
+
+    tz.initializeTimeZones();
+    location = tz.getLocation(timeZoneName);
+    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+
+    for (DateTime date in dates) {
+      // Check if the start time is not greater than the current time
+
+      final DateInRiyadh = tz.TZDateTime.from(date, location);
+      log(DateInRiyadh.toString());
+      if (DateInRiyadh.isAtSameMomentAs(currentDateInRiyadh) ||
+          (DateInRiyadh.year == currentDateInRiyadh.year &&
+              DateInRiyadh.month == currentDateInRiyadh.month &&
+              DateInRiyadh.day == currentDateInRiyadh.day)) {
+        final tripTime = DateTime(date.year, date.month, date.day,
+            startTime.hour, startTime.minute, startTime.second);
+
+        if (tripTime.isBefore(currentDateInRiyadh) ||
+            tripTime.isAtSameMomentAs(currentDateInRiyadh)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  static bool isDateTimeBefore(String date, DateTime startTime) {
+    const String timeZoneName = 'Asia/Riyadh';
+    late tz.Location location;
+
+    tz.initializeTimeZones();
+    location = tz.getLocation(timeZoneName);
+    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+    DateTime parsedDate = DateTime.parse(date);
+
+    final tripTime = DateTime(parsedDate.year, parsedDate.month, parsedDate.day,
+        startTime.hour, startTime.minute, startTime.second);
+    log('enter');
+    log(currentDateInRiyadh.toString());
+    log(tripTime.toString());
+    log((tripTime.isBefore(currentDateInRiyadh) ||
+            tripTime.isAtSameMomentAs(currentDateInRiyadh))
+        .toString());
+    if (tripTime.isBefore(currentDateInRiyadh) ||
+        tripTime.isAtSameMomentAs(currentDateInRiyadh)) {
+      return true;
+    }
+
+    return false;
   }
 
   static bool isEndTimeLessThanStartTime(DateTime startTime, DateTime endTime) {

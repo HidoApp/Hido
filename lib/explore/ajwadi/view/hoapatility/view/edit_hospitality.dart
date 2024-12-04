@@ -318,13 +318,17 @@ class _EditHospitalityState extends State<EditHospitality> {
       //  DateErrorMessage = !_servicesController.isHospatilityDateSelcted.value;
       // TimeErrorMessage = !_servicesController.isHospatilityTimeSelcted.value;
       _servicesController.EmptyDateErrorMessage.value =
-          !_servicesController.isHospatilityDateSelcted.value;
+          !_servicesController.isHospatilityDateSelcted.value ||
+              _servicesController.selectedDates.isEmpty;
       _servicesController.EmptyTimeErrorMessage.value =
           !_servicesController.isHospatilityTimeSelcted.value;
       // _servicesController.DateErrorMessage.value =
       //     AppUtil.isDateBefore24Hours(_servicesController.selectedDate.value);
       _servicesController.DateErrorMessage.value =
           !AppUtil.areAllDatesAfter24Hours(_servicesController.selectedDates);
+      _servicesController.newRangeTimeErrorMessage.value =
+          AppUtil.areAllDatesTimeBefore(_servicesController.selectedDates,
+              _servicesController.selectedStartTime.value);
       PriceEmpty = _priceController.text.isEmpty;
 
       PriceEmpty = _priceController.text.isEmpty;
@@ -352,6 +356,7 @@ class _EditHospitalityState extends State<EditHospitality> {
         !PriceLarger &&
         !PriceDouble &&
         !_servicesController.TimeErrorMessage.value &&
+        !_servicesController.newRangeTimeErrorMessage.value && //new srs
         _servicesController.images.length >= 3 &&
         !_servicesController.DateErrorMessage.value) {
       if (await uploadImages()) {
@@ -367,6 +372,13 @@ class _EditHospitalityState extends State<EditHospitality> {
       if (_servicesController.DateErrorMessage.value) {
         if (context.mounted) {
           AppUtil.errorToast(context, 'DateDuration'.tr);
+          await Future.delayed(const Duration(seconds: 3));
+        }
+      }
+      // new srs
+      else if (_servicesController.newRangeTimeErrorMessage.value) {
+        if (context.mounted) {
+          AppUtil.errorToast(context, 'StartTimeDuration'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
       } else if (_servicesController.TimeErrorMessage.value) {
@@ -407,10 +419,20 @@ class _EditHospitalityState extends State<EditHospitality> {
       _servicesController.selectedEndTime.value = newTimeToReturn; //new
 
       if (widget.hospitalityObj.daysInfo.isNotEmpty) {
+        bool allDatesInPast =
+            true; // Flag to check if all dates are in the past
+
         for (var info in widget.hospitalityObj.daysInfo) {
           DateTime startDateTime = DateTime.parse(info.startTime);
+          if (startDateTime.isAfter(DateTime.now())) {
+            allDatesInPast = false;
+          }
           _servicesController.selectedDates.add(DateTime(
               startDateTime.year, startDateTime.month, startDateTime.day));
+        }
+
+        if (allDatesInPast) {
+          _servicesController.selectedDates.clear();
         }
       } else {
         _servicesController.selectedDates.add(DateTime.now());
@@ -1757,8 +1779,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                   ? "اختر التاريخ"
                                                   : "You need to choose a valid date"
                                               : AppUtil.rtlDirection2(context)
-                                                  ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
-                                                  : "*Please select a date at least 48 hours from now",
+                                                  ? "يجب اختيار تاريخ بعد اليوم الحالي"
+                                                  : "Please choose a date after today",
                                           style: TextStyle(
                                             color: const Color(0xFFDC362E),
                                             fontSize: width * 0.028,
@@ -1813,8 +1835,11 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                     side: BorderSide(
                                                         width: 1,
                                                         color: _servicesController
-                                                                .EmptyTimeErrorMessage
-                                                                .value
+                                                                    .EmptyTimeErrorMessage
+                                                                    .value ||
+                                                                _servicesController
+                                                                    .newRangeTimeErrorMessage
+                                                                    .value
                                                             //  TimeErrorMessage ??
                                                             //         false
                                                             ? colorRed
@@ -1873,6 +1898,21 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                                       _servicesController
                                                                           .selectedEndTime
                                                                           .value);
+
+                                                              //newww  SRS
+                                                              if (_servicesController
+                                                                  .isHospatilityDateSelcted
+                                                                  .value) {
+                                                                _servicesController
+                                                                        .newRangeTimeErrorMessage
+                                                                        .value =
+                                                                    AppUtil.areAllDatesTimeBefore(
+                                                                        _servicesController
+                                                                            .selectedDates,
+                                                                        _servicesController
+                                                                            .selectedStartTime
+                                                                            .value);
+                                                              }
                                                             });
                                                           },
                                                           onChanged: (newT) {
@@ -1904,6 +1944,19 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                                       _servicesController
                                                                           .selectedEndTime
                                                                           .value);
+                                                              if (_servicesController
+                                                                  .isHospatilityDateSelcted
+                                                                  .value) {
+                                                                _servicesController
+                                                                        .newRangeTimeErrorMessage
+                                                                        .value =
+                                                                    AppUtil.areAllDatesTimeBefore(
+                                                                        _servicesController
+                                                                            .selectedDates,
+                                                                        _servicesController
+                                                                            .selectedStartTime
+                                                                            .value);
+                                                              }
                                                             });
                                                           },
                                                           // showCupertinoModalPopup<
@@ -2063,22 +2116,27 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 // TimeErrorMessage ??
                                                 //   false ||
                                                 _servicesController
-                                                    .TimeErrorMessage.value)
+                                                    .TimeErrorMessage.value ||
+                                                _servicesController
+                                                    .newRangeTimeErrorMessage
+                                                    .value)
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     top: 8),
                                                 child: CustomText(
-                                                  text: !_servicesController
-                                                              .TimeErrorMessage
-                                                              .value ||
-                                                          _servicesController
-                                                              .EmptyTimeErrorMessage
-                                                              .value
+                                                  text: _servicesController
+                                                          .EmptyTimeErrorMessage
+                                                          .value
                                                       ? AppUtil.rtlDirection2(
                                                               context)
                                                           ? "يجب اختيار الوقت"
                                                           : "Select The Time"
-                                                      : '',
+                                                      : _servicesController
+                                                              .newRangeTimeErrorMessage
+                                                              .value
+                                                          ? 'StartTimeDuration'
+                                                              .tr
+                                                          : '',
                                                   color: colorRed,
                                                   fontSize: width * 0.028,
                                                   fontFamily:
@@ -2391,25 +2449,30 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 // TimeErrorMessage ??
                                                 //   false ||
                                                 _servicesController
-                                                    .TimeErrorMessage.value)
+                                                    .TimeErrorMessage.value ||
+                                                _servicesController
+                                                    .newRangeTimeErrorMessage
+                                                    .value)
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     top: 8),
                                                 child: Text(
-                                                  !_servicesController
-                                                              .TimeErrorMessage
-                                                              .value ||
-                                                          _servicesController
-                                                              .EmptyTimeErrorMessage
-                                                              .value
+                                                  _servicesController
+                                                          .EmptyTimeErrorMessage
+                                                          .value
                                                       ? AppUtil.rtlDirection2(
                                                               context)
                                                           ? "يجب اختيار الوقت"
                                                           : "Select The Time"
-                                                      : AppUtil.rtlDirection2(
-                                                              context)
-                                                          ? "يجب أن لايسبق وقت بدء التجربة"
-                                                          : "*Can’t be before start time",
+                                                      : _servicesController
+                                                              .TimeErrorMessage
+                                                              .value
+                                                          ? AppUtil
+                                                                  .rtlDirection2(
+                                                                      context)
+                                                              ? "يجب أن لايسبق وقت بدء التجربة"
+                                                              : "Can’t be before start time"
+                                                          : '',
                                                   style: TextStyle(
                                                     color:
                                                         const Color(0xFFDC362E),

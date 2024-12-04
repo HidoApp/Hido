@@ -563,9 +563,9 @@ const localeAr = {
   'payment': "دفع",
   "signInTitle": 'اكتشف السعودية بأهلها! ',
   'editExperience': 'لايمكنك تعديل هذه التجربة لوجود حجوزات فيها',
-  'DateDuration': 'يجب أن يكون التاريخ قبل 24 ساعة من موعد التجربة',
+  'DateDuration': 'يجب أن يكون التاريخ بعد الي،م الحالي',
   'TimeDuration': 'وقت الإنتهاء اقل من وقت البداية',
-
+  'StartTimeDuration': 'وقت البداية اقل من الوقت الحالي',
   "account": "الحساب", "legalDoc": "المستندات القانونية",
   'tourLicense': "رخصة المرشد السياحي",
   'guestLocalSignUp': 'تسجيل الدخول كمقدم خدمة',
@@ -599,7 +599,9 @@ const localeAr = {
   'signOutDialog': "طلب جولة فعال",
   'signOutDialogContent':
       "حاليًا عندك طلب جولة قيد التنفيذ. من فضلك، أكمل طلبك أو ألغه لتتمكن من تسجيل الخروج",
-  'submit': 'إرسال', 'howYourTour': " كيف كانت تجربتك في",
+  'submit': 'إرسال',
+  'howYourTour': " كيف كانت جولتك في",
+  'howYourExperience': " كيف كانت تجربتك في",
   'howYourGudie': "كيف كانت تجربتك مع ",
   //-----end
   'noNextActivity': " ليس لديك أنشطة قادمة بعد",

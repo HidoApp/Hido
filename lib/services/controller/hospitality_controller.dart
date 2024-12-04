@@ -18,6 +18,8 @@ class HospitalityController extends GetxController {
   var TimeErrorMessage = false.obs;
   var EmptyDateErrorMessage = false.obs;
   var EmptyTimeErrorMessage = false.obs;
+  var newRangeTimeErrorMessage = false.obs; // newww
+
   var isHospitalityLoading = true.obs;
   var showErrorMaxGuest = false.obs;
   var selectedDate = ''.obs;
@@ -134,7 +136,7 @@ class HospitalityController extends GetxController {
         numOfMale: numOfMale,
         couponId: couponId,
       );
-      
+
       return data;
     } catch (e) {
       isCheckAndBookLoading(false);

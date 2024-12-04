@@ -12,7 +12,9 @@ import 'package:get/get.dart';
 import '../../new-onboarding/view/intro_screen.dart';
 
 class GuestSignInScreen extends StatefulWidget {
-  const GuestSignInScreen({super.key});
+  const GuestSignInScreen({Key? key, this.isProfile = true}) : super(key: key);
+
+  final bool isProfile;
 
   @override
   State<GuestSignInScreen> createState() => _GuestSignInScreenState();
@@ -85,29 +87,31 @@ class _GuestSignInScreenState extends State<GuestSignInScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: width * 0.09,
-              ),
-              const Divider(
-                color: lightGrey,
-              ),
-              SizedBox(
-                height: width * .012,
-              ),
-              CustomListTile(
-                title: "terms".tr,
-                leading: "assets/icons/help_icon.svg",
-                iconColor: colorGreen,
-                onTap: () {
-                  Get.to(() => const TermsAndConditions(fromAjwady: false));
-                },
-              ),
-              SizedBox(
-                height: width * .012,
-              ),
-              const Divider(
-                color: lightGrey,
-              ),
+              if (widget.isProfile) ...[
+                SizedBox(
+                  height: width * 0.09,
+                ),
+                const Divider(
+                  color: lightGrey,
+                ),
+                SizedBox(
+                  height: width * .012,
+                ),
+                CustomListTile(
+                  title: "terms".tr,
+                  leading: "assets/icons/help_icon.svg",
+                  iconColor: colorGreen,
+                  onTap: () {
+                    Get.to(() => const TermsAndConditions(fromAjwady: false));
+                  },
+                ),
+                SizedBox(
+                  height: width * .012,
+                ),
+                const Divider(
+                  color: lightGrey,
+                ),
+              ],
               const Spacer(),
               const Center(
                 child: VersionText(),

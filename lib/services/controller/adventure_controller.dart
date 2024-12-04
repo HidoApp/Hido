@@ -18,6 +18,7 @@ class AdventureController extends GetxController {
   var DateErrorMessage = false.obs;
   var TimeErrorMessage = false.obs;
   var address = ''.obs;
+  var newRangeTimeErrorMessage = false.obs; // newww
   var selectedDate = ''.obs;
   var selectedDates = [].obs; //new
   var selectedTime = ''.obs;

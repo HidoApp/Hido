@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
+import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
@@ -217,6 +218,13 @@ class _EventInfoReviewState extends State<EventInfoReview> {
     // _fetchAddress();
 
     daysInfo();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_EventController.isEventDateSelcted.value) {
+        _EventController.newRangeTimeErrorMessage.value =
+            AppUtil.areAllDatesTimeBefore(_EventController.selectedDates,
+                _EventController.selectedStartTime.value);
+      }
+    });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         locationUrl = getLocationUrl(_EventController.pickUpLocLatLang.value);
@@ -489,106 +497,156 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                     child: CircularProgressIndicator.adaptive(),
                                   )
                                 : CustomButton(
-                                    onPressed: () async {
-                                      uploadImages().then((value) async {
-                                        if (!value) {
-                                        } else {
-                                          final isSuccess = await _EventController.createEvent(
-                                              nameAr: _EventController
-                                                  .titleAr.value,
-                                              nameEn: _EventController
-                                                  .titleEn.value,
-                                              descriptionAr:
-                                                  _EventController.bioAr.value,
-                                              descriptionEn:
-                                                  _EventController.bioEn.value,
-                                              longitude: _EventController
-                                                  .pickUpLocLatLang
-                                                  .value
-                                                  .longitude
-                                                  .toString(),
-                                              latitude: _EventController
-                                                  .pickUpLocLatLang
-                                                  .value
-                                                  .latitude
-                                                  .toString(),
-                                              price: widget.adventurePrice!,
-                                              image: imageUrls,
-                                              regionAr: _EventController
-                                                  .ragionAr.value,
-                                              locationUrl: locationUrl,
-                                              daysInfo: DaysInfo,
-                                              regionEn: _EventController
-                                                  .ragionEn.value,
-                                              context: context);
-
-                                          if (isSuccess) {
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return Dialog(
-                                                  backgroundColor: Colors.white,
-                                                  surfaceTintColor:
-                                                      Colors.white,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
-                                                  ),
-                                                  child: Container(
-                                                    width: 350,
-                                                    height: 110, // Custom width
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            16),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Image.asset(
-                                                            'assets/images/paymentSuccess.gif',
-                                                            width: 38),
-                                                        const SizedBox(
-                                                            height: 16),
-                                                        CustomText(
-                                                            text: !AppUtil
-                                                                    .rtlDirection2(
-                                                                        context)
-                                                                ? "Experience published successfully"
-                                                                : "تم نشر تجربتك بنجاح ",
-                                                            fontSize: 15),
-                                                        //textDirection:
-                                                        //AppUtil.rtlDirection2(context)
-                                                        //? TextDirection.rtl
-                                                        //: TextDirection.ltr,
-                                                      ],
-                                                    ),
-                                                  ),
-                                                );
-                                              },
-                                            ).then((_) {
-                                              AmplitudeService.amplitude.track(
-                                                  BaseEvent(
-                                                      'Event published successfully',
-                                                      eventProperties: {
-                                                    'event:': _EventController
-                                                        .titleEn.value,
-                                                  }));
-                                              Get.offAll(() =>
-                                                  const AjwadiBottomBar());
-                                            });
-                                          } else {
-                                            AppUtil.errorToast(context,
-                                                'somthingWentWrong'.tr);
+                                    onPressed: _EventController
+                                            .newRangeTimeErrorMessage.value
+                                        ? () async {
+                                            if (context.mounted) {
+                                              AppUtil.errorToast(context,
+                                                  'StartTimeDuration'.tr);
+                                              await Future.delayed(
+                                                  const Duration(seconds: 3));
+                                            }
                                           }
-                                        }
-                                      });
-                                    },
+                                        : () async {
+                                            _EventController
+                                                    .newRangeTimeErrorMessage
+                                                    .value =
+                                                AppUtil.areAllDatesTimeBefore(
+                                                    _EventController
+                                                        .selectedDates,
+                                                    _EventController
+                                                        .selectedStartTime
+                                                        .value);
+
+                                            if (!_EventController
+                                                .newRangeTimeErrorMessage
+                                                .value) {
+                                              uploadImages()
+                                                  .then((value) async {
+                                                if (!value) {
+                                                } else {
+                                                  final isSuccess = await _EventController.createEvent(
+                                                      nameAr: _EventController
+                                                          .titleAr.value,
+                                                      nameEn: _EventController
+                                                          .titleEn.value,
+                                                      descriptionAr:
+                                                          _EventController
+                                                              .bioAr.value,
+                                                      descriptionEn:
+                                                          _EventController
+                                                              .bioEn.value,
+                                                      longitude: _EventController
+                                                          .pickUpLocLatLang
+                                                          .value
+                                                          .longitude
+                                                          .toString(),
+                                                      latitude: _EventController
+                                                          .pickUpLocLatLang
+                                                          .value
+                                                          .latitude
+                                                          .toString(),
+                                                      price: widget
+                                                          .adventurePrice!,
+                                                      image: imageUrls,
+                                                      regionAr: _EventController
+                                                          .ragionAr.value,
+                                                      locationUrl: locationUrl,
+                                                      daysInfo: DaysInfo,
+                                                      regionEn: _EventController
+                                                          .ragionEn.value,
+                                                      context: context);
+
+                                                  if (isSuccess) {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return Dialog(
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          surfaceTintColor:
+                                                              Colors.white,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8),
+                                                          ),
+                                                          child: Container(
+                                                            width: 350,
+                                                            height:
+                                                                110, // Custom width
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(16),
+                                                            child: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Image.asset(
+                                                                    'assets/images/paymentSuccess.gif',
+                                                                    width: 38),
+                                                                const SizedBox(
+                                                                    height: 16),
+                                                                CustomText(
+                                                                    text: !AppUtil.rtlDirection2(
+                                                                            context)
+                                                                        ? "Experience published successfully"
+                                                                        : "تم نشر تجربتك بنجاح ",
+                                                                    fontSize:
+                                                                        15),
+                                                                //textDirection:
+                                                                //AppUtil.rtlDirection2(context)
+                                                                //? TextDirection.rtl
+                                                                //: TextDirection.ltr,
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ).then((_) {
+                                                      AmplitudeService.amplitude
+                                                          .track(BaseEvent(
+                                                              'Event published successfully',
+                                                              eventProperties: {
+                                                            'event:':
+                                                                _EventController
+                                                                    .titleEn
+                                                                    .value,
+                                                          }));
+                                                      Get.offAll(() =>
+                                                          const AjwadiBottomBar());
+                                                    });
+                                                  } else {
+                                                    AppUtil.errorToast(context,
+                                                        'somthingWentWrong'.tr);
+                                                  }
+                                                }
+                                              });
+                                            } else {
+                                              if (context.mounted) {
+                                                AppUtil.errorToast(context,
+                                                    'StartTimeDuration'.tr);
+                                                await Future.delayed(
+                                                    const Duration(seconds: 3));
+                                              }
+                                            }
+                                          },
                                     title: 'Publish'.tr,
-                                  ),
+                                    buttonColor: _EventController
+                                            .newRangeTimeErrorMessage.value
+                                        ? lightGreen
+                                        : colorGreen,
+                                    borderColor: _EventController
+                                            .newRangeTimeErrorMessage.value
+                                        ? lightGreen
+                                        : colorGreen),
                           ),
                           const SizedBox(height: 10),
                           CustomButton(

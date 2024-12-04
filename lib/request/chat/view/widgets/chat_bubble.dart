@@ -3,6 +3,7 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart' as intl;
 
 class ChatBubble extends StatelessWidget {
   // final String name;
@@ -114,10 +115,11 @@ class ChatBubble extends StatelessWidget {
             mainAxisAlignment: isSender
                 ? MainAxisAlignment.end
                 : MainAxisAlignment.start, //new
-//new Date
+            //new Date
             children: [
               CustomText(
-                  text: message.created!.substring(10),
+                  text: formatTimeWithLocale(
+                      context, message.created!.substring(12)),
                   textAlign: TextAlign.center,
                   fontFamily: AppUtil.SfFontType(context),
                   // textDirection: AppUtil.rtlDirection2(context)? TextDirection.rtl:TextDirection.ltr,
@@ -129,5 +131,32 @@ class ChatBubble extends StatelessWidget {
           ),
           const SizedBox(height: 6),
         ]));
+  }
+}
+
+String formatTimeWithLocale(BuildContext context, String dateTimeString) {
+  DateTime dateTime;
+
+  try {
+    // Try parsing as ISO 8601
+    dateTime = DateTime.parse(dateTimeString);
+  } catch (e) {
+    dateTime = intl.DateFormat('hh:mm a').parse(dateTimeString);
+  }
+
+  // Format time
+  String formattedTime = intl.DateFormat('jm').format(dateTime);
+
+  if (AppUtil.rtlDirection2(context)) {
+    // Arabic locale
+    String suffix = dateTime.hour < 12 ? 'ص' : 'م';
+    formattedTime = formattedTime
+        .replaceAll('AM', '')
+        .replaceAll('PM', '')
+        .trim(); // Remove AM/PM
+    return '$formattedTime $suffix';
+  } else {
+    // Default to English locale
+    return formattedTime;
   }
 }

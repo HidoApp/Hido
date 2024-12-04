@@ -62,7 +62,7 @@ class _RatingSheetState extends State<RatingSheet> {
             ),
             CustomText(
               text:
-                  '${"howYourTour".tr} ${AppUtil.rtlDirection2(context) ? widget.activityProgress.requestName!.nameAr : widget.activityProgress.requestName!.nameEn} ',
+                  '${widget.activityProgress.placeId!.isEmpty ? "howYourExperience".tr : "howYourTour".tr} ${AppUtil.rtlDirection2(context) ? widget.activityProgress.requestName!.nameAr : widget.activityProgress.requestName!.nameEn} ',
               fontSize: width * 0.0435,
               fontWeight: FontWeight.w500,
             ),
@@ -105,7 +105,7 @@ class _RatingSheetState extends State<RatingSheet> {
             ),
             CustomText(
               text:
-                  '${"howYourGudie".tr}  ${AppUtil.rtlDirection2(context) ? widget.activityProgress.localNameAr! : widget.activityProgress.localNameEn!}',
+                  '${"howYourGudie".tr}  ${AppUtil.rtlDirection2(context) ? widget.activityProgress.localNameAr!.isEmpty ? widget.activityProgress.localNameEn! : widget.activityProgress.localNameAr! : widget.activityProgress.localNameEn!}',
               fontSize: width * .043,
               fontWeight: FontWeight.w500,
             ),
@@ -152,15 +152,16 @@ class _RatingSheetState extends State<RatingSheet> {
                   : CustomButton(
                       title: 'submit'.tr,
                       onPressed: () async {
-                        // if (localReview.isEmpty &&
-                        //     placeReview.isEmpty &&
-                        //     localRating == 0 &&
-                        //     placeRating == 0) {
-                        //   Get.back();
-                        //   return;
-                        // }
-                        
-                        log(_placeReview.text);
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        if (localReview.isEmpty &&
+                            placeReview.isEmpty &&
+                            localRating == 0 &&
+                            placeRating == 0) {
+                          Get.back();
+                          return;
+                        }
+                        log(placeReview);
+
                         log(placeRating.toString());
                         log(_localReview.text);
                         log(localRating.toString());

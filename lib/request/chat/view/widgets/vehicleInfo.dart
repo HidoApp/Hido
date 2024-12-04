@@ -17,8 +17,8 @@ class VehicleInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: 0.90 * MediaQuery.of(context).size.width,
-        height: 0.081 * MediaQuery.of(context).size.height,
+        // width: 0.90 * MediaQuery.of(context).size.width,
+        width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         decoration: BoxDecoration(
           color: Colors.white,

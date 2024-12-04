@@ -302,6 +302,9 @@ class _EditAdventureState extends State<EditAdventure> {
       //     !AppUtil.isDateBefore24Hours(_servicesController.selectedDate.value);
       _servicesController.DateErrorMessage.value =
           AppUtil.isDateBefore24Hours(_servicesController.selectedDate.value);
+      _servicesController.newRangeTimeErrorMessage.value =
+          AppUtil.isDateTimeBefore(_servicesController.selectedDate.value,
+              _servicesController.selectedStartTime.value);
 
       PriceEmpty = _priceController.text.isEmpty;
       if (_priceController.text.isNotEmpty) {
@@ -327,6 +330,7 @@ class _EditAdventureState extends State<EditAdventure> {
         !PriceDouble &&
         _servicesController.DateErrorMessage.value &&
         !_servicesController.TimeErrorMessage.value &&
+        !_servicesController.newRangeTimeErrorMessage.value && //new srs
         _servicesController.images.length >= 3 &&
         _servicesController.DateErrorMessage.value) {
       if (await uploadImages()) {
@@ -341,6 +345,11 @@ class _EditAdventureState extends State<EditAdventure> {
       if (!_servicesController.DateErrorMessage.value) {
         if (context.mounted) {
           AppUtil.errorToast(context, 'DateDuration'.tr);
+          await Future.delayed(const Duration(seconds: 3));
+        }
+      } else if (_servicesController.newRangeTimeErrorMessage.value) {
+        if (context.mounted) {
+          AppUtil.errorToast(context, 'StartTimeDuration'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
       } else if (_servicesController.TimeErrorMessage.value) {
@@ -1418,8 +1427,8 @@ class _EditAdventureState extends State<EditAdventure> {
                                                   ? "اختر التاريخ"
                                                   : "You need to choose a valid date"
                                               : AppUtil.rtlDirection2(context)
-                                                  ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
-                                                  : "*Please select a date at least 48 hours from now",
+                                                  ? "يجب اختيار تاريخ بعد اليوم الحالي"
+                                                  : "Please choose a date after today",
                                           style: TextStyle(
                                             color: const Color(0xFFDC362E),
                                             fontSize: width * 0.028,
@@ -1473,14 +1482,18 @@ class _EditAdventureState extends State<EditAdventure> {
                                                   shape: RoundedRectangleBorder(
                                                     side: BorderSide(
                                                         width: 1,
-                                                        color: TimeErrorMessage ??
-                                                                false
+                                                        color: _servicesController
+                                                                .newRangeTimeErrorMessage
+                                                                .value
                                                             ? colorRed
-                                                            : DurationErrorMessage ??
+                                                            : TimeErrorMessage ??
                                                                     false
                                                                 ? colorRed
-                                                                : const Color(
-                                                                    0xFFB9B8C1)),
+                                                                : DurationErrorMessage ??
+                                                                        false
+                                                                    ? colorRed
+                                                                    : const Color(
+                                                                        0xFFB9B8C1)),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             8),
@@ -1651,6 +1664,22 @@ class _EditAdventureState extends State<EditAdventure> {
                                                                     _servicesController
                                                                         .selectedEndTime
                                                                         .value);
+
+                                                            //newww  SRS
+                                                            if (_servicesController
+                                                                .isAdventureDateSelcted
+                                                                .value) {
+                                                              _servicesController
+                                                                      .newRangeTimeErrorMessage
+                                                                      .value =
+                                                                  AppUtil.isDateTimeBefore(
+                                                                      _servicesController
+                                                                          .selectedDate
+                                                                          .value,
+                                                                      _servicesController
+                                                                          .selectedStartTime
+                                                                          .value);
+                                                            }
                                                           });
                                                         }, onChanged: (newT) {
                                                           _servicesController
@@ -1674,6 +1703,22 @@ class _EditAdventureState extends State<EditAdventure> {
                                                                     _servicesController
                                                                         .selectedEndTime
                                                                         .value);
+
+                                                            //newww  SRS
+                                                            if (_servicesController
+                                                                .isAdventureDateSelcted
+                                                                .value) {
+                                                              _servicesController
+                                                                      .newRangeTimeErrorMessage
+                                                                      .value =
+                                                                  AppUtil.isDateTimeBefore(
+                                                                      _servicesController
+                                                                          .selectedDate
+                                                                          .value,
+                                                                      _servicesController
+                                                                          .selectedStartTime
+                                                                          .value);
+                                                            }
                                                           });
                                                         });
                                                       },
@@ -1700,10 +1745,12 @@ class _EditAdventureState extends State<EditAdventure> {
                                                 ),
                                               ),
                                             ),
-                                            if (TimeErrorMessage ??
-                                                false ||
-                                                    _servicesController
-                                                        .TimeErrorMessage.value)
+                                            if ((_servicesController
+                                                    .TimeErrorMessage.value) ||
+                                                (_servicesController
+                                                    .newRangeTimeErrorMessage
+                                                    .value) ||
+                                                (TimeErrorMessage ?? false))
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     top: 8),
@@ -1711,10 +1758,16 @@ class _EditAdventureState extends State<EditAdventure> {
                                                   !_servicesController
                                                           .TimeErrorMessage
                                                           .value
-                                                      ? AppUtil.rtlDirection2(
-                                                              context)
-                                                          ? "يجب اختيار الوقت"
-                                                          : "Select The Time"
+                                                      ? _servicesController
+                                                              .newRangeTimeErrorMessage
+                                                              .value
+                                                          ? 'StartTimeDuration'
+                                                              .tr
+                                                          : AppUtil
+                                                                  .rtlDirection2(
+                                                                      context)
+                                                              ? "يجب اختيار الوقت"
+                                                              : "Select The Time"
                                                       : '',
                                                   style: TextStyle(
                                                     color:
@@ -1772,16 +1825,17 @@ class _EditAdventureState extends State<EditAdventure> {
                                                     side: BorderSide(
                                                         width: 1,
                                                         color: TimeErrorMessage ??
-                                                                false ||
-                                                                    _servicesController
-                                                                        .TimeErrorMessage
-                                                                        .value
+                                                                false
                                                             ? colorRed
-                                                            : DurationErrorMessage ??
-                                                                    false
+                                                            : _servicesController
+                                                                    .TimeErrorMessage
+                                                                    .value
                                                                 ? colorRed
-                                                                : const Color(
-                                                                    0xFFB9B8C1)),
+                                                                : DurationErrorMessage ??
+                                                                        false
+                                                                    ? colorRed
+                                                                    : const Color(
+                                                                        0xFFB9B8C1)),
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             8),
@@ -2011,25 +2065,41 @@ class _EditAdventureState extends State<EditAdventure> {
                                                 ),
                                               ),
                                             ),
-                                            if (TimeErrorMessage ??
-                                                false ||
-                                                    _servicesController
-                                                        .TimeErrorMessage.value)
+                                            if ((_servicesController
+                                                    .TimeErrorMessage.value) ||
+                                                (_servicesController
+                                                    .newRangeTimeErrorMessage
+                                                    .value) ||
+                                                (TimeErrorMessage ?? false))
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     top: 8),
                                                 child: Text(
-                                                  !_servicesController
-                                                          .TimeErrorMessage
-                                                          .value
+                                                  // !_servicesController
+                                                  //         .TimeErrorMessage
+                                                  //         .value
+                                                  //     ? AppUtil.rtlDirection2(
+                                                  //             context)
+                                                  //         ? "يجب اختيار الوقت"
+                                                  //         : "Select The Time"
+                                                  //     : AppUtil.rtlDirection2(
+                                                  //             context)
+                                                  //         ? "يجب أن لايسبق وقت بدء التجربة"
+                                                  //         : "*Can’t be before start time",
+                                                  TimeErrorMessage ?? false
                                                       ? AppUtil.rtlDirection2(
                                                               context)
                                                           ? "يجب اختيار الوقت"
                                                           : "Select The Time"
-                                                      : AppUtil.rtlDirection2(
-                                                              context)
-                                                          ? "يجب أن لايسبق وقت بدء التجربة"
-                                                          : "*Can’t be before start time",
+                                                      : _servicesController
+                                                              .TimeErrorMessage
+                                                              .value
+                                                          ? AppUtil
+                                                                  .rtlDirection2(
+                                                                      context)
+                                                              ? "يجب أن لايسبق وقت بدء التجربة"
+                                                              : "Can’t be before start time"
+                                                          : '',
                                                   style: TextStyle(
                                                     color:
                                                         const Color(0xFFDC362E),
@@ -2220,7 +2290,9 @@ class _EditAdventureState extends State<EditAdventure> {
                                     TextField(
                                       controller: _priceController,
                                       decoration: InputDecoration(
-                                        hintText: '00.00 SAR /per person',
+                                        hintText: AppUtil.rtlDirection2(context)
+                                            ? '00.00 ر.س / للفرد'
+                                            : '00.00 SAR /per person',
                                         hintStyle: TextStyle(
                                           color: const Color(0xFFB9B8C1),
                                           fontSize: 15,

@@ -372,11 +372,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                       child: chat!.bookingId == ''
                                           ? Container()
                                           : Container(
-                                              height: 0.081 *
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .height,
-                                              width: 0.90 * width,
+                                              width: double.infinity,
+                                              // width: 0.90 * width,
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 borderRadius:

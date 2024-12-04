@@ -197,6 +197,7 @@ class _ButtomProgressState extends State<ButtomProgress> {
           _hospitalityController.isHospatilityTimeSelcted.value &&
           _hospitalityController.selectedMealEn.value != '' &&
           !_hospitalityController.TimeErrorMessage.value &&
+          !_hospitalityController.newRangeTimeErrorMessage.value &&
           // _hospitalityController.DateErrorMessage.value;
           !_hospitalityController.DateErrorMessage.value;
     }
@@ -2114,8 +2115,8 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         padding: const EdgeInsets.only(bottom: 4),
                         child: CustomText(
                           text: AppUtil.rtlDirection2(context)
-                              ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
-                              : "*Please select a date at least 48 hours from now",
+                              ? "يجب اختيار تاريخ بعد اليوم الحالي"
+                              : "Please choose a date after today",
                           color: colorRed,
                           fontSize: width * 0.028,
                         ),
@@ -2148,63 +2149,148 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         alignment: AppUtil.rtlDirection(context)
                             ? Alignment.centerLeft
                             : Alignment.centerRight,
-                        child: Container(
-                          height: height * 0.06,
-                          width: width * 0.41,
-                          padding: const EdgeInsets.only(
-                            left: 15,
-                            right: 15,
-                          ),
-                          decoration: ShapeDecoration(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 1,
-                                  color: DurationErrorMessage ?? false
-                                      ? colorRed
-                                      : const Color(0xFFB9B8C1)),
-                              borderRadius: BorderRadius.circular(8),
+                        child: Obx(
+                          () => Container(
+                            height: height * 0.06,
+                            width: width * 0.41,
+                            padding: const EdgeInsets.only(
+                              left: 15,
+                              right: 15,
                             ),
-                          ),
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  showCupertinoModalPopup<void>(
-                                      context: context,
-                                      barrierDismissible: false,
-                                      builder: (BuildContext context) {
-                                        return Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Container(
-                                              decoration: const BoxDecoration(
-                                                color: Color(0xffffffff),
-                                                border: Border(
-                                                  bottom: BorderSide(
-                                                    width: 0.0,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    width: 1,
+                                    color: widget.hospitalityController
+                                            .newRangeTimeErrorMessage.value
+                                        ? colorRed
+                                        : DurationErrorMessage ?? false
+                                            ? colorRed
+                                            : const Color(0xFFB9B8C1)),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    showCupertinoModalPopup<void>(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (BuildContext context) {
+                                          return Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xffffffff),
+                                                  border: Border(
+                                                    bottom: BorderSide(
+                                                      width: 0.0,
+                                                    ),
                                                   ),
                                                 ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: <Widget>[
+                                                    CupertinoButton(
+                                                      onPressed: () {
+                                                        widget
+                                                            .hospitalityController
+                                                            .isHospatilityTimeSelcted(
+                                                                true);
+                                                        setState(() {
+                                                          Get.back();
+                                                          time = newTimeToGo;
+                                                          widget
+                                                              .hospitalityController
+                                                              .selectedStartTime
+                                                              .value = newTimeToGo;
+                                                          widget
+                                                                  .hospitalityController
+                                                                  .TimeErrorMessage
+                                                                  .value =
+                                                              AppUtil.isEndTimeLessThanStartTime(
+                                                                  widget
+                                                                      .hospitalityController
+                                                                      .selectedStartTime
+                                                                      .value,
+                                                                  newTimeToReturn);
+                                                          //newww  SRS
+                                                          if (widget
+                                                              .hospitalityController
+                                                              .isHospatilityDateSelcted
+                                                              .value) {
+                                                            widget
+                                                                    .hospitalityController
+                                                                    .newRangeTimeErrorMessage
+                                                                    .value =
+                                                                AppUtil.areAllDatesTimeBefore(
+                                                                    widget
+                                                                        .hospitalityController
+                                                                        .selectedDates,
+                                                                    widget
+                                                                        .hospitalityController
+                                                                        .selectedStartTime
+                                                                        .value);
+                                                          }
+                                                          //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
+                                                          //   .format(newTimeToGo) as RxString;
+                                                        });
+                                                      },
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                        horizontal: 16.0,
+                                                        vertical: 5.0,
+                                                      ),
+                                                      child: CustomText(
+                                                        text: "confirm".tr,
+                                                        color: colorGreen,
+                                                        fontSize: 15,
+                                                        fontFamily: AppUtil
+                                                                .rtlDirection2(
+                                                                    context)
+                                                            ? 'SF Arabic'
+                                                            : 'SF Pro',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: <Widget>[
-                                                  CupertinoButton(
-                                                    onPressed: () {
-                                                      widget
-                                                          .hospitalityController
-                                                          .isHospatilityTimeSelcted(
-                                                              true);
+                                              Container(
+                                                height: 220,
+                                                width: width,
+                                                margin: EdgeInsets.only(
+                                                  bottom: MediaQuery.of(context)
+                                                      .viewInsets
+                                                      .bottom,
+                                                ),
+                                                child: Container(
+                                                  width: width,
+                                                  color: Colors.white,
+                                                  child: CupertinoDatePicker(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    initialDateTime:
+                                                        newTimeToGo,
+                                                    mode:
+                                                        CupertinoDatePickerMode
+                                                            .time,
+                                                    use24hFormat: false,
+                                                    onDateTimeChanged:
+                                                        (DateTime newT) {
                                                       setState(() {
-                                                        Get.back();
-                                                        time = newTimeToGo;
+                                                        newTimeToGo = newT;
                                                         widget
                                                             .hospitalityController
                                                             .selectedStartTime
-                                                            .value = newTimeToGo;
+                                                            .value = newT;
                                                         widget
                                                                 .hospitalityController
                                                                 .TimeErrorMessage
@@ -2215,117 +2301,90 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                                     .selectedStartTime
                                                                     .value,
                                                                 newTimeToReturn);
-                                                        //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                        //   .format(newTimeToGo) as RxString;
+                                                        //newww  SRS
+                                                        if (widget
+                                                            .hospitalityController
+                                                            .isHospatilityDateSelcted
+                                                            .value) {
+                                                          widget
+                                                                  .hospitalityController
+                                                                  .newRangeTimeErrorMessage
+                                                                  .value =
+                                                              AppUtil.areAllDatesTimeBefore(
+                                                                  widget
+                                                                      .hospitalityController
+                                                                      .selectedDates,
+                                                                  widget
+                                                                      .hospitalityController
+                                                                      .selectedStartTime
+                                                                      .value);
+                                                        }
+
+                                                        //    widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
+                                                        // .format(newTimeToGo) as RxString;
                                                       });
                                                     },
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                      horizontal: 16.0,
-                                                      vertical: 5.0,
-                                                    ),
-                                                    child: CustomText(
-                                                      text: "confirm".tr,
-                                                      color: colorGreen,
-                                                      fontSize: 15,
-                                                      fontFamily:
-                                                          AppUtil.rtlDirection2(
-                                                                  context)
-                                                              ? 'SF Arabic'
-                                                              : 'SF Pro',
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              height: 220,
-                                              width: width,
-                                              margin: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom,
-                                              ),
-                                              child: Container(
-                                                width: width,
-                                                color: Colors.white,
-                                                child: CupertinoDatePicker(
-                                                  backgroundColor: Colors.white,
-                                                  initialDateTime: newTimeToGo,
-                                                  mode: CupertinoDatePickerMode
-                                                      .time,
-                                                  use24hFormat: false,
-                                                  onDateTimeChanged:
-                                                      (DateTime newT) {
-                                                    setState(() {
-                                                      newTimeToGo = newT;
-                                                      widget
-                                                          .hospitalityController
-                                                          .selectedStartTime
-                                                          .value = newT;
-                                                      widget
-                                                              .hospitalityController
-                                                              .TimeErrorMessage
-                                                              .value =
-                                                          AppUtil.isEndTimeLessThanStartTime(
-                                                              widget
-                                                                  .hospitalityController
-                                                                  .selectedStartTime
-                                                                  .value,
-                                                              newTimeToReturn);
-
-                                                      //    widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                      // .format(newTimeToGo) as RxString;
-                                                    });
-                                                  },
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        );
-                                      });
-                                },
-                                child: CustomText(
-                                  text: !widget.hospitalityController
-                                          .isHospatilityTimeSelcted.value
-                                      ? AppUtil.rtlDirection2(context)
-                                          ? "00:00 مساء"
-                                          : "00 :00 PM"
-                                      : AppUtil.formatStringTimeWithLocale(
-                                          context,
-                                          intel.DateFormat('HH:mm:ss').format(
-                                              widget.hospitalityController
-                                                  .selectedStartTime.value)),
-                                  // : intel.DateFormat('hh:mm a').format(
-                                  //     widget.hospitalityController
-                                  //         .selectedStartTime.value),
+                                            ],
+                                          );
+                                        });
+                                  },
+                                  child: CustomText(
+                                    text: !widget.hospitalityController
+                                            .isHospatilityTimeSelcted.value
+                                        ? AppUtil.rtlDirection2(context)
+                                            ? "00:00 مساء"
+                                            : "00 :00 PM"
+                                        : AppUtil.formatStringTimeWithLocale(
+                                            context,
+                                            intel.DateFormat('HH:mm:ss').format(
+                                                widget.hospitalityController
+                                                    .selectedStartTime.value)),
+                                    // : intel.DateFormat('hh:mm a').format(
+                                    //     widget.hospitalityController
+                                    //         .selectedStartTime.value),
 
-                                  fontWeight: FontWeight.w400,
-                                  color: Graytext,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                    color: Graytext,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontSize: 15,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                      if (widget.hospitalityController.TimeErrorMessage.value)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 4),
-                          child: CustomText(
-                            text: '',
-                            // AppUtil.rtlDirection2(context)
-                            //     ? "اختر الوقت"
-                            //     : "Select Time",
-                            color: colorRed,
-                            fontSize: width * 0.028,
-                          ),
-                        ),
+                      //newww  SRS
+                      Obx(
+                        () => widget.hospitalityController.TimeErrorMessage
+                                    .value ||
+                                widget.hospitalityController
+                                    .newRangeTimeErrorMessage.value
+                            ? Padding(
+                                padding:
+                                    const EdgeInsets.only(bottom: 4, top: 1),
+                                child: CustomText(
+                                  text: widget.hospitalityController
+                                          .newRangeTimeErrorMessage.value
+                                      ? 'StartTimeDuration'.tr
+                                      : '',
+                                  // AppUtil.rtlDirection2(context)
+                                  //     ? "اختر الوقت"
+                                  //     : "Select Time",
+                                  color: colorRed,
+                                  fontSize: width * 0.028,
+                                  fontFamily: AppUtil.rtlDirection2(context)
+                                      ? 'SF Arabic'
+                                      : 'SF Pro',
+                                ),
+                              )
+                            : Container(),
+                      ),
                     ],
                   ),
                   const SizedBox(
@@ -2351,73 +2410,149 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         alignment: AppUtil.rtlDirection(context)
                             ? Alignment.centerLeft
                             : Alignment.centerRight,
-                        child: Container(
-                          height: height * 0.06,
-                          width: width * 0.41,
-                          padding: const EdgeInsets.only(
-                            left: 15,
-                            right: 15,
-                          ),
-                          decoration: ShapeDecoration(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 1,
-                                  color: widget.hospitalityController
-                                              .TimeErrorMessage.value ??
-                                          false
-                                      ? colorRed
-                                      : DurationErrorMessage ?? false
-                                          ? colorRed
-                                          : const Color(0xFFB9B8C1)),
-                              borderRadius: BorderRadius.circular(8),
+                        child: Obx(
+                          () => Container(
+                            height: height * 0.06,
+                            width: width * 0.41,
+                            padding: const EdgeInsets.only(
+                              left: 15,
+                              right: 15,
                             ),
-                          ),
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  showCupertinoModalPopup<void>(
-                                      context: context,
-                                      barrierDismissible: false,
-                                      builder: (BuildContext context) {
-                                        return Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Container(
-                                              decoration: const BoxDecoration(
-                                                color: Color(0xffffffff),
-                                                border: Border(
-                                                  bottom: BorderSide(
-                                                    width: 0.0,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    width: 1,
+                                    color: widget.hospitalityController
+                                                .TimeErrorMessage.value ??
+                                            false
+                                        ? colorRed
+                                        : DurationErrorMessage ?? false
+                                            ? colorRed
+                                            : const Color(0xFFB9B8C1)),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    showCupertinoModalPopup<void>(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (BuildContext context) {
+                                          return Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xffffffff),
+                                                  border: Border(
+                                                    bottom: BorderSide(
+                                                      width: 0.0,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: <Widget>[
-                                                  CupertinoButton(
-                                                    onPressed: () {
-                                                      widget
-                                                          .hospitalityController
-                                                          .isHospatilityTimeSelcted(
-                                                              true);
-                                                      print(widget
-                                                          .hospitalityController
-                                                          .isHospatilityTimeSelcted
-                                                          .value);
-                                                      setState(() {
-                                                        Get.back();
-                                                        returnTime =
-                                                            newTimeToReturn;
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: <Widget>[
+                                                    CupertinoButton(
+                                                      onPressed: () {
                                                         widget
-                                                                .hospitalityController
-                                                                .selectedEndTime
-                                                                .value =
-                                                            newTimeToReturn;
+                                                            .hospitalityController
+                                                            .isHospatilityTimeSelcted(
+                                                                true);
+                                                        print(widget
+                                                            .hospitalityController
+                                                            .isHospatilityTimeSelcted
+                                                            .value);
+                                                        setState(() {
+                                                          Get.back();
+                                                          returnTime =
+                                                              newTimeToReturn;
+                                                          widget
+                                                                  .hospitalityController
+                                                                  .selectedEndTime
+                                                                  .value =
+                                                              newTimeToReturn;
+                                                          widget
+                                                                  .hospitalityController
+                                                                  .TimeErrorMessage
+                                                                  .value =
+                                                              AppUtil.isEndTimeLessThanStartTime(
+                                                                  widget
+                                                                      .hospitalityController
+                                                                      .selectedStartTime
+                                                                      .value,
+                                                                  widget
+                                                                      .hospitalityController
+                                                                      .selectedEndTime
+                                                                      .value);
+
+                                                          //      widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
+                                                          // .format( newTimeToReturn) as RxString;
+                                                        });
+                                                        log(
+                                                          widget
+                                                              .hospitalityController
+                                                              .selectedStartTime
+                                                              .value
+                                                              .toString(),
+                                                        );
+                                                        log(widget
+                                                            .hospitalityController
+                                                            .selectedEndTime
+                                                            .value
+                                                            .toString());
+                                                      },
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                        horizontal: 16.0,
+                                                        vertical: 5.0,
+                                                      ),
+                                                      child: CustomText(
+                                                        text: "confirm".tr,
+                                                        color: colorGreen,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 220,
+                                                width: width,
+                                                margin: EdgeInsets.only(
+                                                  bottom: MediaQuery.of(context)
+                                                      .viewInsets
+                                                      .bottom,
+                                                ),
+                                                child: Container(
+                                                  width: width,
+                                                  color: Colors.white,
+                                                  child: CupertinoDatePicker(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    initialDateTime:
+                                                        newTimeToReturn,
+                                                    mode:
+                                                        CupertinoDatePickerMode
+                                                            .time,
+                                                    use24hFormat: false,
+                                                    onDateTimeChanged:
+                                                        (DateTime newT) {
+                                                      print(intel.DateFormat(
+                                                              'HH:mm:ss')
+                                                          .format(
+                                                              newTimeToReturn));
+                                                      setState(() {
+                                                        newTimeToReturn = newT;
+                                                        widget
+                                                            .hospitalityController
+                                                            .selectedEndTime
+                                                            .value = newT;
                                                         widget
                                                                 .hospitalityController
                                                                 .TimeErrorMessage
@@ -2431,123 +2566,63 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                                     .hospitalityController
                                                                     .selectedEndTime
                                                                     .value);
-
-                                                        //      widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                        // .format( newTimeToReturn) as RxString;
+                                                        //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
+                                                        //     .format( newTimeToReturn) as RxString;
                                                       });
-                                                      log(
-                                                        widget
-                                                            .hospitalityController
-                                                            .selectedStartTime
-                                                            .value
-                                                            .toString(),
-                                                      );
-                                                      log(widget
-                                                          .hospitalityController
-                                                          .selectedEndTime
-                                                          .value
-                                                          .toString());
                                                     },
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                      horizontal: 16.0,
-                                                      vertical: 5.0,
-                                                    ),
-                                                    child: CustomText(
-                                                      text: "confirm".tr,
-                                                      color: colorGreen,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              height: 220,
-                                              width: width,
-                                              margin: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom,
-                                              ),
-                                              child: Container(
-                                                width: width,
-                                                color: Colors.white,
-                                                child: CupertinoDatePicker(
-                                                  backgroundColor: Colors.white,
-                                                  initialDateTime:
-                                                      newTimeToReturn,
-                                                  mode: CupertinoDatePickerMode
-                                                      .time,
-                                                  use24hFormat: false,
-                                                  onDateTimeChanged:
-                                                      (DateTime newT) {
-                                                    print(intel.DateFormat(
-                                                            'HH:mm:ss')
-                                                        .format(
-                                                            newTimeToReturn));
-                                                    setState(() {
-                                                      newTimeToReturn = newT;
-                                                      widget
-                                                          .hospitalityController
-                                                          .selectedEndTime
-                                                          .value = newT;
-                                                      widget.hospitalityController
-                                                              .TimeErrorMessage.value =
-                                                          AppUtil.isEndTimeLessThanStartTime(
-                                                              widget
-                                                                  .hospitalityController
-                                                                  .selectedStartTime
-                                                                  .value,
-                                                              widget
-                                                                  .hospitalityController
-                                                                  .selectedEndTime
-                                                                  .value);
-                                                      //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                      //     .format( newTimeToReturn) as RxString;
-                                                    });
-                                                  },
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        );
-                                      });
-                                },
-                                child: CustomText(
-                                  text: !widget.hospitalityController
-                                          .isHospatilityTimeSelcted.value
-                                      ? AppUtil.rtlDirection2(context)
-                                          ? "00:00 مساء"
-                                          : "00 :00 PM"
-                                      : AppUtil.formatStringTimeWithLocale(
-                                          context,
-                                          intel.DateFormat('HH:mm:ss').format(
-                                              widget.hospitalityController
-                                                  .selectedEndTime.value)),
-                                  // : intel.DateFormat('hh:mm a').format(
-                                  //     widget.hospitalityController
-                                  //         .selectedEndTime.value),
-                                  fontWeight: FontWeight.w400,
-                                  color: Graytext,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontSize: 15,
+                                            ],
+                                          );
+                                        });
+                                  },
+                                  child: CustomText(
+                                    text: !widget.hospitalityController
+                                            .isHospatilityTimeSelcted.value
+                                        ? AppUtil.rtlDirection2(context)
+                                            ? "00:00 مساء"
+                                            : "00 :00 PM"
+                                        : AppUtil.formatStringTimeWithLocale(
+                                            context,
+                                            intel.DateFormat('HH:mm:ss').format(
+                                                widget.hospitalityController
+                                                    .selectedEndTime.value)),
+                                    // : intel.DateFormat('hh:mm a').format(
+                                    //     widget.hospitalityController
+                                    //         .selectedEndTime.value),
+                                    fontWeight: FontWeight.w400,
+                                    color: Graytext,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontSize: 15,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
                       Obx(
                         () =>
-                            widget.hospitalityController.TimeErrorMessage.value
+                            //new srs
+                            widget.hospitalityController.TimeErrorMessage
+                                        .value ||
+                                    widget.hospitalityController
+                                        .newRangeTimeErrorMessage.value
                                 ? Padding(
                                     padding: const EdgeInsets.only(bottom: 4),
                                     child: CustomText(
                                       text: AppUtil.rtlDirection2(context)
-                                          ? "وقت الإنتهاء اقل من وقت البداية"
-                                          : "End time is less than start time",
+                                          ? widget.hospitalityController
+                                                  .TimeErrorMessage.value
+                                              ? "يجب أن لايسبق وقت بدء التجربة"
+                                              : ''
+                                          : widget.hospitalityController
+                                                  .TimeErrorMessage.value
+                                              ? "Can’t be before start time"
+                                              : '',
                                       color: colorRed,
                                       fontSize: width * 0.028,
                                       fontFamily: AppUtil.rtlDirection2(context)

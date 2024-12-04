@@ -75,7 +75,7 @@ dependencies:
   flutter_expanded_tile: ^0.3.7
   timeago: ^3.6.1
   video_player: ^2.8.5
-  lottie: ^2.6.0
+  lottie: ^3.0.0
   step_progress_indicator: ^1.0.2
   pinput: ^5.0.0
   timer_count_down: ^2.2.2
@@ -146,6 +146,10 @@ flutter:
     - assets/Onboarding2-Ar.json
     - assets/onboarding_55555.json
     - assets/splash_screen_new.json
+    - assets/splashScreen.json
+
+   
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

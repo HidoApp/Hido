@@ -9,9 +9,11 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 class TicketScreen extends StatefulWidget {
   final ProfileController profileController;
+  final bool fromBottomBar;
   const TicketScreen({
     super.key,
     required this.profileController,
+    this.fromBottomBar = false,
   });
 
   @override
@@ -38,107 +40,115 @@ class _TicketScreenState extends State<TicketScreen>
     final height = MediaQuery.sizeOf(context).height;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CustomAppBar(
-        'myTickets'.tr,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(
-          top: 3,
-        ),
-        child: Column(
-          children: [
-            TabBar(
-              controller: _tabController,
-              indicatorSize: TabBarIndicatorSize.tab,
-              labelColor: colorGreen,
+      appBar: !widget.fromBottomBar ? CustomAppBar('myTickets'.tr) : null,
+      extendBodyBehindAppBar: widget.fromBottomBar,
+      body: SafeArea(
+        top: false,
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: widget.fromBottomBar ? height * 0.09 : 3,
+          ),
+          child: Column(
+            children: [
+              TabBar(
+                controller: _tabController,
+                indicatorSize: TabBarIndicatorSize.tab,
+                labelColor: colorGreen,
 
-              unselectedLabelColor: colorDarkGrey,
-              dividerColor: const Color(0xFFB9B8C1),
-              // indicatorPadding: EdgeInsets.symmetric(horizontal: 1),
-              tabs: [
-                Tab(text: "upcomingTrips".tr),
-                Tab(text: "pastTrips".tr),
-              ],
-            ),
-            // const SizedBox(
-            //   height: 24,
-            // ),
-            Expanded(
-              child: Container(
-                color: Colors.white,
-                child: Obx(
-                  () => Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 0, vertical: 24),
-                    child: TabBarView(
-                      controller: _tabController,
-                      children: [
-                        Skeletonizer(
-                          enabled: widget
-                              .profileController.isUpcommingTicketLoading.value,
-                          child:
-                              widget.profileController.upcommingTicket.isEmpty
-                                  ? Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16),
-                                      child: CustomEmptyWidget(
-                                        title: 'noTicket'.tr,
-                                        image: 'NoTicket',
-                                        subtitle: 'noTicketSub'.tr,
+                unselectedLabelColor: colorDarkGrey,
+                dividerColor: const Color(0xFFB9B8C1),
+                // indicatorPadding: EdgeInsets.symmetric(horizontal: 1),
+                tabs: [
+                  Tab(text: "upcomingTrips".tr),
+                  Tab(text: "pastTrips".tr),
+                ],
+              ),
+              // const SizedBox(
+              //   height: 24,
+              // ),
+              Expanded(
+                child: Container(
+                  color: Colors.white,
+                  child: Obx(
+                    () => Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 0, vertical: 24),
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: [
+                          Skeletonizer(
+                            enabled: widget.profileController
+                                .isUpcommingTicketLoading.value,
+                            child:
+                                widget.profileController.upcommingTicket.isEmpty
+                                    ? Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16),
+                                        child: CustomEmptyWidget(
+                                          title: 'noTicket'.tr,
+                                          image: 'NoTicket',
+                                          subtitle: 'noTicketSub'.tr,
+                                        ),
+                                      )
+                                    : ListView.separated(
+                                        padding: widget.fromBottomBar
+                                            ? EdgeInsets.zero
+                                            : null,
+                                        shrinkWrap: true,
+                                        itemCount: widget.profileController
+                                            .upcommingTicket.length,
+                                        separatorBuilder: (context, index) {
+                                          return const SizedBox(
+                                            height: 11,
+                                          );
+                                        },
+                                        itemBuilder: (context, index) {
+                                          return CustomTicketCard(
+                                            booking: widget.profileController
+                                                .upcommingTicket[index],
+                                          );
+                                        },
                                       ),
-                                    )
-                                  : ListView.separated(
-                                      shrinkWrap: true,
-                                      itemCount: widget.profileController
-                                          .upcommingTicket.length,
-                                      separatorBuilder: (context, index) {
-                                        return const SizedBox(
-                                          height: 11,
-                                        );
-                                      },
-                                      itemBuilder: (context, index) {
-                                        return CustomTicketCard(
-                                          booking: widget.profileController
-                                              .upcommingTicket[index],
-                                        );
-                                      },
-                                    ),
-                        ),
+                          ),
 
-                        // Tab 2 content (pastTrips)
-                        Skeletonizer(
-                          enabled: widget
-                              .profileController.isPastTicketLoading.value,
-                          child: widget.profileController.pastTicket.isEmpty
-                              ? CustomEmptyWidget(
-                                  title: 'noTicket'.tr,
-                                  image: 'NoTicket',
-                                  subtitle: 'noTicketSub'.tr,
-                                )
-                              : ListView.separated(
-                                  shrinkWrap: true,
-                                  itemCount: widget
-                                      .profileController.pastTicket.length,
-                                  separatorBuilder: (context, index) {
-                                    return const SizedBox(
-                                      height: 11,
-                                    );
-                                  },
-                                  itemBuilder: (context, index) {
-                                    return CustomTicketCard(
-                                      booking: widget
-                                          .profileController.pastTicket[index],
-                                    );
-                                  },
-                                ),
-                        ),
-                      ],
+                          // Tab 2 content (pastTrips)
+                          Skeletonizer(
+                            enabled: widget
+                                .profileController.isPastTicketLoading.value,
+                            child: widget.profileController.pastTicket.isEmpty
+                                ? CustomEmptyWidget(
+                                    title: 'noTicket'.tr,
+                                    image: 'NoTicket',
+                                    subtitle: 'noTicketSub'.tr,
+                                  )
+                                : ListView.separated(
+                                    padding: widget.fromBottomBar
+                                        ? EdgeInsets.zero
+                                        : null,
+                                    shrinkWrap: true,
+                                    itemCount: widget
+                                        .profileController.pastTicket.length,
+                                    separatorBuilder: (context, index) {
+                                      return const SizedBox(
+                                        height: 11,
+                                      );
+                                    },
+                                    itemBuilder: (context, index) {
+                                      return CustomTicketCard(
+                                        booking: widget.profileController
+                                            .pastTicket[index],
+                                      );
+                                    },
+                                  ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

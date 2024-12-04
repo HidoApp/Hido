@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
+import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -516,10 +517,28 @@ class _HostInfoReviewState extends State<HostInfoReview> {
   void initState() {
     super.initState();
     _fetchAddress();
-    if (widget.experienceType == 'hospitality') {
-      // daysInfo();
-      hostDaysInfo();
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.experienceType == 'hospitality') {
+        // daysInfo();
+        hostDaysInfo();
+        if (widget.hospitalityController!.isHospatilityDateSelcted.value) {
+          widget.hospitalityController!.newRangeTimeErrorMessage.value =
+              AppUtil.areAllDatesTimeBefore(
+                  widget.hospitalityController!.selectedDates,
+                  widget.hospitalityController!.selectedStartTime.value);
+        }
+      }
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.experienceType == 'adventure') {
+        if (widget.adventureController!.isAdventureDateSelcted.value) {
+          widget.adventureController!.newRangeTimeErrorMessage.value =
+              AppUtil.isDateTimeBefore(
+                  widget.adventureController!.selectedDate.value,
+                  widget.adventureController!.selectedStartTime.value);
+        }
+      }
+    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
@@ -841,25 +860,81 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                             return CustomButton(
                                 onPressed: () async {
                                   if (widget.experienceType == 'hospitality') {
-                                    bool uploadSuccess =
-                                        await uploadhostImages();
-                                    if (uploadSuccess) {
-                                      await createHospitalityExperience();
+                                    widget.hospitalityController!
+                                            .newRangeTimeErrorMessage.value =
+                                        AppUtil.areAllDatesTimeBefore(
+                                            widget.hospitalityController!
+                                                .selectedDates,
+                                            widget.hospitalityController!
+                                                .selectedStartTime.value);
+
+                                    if (!widget.hospitalityController!
+                                        .newRangeTimeErrorMessage.value) {
+                                      bool uploadSuccess =
+                                          await uploadhostImages();
+                                      if (uploadSuccess) {
+                                        await createHospitalityExperience();
+                                      } else {
+                                        // Handle upload failure
+                                      }
                                     } else {
-                                      // Handle upload failure
+                                      if (context.mounted) {
+                                        AppUtil.errorToast(
+                                            context, 'StartTimeDuration'.tr);
+                                        await Future.delayed(
+                                            const Duration(seconds: 3));
+                                      }
                                     }
                                   } else if (widget.experienceType ==
                                       'adventure') {
-                                    bool uploadSuccess =
-                                        await uploadAdveImages();
-                                    if (uploadSuccess) {
-                                      await createAdventureExperience();
+                                    widget.adventureController!
+                                            .newRangeTimeErrorMessage.value =
+                                        AppUtil.isDateTimeBefore(
+                                            widget.adventureController!
+                                                .selectedDate.value,
+                                            widget.adventureController!
+                                                .selectedStartTime.value);
+
+                                    if (!widget.adventureController!
+                                        .newRangeTimeErrorMessage.value) {
+                                      bool uploadSuccess =
+                                          await uploadAdveImages();
+                                      if (uploadSuccess) {
+                                        await createAdventureExperience();
+                                      } else {
+                                        // Handle upload failure
+                                      }
                                     } else {
-                                      // Handle upload failure
+                                      if (context.mounted) {
+                                        AppUtil.errorToast(
+                                            context, 'StartTimeDuration'.tr);
+                                        await Future.delayed(
+                                            const Duration(seconds: 3));
+                                      }
                                     }
                                   }
                                 },
-                                title: 'Publish'.tr);
+                                title: 'Publish'.tr,
+                                buttonColor:
+                                    widget.experienceType == 'hospitality'
+                                        ? widget.hospitalityController!
+                                                .newRangeTimeErrorMessage.value
+                                            ? lightGreen
+                                            : colorGreen
+                                        : widget.adventureController!
+                                                .newRangeTimeErrorMessage.value
+                                            ? lightGreen
+                                            : colorGreen,
+                                borderColor:
+                                    widget.experienceType == 'hospitality'
+                                        ? widget.hospitalityController!
+                                                .newRangeTimeErrorMessage.value
+                                            ? lightGreen
+                                            : colorGreen
+                                        : widget.adventureController!
+                                                .newRangeTimeErrorMessage.value
+                                            ? lightGreen
+                                            : colorGreen);
                           }
                         }),
                         const SizedBox(height: 10),

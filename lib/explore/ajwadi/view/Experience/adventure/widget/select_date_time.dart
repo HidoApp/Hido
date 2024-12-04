@@ -144,8 +144,8 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         padding: const EdgeInsets.only(bottom: 4),
                         child: CustomText(
                           text: AppUtil.rtlDirection2(context)
-                              ? "يجب اختيار تاريخ بعد 48 ساعة من الآن على الأقل"
-                              : "*Please select a date at least 48 hours from now",
+                              ? "يجب اختيار تاريخ بعد اليوم الحالي"
+                              : "Please choose a date after today",
                           color: colorRed,
                           fontSize: width * 0.028,
                         ),
@@ -178,64 +178,155 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         alignment: AppUtil.rtlDirection(context)
                             ? Alignment.centerLeft
                             : Alignment.centerRight,
-                        child: Container(
-                          height: height * 0.06,
-                          width: width * 0.41,
-                          padding: const EdgeInsets.only(
-                            left: 15,
-                            right: 15,
-                          ),
-                          decoration: ShapeDecoration(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 1,
-                                  color: DurationErrorMessage ?? false
-                                      ? colorRed
-                                      : const Color(0xFFB9B8C1)),
-                              borderRadius: BorderRadius.circular(8),
+                        child: Obx(
+                          () => Container(
+                            height: height * 0.06,
+                            width: width * 0.41,
+                            padding: const EdgeInsets.only(
+                              left: 15,
+                              right: 15,
                             ),
-                          ),
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  showCupertinoModalPopup<void>(
-                                      context: context,
-                                      barrierDismissible: false,
-                                      builder: (BuildContext context) {
-                                        return Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Container(
-                                              decoration: const BoxDecoration(
-                                                color: Color(0xffffffff),
-                                                border: Border(
-                                                  bottom: BorderSide(
-                                                    width: 0.0,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    width: 1,
+                                    color: widget.adventureController
+                                            .newRangeTimeErrorMessage.value
+                                        ? colorRed
+                                        : DurationErrorMessage ?? false
+                                            ? colorRed
+                                            : const Color(0xFFB9B8C1)),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    showCupertinoModalPopup<void>(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (BuildContext context) {
+                                          return Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xffffffff),
+                                                  border: Border(
+                                                    bottom: BorderSide(
+                                                      width: 0.0,
+                                                    ),
                                                   ),
                                                 ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: <Widget>[
+                                                    CupertinoButton(
+                                                      onPressed: () {
+                                                        widget
+                                                            .adventureController
+                                                            .isAdventureTimeSelcted(
+                                                                true);
+                                                        setState(() {
+                                                          Get.back();
+                                                          time = newTimeToGo;
+                                                          widget
+                                                              .adventureController
+                                                              .selectedStartTime
+                                                              .value = newTimeToGo;
+                                                          //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
+                                                          //   .format(newTimeToGo) as RxString;
+                                                          widget
+                                                                  .adventureController
+                                                                  .TimeErrorMessage
+                                                                  .value =
+                                                              AppUtil.isEndTimeLessThanStartTime(
+                                                                  widget
+                                                                      .adventureController
+                                                                      .selectedStartTime
+                                                                      .value,
+                                                                  widget
+                                                                      .adventureController
+                                                                      .selectedEndTime
+                                                                      .value);
+                                                          //new srs
+                                                          if (widget
+                                                              .adventureController
+                                                              .isAdventureDateSelcted
+                                                              .value) {
+                                                            widget
+                                                                    .adventureController
+                                                                    .newRangeTimeErrorMessage
+                                                                    .value =
+                                                                AppUtil.isDateTimeBefore(
+                                                                    widget
+                                                                        .adventureController
+                                                                        .selectedDate
+                                                                        .value,
+                                                                    widget
+                                                                        .adventureController
+                                                                        .selectedStartTime
+                                                                        .value);
+                                                          }
+                                                        });
+                                                      },
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                        horizontal: 16.0,
+                                                        vertical: 5.0,
+                                                      ),
+                                                      child: CustomText(
+                                                        text: "confirm".tr,
+                                                        color: colorGreen,
+                                                        fontSize: 15,
+                                                        fontFamily: AppUtil
+                                                                .rtlDirection2(
+                                                                    context)
+                                                            ? 'SF Arabic'
+                                                            : 'SF Pro',
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: <Widget>[
-                                                  CupertinoButton(
-                                                    onPressed: () {
-                                                      widget.adventureController
-                                                          .isAdventureTimeSelcted(
-                                                              true);
+                                              Container(
+                                                height: 220,
+                                                width: width,
+                                                margin: EdgeInsets.only(
+                                                  bottom: MediaQuery.of(context)
+                                                      .viewInsets
+                                                      .bottom,
+                                                ),
+                                                child: Container(
+                                                  width: width,
+                                                  color: Colors.white,
+                                                  child: CupertinoDatePicker(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    initialDateTime:
+                                                        newTimeToGo,
+                                                    mode:
+                                                        CupertinoDatePickerMode
+                                                            .time,
+                                                    use24hFormat: false,
+                                                    onDateTimeChanged:
+                                                        (DateTime newT) {
                                                       setState(() {
-                                                        Get.back();
-                                                        time = newTimeToGo;
+                                                        newTimeToGo = newT;
                                                         widget
                                                             .adventureController
                                                             .selectedStartTime
-                                                            .value = newTimeToGo;
-                                                        //  widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                        //   .format(newTimeToGo) as RxString;
+                                                            .value = newT;
+                                                        //    widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
+                                                        // .format(newTimeToGo) as RxString;
+
                                                         widget
                                                                 .adventureController
                                                                 .TimeErrorMessage
@@ -249,117 +340,85 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                                     .adventureController
                                                                     .selectedEndTime
                                                                     .value);
+                                                        //new srs
+                                                        if (widget
+                                                            .adventureController
+                                                            .isAdventureDateSelcted
+                                                            .value) {
+                                                          widget
+                                                                  .adventureController
+                                                                  .newRangeTimeErrorMessage
+                                                                  .value =
+                                                              AppUtil.isDateTimeBefore(
+                                                                  widget
+                                                                      .adventureController
+                                                                      .selectedDate
+                                                                      .value,
+                                                                  widget
+                                                                      .adventureController
+                                                                      .selectedStartTime
+                                                                      .value);
+                                                        }
                                                       });
                                                     },
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                      horizontal: 16.0,
-                                                      vertical: 5.0,
-                                                    ),
-                                                    child: CustomText(
-                                                      text: "confirm".tr,
-                                                      color: colorGreen,
-                                                      fontSize: 15,
-                                                      fontFamily:
-                                                          AppUtil.rtlDirection2(
-                                                                  context)
-                                                              ? 'SF Arabic'
-                                                              : 'SF Pro',
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              height: 220,
-                                              width: width,
-                                              margin: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom,
-                                              ),
-                                              child: Container(
-                                                width: width,
-                                                color: Colors.white,
-                                                child: CupertinoDatePicker(
-                                                  backgroundColor: Colors.white,
-                                                  initialDateTime: newTimeToGo,
-                                                  mode: CupertinoDatePickerMode
-                                                      .time,
-                                                  use24hFormat: false,
-                                                  onDateTimeChanged:
-                                                      (DateTime newT) {
-                                                    setState(() {
-                                                      newTimeToGo = newT;
-                                                      widget
-                                                          .adventureController
-                                                          .selectedStartTime
-                                                          .value = newT;
-                                                      //    widget.hospitalityController.selectedStartTime= intel.DateFormat('HH:mm:ss')
-                                                      // .format(newTimeToGo) as RxString;
-
-                                                      widget.adventureController
-                                                              .TimeErrorMessage.value =
-                                                          AppUtil.isEndTimeLessThanStartTime(
-                                                              widget
-                                                                  .adventureController
-                                                                  .selectedStartTime
-                                                                  .value,
-                                                              widget
-                                                                  .adventureController
-                                                                  .selectedEndTime
-                                                                  .value);
-                                                    });
-                                                  },
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        );
-                                      });
-                                },
-                                child: CustomText(
-                                  text: !widget.adventureController
-                                          .isAdventureTimeSelcted.value
-                                      ? AppUtil.rtlDirection2(context)
-                                          ? "00:00 مساء"
-                                          : "00 :00 PM"
-                                      : AppUtil.formatStringTimeWithLocale(
-                                          context,
-                                          DateFormat('HH:mm:ss').format(widget
-                                              .adventureController
-                                              .selectedStartTime
-                                              .value)),
-                                  // : intel.DateFormat('hh:mm a').format(
-                                  //     widget.hospitalityController
-                                  //         .selectedStartTime.value),
-                                  fontWeight: FontWeight.w400,
-                                  color: Graytext,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontSize: 15,
+                                            ],
+                                          );
+                                        });
+                                  },
+                                  child: CustomText(
+                                    text: !widget.adventureController
+                                            .isAdventureTimeSelcted.value
+                                        ? AppUtil.rtlDirection2(context)
+                                            ? "00:00 مساء"
+                                            : "00 :00 PM"
+                                        : AppUtil.formatStringTimeWithLocale(
+                                            context,
+                                            DateFormat('HH:mm:ss').format(widget
+                                                .adventureController
+                                                .selectedStartTime
+                                                .value)),
+                                    // : intel.DateFormat('hh:mm a').format(
+                                    //     widget.hospitalityController
+                                    //         .selectedStartTime.value),
+                                    fontWeight: FontWeight.w400,
+                                    color: Graytext,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontSize: 15,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                      if (widget.adventureController.TimeErrorMessage.value)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 4),
-                          child: CustomText(
-                            text: '',
-                            // AppUtil.rtlDirection2(context)
-                            //     ? "اختر الوقت"
-                            //     : "Select Time",
 
-                            color: colorRed,
-                            fontSize: width * 0.028,
-                          ),
-                        ),
+                      //newww  SRS
+                      Obx(
+                        () =>
+                            widget.adventureController.TimeErrorMessage.value ||
+                                    widget.adventureController
+                                        .newRangeTimeErrorMessage.value
+                                ? Padding(
+                                    padding: const EdgeInsets.only(bottom: 4),
+                                    child: CustomText(
+                                      text: widget.adventureController
+                                              .newRangeTimeErrorMessage.value
+                                          ? 'StartTimeDuration'.tr
+                                          : '',
+                                      color: colorRed,
+                                      fontSize: width * 0.028,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                    ),
+                                  )
+                                : Container(),
+                      ),
                     ],
                   ),
                   const SizedBox(
@@ -560,18 +619,34 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                         ),
                       ),
                       Obx(
-                        () => widget.adventureController.TimeErrorMessage.value
-                            ? Padding(
-                                padding: const EdgeInsets.only(bottom: 4),
-                                child: CustomText(
-                                  text: AppUtil.rtlDirection2(context)
-                                      ? "يجب أن لايسبق وقت بدء التجربة"
-                                      : "*Can’t be before start time",
-                                  color: colorRed,
-                                  fontSize: width * 0.029,
-                                ),
-                              )
-                            : Container(),
+                        () =>
+                            widget.adventureController.TimeErrorMessage.value ||
+                                    widget.adventureController
+                                        .newRangeTimeErrorMessage.value
+                                ? Padding(
+                                    padding: const EdgeInsets.only(bottom: 4),
+                                    child: CustomText(
+                                      text: AppUtil.rtlDirection2(context)
+                                          ? widget.adventureController
+                                                  .TimeErrorMessage.value
+                                              ? "يجب أن لايسبق وقت بدء التجربة"
+                                              : ''
+                                          : widget.adventureController
+                                                  .TimeErrorMessage.value
+                                              ? "Can’t be before start time"
+                                              : '',
+                                      //  AppUtil.rtlDirection2(context)
+                                      //     ? "يجب أن لايسبق وقت بدء التجربة"
+                                      //     : "*Can’t be before start time",
+                                      color: colorRed,
+
+                                      fontSize: width * 0.028,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                    ),
+                                  )
+                                : Container(),
                       ),
                     ],
                   )
