@@ -103,7 +103,7 @@ class _LastStepScreenState extends State<LastStepScreen> {
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.sizeOf(context).width;
-    height = MediaQuery.of(context).size.height;
+    height = MediaQuery.sizeOf(context).height;
     return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,

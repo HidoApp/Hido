@@ -40,7 +40,7 @@ class BottomHospitalityBooking extends StatefulWidget {
 class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
     final width = MediaQuery.sizeOf(context).width;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: width * 0.041),
@@ -222,7 +222,7 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
   var person = 0;
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
     final width = MediaQuery.sizeOf(context).width;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: width * 0.041),

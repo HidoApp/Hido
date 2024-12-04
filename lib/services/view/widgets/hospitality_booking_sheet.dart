@@ -129,7 +129,7 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
     widget.serviceController.showErrorMaxGuest.value = false;
     widget.serviceController.DateErrorMessage.value = false;
     return StatefulBuilder(
@@ -702,7 +702,7 @@ class _ReservaationDetailsAdventureWidgetState
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
     time = DateTime.now();
 
     return GestureDetector(

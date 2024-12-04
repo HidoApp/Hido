@@ -56,7 +56,7 @@ class _AddInfoState extends State<AddInfo> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
     final TextEditingController textField1Controller =
         _selectedLanguageIndex == 0
             ? widget.textField1ControllerAR

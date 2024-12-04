@@ -24,7 +24,7 @@ class _CustomCardState extends State<CustomCard> {
     Place? thePlace;
 
     final width = MediaQuery.sizeOf(context).width;
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
     return Obx(
       () => Container(
         width: double.infinity,

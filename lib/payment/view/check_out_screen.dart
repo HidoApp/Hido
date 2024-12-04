@@ -49,7 +49,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.sizeOf(context).width;
-    double height = MediaQuery.of(context).size.height;
+    double height = MediaQuery.sizeOf(context).height;
     return Scaffold(
       appBar: CustomAppBar("checkout".tr),
       body: SingleChildScrollView(

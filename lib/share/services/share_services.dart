@@ -16,8 +16,8 @@ class ShareServices {
     final dynamicLinkParameters = DynamicLinkParameters(
       // longDynamicLink: Uri.parse(
       // "https://hido.page.link/?link=https://hido.page.link/hospitality?view_id=$viewId%26type=$type&apn=com.hido.hidoapp&isi=6477162077&ibi=com.hido.hidoapp&efr=1"),
-      link: Uri.parse(
-          'https://hido.page.link/$type?view_id=$viewId'), // Your dynamic deep link
+      link:
+          Uri.parse('https://hido.page.link/$type?view_id=$viewId&type=$type'),
 
       uriPrefix: "https://hido.page.link",
       navigationInfoParameters: const NavigationInfoParameters(

@@ -238,6 +238,7 @@ class PaymentService {
       }),
     );
     log(response.statusCode.toString());
+    log(response.body.toString());
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
 
@@ -352,6 +353,8 @@ class PaymentService {
         },
       ),
     );
+    log(response.statusCode.toString());
+    log(response.body.toString());
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
       log(response.body);
@@ -409,8 +412,7 @@ class PaymentService {
     }
   }
 
-  static Future<Wallet?> getWallet(
-      {required BuildContext context}) async {
+  static Future<Wallet?> getWallet({required BuildContext context}) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
     if (token != '' && JwtDecoder.isExpired(token)) {
@@ -429,12 +431,12 @@ class PaymentService {
       },
     );
     log("Wallet");
-   
-     if (response.statusCode == 200) {
-        log(response.statusCode.toString());
+
+    if (response.statusCode == 200) {
+      log(response.statusCode.toString());
       log(response.body.toString());
       var data = jsonDecode(response.body);
-     
+
       return Wallet.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
@@ -444,6 +446,4 @@ class PaymentService {
       return null;
     }
   }
-
-
 }

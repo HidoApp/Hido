@@ -1,6 +1,8 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
+import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -39,10 +41,25 @@ class _PaymentWebViewState extends State<PaymentWebView> {
               onPageFinished: (String url) {
                 //return after payment
                 Uri uri = Uri.parse(url);
-                var isValid = uri.path.contains('/callback');
-                if (isValid) {
-                  log('will back');
-                  Future.delayed(const Duration(seconds: 1), () => Get.back());
+                //   var isValid = uri.path.contains('/callback');
+                var isSuccess = uri.path.contains('/success');
+                var isFailed = uri.path.contains('/failed');
+
+                if (isSuccess) {
+                  log('succes');
+                  log(url);
+                  AmplitudeService.amplitude.track(BaseEvent(
+                    'user reach  to success screen and the payment was successful',
+                  ));
+                  Future.delayed(const Duration(seconds: 3), () => Get.back());
+                }
+                if (isFailed) {
+                  log('failed');
+                  log(url);
+                  AmplitudeService.amplitude.track(BaseEvent(
+                    'user reach to failed screen and the payment was failed',
+                  ));
+                  Future.delayed(const Duration(seconds: 3), () => Get.back());
                 }
               },
               onWebResourceError: (WebResourceError error) {},

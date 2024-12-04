@@ -30,9 +30,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.sizeOf(context).width;
-    double height = MediaQuery.of(context).size.height;
-    log(_profileController.bookmarkList.length.toString());
-    log(GetStorage().read('user_id') ?? "NULL");
+    // log(GetStorage().read('user_id') ?? "NULL");
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(

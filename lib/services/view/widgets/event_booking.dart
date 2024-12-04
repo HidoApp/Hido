@@ -43,7 +43,7 @@ class _BottomEventBookingState extends State<BottomEventBooking> {
   @override
   Widget build(BuildContext context) {
     log(_eventController.address.value);
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
     final width = MediaQuery.sizeOf(context).width;
 
     return Container(

@@ -114,7 +114,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
-    final double height = MediaQuery.of(context).size.height;
+    final double height = MediaQuery.sizeOf(context).height;
     final arguments = ModalRoute.of(context)?.settings.arguments;
 
     RemoteMessage? message;
