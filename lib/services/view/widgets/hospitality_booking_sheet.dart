@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/calender_dialog.dart';
@@ -555,6 +557,11 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                         } else {
                           widget.serviceController.showErrorMaxGuest.value =
                               false;
+                          final isValid = widget.serviceController
+                              .checkForOneHour(context: context);
+                          if (!isValid) {
+                            return;
+                          }
                           Get.to(() => ReviewHospitalty(
                               hospitality: widget.hospitality!,
                               maleGuestNum: maleGuestNum,

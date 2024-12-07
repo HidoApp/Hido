@@ -66,6 +66,16 @@ class _ButtomProgressState extends State<ButtomProgress> {
   String gender = '';
   final HospitalityController _hospitalityController =
       Get.put(HospitalityController());
+  @override
+  dispose() {
+    super.dispose();
+    hospitalityBioControllerAr.dispose();
+    hospitalityBioControllerEn.dispose();
+    hospitalityTitleControllerAr.dispose();
+    hospitalityTitleControllerEn.dispose();
+    hospitalityLocation.dispose();
+    hospitalityPrice.dispose();
+  }
 
   void _handleGuestNumChanged(int newGuestNum) {
     setState(() {
@@ -382,21 +392,20 @@ class AddHospitalityInfo extends StatefulWidget {
 }
 
 class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
-  int _selectedLanguageIndex = 1; // 0 for AR, 1 for EN
-  final FocusNode _focusNode = FocusNode();
+  //int _selectedLanguageIndex = 1; // 0 for AR, 1 for EN
+  final FocusNode _focusNodeAr = FocusNode();
+  final FocusNode _focusNodeEn = FocusNode();
 
   @override
   void dispose() {
-    _focusNode.dispose();
+    _focusNodeAr.dispose();
+    _focusNodeEn.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    setState(() {
-      _selectedLanguageIndex = AppUtil.rtlDirection2(context) ? 0 : 1;
-    });
   }
 
   @override
@@ -404,143 +413,80 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
     final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.sizeOf(context).height;
 
-    final TextEditingController textField1Controller =
-        _selectedLanguageIndex == 0
-            ? widget.textField1ControllerAR
-            : widget.textField1ControllerEN;
-    final TextEditingController textField2Controller =
-        _selectedLanguageIndex == 0
-            ? widget.textField2ControllerAR
-            : widget.textField2ControllerEN;
+    final TextEditingController textFieldTitleArController =
+        widget.textField1ControllerAR;
+    final TextEditingController textFieldTitleEnController =
+        widget.textField1ControllerEN;
+    final TextEditingController textFieldDescArController =
+        widget.textField2ControllerAR;
+    final TextEditingController textFieldDescEnController =
+        widget.textField2ControllerEN;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.end,
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Column(
             children: [
-              ToggleSwitch(
-                minWidth: 55,
-                cornerRadius: 12,
-                activeBgColors: const [
-                  [Colors.white],
-                  [Colors.white]
-                ],
-                activeBorders: [
-                  Border.all(color: const Color(0xFFF5F5F5), width: 2.0),
-                  Border.all(color: const Color(0xFFF5F5F5), width: 2.0),
-                ],
-                activeFgColor: const Color(0xFF070708),
-                inactiveBgColor: const Color(0xFFF5F5F5),
-                inactiveFgColor: const Color(0xFF9392A0),
-                initialLabelIndex: _selectedLanguageIndex,
-                totalSwitches: 2,
-                labels: _selectedLanguageIndex == 0
-                    ? ['عربي', 'إنجليزي']
-                    : ['AR', 'EN'],
-                radiusStyle: true,
-                customTextStyles: [
-                  TextStyle(
-                    fontSize: _selectedLanguageIndex == 0 ? 11 : 13,
-                    fontFamily:
-                        _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
-                    fontWeight: _selectedLanguageIndex == 0
-                        ? FontWeight.w500
-                        : FontWeight.w500,
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomText(
+                    text: 'experienceTitleAr'.tr,
+                    color: const Color(0xFF070708),
+                    fontSize: 17,
+                    fontFamily: AppUtil.SfFontType(context),
+                    fontWeight: FontWeight.w500,
+                    height: 0,
                   ),
-                  TextStyle(
-                    fontSize: _selectedLanguageIndex == 0 ? 10 : 13,
-                    fontFamily:
-                        _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
-                    fontWeight: _selectedLanguageIndex == 0
-                        ? FontWeight.w500
-                        : FontWeight.w500,
-                  ),
-                ],
-                customHeights: const [90, 90],
-                onToggle: (index) {
-                  setState(() {
-                    _selectedLanguageIndex = index!;
-                  });
-                },
-              ),
-            ]),
-        Directionality(
-          textDirection: _selectedLanguageIndex == 0
-              ? TextDirection.rtl
-              : TextDirection.ltr,
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomText(
-                      text: _selectedLanguageIndex == 0
-                          ? 'عنوان التجربة'
-                          : 'Experience title',
-                      color: const Color(0xFF070708),
-                      fontSize: 17,
-                      fontFamily:
-                          _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
-                      fontWeight: _selectedLanguageIndex == 0
-                          ? FontWeight.w600
-                          : FontWeight.w500,
-                      height: 0,
+                  SizedBox(height: width * 0.0205),
+                  TextField(
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(
+                          r'[\u0600-\u06FF\s]')), // Allow only Arabic characters and spaces
+                    ],
+                    maxLength: 20,
+                    controller: textFieldTitleArController,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontFamily: AppUtil.SfFontType(context),
+                      fontWeight: FontWeight.w400,
                     ),
-                    SizedBox(height: _selectedLanguageIndex == 0 ? 8 : 9),
-                    TextField(
-                      maxLength: 20,
-                      controller: textField1Controller,
-                      style: TextStyle(
-                        color: Colors.black,
+                    decoration: InputDecoration(
+                      hintText: 'مثال: منزل دانا',
+                      hintStyle: TextStyle(
+                        color: const Color(0xFFB9B8C1),
                         fontSize: 15,
-                        fontFamily: _selectedLanguageIndex == 0
-                            ? 'SF Arabic'
-                            : 'SF Pro',
+                        fontFamily: AppUtil.SfFontType(context),
                         fontWeight: FontWeight.w400,
                       ),
-                      decoration: InputDecoration(
-                        hintText: _selectedLanguageIndex == 0
-                            ? 'مثال: منزل دانا'
-                            : 'example: Dana’s house',
-                        hintStyle: TextStyle(
-                          color: const Color(0xFFB9B8C1),
-                          fontSize: 15,
-                          fontFamily: _selectedLanguageIndex == 0
-                              ? 'SF Arabic'
-                              : 'SF Pro',
-                          fontWeight: FontWeight.w400,
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 0), // Adjust vertical padding for height
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                              width: 1, color: Color(0xFFB9B8C1)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                              width: 1,
-                              color: Color(
-                                  0xFFB9B8C1)), // Same color to remove focus color
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide.none,
-                        ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 0), // Adjust vertical padding for height
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(
+                            width: 1, color: Color(0xFFB9B8C1)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(
+                            width: 1,
+                            color: Color(
+                                0xFFB9B8C1)), // Same color to remove focus color
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide.none,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               Column(
                 mainAxisSize: MainAxisSize.min,
@@ -548,20 +494,78 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomText(
-                    text: _selectedLanguageIndex == 0 ? 'الوصف' : 'Description',
+                    text: 'experienceTitleEn'.tr,
                     color: const Color(0xFF070708),
                     fontSize: 17,
-                    fontFamily:
-                        _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
-                    fontWeight: _selectedLanguageIndex == 0
-                        ? FontWeight.w600
-                        : FontWeight.w500,
+                    fontFamily: AppUtil.SfFontType(context),
+                    fontWeight: FontWeight.w500,
                     height: 0,
                   ),
-                  SizedBox(height: _selectedLanguageIndex == 0 ? 8 : 9),
+                  SizedBox(height: width * 0.0205),
+                  TextField(
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(
+                        RegExp(r'[a-zA-Z0-9\s]'),
+                      ), // Allow only English letters and spaces
+                    ],
+                    maxLength: 20,
+                    controller: textFieldTitleEnController,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontFamily: AppUtil.SfFontType(context),
+                      fontWeight: FontWeight.w400,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: 'example: Dana’s house',
+                      hintStyle: TextStyle(
+                        color: const Color(0xFFB9B8C1),
+                        fontSize: 15,
+                        fontFamily: AppUtil.SfFontType(context),
+                        fontWeight: FontWeight.w400,
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 0), // Adjust vertical padding for height
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(
+                            width: 1, color: Color(0xFFB9B8C1)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(
+                            width: 1,
+                            color: Color(
+                                0xFFB9B8C1)), // Same color to remove focus color
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomText(
+                    text: 'descriptionAr'.tr,
+                    color: const Color(0xFF070708),
+                    fontSize: 17,
+                    fontFamily: AppUtil.SfFontType(context),
+                    fontWeight: FontWeight.w500,
+                    height: 0,
+                  ),
+                  SizedBox(height: width * 0.0205),
                   Container(
                     width: double.infinity,
-                    height: 133,
+                    height: width * 0.34,
                     decoration: ShapeDecoration(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -576,9 +580,12 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                       child: TextField(
                         maxLines: 8,
                         // minLines: 1,
-                        controller: textField2Controller,
-                        focusNode: _focusNode,
+                        controller: textFieldDescArController,
+                        focusNode: _focusNodeAr,
                         inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp(
+                              r'[\u0600-\u06FF\s]')), // Allow only Arabic characters and spaces
+
                           TextInputFormatter.withFunction(
                             (oldValue, newValue) {
                               if (newValue.text
@@ -595,21 +602,16 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 15,
-                          fontFamily: _selectedLanguageIndex == 0
-                              ? 'SF Arabic'
-                              : 'SF Pro',
+                          fontFamily: AppUtil.SfFontType(context),
                           fontWeight: FontWeight.w400,
                         ),
                         decoration: InputDecoration(
-                          hintText: _selectedLanguageIndex == 0
-                              ? 'أذكر أبرز ما يميزها ولماذا يجب على السياح زيارتها'
-                              : 'highlight what makes it unique and why tourists should visit',
+                          hintText:
+                              'أذكر أبرز ما يميزها ولماذا يجب على السياح زيارتها',
                           hintStyle: TextStyle(
                             color: const Color(0xFFB9B8C1),
                             fontSize: 15,
-                            fontFamily: _selectedLanguageIndex == 0
-                                ? 'SF Arabic'
-                                : 'SF Pro',
+                            fontFamily: AppUtil.SfFontType(context),
                             fontWeight: FontWeight.w400,
                           ),
                           border: OutlineInputBorder(
@@ -623,13 +625,12 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                   Padding(
                     padding: const EdgeInsets.only(top: 1.0, left: 8.0),
                     child: CustomText(
-                      text: _selectedLanguageIndex == 0
+                      text: AppUtil.rtlDirection2(context)
                           ? '*يجب ألا يتجاوز الوصف 150 كلمة'
                           : '*the description must not exceed 150 words',
                       color: const Color(0xFFB9B8C1),
                       fontSize: 11,
-                      fontFamily:
-                          _selectedLanguageIndex == 0 ? 'SF Arabic' : 'SF Pro',
+                      fontFamily: AppUtil.SfFontType(context),
                       fontWeight: FontWeight.w400,
                     ),
                   )
@@ -637,8 +638,97 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
               ),
             ],
           ),
-        ),
-      ],
+          SizedBox(
+            height: 12,
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomText(
+                text: 'descriptionEn'.tr,
+                color: const Color(0xFF070708),
+                fontSize: 17,
+                fontFamily: AppUtil.SfFontType(context),
+                fontWeight: FontWeight.w500,
+                height: 0,
+              ),
+              SizedBox(height: width * 0.0205),
+              Container(
+                width: double.infinity,
+                height: width * 0.34,
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(width: 1, color: Color(0xFFB9B8C1)),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                  child: TextField(
+                    maxLines: 8,
+                    // minLines: 1,
+                    controller: textFieldDescEnController,
+                    focusNode: _focusNodeEn,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(
+                        RegExp(r'[a-zA-Z0-9\s]'),
+                      ),
+                      TextInputFormatter.withFunction(
+                        (oldValue, newValue) {
+                          if (newValue.text
+                                  .split(RegExp(r'\s+'))
+                                  .where((word) => word.isNotEmpty)
+                                  .length >
+                              150) {
+                            return oldValue;
+                          }
+                          return newValue;
+                        },
+                      ),
+                    ],
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontFamily: AppUtil.SfFontType(context),
+                      fontWeight: FontWeight.w400,
+                    ),
+                    decoration: InputDecoration(
+                      hintText:
+                          'highlight what makes it unique and why tourists should visit',
+                      hintStyle: TextStyle(
+                        color: const Color(0xFFB9B8C1),
+                        fontSize: 15,
+                        fontFamily: AppUtil.SfFontType(context),
+                        fontWeight: FontWeight.w400,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 1.0, left: 8.0),
+                child: CustomText(
+                  text: AppUtil.rtlDirection2(context)
+                      ? '*يجب ألا يتجاوز الوصف 150 كلمة'
+                      : '*the description must not exceed 150 words',
+                  color: const Color(0xFFB9B8C1),
+                  fontSize: 11,
+                  fontFamily: AppUtil.SfFontType(context),
+                  fontWeight: FontWeight.w400,
+                ),
+              )
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

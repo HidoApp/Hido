@@ -237,6 +237,11 @@ class _EventReviewState extends State<EventReview> {
                             child: CircularProgressIndicator.adaptive())
                         : CustomButton(
                             onPressed: () async {
+                              final isValid = _eventController.checkForOneHour(
+                                  context: context);
+                              if (!isValid) {
+                                return;
+                              }
                               if (paymentController.isPriceFree.value) {
                                 freeEventBooking();
                               } else {

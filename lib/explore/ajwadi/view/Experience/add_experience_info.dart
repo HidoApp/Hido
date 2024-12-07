@@ -101,7 +101,7 @@ class _AddExperienceInfoState extends State<AddExperienceInfo> {
                 AmplitudeService.amplitude.track(BaseEvent(
                   'Select to add experience',
                 ));
-                Get.to(() => ExperienceType());
+                Get.to(() => const ExperienceType());
               },
               child: Container(
                 width: 48,

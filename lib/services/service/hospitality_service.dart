@@ -301,6 +301,7 @@ class HospitalityService {
 
     //
     log(response.statusCode.toString());
+    log(response.body.toString());
     if (response.statusCode == 200) {
       //  var data = jsonDecode(response.body);
       //
@@ -325,7 +326,7 @@ class HospitalityService {
     //  }
   }
 
-  static Future<Hospitality?> editHospitality({
+  static Future<bool> editHospitality({
     required String id,
     String? titleAr,
     String? titleEn,
@@ -388,21 +389,22 @@ class HospitalityService {
         if (regionEn != null) "regionEn": regionEn,
       }),
     );
-
+    log(response.statusCode.toString());
+    log(response.body.toString());
     if (response.statusCode == 200) {
       try {
-        var hospitalityData = jsonDecode(response.body);
+        // var hospitalityData = jsonDecode(response.body);
 
-        return Hospitality.fromJson(hospitalityData);
+        return true;
       } catch (e) {
-        return null;
+        return false;
       }
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
       if (context.mounted) {
         AppUtil.errorToast(context, errorMessage);
       }
-      return null;
+      return false;
     }
   }
 

@@ -79,6 +79,9 @@ class _TourLicenseSheetState extends State<TourLicenseSheet> {
             GestureDetector(
               onTap: () async {
                 pdfFile = await pickPdfFile();
+                if (pdfFile == null) {
+                  return;
+                }
                 _profileController.pdfName.value =
                     pdfFile!.path.split('/').last;
                 if (AppUtil.isImageValidate(await pdfFile!.length())) {
@@ -122,7 +125,8 @@ class _TourLicenseSheetState extends State<TourLicenseSheet> {
             ),
             Obx(
               () => _profileController.isImagesLoading.value ||
-                      _profileController.isProfileLoading.value
+                      _profileController.isProfileLoading.value ||
+                      _profileController.isEditProfileLoading.value
                   ? const Center(
                       child: CircularProgressIndicator.adaptive(),
                     )
@@ -136,12 +140,18 @@ class _TourLicenseSheetState extends State<TourLicenseSheet> {
                                       file: pdfFile!,
                                       uploadOrUpdate: "upload",
                                       context: context);
-                              if (file != null) {
-                                await _profileController.getProfile(
-                                    context: context);
-
-                                Get.back();
+                              if (file == null) {
+                                return;
                               }
+                              _profileController.editProfile(
+                                  context: context,
+                                  tourGuideLicense: file.filePath,
+                                  spokenLanguage: _profileController
+                                      .profile.spokenLanguage);
+                              await _profileController.getProfile(
+                                  context: context);
+
+                              Get.back();
                             }
                           : null),
             )

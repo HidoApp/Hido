@@ -19,8 +19,7 @@ class CustomWalletCard extends StatefulWidget {
 
 class _CustomWalletCardState extends State<CustomWalletCard> {
   // You can initialize variables here
-  final TouristExploreController _touristExploreController =
-      Get.put(TouristExploreController());
+
   final PaymentController _paymentController = Get.put(PaymentController());
   Wallet? wallet;
 

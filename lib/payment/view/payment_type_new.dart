@@ -75,6 +75,18 @@ class _PaymentTypeState extends State<PaymentType> {
   final _RequestController = Get.put(RequestController());
 
   Future<void> selectPaymentType(PaymentMethod paymentMethod) async {
+    if (widget.type == 'hospitality') {
+      final isValid = hospitalityController.checkForOneHour(context: context);
+      if (!isValid) {
+        return;
+      }
+    }
+    if (widget.type == 'event') {
+      final isValid = widget.eventController!.checkForOneHour(context: context);
+      if (!isValid) {
+        return;
+      }
+    }
     switch (paymentMethod) {
       case PaymentMethod.appelpay:
         AmplitudeService.amplitude.track(BaseEvent(

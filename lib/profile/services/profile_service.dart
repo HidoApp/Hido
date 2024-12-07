@@ -132,6 +132,7 @@ class ProfileService {
     String? iban,
     String? nationality,
     List<String>? spokenLanguage,
+    String? tourGuideLicense,
     required BuildContext context,
   }) async {
     final getStorage = GetStorage();
@@ -144,6 +145,7 @@ class ProfileService {
           'Authorization': 'Bearer $token',
         },
         body: json.encode({
+          if (tourGuideLicense != null) "tourGuideLicense": tourGuideLicense,
           if (nationality != null) "nationality": nationality,
           if (name != null) "name": name.trim(),
           if (profileImage != null && profileImage.isNotEmpty)

@@ -43,6 +43,17 @@ class _EventAddProgressState extends State<EventAddProgress> {
   final TextEditingController EventLocation = TextEditingController();
   final TextEditingController EventPrice = TextEditingController();
 
+  @override
+  dispose() {
+    super.dispose();
+    // EventBioControllerAr.dispose();
+    // EventBioControllerEn.dispose();
+    // EventLocation.dispose();
+    // EventPrice.dispose();
+    // EventTitleControllerAr.dispose();
+    // EventTitleControllerEn.dispose();
+  }
+
   final EventController _EventController = Get.put(EventController());
 
   @override
@@ -104,8 +115,8 @@ class _EventAddProgressState extends State<EventAddProgress> {
       case 0:
         return AddInfo(
           textField1ControllerAR: EventTitleControllerAr,
-          textField2ControllerAR: EventBioControllerAr,
           textField1ControllerEN: EventTitleControllerEn,
+          textField2ControllerAR: EventBioControllerAr,
           textField2ControllerEN: EventBioControllerEn,
         );
       case 1:
@@ -131,14 +142,14 @@ class _EventAddProgressState extends State<EventAddProgress> {
 
   bool _validateFields() {
     if (activeIndex == 0) {
-      return _EventController.titleAr.isNotEmpty &&
+      return (_EventController.titleAr.isNotEmpty &&
           _EventController.bioAr.isNotEmpty &&
           _EventController.bioEn.isNotEmpty &&
-          _EventController.titleEn.isNotEmpty;
+          _EventController.titleEn.isNotEmpty);
       // EventTitleControllerEn.text.isNotEmpty &&
       //     EventBioControllerEn.text.isNotEmpty &&
       //     EventTitleControllerAr.text.isNotEmpty &&
-      //    EventBioControllerAr.text.isNotEmpty;
+      //     EventBioControllerAr.text.isNotEmpty;
     }
     if (activeIndex == 1) {
       return _EventController.pickUpLocLatLang.value !=

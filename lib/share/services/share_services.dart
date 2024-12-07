@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/services/view/hospitality_details.dart';
 import 'package:ajwad_v4/services/view/local_event_details.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -16,8 +17,7 @@ class ShareServices {
     final dynamicLinkParameters = DynamicLinkParameters(
       // longDynamicLink: Uri.parse(
       // "https://hido.page.link/?link=https://hido.page.link/hospitality?view_id=$viewId%26type=$type&apn=com.hido.hidoapp&isi=6477162077&ibi=com.hido.hidoapp&efr=1"),
-      link:
-          Uri.parse('https://hido.page.link/$type?view_id=$viewId&type=$type'),
+      link: Uri.parse('https://hido.page.link/8etY?view_id=$viewId'),
 
       uriPrefix: "https://hido.page.link",
       navigationInfoParameters: const NavigationInfoParameters(
@@ -27,15 +27,16 @@ class ShareServices {
         packageName: "com.hido.app",
       ),
       iosParameters: const IOSParameters(
-        bundleId: "com.hido.app.ios",
+        bundleId: "com.hido.app",
         appStoreId: '6477162077',
       ),
     );
 
     // Generate short DynamicLink
+    // ignore: deprecated_member_use
     final shortDynamicLink = await dynamicLinks.buildShortLink(
-        dynamicLinkParameters,
-        shortLinkType: ShortDynamicLinkType.unguessable);
+      dynamicLinkParameters,
+    );
     return shortDynamicLink.shortUrl;
   }
 
@@ -46,9 +47,15 @@ class ShareServices {
   }) {
     switch (contentType) {
       case "hospitality":
+        Get.offAll(() => const TouristBottomBar(
+              pageNumber: 1,
+            ));
         Get.to(() => HospitalityDetails(hospitalityId: contentId));
         break;
       case "event":
+        Get.offAll(() => const TouristBottomBar(
+              pageNumber: 1,
+            ));
         Get.to(() => LocalEventDetails(eventId: contentId));
         break;
       default:
@@ -58,11 +65,15 @@ class ShareServices {
 
   // Handle dynamic link when the app is in the background
   static Future initDynamicLink() async {
+    // // ignore: deprecated_member_use
+    // final initLink = await FirebaseDynamicLinks.instance.getInitialLink();
+    // log(initLink!.link.toString());
     // ignore: deprecated_member_use
-    await FirebaseDynamicLinks.instance.getInitialLink();
-
     dynamicLinks.onLink.listen((event) async {
       final Uri deepLink = event.link;
+      final link = Uri.decodeFull(deepLink.toString());
+      log("link");
+      log(link);
       log("Dynamic link received: $deepLink");
       log("Dynamic link received: $event");
       var receivedId = event.link.queryParameters['view_id'];
@@ -77,15 +88,14 @@ class ShareServices {
 
   // Handle dynamic link when the app is closed
   static Future initDynamicLinkClosedApp() async {
+    // ignore: deprecated_member_use
     final PendingDynamicLinkData? data = await dynamicLinks.getInitialLink();
     if (data != null) {
       final Uri deepLink = data.link;
       log("Initial dynamic link received: $deepLink");
       var receivedId = deepLink.queryParameters['view_id'];
       var contentType = deepLink.queryParameters["type"];
-      if (receivedId != null && contentType != null) {
-        moveToScreen(contentId: receivedId, contentType: contentType);
-      }
+      moveToScreen(contentId: receivedId ?? "", contentType: 'hospitality');
     }
   }
 }

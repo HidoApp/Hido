@@ -48,6 +48,7 @@ class EventController extends GetxController {
   var bioEn = "".obs;
   var ragionAr = "".obs;
   var ragionEn = "".obs;
+  var startDate = ''.obs;
   var isEventDateSelcted = false.obs;
   var isEventTimeSelcted = false.obs;
 
@@ -318,6 +319,24 @@ class EventController extends GetxController {
       return null;
     } finally {
       isImagesLoading(false);
+    }
+  }
+
+  bool checkForOneHour({required BuildContext context}) {
+    log(startDate.value);
+    log(selectedDate.value);
+    log((AppUtil.areDatesOnSameDay(startDate.value, selectedDate.value))
+        .toString());
+    if (AppUtil.areDatesOnSameDay(startDate.value, selectedDate.value)) {
+      final isValid = AppUtil.isTimeDifferenceOneHour(startDate.value);
+      if (isValid) {
+        return true;
+      } else {
+        AppUtil.errorToast(context, "Time is under 60 min ");
+        return false;
+      }
+    } else {
+      return false;
     }
   }
 }
