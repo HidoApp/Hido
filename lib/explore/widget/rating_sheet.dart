@@ -153,14 +153,14 @@ class _RatingSheetState extends State<RatingSheet> {
                       title: 'submit'.tr,
                       onPressed: () async {
                         FocusManager.instance.primaryFocus?.unfocus();
-                        if (localReview.isEmpty &&
-                            placeReview.isEmpty &&
-                            localRating == 0 &&
-                            placeRating == 0) {
-                          Get.back();
-                          return;
-                        }
-                        log(placeReview);
+                        // if (localReview.isEmpty &&
+                        //     placeReview.isEmpty &&
+                        //     localRating == 0 &&
+                        //     placeRating == 0) {
+                        //   Get.back();
+                        //   return;
+                        // }
+                        // log(placeReview);
 
                         log(placeRating.toString());
                         log(_localReview.text);

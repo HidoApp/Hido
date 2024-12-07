@@ -16,8 +16,7 @@ class ShareServices {
     final dynamicLinkParameters = DynamicLinkParameters(
       // longDynamicLink: Uri.parse(
       // "https://hido.page.link/?link=https://hido.page.link/hospitality?view_id=$viewId%26type=$type&apn=com.hido.hidoapp&isi=6477162077&ibi=com.hido.hidoapp&efr=1"),
-      link:
-          Uri.parse('https://hido.page.link/$type?view_id=$viewId&type=$type'),
+      link: Uri.parse('https://hido.page.link/$type/?view_id=$viewId'),
 
       uriPrefix: "https://hido.page.link",
       navigationInfoParameters: const NavigationInfoParameters(
@@ -33,10 +32,11 @@ class ShareServices {
     );
 
     // Generate short DynamicLink
-    final shortDynamicLink = await dynamicLinks.buildShortLink(
-        dynamicLinkParameters,
-        shortLinkType: ShortDynamicLinkType.unguessable);
-    return shortDynamicLink.shortUrl;
+    // ignore: deprecated_member_use
+    final shortDynamicLink = await dynamicLinks.buildLink(
+      dynamicLinkParameters,
+    );
+    return shortDynamicLink;
   }
 
   // Navigate to the correct screen
@@ -61,6 +61,7 @@ class ShareServices {
     // ignore: deprecated_member_use
     await FirebaseDynamicLinks.instance.getInitialLink();
 
+    // ignore: deprecated_member_use
     dynamicLinks.onLink.listen((event) async {
       final Uri deepLink = event.link;
       log("Dynamic link received: $deepLink");
@@ -77,6 +78,7 @@ class ShareServices {
 
   // Handle dynamic link when the app is closed
   static Future initDynamicLinkClosedApp() async {
+    // ignore: deprecated_member_use
     final PendingDynamicLinkData? data = await dynamicLinks.getInitialLink();
     if (data != null) {
       final Uri deepLink = data.link;

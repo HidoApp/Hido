@@ -176,8 +176,10 @@ class AppUtil {
     final parsedTripDate = DateTime.parse(date);
 
     // Convert the parsed trip date to the Riyadh time zone
-    final tripDateInRiyadh = tz.TZDateTime.from(parsedTripDate, location)
-        .subtract(const Duration(hours: 3)); //new
+    final tripDateInRiyadh =
+        tz.TZDateTime.from(parsedTripDate, location).subtract(
+      const Duration(hours: 3),
+    ); //new
 
     // Calculate the difference
     final difference = tripDateInRiyadh.difference(currentDateInRiyadh);
@@ -191,27 +193,49 @@ class AppUtil {
     // log(currentDateInRiyadh.toString());
     // return tripDateInRiyadh.isAfter(currentDateInRiyadh);
 
-    return tripDateInRiyadh.isAfter(currentDateInRiyadh) ||
-        (tripDateInRiyadh.year == currentDateInRiyadh.year &&
-            tripDateInRiyadh.month == currentDateInRiyadh.month &&
-            tripDateInRiyadh.day == currentDateInRiyadh.day);
-
-    //this for compare time "Ammar"
-    // if (tripDateInRiyadh.isAfter(currentDateInRiyadh) ||
+    // return tripDateInRiyadh.isAfter(currentDateInRiyadh) ||
     //     (tripDateInRiyadh.year == currentDateInRiyadh.year &&
     //         tripDateInRiyadh.month == currentDateInRiyadh.month &&
-    //         tripDateInRiyadh.day == currentDateInRiyadh.day)) {
-    //   if (tripDateInRiyadh.year == currentDateInRiyadh.year &&
-    //       tripDateInRiyadh.month == currentDateInRiyadh.month &&
-    //       tripDateInRiyadh.day == currentDateInRiyadh.day) {
-    //     if (tripDateInRiyadh.isAfter(currentDateInRiyadh)) {
-    //       return true;
-    //     }
-    //   } else {
-    //     return true;
-    //   }
-    // }
-    // return false;
+    //         tripDateInRiyadh.day == currentDateInRiyadh.day);
+
+    //this for compare time "Ammar"
+    if (tripDateInRiyadh.isAfter(currentDateInRiyadh) ||
+        (tripDateInRiyadh.year == currentDateInRiyadh.year &&
+            tripDateInRiyadh.month == currentDateInRiyadh.month &&
+            tripDateInRiyadh.day == currentDateInRiyadh.day)) {
+      if (tripDateInRiyadh.year == currentDateInRiyadh.year &&
+          tripDateInRiyadh.month == currentDateInRiyadh.month &&
+          tripDateInRiyadh.day == currentDateInRiyadh.day) {
+        if (tripDateInRiyadh.isAfter(currentDateInRiyadh)) {
+          return true;
+        }
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  static bool isTimeDifferenceOneHour(String givenTimeString) {
+    try {
+      // Parse the given string into a DateTime object
+      final givenTime = DateTime.parse(givenTimeString);
+
+      // Define Riyadh timezone offset (+3 hours from UTC)
+      const riyadhTimeZoneOffset = Duration(hours: 3);
+
+      // Get current time in Riyadh timezone
+      final now = DateTime.now().toUtc().add(riyadhTimeZoneOffset);
+
+      // Calculate the difference in time
+      final difference = now.difference(givenTime);
+
+      // Check if the difference is greater than or equal to one hour
+      return difference.abs().inMinutes >= 60;
+    } catch (e) {
+      log('Error parsing time string: $e');
+      return false; // Return false if parsing fails
+    }
   }
 
   static bool areAllDatesAfter24Hours(List<dynamic> dates) {

@@ -1807,7 +1807,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                       ? "وقت الاستضافة من"
                                                       : "Start Time",
                                               color: black,
-                                              fontSize: 17,
+                                              fontSize: width * 0.043,
                                               fontWeight: FontWeight.w500,
                                               fontFamily:
                                                   AppUtil.rtlDirection2(context)
@@ -2121,8 +2121,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                     .newRangeTimeErrorMessage
                                                     .value)
                                               Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 8),
+                                                padding: EdgeInsets.only(
+                                                    top: width * 0.0205),
                                                 child: CustomText(
                                                   text: _servicesController
                                                           .EmptyTimeErrorMessage
@@ -2149,8 +2149,8 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               ),
                                           ],
                                         ),
-                                        const SizedBox(
-                                          width: 20,
+                                        SizedBox(
+                                          width: width * 0.03,
                                         ),
                                         Column(
                                           crossAxisAlignment:

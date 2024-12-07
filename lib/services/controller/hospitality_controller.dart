@@ -55,6 +55,7 @@ class HospitalityController extends GetxController {
   var ragionEn = "".obs;
   var tabIndex = 0.obs;
   var addresHostCard = ''.obs;
+  var startTime = ''.obs;
   // Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
   Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264, 46.544731).obs;
 

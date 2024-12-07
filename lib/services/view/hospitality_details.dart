@@ -81,8 +81,8 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //    initializeDateFormatting(); //very important
 
+    //    initializeDateFormatting(); //very important
     addCustomIcon();
     getHospitalityById();
 
@@ -94,6 +94,10 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
   void getHospitalityById() async {
     hospitalityObj = (await _servicesController.getHospitalityById(
         context: context, id: widget.hospitalityId));
+    _servicesController.startTime(AppUtil.formatTimeWithLocale(
+        context, hospitalityObj!.daysInfo.first.startTime, 'hh:mm a'));
+    log("here start time for diff");
+    log(_servicesController.startTime.value);
 
     if (!widget.isLocal) {
       _fetchAddress(hospitalityObj!.coordinate.latitude ?? '',
