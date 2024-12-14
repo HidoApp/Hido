@@ -102,6 +102,7 @@ class ProfileController extends GetxController {
     String? iban,
     String? nationality,
     List<String>? spokenLanguage,
+    String? tourGuideLicense,
     required BuildContext context,
   }) async {
     try {
@@ -114,6 +115,7 @@ class ProfileController extends GetxController {
         iban: iban,
         nationality: nationality,
         spokenLanguage: spokenLanguage,
+        tourGuideLicense: tourGuideLicense,
         context: context,
       );
       if (profile != null) {

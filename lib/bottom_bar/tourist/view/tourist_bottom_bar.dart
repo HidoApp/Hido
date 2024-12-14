@@ -21,14 +21,14 @@ import 'package:get_storage/get_storage.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
 class TouristBottomBar extends StatefulWidget {
-  const TouristBottomBar({super.key});
-
+  const TouristBottomBar({super.key, this.pageNumber = 0});
+  final int pageNumber;
   @override
   State<TouristBottomBar> createState() => _TouristBottomBarState();
 }
 
 class _TouristBottomBarState extends State<TouristBottomBar> {
-  final _pageController = PageController();
+  PageController? _pageController;
   // int _currentIndex = 0;
   final ProfileController _profileController = ProfileController();
   final getStorage = GetStorage();
@@ -39,12 +39,12 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _pageController = PageController(initialPage: widget.pageNumber);
     _authCntroller.checkAppVersion(context: context);
-
     setInternetConnection();
- 
-  }
 
+    _profileController.touriestBar(_pageController!.initialPage);
+  }
 
   StreamSubscription? _internetConnection;
   void setInternetConnection() {
@@ -71,7 +71,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
   @override
   void dispose() {
     super.dispose();
-    _pageController.dispose();
+    _pageController!.dispose();
     _internetConnection!.cancel();
   }
 
@@ -147,7 +147,7 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
                     onTap: (index) {
                       //
                       _profileController.touriestBar.value = index;
-                      _pageController
+                      _pageController!
                           .jumpToPage(_profileController.touriestBar.value);
                     },
                     items: [

@@ -708,5 +708,11 @@ const localeEn = {
   'showLess': "Show less",
   "apply": 'Apply',
   "guideTitle": "Where do you want to tour?",
-  'guideSubtilte': "Explore the map and tap a pin to discover!"
+  'guideSubtilte': "Explore the map and tap a pin to discover!",
+  'experienceTitleAr': 'Experience title ( Arabic )',
+  'experienceTitleEn': 'Experience title ',
+  'descriptionAr': 'Description ( Arabic )',
+  'descriptionEn': 'Description',
+  // 'experienceTitleExampleAr':"example: Dana’s house"
+
 };

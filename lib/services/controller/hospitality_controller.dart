@@ -6,6 +6,7 @@ import 'package:ajwad_v4/payment/model/payment_result.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/model/payment.dart';
 import 'package:ajwad_v4/services/service/hospitality_service.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -55,6 +56,7 @@ class HospitalityController extends GetxController {
   var ragionEn = "".obs;
   var tabIndex = 0.obs;
   var addresHostCard = ''.obs;
+  var startTime = ''.obs;
   // Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
   Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264, 46.544731).obs;
 
@@ -276,7 +278,7 @@ class HospitalityController extends GetxController {
   }
 
   var isEditHospitalityLoading = false.obs;
-  Future<Hospitality?> editHospatility({
+  Future<bool> editHospatility({
     required String id,
     required String titleAr,
     required String titleEn,
@@ -301,7 +303,7 @@ class HospitalityController extends GetxController {
     try {
       isEditHospitalityLoading(true);
 
-      final hospitality = await HospitalityService.editHospitality(
+      final isSucces = await HospitalityService.editHospitality(
           id: id,
           titleAr: titleAr,
           titleEn: titleEn,
@@ -322,13 +324,9 @@ class HospitalityController extends GetxController {
           // end: end,
           // seat: seat,
           context: context);
-      if (hospitality != null) {
-        return hospitality;
-      } else {
-        return null;
-      }
+      return isSucces;
     } catch (e) {
-      return null;
+      return false;
     } finally {
       isEditHospitalityLoading(false);
     }
@@ -419,6 +417,24 @@ class HospitalityController extends GetxController {
       return null;
     } finally {
       isHospitalityDeleteLoading(false);
+    }
+  }
+
+  bool checkForOneHour({required BuildContext context}) {
+    log(startTime.value);
+    log(selectedDate.value);
+    log((AppUtil.areDatesOnSameDay(startTime.value, selectedDate.value))
+        .toString());
+    if (AppUtil.areDatesOnSameDay(startTime.value, selectedDate.value)) {
+      final isValid = AppUtil.isTimeDifferenceOneHour(startTime.value);
+      if (isValid) {
+        return true;
+      } else {
+        AppUtil.errorToast(context, "Time is under 60 min ");
+        return false;
+      }
+    } else {
+      return false;
     }
   }
 }

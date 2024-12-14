@@ -46,6 +46,17 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
   final TextEditingController AdventureLocation = TextEditingController();
   final TextEditingController AdventurePrice = TextEditingController();
 
+  @override
+  dispose() {
+    super.dispose();
+    AdventureBioControllerAr.dispose();
+    AdventureBioControllerEn.dispose();
+    AdventureLocation.dispose();
+    AdventurePrice.dispose();
+    AdventureTitleControllerAr.dispose();
+    AdventureTitleControllerEn.dispose();
+  }
+
   final List<String> _AdventureImages = [];
   int seats = 0;
   String gender = '';

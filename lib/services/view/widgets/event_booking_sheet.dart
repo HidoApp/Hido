@@ -362,6 +362,10 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
                     showErrorGuests = false;
                     showErrorSeat = false;
                   });
+          final isValid =     _eventController.checkForOneHour(context: context);
+          if (!isValid) {
+            return;
+          }
                   Get.to(
                       () => EventReview(event: widget.event!, person: person));
 

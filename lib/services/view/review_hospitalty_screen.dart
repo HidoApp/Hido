@@ -53,6 +53,7 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    log(widget.servicesController.selectedDate.value);
     finalCost = widget.hospitality.price *
         (widget.maleGuestNum + widget.femaleGuestNum).toDouble();
   }
@@ -300,6 +301,11 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
                               child: CircularProgressIndicator.adaptive())
                           : CustomButton(
                               onPressed: (() async {
+                                final isValid = widget.servicesController
+                                    .checkForOneHour(context: context);
+                                if (!isValid) {
+                                  return;
+                                }
                                 if (paymentController.isPriceFree.value) {
                                   freeHospitaltyBooking();
                                 } else {

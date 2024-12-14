@@ -90,6 +90,9 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
     event = (await _eventController.getEventById(
         context: context, id: widget.eventId));
 
+    if (event != null) {
+      _eventController.startDate(event!.daysInfo!.first.startTime);
+    }
     if (!widget.isLocal) {
       _fetchAddress(event!.coordinates!.latitude ?? '',
           event!.coordinates!.longitude ?? '');
