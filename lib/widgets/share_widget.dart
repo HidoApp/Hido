@@ -24,7 +24,7 @@ class ShareWidget extends StatelessWidget {
         }
       },
       child: Container(
-          width: 35,
+          width: 36,
           height: 36,
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.20000000298023224),
@@ -33,7 +33,7 @@ class ShareWidget extends StatelessWidget {
           alignment: Alignment.center,
           child: SvgPicture.asset(
             "assets/icons/share.svg",
-            height: 28,
+            height: 27,
             color: Colors.white,
           )),
     );

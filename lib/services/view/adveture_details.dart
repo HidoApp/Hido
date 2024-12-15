@@ -727,8 +727,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                       Positioned(
                           top: height * 0.066,
                           right: AppUtil.rtlDirection2(context)
-                              ? width * 0.82
-                              : width * 0.072,
+                              ? width * 0.75
+                              //  ? width * 0.82
+                              //  :width * 0.72
+                              : width * 0.065,
                           child: Row(
                             children: [
                               GestureDetector(

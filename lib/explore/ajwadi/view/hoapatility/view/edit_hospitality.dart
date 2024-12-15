@@ -1114,8 +1114,29 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                 padding:
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 4,
-                                                        vertical: 0),
+                                                        vertical: 4),
                                                 child: TextField(
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 15,
+                                                    fontFamily:
+                                                        _selectedLanguageIndex ==
+                                                                0
+                                                            ? 'SF Arabic'
+                                                            : 'SF Pro',
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                  inputFormatters: [
+                                                    _selectedLanguageIndex == 0
+                                                        ? FilteringTextInputFormatter
+                                                            .allow(RegExp(
+                                                                r'[\u0600-\u06FF\s]'))
+                                                        : FilteringTextInputFormatter
+                                                            .allow(
+                                                            RegExp(
+                                                                r'[a-zA-Z0-9\s]'),
+                                                          ), // Allow only English letters and spaces, // Allow only Arabic characters and spaces
+                                                  ],
                                                   controller:
                                                       textField1Controller,
                                                   decoration: InputDecoration(
@@ -1239,11 +1260,30 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                         horizontal: 0,
                                                         vertical: 0),
                                                 child: TextField(
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 15,
+                                                    fontFamily:
+                                                        _selectedLanguageIndex ==
+                                                                0
+                                                            ? 'SF Arabic'
+                                                            : 'SF Pro',
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
                                                   maxLines: 8,
                                                   minLines: 1,
                                                   controller:
                                                       textField2Controller,
                                                   inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .allow(
+                                                      _selectedLanguageIndex ==
+                                                              0
+                                                          ? RegExp(
+                                                              r'[\u0600-\u06FF\s]') // Allow only Arabic characters and spaces
+                                                          : RegExp(
+                                                              r'[a-zA-Z0-9\s]'),
+                                                    ),
                                                     TextInputFormatter
                                                         .withFunction(
                                                       (oldValue, newValue) {

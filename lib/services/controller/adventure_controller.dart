@@ -306,4 +306,28 @@ class AdventureController extends GetxController {
       isAdventureByIdLoading(false);
     }
   }
+
+  bool checkForOneHour({required BuildContext context, date, time}) {
+    final parsedDate = DateTime.parse(date);
+    log(date);
+    log(time);
+    if (parsedDate.year == parsedDate.year &&
+        parsedDate.month == parsedDate.month &&
+        parsedDate.day == parsedDate.day) {
+      final isValid = AppUtil.isAdventureTimeDifferenceOneHour(time);
+      if (isValid) {
+        return true;
+      } else {
+        AppUtil.errorToast(
+            context,
+            AppUtil.rtlDirection2(context)
+                ? "لا يمكنك الحجز اليوم لأن موعد التجربة بعد ساعة من الآن"
+                : "You cannot book today because the experience is after  1 hour from now.");
+
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
 }

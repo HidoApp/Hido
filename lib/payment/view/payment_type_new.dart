@@ -87,6 +87,17 @@ class _PaymentTypeState extends State<PaymentType> {
         return;
       }
     }
+    if (widget.type == 'adventure') {
+      final isValid = adventureController.checkForOneHour(
+          context: context,
+          date: widget.adventure!.date,
+          time:
+              '${widget.adventure!.date ?? ''} ${widget.adventure!.times!.first.startTime}');
+      if (!isValid) {
+        return;
+      }
+    }
+
     switch (paymentMethod) {
       case PaymentMethod.appelpay:
         AmplitudeService.amplitude.track(BaseEvent(
@@ -514,15 +525,15 @@ class _PaymentTypeState extends State<PaymentType> {
     ).then((_) {
       Get.offAll(() => const TouristBottomBar());
 
-      LocalNotification().showNotification(
-        context,
-        fetchedBooking?.id,
-        fetchedBooking?.timeToGo,
-        fetchedBooking?.date,
-        fetchedBooking?.user?.profile.name,
-        fetchedBooking?.requestName?.nameEn,
-        fetchedBooking?.requestName?.nameAr,
-      );
+      // LocalNotification().showNotification(
+      //   context,
+      //   fetchedBooking?.id,
+      //   fetchedBooking?.timeToGo,
+      //   fetchedBooking?.date,
+      //   fetchedBooking?.user?.profile.name,
+      //   fetchedBooking?.requestName?.nameEn,
+      //   fetchedBooking?.requestName?.nameAr,
+      // );
       log(fetchedBooking?.requestName?.nameEn ?? '');
       log(fetchedBooking?.requestName?.nameAr ?? '');
 
@@ -595,14 +606,14 @@ class _PaymentTypeState extends State<PaymentType> {
         'Get Hospitality Ticket',
       ));
     });
-    LocalNotification().showHospitalityNotification(
-        context,
-        updatedHospitality.booking?.last.id,
-        widget.servicesController!.selectedDate.value,
-        updatedHospitality.mealTypeEn,
-        updatedHospitality.mealTypeAr,
-        updatedHospitality.titleEn,
-        updatedHospitality.titleAr);
+    // LocalNotification().showHospitalityNotification(
+    //     context,
+    //     updatedHospitality.booking?.last.id,
+    //     widget.servicesController!.selectedDate.value,
+    //     updatedHospitality.mealTypeEn,
+    //     updatedHospitality.mealTypeAr,
+    //     updatedHospitality.titleEn,
+    //     updatedHospitality.titleAr);
   }
 
   void eventBooking(Invoice checkInvoice) async {
@@ -647,12 +658,12 @@ class _PaymentTypeState extends State<PaymentType> {
       Get.offAll(() => const TouristBottomBar());
       log("inside adventure");
       log("${updatedEvent!.booking?.last.id}");
-      LocalNotification().showEventNotification(
-          context,
-          updatedEvent.booking?.last.id,
-          widget.eventController!.selectedDate.value,
-          updatedEvent.nameEn,
-          updatedEvent.nameAr);
+      // LocalNotification().showEventNotification(
+      //     context,
+      //     updatedEvent.booking?.last.id,
+      //     widget.eventController!.selectedDate.value,
+      //     updatedEvent.nameEn,
+      //     updatedEvent.nameAr);
       Get.to(() => TicketDetailsScreen(
             event: updatedEvent,
             icon: SvgPicture.asset('assets/icons/event.svg'),
@@ -710,12 +721,12 @@ class _PaymentTypeState extends State<PaymentType> {
       log(widget.adventure!.nameEn!);
       log(widget.adventure!.nameAr!);
 
-      LocalNotification().showAdventureNotification(
-          context,
-          updatedAdventure!.booking?.last.id,
-          updatedAdventure.date,
-          updatedAdventure.nameEn,
-          updatedAdventure.nameAr);
+      // LocalNotification().showAdventureNotification(
+      //     context,
+      //     updatedAdventure!.booking?.last.id,
+      //     updatedAdventure.date,
+      //     updatedAdventure.nameEn,
+      //     updatedAdventure.nameAr);
       Get.to(() => TicketDetailsScreen(
             adventure: updatedAdventure,
             icon: SvgPicture.asset('assets/icons/adventure.svg'),
