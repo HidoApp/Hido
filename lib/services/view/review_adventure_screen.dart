@@ -245,6 +245,14 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                             child: CircularProgressIndicator.adaptive())
                         : CustomButton(
                             onPressed: () async {
+                              final isValid = _adventureController.checkForOneHour(
+                                  context: context,
+                                  date: widget.adventure.date,
+                                  time:
+                                      '${widget.adventure.date ?? ''} ${widget.adventure.times!.first.startTime}');
+                              if (!isValid) {
+                                return;
+                              }
                               if (paymentController.isPriceFree.value) {
                                 freeAdventureBooking();
                               } else {

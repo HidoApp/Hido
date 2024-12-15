@@ -454,14 +454,6 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                               setState(() {
                                                 showErrorGuests = true;
                                               });
-                                            } else if (!AppUtil
-                                                .isDateTimeBefore24Hours(
-                                                    '${widget.adventure.date ?? ''} ${widget.adventure.times!.first.startTime}')) {
-                                              AppUtil.errorToast(
-                                                  context,
-                                                  AppUtil.rtlDirection2(context)
-                                                      ? "يجب أن تحجز قبل 24 ساعة "
-                                                      : "You must booking before 24 hours");
                                             } else {
                                               _adventureController
                                                   .showErrorMaxGuest(false);
@@ -469,6 +461,16 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                                               setState(() {
                                                 showErrorGuests = false;
                                               });
+                                              final isValid = _adventureController
+                                                  .checkForOneHour(
+                                                      context: context,
+                                                      date:
+                                                          widget.adventure.date,
+                                                      time:
+                                                          '${widget.adventure.date ?? ''} ${widget.adventure.times!.first.startTime}');
+                                              if (!isValid) {
+                                                return;
+                                              }
                                               Get.to(() => ReviewAdventure(
                                                         adventure:
                                                             widget.adventure,

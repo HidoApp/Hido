@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/view/edit_event.dart';
@@ -655,8 +657,10 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                       Positioned(
                           top: height * 0.066,
                           right: AppUtil.rtlDirection2(context)
-                              ? width * 0.82
-                              : width * 0.072,
+                              ? width * 0.75
+                              //  ? width * 0.82
+                              //  :width * 0.72
+                              : width * 0.065,
                           child: Row(
                             children: [
                               GestureDetector(
@@ -670,7 +674,8 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                           );
                                         }
                                       : () {
-                                          Get.to(EditEvent(eventObj: event!));
+                                          Get.to(() =>
+                                              EditEvent(eventObj: event!));
                                         },
                                   child: Container(
                                     width: 36,

@@ -332,11 +332,16 @@ class EventController extends GetxController {
       if (isValid) {
         return true;
       } else {
-        AppUtil.errorToast(context, "Time is under 60 min ");
+        AppUtil.errorToast(
+            context,
+            AppUtil.rtlDirection2(context)
+                ? "لا يمكنك الحجز اليوم لأن موعد التجربة بعد ساعة من الآن"
+                : "You cannot book today because the experience is after 1 hour from now.");
+
         return false;
       }
     } else {
-      return false;
+      return true;
     }
   }
 }

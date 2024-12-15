@@ -199,6 +199,13 @@ class AppUtil {
     //         tripDateInRiyadh.day == currentDateInRiyadh.day);
 
     //this for compare time "Ammar"
+    log(tripDateInRiyadh.toString());
+    log(currentDateInRiyadh.toString());
+    log(tripDateInRiyadh.isAfter(currentDateInRiyadh).toString());
+    log((tripDateInRiyadh.year == currentDateInRiyadh.year &&
+            tripDateInRiyadh.month == currentDateInRiyadh.month &&
+            tripDateInRiyadh.day == currentDateInRiyadh.day)
+        .toString());
     if (tripDateInRiyadh.isAfter(currentDateInRiyadh) ||
         (tripDateInRiyadh.year == currentDateInRiyadh.year &&
             tripDateInRiyadh.month == currentDateInRiyadh.month &&
@@ -208,6 +215,8 @@ class AppUtil {
           tripDateInRiyadh.day == currentDateInRiyadh.day) {
         if (tripDateInRiyadh.isAfter(currentDateInRiyadh)) {
           return true;
+        } else {
+          return false;
         }
       } else {
         return true;
@@ -230,8 +239,36 @@ class AppUtil {
       // Calculate the difference in time
       final difference = now.difference(givenTime);
 
-      // Check if the difference is greater than or equal to one hour
       return difference.abs().inMinutes >= 60;
+    } catch (e) {
+      log('Error parsing time string: $e');
+      return false; // Return false if parsing fails
+    }
+  }
+
+  static bool isAdventureTimeDifferenceOneHour(String givenTimeString) {
+    try {
+      // Parse the given string into a DateTime object
+      final givenTime = DateTime.parse(givenTimeString);
+
+      const String timeZoneName = 'Asia/Riyadh';
+
+      // Initialize time zones
+      tz.initializeTimeZones();
+
+      // Get the Riyadh location
+      final location = tz.getLocation(timeZoneName);
+
+      // Get the current date and time in Riyadh
+      final currentDateInRiyadh = tz.TZDateTime.now(location);
+      final tripDateInRiyadh = tz.TZDateTime.from(givenTime, location); //new
+      // Calculate the difference in time
+      final difference = tripDateInRiyadh.difference(currentDateInRiyadh);
+      log(currentDateInRiyadh.toString());
+      log(tripDateInRiyadh.toString());
+      log(difference.inMinutes.toString());
+      log((difference.inMinutes >= 60).toString());
+      return difference.inMinutes >= 60;
     } catch (e) {
       log('Error parsing time string: $e');
       return false; // Return false if parsing fails
