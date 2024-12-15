@@ -675,10 +675,10 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                               SizedBox(
                                 width: 8,
                               ),
-                              ShareWidget(
-                                id: hospitalityObj!.id,
-                                type: 'hospitality',
-                              ),
+                              // ShareWidget(
+                              //   id: hospitalityObj!.id,
+                              //   type: 'hospitality',
+                              // ),
                             ],
                           ),
                         ),
@@ -726,10 +726,10 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                               SizedBox(
                                 width: width * 0.0205,
                               ),
-                              ShareWidget(
-                                id: hospitalityObj!.id,
-                                type: 'hospitality',
-                              ),
+                              // ShareWidget(
+                              //   id: hospitalityObj!.id,
+                              //   type: 'hospitality',
+                              // ),
                             ],
                           )),
 

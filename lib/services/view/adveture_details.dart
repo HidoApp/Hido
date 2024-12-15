@@ -699,10 +699,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                             SizedBox(
                               width: width * 0.0205,
                             ),
-                            ShareWidget(
-                              id: adventure!.id,
-                              type: 'activity',
-                            )
+                            // ShareWidget(
+                            //   id: adventure!.id,
+                            //   type: 'activity',
+                            // )
                           ],
                         ),
                       ),
@@ -763,10 +763,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               SizedBox(
                                 width: width * 0.0205,
                               ),
-                              ShareWidget(
-                                id: adventure!.id,
-                                type: 'activity',
-                              )
+                              // ShareWidget(
+                              //   id: adventure!.id,
+                              //   type: 'activity',
+                              // )
                             ],
                           )),
 
