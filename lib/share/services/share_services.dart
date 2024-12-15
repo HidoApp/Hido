@@ -24,11 +24,11 @@ class ShareServices {
         forcedRedirectEnabled: true,
       ),
       androidParameters: const AndroidParameters(
-        packageName: "com.hido.app",
-      ),
+          packageName: "com.hido.app", minimumVersion: 0),
       iosParameters: const IOSParameters(
         bundleId: "com.hido.app",
         appStoreId: '6477162077',
+        minimumVersion: '0',
       ),
     );
 
