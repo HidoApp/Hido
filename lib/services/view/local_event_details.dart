@@ -31,6 +31,7 @@ import 'package:ajwad_v4/services/view/widgets/images_services_widget.dart';
 import 'package:ajwad_v4/widgets/custom_policy_sheet.dart';
 
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LocalEventDetails extends StatefulWidget {
   const LocalEventDetails({
@@ -417,6 +418,22 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                     height: width * 0.5,
                                     width: width * 0.9,
                                     child: GoogleMap(
+                                      onTap: (argument) async {
+                                        if (event == null ||
+                                            event!.locationUrl == null) {
+                                          return;
+                                        }
+                                        if (await canLaunchUrl(Uri.parse(
+                                            event!.locationUrl ?? ""))) {
+                                          await launchUrl(
+                                              Uri.parse(
+                                                  event!.locationUrl ?? ""),
+                                              mode: LaunchMode
+                                                  .externalApplication);
+                                        } else {
+                                          throw 'Could not launch ';
+                                        }
+                                      },
                                       scrollGesturesEnabled: false,
                                       zoomControlsEnabled: false,
                                       initialCameraPosition: CameraPosition(

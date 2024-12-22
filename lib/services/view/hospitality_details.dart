@@ -44,6 +44,7 @@ class HospitalityDetails extends StatefulWidget {
   final String experienceType;
   final String address;
   final bool isHasBooking;
+  
 
   @override
   State<HospitalityDetails> createState() => _HospitalityDetailsState();

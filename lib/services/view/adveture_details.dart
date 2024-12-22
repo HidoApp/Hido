@@ -32,6 +32,7 @@ import 'package:ajwad_v4/widgets/custom_policy_sheet.dart';
 import 'package:ajwad_v4/widgets/floating_booking_button.dart';
 
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AdventureDetails extends StatefulWidget {
   const AdventureDetails({
@@ -485,6 +486,22 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                     height: width * 0.5,
                                     width: width * 0.9,
                                     child: GoogleMap(
+                                      onTap: (argument) async {
+                                        if (adventure == null ||
+                                            adventure!.locationUrl == null) {
+                                          return;
+                                        }
+                                        if (await canLaunchUrl(Uri.parse(
+                                            adventure!.locationUrl ?? ""))) {
+                                          await launchUrl(
+                                              Uri.parse(
+                                                  adventure!.locationUrl ?? ""),
+                                              mode: LaunchMode
+                                                  .externalApplication);
+                                        } else {
+                                          throw 'Could not launch ';
+                                        }
+                                      },
                                       scrollGesturesEnabled: true,
                                       zoomControlsEnabled: false,
                                       initialCameraPosition: CameraPosition(

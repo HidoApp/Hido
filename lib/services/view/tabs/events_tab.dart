@@ -99,6 +99,9 @@ class _EventsTabState extends State<EventsTab> {
                                             .coordinates!.longitude ??
                                         '',
                                     rate: "5",
+                                    price:
+                                        "${_eventController.eventList[index].price.toString()}  ${'sar'.tr}",
+
                                     daysInfo: _eventController
                                             .eventList[index].daysInfo ??
                                         [],

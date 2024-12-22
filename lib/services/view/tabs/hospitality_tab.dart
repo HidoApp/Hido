@@ -61,6 +61,8 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                     _srvicesController.hospitalityList.length,
                                 itemBuilder: (context, index) {
                                   return ServicesCard(
+                                      price:
+                                          "${_srvicesController.hospitalityList[index].price.toString()}  ${'sar'.tr}",
                                       onTap: () {
                                         Get.to(() => HospitalityDetails(
                                               hospitalityId: _srvicesController

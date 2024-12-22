@@ -81,11 +81,7 @@
     </array>
     <key>UIViewControllerBasedStatusBarAppearance</key>
     <false/>
-    <key>UISupportedExternalAccessoryProtocols</key>
-	<!-- new -->
-<array>
-  <string>applinks</string>
-</array>
+ 
 <key>com.apple.developer.associated-domains</key>
 <array>
   <string>applinks:hido.page.link</string>
