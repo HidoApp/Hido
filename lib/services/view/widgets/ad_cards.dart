@@ -177,7 +177,7 @@ class _AdCardsState extends State<AdCards> {
                                               .content)));
                                     } else if (_srvicesController
                                             .advertisementList[index].type ==
-                                        'HOSPITALITY') {
+                                        'ADVENTURE') {
                                       Get.to(() => (AdventureDetails(
                                           adventureId: _srvicesController
                                               .advertisementList[index]
