@@ -287,13 +287,18 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                               .notifications[index].isRead ??
                                           false,
                                       message: AppUtil.rtlDirection2(context)
-                                          ? _srvicesController
+                                          ? (_srvicesController
                                                   .notifications[index]
-                                                  .data!["body"] ??
-                                              ''
-                                          : _srvicesController
+                                                  .data?["body"] ??
+                                              _srvicesController
+                                                  .notifications[index]
+                                                  .data?["title"] ??
+                                              '')
+                                          : (_srvicesController
                                                   .notifications[index].body ??
-                                              '',
+                                              _srvicesController
+                                                  .notifications[index].title ??
+                                              ''),
                                       isRtl: AppUtil.rtlDirection2(context),
                                       width: width,
                                     ),
