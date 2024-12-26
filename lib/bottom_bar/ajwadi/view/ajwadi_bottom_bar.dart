@@ -69,7 +69,18 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
   }
 
   getProfile() async {
-    profile.value = (await _profileController.getProfile(context: context))!;
+    try {
+      final result = await _profileController.getProfile(context: context);
+      if (result != null) {
+        profile.value = result;
+      } else {
+        // Handle null case here (e.g., show an error message or set a default value)
+        debugPrint("Profile returned null. Default value applied.");
+      }
+    } catch (e) {
+      // Handle exceptions (e.g., network errors or other issues)
+      debugPrint("Error while fetching profile: $e");
+    }
   }
 
   @override

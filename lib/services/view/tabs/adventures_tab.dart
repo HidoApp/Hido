@@ -100,7 +100,9 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                       .toString(),
                                   times: _adventureController
                                       .adventureList[index].times,
-                                  rate: '4.7',
+                                  rate: _adventureController
+                                      .adventureList[index].rating
+                                      .toString(),
                                   lang: _adventureController
                                       .adventureList[index]
                                       .coordinates

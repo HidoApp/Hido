@@ -37,13 +37,12 @@ class _TouristBottomBarState extends State<TouristBottomBar> {
   late Profile profile;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _pageController = PageController(initialPage: widget.pageNumber);
     _authCntroller.checkAppVersion(context: context);
     setInternetConnection();
 
-    _profileController.touriestBar(_pageController!.initialPage);
+    _profileController.touriestBar(widget.pageNumber);
   }
 
   StreamSubscription? _internetConnection;

@@ -27,10 +27,11 @@ class Event {
   final List<String> images;
   final String? cost; //final int?seats;
   //final List<Time>? times;
-
+final double? rating ;
   Event({
     required this.id,
     this.descriptionAr,
+    this.rating,
     this.descriptionEn,
     this.nameAr,
     this.nameEn,
@@ -86,7 +87,9 @@ class Event {
           : [],
        bookingDates: json['bookingDates'] != null
           ? (json['bookingDates'] as List).map((e) => BookingDates.fromJson(e)).toList()
-          : [],
+          : [],   rating: json['rating'] != null
+          ? double.parse((json['rating'] as num).toStringAsFixed(1))
+          : 0.0,
       //  times: json['times'] != null
       //     ? (json['times'] as List)
       //         .map((e) => Time.fromJson(e))

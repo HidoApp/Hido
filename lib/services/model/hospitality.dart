@@ -29,8 +29,9 @@ class Hospitality {
   final String status;
   final String? touristsGender;
   final List<BookingDates>? bookingDates;
-
+  final double? rating;
   Hospitality({
+    this.rating,
     required this.id,
     required this.bioAr,
     this.touristsGender,
@@ -80,6 +81,9 @@ class Hospitality {
           : null,
       //familyName: json['familyName'] ?? '',
       //familyImage: json['familyImage'] ?? '',
+      rating: json['rating'] != null
+          ? double.parse((json['rating'] as num).toStringAsFixed(1))
+          : 0.0,
 
       images: (json['image'] as List<dynamic>).map((e) => e as String).toList(),
       iban: json['iban'] ?? '',

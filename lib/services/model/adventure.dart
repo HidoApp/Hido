@@ -20,6 +20,7 @@ class Adventure {
   final Profile? user;
   final List<AdventureBooking>? booking;
   final List<Time>? times;
+  final double? rating;
 
   final String userId;
 
@@ -28,6 +29,7 @@ class Adventure {
       required this.userId,
       this.descriptionAr,
       this.descriptionEn,
+      this.rating,
       this.nameAr,
       this.nameEn,
       this.regionAr,
@@ -75,6 +77,9 @@ class Adventure {
               .map((e) => AdventureBooking.fromJson(e))
               .toList()
           : null,
+      rating: json['rating'] != null
+          ? double.parse((json['rating'] as num).toStringAsFixed(1))
+          : 0.0,
     );
   }
 
@@ -127,25 +132,19 @@ class AdventureBooking {
 
   factory AdventureBooking.fromJson(Map<String, dynamic> json) {
     return AdventureBooking(
-  
-      id: json['id']??'',
-      userId: json['userId']??'',
-      adventureId: json['adventureId']??'',
-      date: json['date']??'',
-      timeToGo: json['timeToGo']??'',
-      timeToReturn: json['timeToReturn']??'',
-      guestNumber: json['guestNumber']??0,
-      status: json['status']??'',
-      orderStatus: json['orderStatus']??'',
+      id: json['id'] ?? '',
+      userId: json['userId'] ?? '',
+      adventureId: json['adventureId'] ?? '',
+      date: json['date'] ?? '',
+      timeToGo: json['timeToGo'] ?? '',
+      timeToReturn: json['timeToReturn'] ?? '',
+      guestNumber: json['guestNumber'] ?? 0,
+      status: json['status'] ?? '',
+      orderStatus: json['orderStatus'] ?? '',
       created: DateTime.parse(json['created']),
       cost: (json['cost'] is int)
-          ? double.parse(
-              (json['cost'] as int).toDouble().toStringAsFixed(1))
-          : double.parse(
-              (json['cost'] as double? ?? 0.0).toStringAsFixed(1)),
-
-
-
+          ? double.parse((json['cost'] as int).toDouble().toStringAsFixed(1))
+          : double.parse((json['cost'] as double? ?? 0.0).toStringAsFixed(1)),
     );
   }
 }

@@ -44,6 +44,7 @@ class _LocalProfileState extends State<LocalProfile> {
       source: media,
       imageQuality: 30,
     );
+
     if (pickedFile != null) {
       if (AppUtil.isImageValidate(await pickedFile.length())) {
         setState(() {

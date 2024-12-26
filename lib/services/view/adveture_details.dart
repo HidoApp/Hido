@@ -253,20 +253,54 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               EdgeInsets.symmetric(horizontal: width * 0.05),
                           child: Column(
                             children: [
-                              Align(
-                                  alignment: AppUtil.rtlDirection2(context)
-                                      ? Alignment.centerRight
-                                      : Alignment.centerLeft,
-                                  child: CustomText(
-                                    text: AppUtil.rtlDirection2(context)
-                                        ? adventure!.nameAr ?? ''
-                                        : adventure!.nameEn ?? '',
-                                    fontSize: width * 0.07,
-                                    fontWeight: FontWeight.w500,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                  )),
+                              Row(
+                                children: [
+                                  Align(
+                                      alignment: AppUtil.rtlDirection2(context)
+                                          ? Alignment.centerRight
+                                          : Alignment.centerLeft,
+                                      child: CustomText(
+                                        text: AppUtil.rtlDirection2(context)
+                                            ? adventure!.nameAr ?? ''
+                                            : adventure!.nameEn ?? '',
+                                        fontSize: width * 0.07,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                      )),
+                                  const Spacer(),
+                                  InkWell(
+                                    onTap: () {
+                                      Get.to(() => CommonReviewsScreen(
+                                            id: widget.adventureId,
+                                            ratingType: 'ADVENTURE',
+                                          ));
+                                    },
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/icons/star.svg',
+                                          //  color: black,
+                                        ),
+                                        SizedBox(
+                                          width: width * 0.01,
+                                        ),
+                                        //  if (!AppUtil.rtlDirection2(context))
+                                        CustomText(
+                                          text: adventure!.rating.toString(),
+                                          fontSize: width * 0.03,
+                                          fontWeight: FontWeight.w500,
+                                          color: black,
+                                          fontFamily:
+                                              AppUtil.SfFontType(context),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                               SizedBox(
                                 height: width * 0.025,
                               ),
@@ -539,47 +573,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               SizedBox(
                                 height: width * 0.028,
                               ),
-                              const Divider(
-                                color: lightGrey,
-                              ),
-                              SizedBox(
-                                height: width * 0.025,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Get.to(() => CommonReviewsScreen(
-                                        id: widget.adventureId,
-                                        ratingType: 'ADVENTURE',
-                                      ));
-                                },
-                                child: Align(
-                                    alignment: AppUtil.rtlDirection2(context)
-                                        ? Alignment.centerRight
-                                        : Alignment.centerLeft,
-                                    child: Row(
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            CustomText(
-                                              text: '${"reviews".tr}',
-                                              color: const Color(0xFF070708),
-                                              fontSize: width * 0.0461,
-                                              fontFamily: 'HT Rakik',
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ],
-                                        ),
-                                        const Spacer(),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: starGreyColor,
-                                          size: width * 0.046,
-                                        )
-                                      ],
-                                    )),
-                              ),
+
                               if (widget.isLocal) ...[
                                 SizedBox(
                                   height: width * 0.028,

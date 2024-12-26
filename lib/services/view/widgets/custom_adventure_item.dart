@@ -97,124 +97,123 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
     final width = MediaQuery.sizeOf(context).width;
     return GestureDetector(
       onTap: widget.onTap,
-      child: SizedBox(
-        child: Container(
-          padding: EdgeInsets.all(
-            width * 0.040,
+      child: Container(
+        // height: 160,
+        padding: EdgeInsets.all(
+          width * 0.040,
+        ),
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(blurRadius: width * 0.04, color: Colors.black12)
+          ],
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(width * 0.04),
           ),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(blurRadius: width * 0.04, color: Colors.black12)
-            ],
-            color: Colors.white,
-            borderRadius: BorderRadius.all(
-              Radius.circular(width * 0.04),
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                        child: widget.image.isNotEmpty
-                            ? ImageCacheWidget(
-                                image: widget.image,
-                                width: width * 0.23,
-                                height: width * 0.23,
-                              )
-                            : Image.asset('assets/images/Placeholder.png'),
-                      ),
-                      SizedBox(
-                        width: width * 0.028,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomText(
-                            text: widget.title,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                          ),
-                          SizedBox(
-                            height: width * 0.01,
-                          ),
-                          Obx(
-                            () => TextChip(
-                              text: address.value.isNotEmpty
-                                  ? '${widget.location}, ${address.value}'
-                                  : widget.location,
-                            ),
-                          ),
-                          SizedBox(
-                            height: width * 0.01,
-                          ),
-                          TextChip(
-                              text: formatBookingDate(context, widget.date)),
-                          SizedBox(
-                            height: width * 0.01,
-                          ),
-                          TextChip(
-                              text: widget.times != null &&
-                                      widget.times!.isNotEmpty
-                                  ? '${widget.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.startTime)).join(', ')} - ${widget.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.endTime)).join(', ')}'
-                                  : '5:00-8:00 AM'),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  Padding(
-                    padding: EdgeInsets.only(top: width * 0.0128),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      child: widget.image.isNotEmpty
+                          ? ImageCacheWidget(
+                              image: widget.image,
+                              width: width * 0.23,
+                              height: width * 0.23,
+                            )
+                          : Image.asset('assets/images/Placeholder.png'),
+                    ),
+                    SizedBox(
+                      width: width * 0.028,
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (AppUtil.rtlDirection2(context))
-                          CustomText(
-                            text: widget.rate,
-                            fontSize: width * 0.03,
-                            fontWeight: FontWeight.w500,
-                            color: black,
-                            fontFamily: AppUtil.SfFontType(context),
-                          ),
-                        if (AppUtil.rtlDirection2(context))
-                          SizedBox(
-                            width: width * 0.01,
-                          ),
-                        SvgPicture.asset(
-                          'assets/icons/star.svg',
-                          color: black,
+                        CustomText(
+                          text: widget.title,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
                         ),
+                        SizedBox(
+                          height: width * 0.01,
+                        ),
+                        Obx(
+                          () => TextChip(
+                            text: address.value.isNotEmpty
+                                ? '${widget.location}, ${address.value}'
+                                : widget.location,
+                          ),
+                        ),
+                        SizedBox(
+                          height: width * 0.01,
+                        ),
+                        TextChip(text: formatBookingDate(context, widget.date)),
+                        SizedBox(
+                          height: width * 0.01,
+                        ),
+                        TextChip(
+                            text: widget.times != null &&
+                                    widget.times!.isNotEmpty
+                                ? '${widget.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.startTime)).join(', ')} - ${widget.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.endTime)).join(', ')}'
+                                : '5:00-8:00 AM'),
+                      ],
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                Padding(
+                  padding: EdgeInsets.only(top: width * 0.0128),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      if (AppUtil.rtlDirection2(context))
+                        CustomText(
+                          text: widget.rate,
+                          fontSize: width * 0.03,
+                          fontWeight: FontWeight.w500,
+                          color: black,
+                          fontFamily: AppUtil.SfFontType(context),
+                        ),
+                      if (AppUtil.rtlDirection2(context))
                         SizedBox(
                           width: width * 0.01,
                         ),
-                        if (!AppUtil.rtlDirection2(context))
-                          CustomText(
-                            text: widget.rate,
-                            fontSize: width * 0.03,
-                            fontWeight: FontWeight.w500,
-                            color: black,
-                            fontFamily: AppUtil.SfFontType(context),
-                          ),
-                      ],
-                    ),
+                      SvgPicture.asset(
+                        'assets/icons/star.svg',
+                        color: black,
+                      ),
+                      SizedBox(
+                        width: width * 0.01,
+                      ),
+                      if (!AppUtil.rtlDirection2(context))
+                        CustomText(
+                          text: widget.rate,
+                          fontSize: width * 0.03,
+                          fontWeight: FontWeight.w500,
+                          color: black,
+                          fontFamily: AppUtil.SfFontType(context),
+                        ),
+                    ],
                   ),
-                ],
-              ),
-              CustomText(
-                text: widget.price,
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+            CustomText(
+              text: widget.price,
+            ),
+          ],
         ),
       ),
     );

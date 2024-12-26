@@ -14,6 +14,7 @@ import 'package:ajwad_v4/services/view/tabs/adventures_tab.dart';
 import 'package:ajwad_v4/services/view/tabs/events_tab.dart';
 import 'package:ajwad_v4/services/view/widgets/ad_cards.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_chips.dart';
+import 'package:ajwad_v4/services/view/widgets/filter_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/home_icons_button.dart';
@@ -21,6 +22,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'tabs/hospitality_tab.dart';
 
@@ -504,11 +506,10 @@ class _ServiceScreenState extends State<ServiceScreen>
               // //  pinned: true,
               // leading:
               child: Padding(
-                padding: AppUtil.rtlDirection2(context)
-                    ? EdgeInsets.only(right: width * 0.041)
-                    : EdgeInsets.only(left: width * 0.041),
-                child: Column(
+                padding: EdgeInsets.symmetric(horizontal: width * 0.041),
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Obx(
                       () => CustomText(
@@ -522,24 +523,10 @@ class _ServiceScreenState extends State<ServiceScreen>
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SizedBox(
-                      height: width * 0.041,
-                    ),
-                    SizedBox(
-                        height: width * 0.080,
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemCount: AppUtil.regionListEn.length,
-                          separatorBuilder: (context, index) => SizedBox(
-                            width: width * 0.025,
-                          ),
-                          itemBuilder: (context, index) => Obx(
-                            () => GestureDetector(
-                                onTap: () => getExperiencesByRegion(index),
-                                child: _buildRegionChips(index)),
-                          ),
-                        )),
+                    InkWell(
+                      onTap: () => Get.bottomSheet(const FilterSheet()),
+                      child: SvgPicture.asset('assets/icons/filter_icon.svg'),
+                    )
                   ],
                 ),
               ),

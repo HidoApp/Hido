@@ -51,6 +51,7 @@ class AppUtil {
     "الباحة",
     "الجوف"
   ];
+  
   static bool rtlDirection(context) {
     return !(Get.locale == const Locale('ar', 'ar') ? true : false);
     //return Get.locale == const Locale('ar', 'ar');

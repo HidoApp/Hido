@@ -119,28 +119,31 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
 
   void getLocation() async {
     userLocation = await LocationService().getUserLocation();
-    if (userLocation == null) {
+
+    if (userLocation == null || !mounted) {
+      _animateCamera(latitude: 24.7136, longitude: 46.6753);
       return;
     }
 
-    if (mounted && userLocation != null) {
+    try {
       List<Placemark> placemarks = await placemarkFromCoordinates(
           userLocation!.latitude, userLocation!.longitude);
-      Placemark place = placemarks[0];
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks[0];
+        setState(() {
+          userCountry = place.isoCountryCode ?? '';
+        });
 
-      setState(() {
-        userCountry = place.isoCountryCode ?? '';
-      });
-
-      // Check if the user is outside Saudi Arabia (ISO Country Code: "SA")
-      if (userCountry == 'SA') {
-        _animateCamera(
-            latitude: userLocation!.latitude,
-            longitude: userLocation!.longitude);
-      } else {
-        _animateCamera(latitude: 24.7136, longitude: 46.6753);
+        if (userCountry == 'SA') {
+          _animateCamera(
+              latitude: userLocation!.latitude,
+              longitude: userLocation!.longitude);
+        } else {
+          _animateCamera(latitude: 24.7136, longitude: 46.6753);
+        }
       }
-    } else if (mounted) {
+    } catch (e) {
+      debugPrint('Error fetching placemark: $e');
       _animateCamera(latitude: 24.7136, longitude: 46.6753);
     }
   }
@@ -334,7 +337,7 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
                             topLeft: Radius.circular(24))),
                     child: SolidBottomSheet(
                       canUserSwipe: false,
-                      //   elevation: 10,
+                      autoSwiped: false, //   elevation: 10,
                       showOnAppear: _touristExploreController.showSheet.value,
                       toggleVisibilityOnTap: true,
                       maxHeight: width * 0.45,
