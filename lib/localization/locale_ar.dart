@@ -705,4 +705,11 @@ const localeAr = {
   'experienceTitleEn': 'عنوان التجربة ( انجليزي ) ',
   'descriptionAr': 'الوصف',
   'descriptionEn': 'الوصف ( انجليزي )',
+  'sortBy': 'فرز حسب',
+  'byCity': 'حسب المدينة',
+  'newest': "الأحدث",
+  'highestRated': 'الأعلى تقييما',
+  'priceFromLow': 'السعر (من الأدنى إلى الأعلى)',
+  'priceFromHigh': 'السعر (من الأعلى إلى الأدنى)',
+  'byGender': "حسب الجنس"
 };

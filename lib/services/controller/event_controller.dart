@@ -14,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 
 class EventController extends GetxController {
   var eventList = <Event>[].obs;
+  var originalEventList = <Event>[].obs;
 
   var isEventListLoading = false.obs;
   var isEventByIdLoading = false.obs;
@@ -63,7 +64,8 @@ class EventController extends GetxController {
       final data =
           await EventService.getEventList(context: context, region: region);
       if (data != null) {
-        eventList(data);
+        eventList(data.map((event) => event.copyWith()).toList()); // Deep copy
+        originalEventList(data.map((event) => event.copyWith()).toList()); //
       }
       return eventList;
     } catch (e) {

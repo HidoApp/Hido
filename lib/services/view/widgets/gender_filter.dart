@@ -1,7 +1,6 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/services/controller/filter_controller.dart';
 import 'package:ajwad_v4/services/view/widgets/filter_text_chip.dart';
-import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,7 @@ class GenderFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomText(
-          text: 'By City',
+          text: 'By Gender',
           fontSize: width * 0.043,
           fontWeight: FontWeight.w500,
         ),
@@ -29,24 +28,28 @@ class GenderFilter extends StatelessWidget {
           runSpacing: 8.0, // Space between chips vertically
 
           children: List.generate(
-              3,
-              (index) => GetBuilder(
-                    init: FilterController(),
-                    builder: (controller) => InkWell(
-                      onTap: () {
-                        controller.update();
-                      },
-                      child: FilterTextChip(
-                        text: 'male',
-                        textColor: controller.selectedCityIndex == index
-                            ? colorGreen
-                            : black,
-                        backgroundColor: controller.selectedCityIndex == index
-                            ? const Color(0xffD4F7DD)
-                            : const Color(0xffF6F6F6),
-                      ),
-                    ),
-                  )),
+            3,
+            (index) => GetBuilder(
+              init: FilterController(),
+              builder: (controller) => InkWell(
+                onTap: () {
+                  controller.selectedGenderIndex = index;
+                  controller.selectedGender(
+                      controller.genderSort[controller.selectedGenderIndex]);
+                  controller.update();
+                },
+                child: FilterTextChip(
+                  text: controller.genderSort[index],
+                  textColor: controller.selectedGenderIndex == index
+                      ? colorGreen
+                      : black,
+                  backgroundColor: controller.selectedGenderIndex == index
+                      ? const Color(0xffD4F7DD)
+                      : const Color(0xffF6F6F6),
+                ),
+              ),
+            ),
+          ),
         )
       ],
     );

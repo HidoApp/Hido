@@ -524,7 +524,9 @@ class _ServiceScreenState extends State<ServiceScreen>
                       ),
                     ),
                     InkWell(
-                      onTap: () => Get.bottomSheet(const FilterSheet()),
+                      onTap: () => Get.bottomSheet(FilterSheet(
+                        isHospitality: _srvicesController.tabIndex.value == 0,
+                      )),
                       child: SvgPicture.asset('assets/icons/filter_icon.svg'),
                     )
                   ],

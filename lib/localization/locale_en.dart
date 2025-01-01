@@ -713,6 +713,13 @@ const localeEn = {
   'experienceTitleEn': 'Experience title ',
   'descriptionAr': 'Description ( Arabic )',
   'descriptionEn': 'Description',
-  // 'experienceTitleExampleAr':"example: Dana’s house"
+  'sortBy': 'Sort by',
+  'byCity': 'By City',
+  'newest': "Newest",
+  'highestRated': 'Highest Rated',
+  'priceFromLow': 'Price (Low to High)',
+  'priceFromHigh': 'Price (High to Low)',
+  'byGender':"By Gender"
 
+  // 'experienceTitleExampleAr':"example: Dana’s house"
 };

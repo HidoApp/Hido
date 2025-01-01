@@ -16,14 +16,14 @@ class SortFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomText(
-          text: 'Sort by',
+          text: 'sortBy'.tr,
           fontSize: width * 0.043,
           fontWeight: FontWeight.w500,
         ),
         GetBuilder(
           init: FilterController(),
           builder: (controller) {
-            //   log(controller.sortBySelected.value);
+            log(controller.sortBySelected.value);
             return ListView.builder(
               padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),
