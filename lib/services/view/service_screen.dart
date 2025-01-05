@@ -2,12 +2,14 @@ import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/controller/advertisement_controller.dart';
 import 'package:ajwad_v4/notification/controller/notification_controller.dart';
+import 'package:ajwad_v4/notification/customBadge.dart';
 import 'package:ajwad_v4/notification/notifications_screen.dart';
 import 'package:ajwad_v4/profile/view/ticket_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
+import 'package:ajwad_v4/services/controller/filter_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/controller/regions_controller.dart';
 import 'package:ajwad_v4/services/view/tabs/adventures_tab.dart';
@@ -43,6 +45,7 @@ class _ServiceScreenState extends State<ServiceScreen>
   final ProfileController _profileController = Get.put(ProfileController());
   final _AdverController = Get.put(AdvertisementController());
   final _notifyController = Get.put(NotificationController());
+  final _filterController = Get.put(FilterController());
 
   @override
   void initState() {
@@ -81,6 +84,49 @@ class _ServiceScreenState extends State<ServiceScreen>
             region: index != 0 ? AppUtil.regionListEn[index] : null);
         break;
       default:
+    }
+  }
+
+  String getTabType() {
+    switch (_srvicesController.tabIndex.value) {
+      case 0:
+        return 'hospitality';
+      case 1:
+        return 'activity';
+      case 2:
+        return 'event';
+      default:
+        return '';
+    }
+  }
+
+  bool getFilterCounterType(FilterController controller) {
+    switch (_srvicesController.tabIndex.value) {
+      case 0:
+        return controller.hospitalityFilterCounter.value != 0;
+
+      case 1:
+        return controller.activityFilterCounter.value != 0;
+      case 2:
+        return controller.eventFilterCounter.value != 0;
+
+      default:
+        return false;
+    }
+  }
+
+  int getFilterCounter(FilterController controller) {
+    switch (_srvicesController.tabIndex.value) {
+      case 0:
+        return controller.hospitalityFilterCounter.value;
+
+      case 1:
+        return controller.activityFilterCounter.value;
+      case 2:
+        return controller.eventFilterCounter.value;
+
+      default:
+        return 0;
     }
   }
 
@@ -523,11 +569,29 @@ class _ServiceScreenState extends State<ServiceScreen>
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    InkWell(
-                      onTap: () => Get.bottomSheet(FilterSheet(
-                        isHospitality: _srvicesController.tabIndex.value == 0,
-                      )),
-                      child: SvgPicture.asset('assets/icons/filter_icon.svg'),
+                    Obx(
+                      () => getFilterCounterType(_filterController)
+                          ? CustomBadge(
+                              isHasContent: true,
+                              onTap: () => Get.bottomSheet(FilterSheet(
+                                type: getTabType(),
+                                isHospitality:
+                                    _srvicesController.tabIndex.value == 0,
+                              )),
+                              badgeColor: colorGreen,
+                              iconPath: 'assets/icons/filter_icon.svg',
+                              badgeCount:
+                                  getFilterCounter(_filterController).obs,
+                            )
+                          : InkWell(
+                              onTap: () => Get.bottomSheet(FilterSheet(
+                                type: getTabType(),
+                                isHospitality:
+                                    _srvicesController.tabIndex.value == 0,
+                              )),
+                              child: SvgPicture.asset(
+                                  'assets/icons/filter_icon.svg'),
+                            ),
                     )
                   ],
                 ),

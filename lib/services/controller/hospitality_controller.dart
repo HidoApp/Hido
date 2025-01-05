@@ -48,6 +48,7 @@ class HospitalityController extends GetxController {
   var isHospitalitPaymentLoading = false.obs;
 
   var hospitalityList = <Hospitality>[].obs;
+  var originalHospitalityList = <Hospitality>[].obs;
   var isHospatilityDateSelcted = false.obs;
   var isHospatilityTimeSelcted = false.obs;
   var address = ''.obs;
@@ -67,7 +68,9 @@ class HospitalityController extends GetxController {
       final data = await HospitalityService.getAllHospitality(
           context: context, region: region);
       if (data != null) {
-        hospitalityList(data);
+        hospitalityList(data.map((activity) => activity.copyWith()).toList());
+        originalHospitalityList(
+            data.map((activity) => activity.copyWith()).toList());
       }
       return hospitalityList;
     } catch (e) {

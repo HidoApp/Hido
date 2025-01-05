@@ -30,6 +30,7 @@ class Hospitality {
   final String? touristsGender;
   final List<BookingDates>? bookingDates;
   final double? rating;
+
   Hospitality({
     this.rating,
     required this.id,
@@ -45,9 +46,7 @@ class Hospitality {
     required this.titleAr,
     required this.titleEn,
     required this.email,
-    // required this.familyName,
     required this.images,
-    // required this.familyImage,
     required this.iban,
     required this.location,
     required this.price,
@@ -59,6 +58,7 @@ class Hospitality {
     required this.status,
     this.bookingDates,
   });
+
   factory Hospitality.fromJson(Map<String, dynamic> json) {
     return Hospitality(
       id: json['id'] ?? '',
@@ -73,33 +73,23 @@ class Hospitality {
       email: json['email'] ?? '',
       coordinate: Coordinate.fromJson(json['coordinates'] ?? {}),
       userId: json['userId'] ?? '',
-
       booking: json['booking'] != null
           ? (json['booking'] as List)
               .map((e) => HospitalityBooking.fromJson(e))
               .toList()
           : null,
-      //familyName: json['familyName'] ?? '',
-      //familyImage: json['familyImage'] ?? '',
       rating: json['rating'] != null
           ? double.parse((json['rating'] as num).toStringAsFixed(1))
           : 0.0,
-
       images: (json['image'] as List<dynamic>).map((e) => e as String).toList(),
       iban: json['iban'] ?? '',
       location: json['location'] ?? '',
       price: json['price'] ?? 0,
       regionAr: json['regionAr'] ?? '',
       regionEn: json['regionEn'] ?? '',
-      //: HostUser.fromJson(json['user'])
-      user: HostUser.fromJson(
-          json['user'] ?? {}), // Ensure user is initialized from json['user']
+      user: HostUser.fromJson(json['user'] ?? {}),
       status: json['status'] ?? '',
       touristsGender: json['touristsGender'] ?? '',
-
-      // daysInfo: (json['daysInfo'] as List)
-      //     .map((e) => DayInfo.fromJson(e))
-      //     .toList(),
       daysInfo: json['daysInfo'] != null
           ? (json['daysInfo'] as List).map((e) => DayInfo.fromJson(e)).toList()
           : [],
@@ -110,7 +100,66 @@ class Hospitality {
           : [],
     );
   }
+
+
+  /// CopyWith method
+  Hospitality copyWith({
+    String? id,
+    String? userId,
+    String? bioAr,
+    String? bioEn,
+    String? mealTypeAr,
+    String? mealTypeEn,
+    String? categoryAr,
+    String? categoryEn,
+    String? titleAr,
+    String? titleEn,
+    String? email,
+    Coordinate? coordinate,
+    List<HospitalityBooking>? booking,
+    List<String>? images,
+    String? iban,
+    String? location,
+    int? price,
+    String? regionAr,
+    String? regionEn,
+    List<DayInfo>? daysInfo,
+    HostUser? user,
+    String? status,
+    String? touristsGender,
+    List<BookingDates>? bookingDates,
+    double? rating,
+  }) {
+    return Hospitality(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      bioAr: bioAr ?? this.bioAr,
+      bioEn: bioEn ?? this.bioEn,
+      mealTypeAr: mealTypeAr ?? this.mealTypeAr,
+      mealTypeEn: mealTypeEn ?? this.mealTypeEn,
+      categoryAr: categoryAr ?? this.categoryAr,
+      categoryEn: categoryEn ?? this.categoryEn,
+      titleAr: titleAr ?? this.titleAr,
+      titleEn: titleEn ?? this.titleEn,
+      email: email ?? this.email,
+      coordinate: coordinate ?? this.coordinate,
+      booking: booking ?? this.booking,
+      images: images ?? this.images,
+      iban: iban ?? this.iban,
+      location: location ?? this.location,
+      price: price ?? this.price,
+      regionAr: regionAr ?? this.regionAr,
+      regionEn: regionEn ?? this.regionEn,
+      daysInfo: daysInfo ?? this.daysInfo,
+      user: user ?? this.user,
+      status: status ?? this.status,
+      touristsGender: touristsGender ?? this.touristsGender,
+      bookingDates: bookingDates ?? this.bookingDates,
+      rating: rating ?? this.rating,
+    );
+  }
 }
+
 
 class HospitalityBooking {
   final String id;

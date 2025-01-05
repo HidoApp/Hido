@@ -21,30 +21,77 @@ class Adventure {
   final List<AdventureBooking>? booking;
   final List<Time>? times;
   final double? rating;
-
   final String userId;
 
-  Adventure(
-      {required this.id,
-      required this.userId,
-      this.descriptionAr,
-      this.descriptionEn,
-      this.rating,
-      this.nameAr,
-      this.nameEn,
-      this.regionAr,
-      this.regionEn,
-      this.user,
-      this.image,
-      required this.price,
-      this.locationUrl,
-      this.date,
-      this.adventureGenre,
-      required this.seats,
-      required this.status,
-      this.coordinates,
-      this.booking,
-      this.times});
+  Adventure({
+    required this.id,
+    required this.userId,
+    this.descriptionAr,
+    this.descriptionEn,
+    this.rating,
+    this.nameAr,
+    this.nameEn,
+    this.regionAr,
+    this.regionEn,
+    this.user,
+    this.image,
+    required this.price,
+    this.locationUrl,
+    this.date,
+    this.adventureGenre,
+    required this.seats,
+    required this.status,
+    this.coordinates,
+    this.booking,
+    this.times,
+  });
+
+  Adventure copyWith({
+    String? id,
+    String? userId,
+    String? nameAr,
+    String? nameEn,
+    String? descriptionAr,
+    String? descriptionEn,
+    int? price,
+    List<String>? image,
+    String? regionAr,
+    String? regionEn,
+    Coordinate? coordinates,
+    String? locationUrl,
+    String? date,
+    String? adventureGenre,
+    int? seats,
+    String? status,
+    Profile? user,
+    List<AdventureBooking>? booking,
+    List<Time>? times,
+    double? rating,
+  }) {
+    return Adventure(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      nameAr: nameAr ?? this.nameAr,
+      nameEn: nameEn ?? this.nameEn,
+      descriptionAr: descriptionAr ?? this.descriptionAr,
+      descriptionEn: descriptionEn ?? this.descriptionEn,
+      price: price ?? this.price,
+      image: image != null ? List<String>.from(image) : this.image,
+      regionAr: regionAr ?? this.regionAr,
+      regionEn: regionEn ?? this.regionEn,
+      coordinates: coordinates ?? this.coordinates,
+      locationUrl: locationUrl ?? this.locationUrl,
+      date: date ?? this.date,
+      adventureGenre: adventureGenre ?? this.adventureGenre,
+      seats: seats ?? this.seats,
+      status: status ?? this.status,
+      user: user ?? this.user,
+      booking:
+          booking != null ? List<AdventureBooking>.from(booking) : this.booking,
+      times: times != null ? List<Time>.from(times) : this.times,
+      rating: rating ?? this.rating,
+    );
+  }
 
   factory Adventure.fromJson(Map<String, dynamic> json) {
     return Adventure(
@@ -86,18 +133,25 @@ class Adventure {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'descriptionAr': descriptionAr,
-      'descriptionEn': descriptionEn,
+      'userId': userId,
       'nameAr': nameAr,
       'nameEn': nameEn,
+      'descriptionAr': descriptionAr,
+      'descriptionEn': descriptionEn,
+      'price': price,
+      'image': image,
       'regionAr': regionAr,
       'regionEn': regionEn,
-      'image': image,
-      'price': price,
+      'coordinates': coordinates?.toJson(),
       'locationUrl': locationUrl,
       'date': date,
-      'coordinates': coordinates?.toJson(),
+      'adventureGenre': adventureGenre,
+      'seats': seats,
+      'status': status,
+      'user': user?.toJson(),
+      //  'booking': booking?.map((e) => e.toJson()).toList(),
       'times': times?.map((e) => e.toJson()).toList(),
+      'rating': rating,
     };
   }
 }
