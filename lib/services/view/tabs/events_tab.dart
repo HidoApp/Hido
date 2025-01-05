@@ -32,6 +32,7 @@ class _EventsTabState extends State<EventsTab> {
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
+
     return SingleChildScrollView(
       child: Padding(
         // padding: EdgeInsets.symmetric(
@@ -98,7 +99,12 @@ class _EventsTabState extends State<EventsTab> {
                                     long: _eventController.eventList[index]
                                             .coordinates!.longitude ??
                                         '',
-                                    rate: "5",
+                                    rate: _eventController
+                                        .eventList[index].rating
+                                        .toString(),
+                                    price:
+                                        "${_eventController.eventList[index].price.toString()}  ${'sar'.tr}",
+
                                     daysInfo: _eventController
                                             .eventList[index].daysInfo ??
                                         [],

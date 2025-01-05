@@ -89,6 +89,8 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                                   onReject: () async {
                                     _requestController.requestIndex.value =
                                         index;
+                                    final id = _requestController
+                                        .requestList[index].id!;
                                     bool? reject =
                                         await _requestController.requestReject(
                                             id: _requestController
@@ -97,7 +99,7 @@ class _NewRequestScreenState extends State<NewRequestScreen> {
                                     if (reject!) {
                                       AmplitudeService.amplitude
                                           .track(BaseEvent(
-                                        'Local reject this request ${_requestController.requestList[index].id} ',
+                                        'Local reject this request $id ',
                                       ));
                                       _requestController.requestList.removeAt(
                                           _requestController

@@ -69,6 +69,7 @@ class _ProgressSheetState extends State<ProgressSheet> {
         () => _touristExploreController.isActivityProgressLoading.value
             ? const Center(child: CircularProgressIndicator.adaptive())
             : ListView(
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 children: [
                   CustomText(

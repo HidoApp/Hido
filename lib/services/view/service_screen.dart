@@ -2,18 +2,21 @@ import 'package:ajwad_v4/auth/view/sigin_in/signin_screen.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/controller/advertisement_controller.dart';
 import 'package:ajwad_v4/notification/controller/notification_controller.dart';
+import 'package:ajwad_v4/notification/customBadge.dart';
 import 'package:ajwad_v4/notification/notifications_screen.dart';
 import 'package:ajwad_v4/profile/view/ticket_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
+import 'package:ajwad_v4/services/controller/filter_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/controller/regions_controller.dart';
 import 'package:ajwad_v4/services/view/tabs/adventures_tab.dart';
 import 'package:ajwad_v4/services/view/tabs/events_tab.dart';
 import 'package:ajwad_v4/services/view/widgets/ad_cards.dart';
 import 'package:ajwad_v4/services/view/widgets/custom_chips.dart';
+import 'package:ajwad_v4/services/view/widgets/filter_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/home_icons_button.dart';
@@ -21,6 +24,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'tabs/hospitality_tab.dart';
 
@@ -41,6 +45,7 @@ class _ServiceScreenState extends State<ServiceScreen>
   final ProfileController _profileController = Get.put(ProfileController());
   final _AdverController = Get.put(AdvertisementController());
   final _notifyController = Get.put(NotificationController());
+  final _filterController = Get.put(FilterController());
 
   @override
   void initState() {
@@ -79,6 +84,49 @@ class _ServiceScreenState extends State<ServiceScreen>
             region: index != 0 ? AppUtil.regionListEn[index] : null);
         break;
       default:
+    }
+  }
+
+  String getTabType() {
+    switch (_srvicesController.tabIndex.value) {
+      case 0:
+        return 'hospitality';
+      case 1:
+        return 'activity';
+      case 2:
+        return 'event';
+      default:
+        return '';
+    }
+  }
+
+  bool getFilterCounterType(FilterController controller) {
+    switch (_srvicesController.tabIndex.value) {
+      case 0:
+        return controller.hospitalityFilterCounter.value != 0;
+
+      case 1:
+        return controller.activityFilterCounter.value != 0;
+      case 2:
+        return controller.eventFilterCounter.value != 0;
+
+      default:
+        return false;
+    }
+  }
+
+  int getFilterCounter(FilterController controller) {
+    switch (_srvicesController.tabIndex.value) {
+      case 0:
+        return controller.hospitalityFilterCounter.value;
+
+      case 1:
+        return controller.activityFilterCounter.value;
+      case 2:
+        return controller.eventFilterCounter.value;
+
+      default:
+        return 0;
     }
   }
 
@@ -504,11 +552,10 @@ class _ServiceScreenState extends State<ServiceScreen>
               // //  pinned: true,
               // leading:
               child: Padding(
-                padding: AppUtil.rtlDirection2(context)
-                    ? EdgeInsets.only(right: width * 0.041)
-                    : EdgeInsets.only(left: width * 0.041),
-                child: Column(
+                padding: EdgeInsets.symmetric(horizontal: width * 0.041),
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Obx(
                       () => CustomText(
@@ -522,24 +569,30 @@ class _ServiceScreenState extends State<ServiceScreen>
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SizedBox(
-                      height: width * 0.041,
-                    ),
-                    SizedBox(
-                        height: width * 0.080,
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemCount: AppUtil.regionListEn.length,
-                          separatorBuilder: (context, index) => SizedBox(
-                            width: width * 0.025,
-                          ),
-                          itemBuilder: (context, index) => Obx(
-                            () => GestureDetector(
-                                onTap: () => getExperiencesByRegion(index),
-                                child: _buildRegionChips(index)),
-                          ),
-                        )),
+                    Obx(
+                      () => getFilterCounterType(_filterController)
+                          ? CustomBadge(
+                              isHasContent: true,
+                              onTap: () => Get.bottomSheet(FilterSheet(
+                                type: getTabType(),
+                                isHospitality:
+                                    _srvicesController.tabIndex.value == 0,
+                              )),
+                              badgeColor: colorGreen,
+                              iconPath: 'assets/icons/filter_icon.svg',
+                              badgeCount:
+                                  getFilterCounter(_filterController).obs,
+                            )
+                          : InkWell(
+                              onTap: () => Get.bottomSheet(FilterSheet(
+                                type: getTabType(),
+                                isHospitality:
+                                    _srvicesController.tabIndex.value == 0,
+                              )),
+                              child: SvgPicture.asset(
+                                  'assets/icons/filter_icon.svg'),
+                            ),
+                    )
                   ],
                 ),
               ),

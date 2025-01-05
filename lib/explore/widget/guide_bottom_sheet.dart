@@ -32,7 +32,6 @@ class _GuideBottomSheetState extends State<GuideBottomSheet> {
   final _touristExploreController = Get.put(TouristExploreController());
   @override
   Widget build(BuildContext context) {
-    log("message");
     final width = MediaQuery.sizeOf(context).width;
     return Container(
       decoration: const BoxDecoration(
@@ -42,7 +41,9 @@ class _GuideBottomSheetState extends State<GuideBottomSheet> {
       child: Obx(
         () => SolidBottomSheet(
           canUserSwipe: false,
+          autoSwiped: false,
           // elevation: isAppear ? 0 : 5,
+          draggableHeader: false,
           showOnAppear: _touristExploreController.isGuideAppear.value,
           toggleVisibilityOnTap: true,
           maxHeight: width * 0.48,
@@ -64,6 +65,7 @@ class _GuideBottomSheetState extends State<GuideBottomSheet> {
             child: const BottomSheetIndicator(),
           ),
           body: ListView(
+            physics: const NeverScrollableScrollPhysics(),
             padding: EdgeInsets.zero,
             shrinkWrap: true,
             //   mainAxisAlignment: MainAxisAlignment.start,

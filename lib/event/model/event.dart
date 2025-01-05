@@ -21,16 +21,17 @@ class Event {
   final String? status;
   final List<Booking>? booking;
   final List<DayInfo>? daysInfo;
-    final List<BookingDates>?bookingDates;
+  final List<BookingDates>? bookingDates;
 
   final Profile? user;
   final List<String> images;
   final String? cost; //final int?seats;
   //final List<Time>? times;
-
+  final double? rating;
   Event({
     required this.id,
     this.descriptionAr,
+    this.rating,
     this.descriptionEn,
     this.nameAr,
     this.nameEn,
@@ -84,14 +85,66 @@ class Event {
       daysInfo: json['daysInfo'] != null
           ? (json['daysInfo'] as List).map((e) => DayInfo.fromJson(e)).toList()
           : [],
-       bookingDates: json['bookingDates'] != null
-          ? (json['bookingDates'] as List).map((e) => BookingDates.fromJson(e)).toList()
+      bookingDates: json['bookingDates'] != null
+          ? (json['bookingDates'] as List)
+              .map((e) => BookingDates.fromJson(e))
+              .toList()
           : [],
+      rating: json['rating'] != null
+          ? double.parse((json['rating'] as num).toStringAsFixed(1))
+          : 0.0,
       //  times: json['times'] != null
       //     ? (json['times'] as List)
       //         .map((e) => Time.fromJson(e))
       //         .toList()
       //     : null,
+    );
+  }
+  Event copyWith({
+    String? id,
+    String? nameAr,
+    String? nameEn,
+    String? descriptionAr,
+    String? descriptionEn,
+    int? price,
+    List<String>? image,
+    String? regionAr,
+    String? regionEn,
+    String? locationUrl,
+    List<BookingDates>? bookingDates,
+    int? allowedGuests,
+    String? status,
+    Profile? user,
+    List<DayInfo>? daysInfo,
+    Coordinate? coordinates,
+    List<Booking>? booking,
+    List<String>? images,
+    String? cost,
+    double? rating,
+  }) {
+    return Event(
+      id: id ?? this.id,
+      nameAr: nameAr ?? this.nameAr,
+      nameEn: nameEn ?? this.nameEn,
+      descriptionAr: descriptionAr ?? this.descriptionAr,
+      descriptionEn: descriptionEn ?? this.descriptionEn,
+      price: price ?? this.price,
+      image: image != null ? List<String>.from(image) : this.image,
+      regionAr: regionAr ?? this.regionAr,
+      regionEn: regionEn ?? this.regionEn,
+      locationUrl: locationUrl ?? this.locationUrl,
+      bookingDates: bookingDates != null
+          ? List<BookingDates>.from(bookingDates)
+          : this.bookingDates,
+      allowedGuests: allowedGuests ?? this.allowedGuests,
+      status: status ?? this.status,
+      user: user ?? this.user,
+      daysInfo: daysInfo != null ? List<DayInfo>.from(daysInfo) : this.daysInfo,
+      coordinates: coordinates ?? this.coordinates,
+      booking: booking != null ? List<Booking>.from(booking) : this.booking,
+      images: images != null ? List<String>.from(images) : this.images,
+      cost: cost ?? this.cost,
+      rating: rating ?? this.rating,
     );
   }
 

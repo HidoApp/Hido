@@ -37,16 +37,23 @@ class ItineraryTile extends StatelessWidget {
           width: 4,
         ),
         GestureDetector(
-          onTap: imageUrl != ''
+          onTap: (imageUrl != null && imageUrl!.isNotEmpty)
               ? () async {
-                  final Uri url = Uri.parse(imageUrl!);
-                  if (await canLaunchUrl(url)) {
-                    await launchUrl(url, mode: LaunchMode.externalApplication);
-                  } else {
-                    throw 'Could not launch $url';
+                  try {
+                    final Uri url = Uri.parse(imageUrl!);
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(url,
+                          mode: LaunchMode.externalApplication);
+                    } else {
+                      debugPrint('Could not launch $url');
+                    }
+                  } catch (e) {
+                    debugPrint('Error launching URL: $e');
                   }
                 }
-              : () {},
+              : () {
+                  debugPrint('No valid imageUrl provided');
+                },
           child: CustomText(
             text: title,
             color: color ?? borderGrey,

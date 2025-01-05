@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ class CustomBadge extends StatelessWidget {
   final double height; // Height of the icon
   final double top; // Height of the icon
   final double end; // Height of the icon
+  final bool isHasContent;
 
   const CustomBadge(
       {Key? key,
@@ -25,6 +27,7 @@ class CustomBadge extends StatelessWidget {
       this.width = 36,
       this.height = 26,
       this.end = 7,
+      this.isHasContent = false,
       this.top = 2})
       : super(key: key);
 
@@ -34,9 +37,18 @@ class CustomBadge extends StatelessWidget {
       onTap: onTap,
       child: Obx(
         () => badges.Badge(
-          position: badges.BadgePosition.topEnd(top: top, end: end),
+          position: isHasContent
+              ? badges.BadgePosition.topEnd(top: 0, end: 0)
+              : badges.BadgePosition.topEnd(top: top, end: end),
           showBadge: badgeCount.value > 0,
           ignorePointer: false,
+          badgeContent: isHasContent
+              ? CustomText(
+                  text: badgeCount.value.toString(),
+                  color: Colors.white,
+                  fontSize: 7,
+                )
+              : const SizedBox.shrink(),
           badgeStyle: badges.BadgeStyle(
             shape: badges.BadgeShape.circle,
             badgeColor: badgeColor,

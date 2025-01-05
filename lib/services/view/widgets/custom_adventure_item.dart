@@ -1,6 +1,7 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
+import 'package:ajwad_v4/services/view/widgets/text_chip.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
@@ -25,6 +26,7 @@ class CustomAdventureItem extends StatefulWidget {
     required this.times,
     this.lang,
     this.long,
+    required this.price,
   }) : super(key: key);
 
   final String image;
@@ -38,6 +40,7 @@ class CustomAdventureItem extends StatefulWidget {
   final VoidCallback onTap;
   final String? lang;
   final String? long;
+  final String price;
 
   @override
   _CustomAdventureItemState createState() => _CustomAdventureItemState();
@@ -94,169 +97,123 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
     final width = MediaQuery.sizeOf(context).width;
     return GestureDetector(
       onTap: widget.onTap,
-      child: SizedBox(
-        child: Container(
-          height: width * 0.29,
-          padding: EdgeInsets.symmetric(
-            horizontal: width * 0.030,
-            vertical: width * 0.025,
+      child: Container(
+        // height: 160,
+        padding: EdgeInsets.all(
+          width * 0.040,
+        ),
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(blurRadius: width * 0.04, color: Colors.black12)
+          ],
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(width * 0.04),
           ),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(blurRadius: width * 0.04, color: Colors.black12)
-            ],
-            color: Colors.white,
-            borderRadius: BorderRadius.all(
-              Radius.circular(width * 0.04),
-            ),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    child: widget.image.isNotEmpty
-                        ? ImageCacheWidget(
-                            image: widget.image,
-                            width: width * 0.23,
-                            height: width * 0.23,
-                          )
-                        : Image.asset('assets/images/Placeholder.png'),
-                  ),
-                  SizedBox(
-                    width: width * 0.028,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomText(
-                        text: widget.title,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: AppUtil.rtlDirection2(context)
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                      ),
-                      SizedBox(
-                        height: width * 0.01,
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: width * 0.01,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      child: widget.image.isNotEmpty
+                          ? ImageCacheWidget(
+                              image: widget.image,
+                              width: width * 0.23,
+                              height: width * 0.23,
+                            )
+                          : Image.asset('assets/images/Placeholder.png'),
+                    ),
+                    SizedBox(
+                      width: width * 0.028,
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          text: widget.title,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
+                        ),
+                        SizedBox(
+                          height: width * 0.01,
+                        ),
+                        Obx(
+                          () => TextChip(
+                            text: address.value.isNotEmpty
+                                ? '${widget.location}, ${address.value}'
+                                : widget.location,
                           ),
-                          SvgPicture.asset(
-                            'assets/icons/map_pin.svg',
-                          ),
-                          SizedBox(
-                            width: width * 0.017,
-                          ),
-                          Obx(
-                            () => CustomText(
-                              text: address.value.isNotEmpty
-                                  ? '${widget.location}, ${address.value}'
-                                  : widget.location,
-                              fontSize: 11,
-                              fontFamily: AppUtil.rtlDirection2(context)
-                                  ? 'SF Arabic'
-                                  : 'SF Pro',
-                              fontWeight: FontWeight.w400,
-                              color: starGreyColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: width * 0.01,
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: width * 0.017,
-                          ),
-                          SvgPicture.asset('assets/icons/grey_calender.svg'),
-                          SizedBox(
-                            width: width * 0.02,
-                          ),
-                          CustomText(
-                            text: formatBookingDate(context, widget.date),
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                            fontSize: 11,
-                            fontWeight: FontWeight.w400,
-                            color: starGreyColor,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: width * 0.01,
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: width * 0.01,
-                          ),
-                          SvgPicture.asset('assets/icons/timeGrey.svg'),
-                          SizedBox(
-                            width: width * 0.02,
-                          ),
-                          CustomText(
+                        ),
+                        SizedBox(
+                          height: width * 0.01,
+                        ),
+                        TextChip(text: formatBookingDate(context, widget.date)),
+                        SizedBox(
+                          height: width * 0.01,
+                        ),
+                        TextChip(
                             text: widget.times != null &&
                                     widget.times!.isNotEmpty
                                 ? '${widget.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.startTime)).join(', ')} - ${widget.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.endTime)).join(', ')}'
-                                : '5:00-8:00 AM',
-                            fontSize: 11,
-                            fontWeight: FontWeight.w400,
-                            color: starGreyColor,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                          ),
-                        ],
+                                : '5:00-8:00 AM'),
+                      ],
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                Padding(
+                  padding: EdgeInsets.only(top: width * 0.0128),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      if (AppUtil.rtlDirection2(context))
+                        CustomText(
+                          text: widget.rate,
+                          fontSize: width * 0.03,
+                          fontWeight: FontWeight.w500,
+                          color: black,
+                          fontFamily: AppUtil.SfFontType(context),
+                        ),
+                      if (AppUtil.rtlDirection2(context))
+                        SizedBox(
+                          width: width * 0.01,
+                        ),
+                      SvgPicture.asset(
+                        'assets/icons/star.svg',
+                        color: black,
                       ),
+                      SizedBox(
+                        width: width * 0.01,
+                      ),
+                      if (!AppUtil.rtlDirection2(context))
+                        CustomText(
+                          text: widget.rate,
+                          fontSize: width * 0.03,
+                          fontWeight: FontWeight.w500,
+                          color: black,
+                          fontFamily: AppUtil.SfFontType(context),
+                        ),
                     ],
                   ),
-                ],
-              ),
-              // const Spacer(),
-              // Padding(
-              //   padding: EdgeInsets.only(top: width * 0.0128),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.start,
-              //     children: [
-              //       // if (AppUtil.rtlDirection2(context))
-              //       //   CustomText(
-              //       //     text: widget.rate,
-              //       //     fontSize: width * 0.025,
-              //       //     fontWeight: FontWeight.w700,
-              //       //     color: colorDarkGreen,
-              //       //     fontFamily: 'Kufam',
-              //       //   ),
-              //       // if (AppUtil.rtlDirection2(context))
-              //       //   SizedBox(
-              //       //     width: width * 0.01,
-              //       //   ),
-              //       SvgPicture.asset('assets/icons/star.svg'),
-              //       SizedBox(
-              //         width: width * 0.01,
-              //       ),
-              //       // if (!AppUtil.rtlDirection2(context))
-              //       CustomText(
-              //         text: widget.rate,
-              //         fontSize: width * 0.025,
-              //         fontWeight: FontWeight.w700,
-              //         color: colorDarkGreen,
-              //         fontFamily: AppUtil.SfFontType(context),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-            ],
-          ),
+                ),
+              ],
+            ),
+            CustomText(
+              text: widget.price,
+            ),
+          ],
         ),
       ),
     );

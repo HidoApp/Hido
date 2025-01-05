@@ -67,6 +67,8 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                   _adventureController.adventureList.length,
                               itemBuilder: (context, index) {
                                 return CustomAdventureItem(
+                                  price:
+                                      "${_adventureController.adventureList[index].price.toString()}  ${'sar'.tr}",
                                   onTap: () {
                                     Get.to(() => AdventureDetails(
                                           adventureId: _adventureController
@@ -98,7 +100,9 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                       .toString(),
                                   times: _adventureController
                                       .adventureList[index].times,
-                                  rate: '4.7',
+                                  rate: _adventureController
+                                      .adventureList[index].rating
+                                      .toString(),
                                   lang: _adventureController
                                       .adventureList[index]
                                       .coordinates

@@ -61,6 +61,8 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                     _srvicesController.hospitalityList.length,
                                 itemBuilder: (context, index) {
                                   return ServicesCard(
+                                      price:
+                                          "${_srvicesController.hospitalityList[index].price.toString()}  ${'sar'.tr}",
                                       onTap: () {
                                         Get.to(() => HospitalityDetails(
                                               hospitalityId: _srvicesController
@@ -97,16 +99,19 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                       meal: AppUtil.rtlDirection2(context)
                                           ? _srvicesController
                                               .hospitalityList[index].mealTypeAr
-                                          : AppUtil.capitalizeFirstLetter(_srvicesController
-                                              .hospitalityList[index]
-                                              .mealTypeEn),
+                                          : AppUtil.capitalizeFirstLetter(
+                                              _srvicesController
+                                                  .hospitalityList[index]
+                                                  .mealTypeEn),
                                       category: AppUtil.rtlDirection(context)
                                           ? _srvicesController
                                               .hospitalityList[index].categoryAr
                                           : _srvicesController
                                               .hospitalityList[index]
                                               .categoryEn,
-                                      rate: '5.0',
+                                      rate: _srvicesController
+                                          .hospitalityList[index].rating
+                                          .toString(),
                                       dayInfo: _srvicesController
                                           .hospitalityList[index].daysInfo,
                                       lang: _srvicesController
@@ -114,11 +119,7 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                               .coordinate
                                               .latitude ??
                                           '',
-                                      long: _srvicesController
-                                              .hospitalityList[index]
-                                              .coordinate
-                                              .longitude ??
-                                          '');
+                                      long: _srvicesController.hospitalityList[index].coordinate.longitude ?? '');
                                 },
                                 separatorBuilder: (context, index) {
                                   return SizedBox(

@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 
 class AdventureController extends GetxController {
   var adventureList = <Adventure>[].obs;
+  var originalAdventureList = <Adventure>[].obs;
   var isAdventureListLoading = false.obs;
   var isAdventureByIdLoading = false.obs;
   var ischeckBookingLoading = false.obs;
@@ -52,7 +53,10 @@ class AdventureController extends GetxController {
       final data = await AdventureService.getAdvdentureList(
           context: context, region: region);
       if (data != null) {
-        adventureList(data);
+        adventureList(
+            data.map((activity) => activity.copyWith()).toList()); 
+        originalAdventureList(
+            data.map((activity) => activity.copyWith()).toList());
       }
       return adventureList;
     } catch (e) {
