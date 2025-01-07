@@ -1,8 +1,6 @@
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/filter_controller.dart';
 import 'package:ajwad_v4/services/view/widgets/city_filter.dart';
-import 'package:ajwad_v4/services/view/widgets/gender_filter.dart';
 import 'package:ajwad_v4/services/view/widgets/sort_filter.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -41,7 +39,7 @@ class FilterSheet extends StatelessWidget {
             child: BottomSheetIndicator(),
           ),
           ListView(
-            physics: const NeverScrollableScrollPhysics(),
+            //   physics: const NeverScrollableScrollPhysics(),
             padding: EdgeInsets.zero,
             children: [
               SizedBox(
@@ -85,6 +83,25 @@ class FilterSheet extends StatelessWidget {
               builder: (controller) => Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  if (controller.eventFilterCounter.value != 0 ||
+                      controller.activityFilterCounter.value != 0 ||
+                      controller.hospitalityFilterCounter.value != 0)
+                    Expanded(
+                      child: SizedBox(
+                        height: 48,
+                        child: CustomOutlinedButton(
+                            title: 'reset'.tr,
+                            buttonColor: colorGreen,
+                            titleColor: colorGreen,
+                            onTap: () {
+                              controller.resetFilters();
+                              Get.back();
+                            }),
+                      ),
+                    ),
+                  SizedBox(
+                    width: width * 0.0205,
+                  ),
                   Expanded(
                     child: CustomButton(
                       title: 'apply'.tr,
@@ -106,25 +123,6 @@ class FilterSheet extends StatelessWidget {
                       },
                     ),
                   ),
-                  SizedBox(
-                    width: width * 0.0205,
-                  ),
-                  if (controller.eventFilterCounter.value != 0 ||
-                      controller.activityFilterCounter.value != 0 ||
-                      controller.hospitalityFilterCounter.value != 0)
-                    Expanded(
-                      child: SizedBox(
-                        height: 48,
-                        child: CustomOutlinedButton(
-                            title: 'reset'.tr,
-                            buttonColor: colorGreen,
-                            titleColor: colorGreen,
-                            onTap: () {
-                              controller.resetFilters();
-                              Get.back();
-                            }),
-                      ),
-                    )
                 ],
               ),
             ),
