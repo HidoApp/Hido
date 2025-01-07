@@ -130,7 +130,7 @@ class _ServicesCardState extends State<ServicesCard> {
                       // ),
                     ),
                     SizedBox(
-                      width: width * 0.03,
+                      width: width * 0.028,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -179,7 +179,7 @@ class _ServicesCardState extends State<ServicesCard> {
                             SizedBox(
                               width: width * 0.01,
                             ),
-                            TextChip(text: widget.meal),
+                            //  TextChip(text: widget.meal),
                           ],
                         ),
                       ],
@@ -212,14 +212,14 @@ class _ServicesCardState extends State<ServicesCard> {
                       SizedBox(
                         width: width * 0.01,
                       ),
-                      // if (!AppUtil.rtlDirection2(context))
-                      CustomText(
-                        text: widget.rate,
-                        fontSize: width * 0.030,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                        fontFamily: AppUtil.SfFontType(context),
-                      ),
+                      if (!AppUtil.rtlDirection2(context))
+                        CustomText(
+                          text: widget.rate,
+                          fontSize: width * 0.030,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                          fontFamily: AppUtil.SfFontType(context),
+                        ),
                     ],
                   ),
                 ),

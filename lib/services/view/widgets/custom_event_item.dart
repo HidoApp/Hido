@@ -27,7 +27,6 @@ class CustomEventItem extends StatelessWidget {
       onTap: onTap,
       radius: 8,
       child: SizedBox(
-        width: 253,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(

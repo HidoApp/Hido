@@ -622,7 +622,6 @@ class AuthController extends GetxController {
 
   void checkAppVersion({required BuildContext context}) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
     final version = packageInfo.version;
 
     final appVersion = await getAppVersion(context: context);
@@ -637,13 +636,18 @@ class AuthController extends GetxController {
     if (appVersion.versionNumber == version) {
       log('Same Version');
     } else {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        // ignore: deprecated_member_use
-        builder: (ctx) => WillPopScope(
-            onWillPop: () async => false, child: const AppVersionDialog()),
-      );
+      // Use a parent context or check if the current context is still mounted
+      if (context.mounted) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          // ignore: deprecated_member_use
+          builder: (ctx) => WillPopScope(
+            onWillPop: () async => false,
+            child: const AppVersionDialog(),
+          ),
+        );
+      }
     }
   }
 }
