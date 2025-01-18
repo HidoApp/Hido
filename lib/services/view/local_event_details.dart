@@ -639,10 +639,10 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                             SizedBox(
                               width: width * 0.0205,
                             ),
-                            ShareWidget(
-                              id: event!.id,
-                              type: 'event',
-                            )
+                            // ShareWidget(
+                            //   id: event!.id,
+                            //   type: 'event',
+                            // )
                           ],
                         ),
                       ),
@@ -705,10 +705,10 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                               SizedBox(
                                 width: width * 0.0205,
                               ),
-                              ShareWidget(
-                                id: event!.id,
-                                type: 'event',
-                              )
+                              // ShareWidget(
+                              //   id: event!.id,
+                              //   type: 'event',
+                              // )
                             ],
                           )),
                     // Positioned(

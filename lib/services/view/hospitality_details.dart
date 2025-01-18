@@ -666,13 +666,17 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 8,
                               ),
                               ShareWidget(
                                 id: hospitalityObj!.id,
                                 type: 'hospitality',
-                              ),
+                                title: hospitalityObj!.titleEn,
+                                description: hospitalityObj!.bioEn,
+                                image: hospitalityObj!.images[0],
+                                validTo: hospitalityObj!.daysInfo[0].endTime,
+                              )
                             ],
                           ),
                         ),
@@ -724,7 +728,11 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                               ShareWidget(
                                 id: hospitalityObj!.id,
                                 type: 'hospitality',
-                              ),
+                                title: hospitalityObj!.titleEn,
+                                description: hospitalityObj!.bioEn,
+                                image: hospitalityObj!.images[0],
+                                validTo: hospitalityObj!.daysInfo[0].endTime,
+                              )
                             ],
                           )),
 

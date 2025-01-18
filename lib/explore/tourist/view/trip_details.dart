@@ -701,10 +701,10 @@ class _TripDetailsState extends State<TripDetails> {
                   SizedBox(
                     width: width * 0.0205,
                   ),
-                  ShareWidget(
-                    id: widget.place!.id!,
-                    type: 'place',
-                  )
+                  // ShareWidget(
+                  //   id: widget.place!.id!,
+                  //   type: 'place',
+                  // )
                 ],
               ),
             ),
