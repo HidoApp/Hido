@@ -81,25 +81,24 @@
     </array>
     <key>UIViewControllerBasedStatusBarAppearance</key>
     <false/>
- 
-<key>com.apple.developer.associated-domains</key>
-<array>
-  <string>applinks:hido.page.link</string>
-</array>
-    <!-- Firebase Dynamic Links -->
-    <key>FirebaseDynamicLinksCustomDomains</key>
+
+<!-- Deep linking -->
+    <key>CFBundleURLTypes</key>
     <array>
-        <string>https://hido.page.link</string>
-		<!-- new -->
-		  <string>https</string>
-
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>hido</string>
+            </array>
+            <key>CFBundleURLName</key>
+            <string>com.hido.hidoapp</string>
+        </dict>
     </array>
-
-    <!-- Associated Domains for Universal Links -->
-    <key>AssociatedDomains</key>
+    <!-- Universal Links -->
+    <key>com.apple.developer.associated-domains</key>
     <array>
-        <string>applinks:hido.page.link</string> <!-- Domain for Universal Links -->
+        <string>applinks:stg-api.hido.app</string>
     </array>
-
+    
 </dict>
 </plist>

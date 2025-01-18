@@ -3,20 +3,17 @@ import 'dart:io';
 
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/firebase_api.dart';
 import 'package:ajwad_v4/firebase_options.dart';
 import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
 import 'package:ajwad_v4/notification/controller/notification_controller.dart';
-import 'package:ajwad_v4/notification/customBadge.dart';
 import 'package:ajwad_v4/notification/notifications_screen.dart';
-import 'package:ajwad_v4/share/services/share_services.dart';
-import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:ajwad_v4/share/controller/dynamic_link_controller.dart';
+import 'package:ajwad_v4/share/services/dynamic_link_service.dart';
 import 'package:ajwad_v4/widgets/error_screen_widget.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -85,8 +82,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);//new
-
   await GetStorage.init();
   await GetStorage.init('bookmark');
 
@@ -97,6 +92,8 @@ void main() async {
   AmplitudeService.initializeAmplitude();
 
   timeago.setLocaleMessages('ar', timeago.ArMessages());
+  Get.put(DynamicLinkController());
+  await DynamicLinkService.init();
 
   try {
     await Firebase.initializeApp(
@@ -104,8 +101,6 @@ void main() async {
     );
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-    // ShareServices.handleDynamicLinks();
-    await ShareServices.initDynamicLinkClosedApp();
     if (kReleaseMode) {
       await SentryFlutter.init(
         (options) {
@@ -154,11 +149,6 @@ class _MyAppState extends State<MyApp> {
     local = GetStorage().read('language') ??
         Platform.localeName.toLocale().languageCode;
     log("AMMAR");
-    linkHandler();
-  }
-
-  void linkHandler() async {
-    await ShareServices.initDynamicLink(); // Call the handler here
   }
 
   @override
