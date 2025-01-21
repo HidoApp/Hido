@@ -40,9 +40,11 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
+   
     //compileSdkVersion flutter.compileSdkVersion
     compileSdkVersion 34
     namespace 'com.hido.hidoapp'
+    
     // ndkVersion "25.1.8937393"
     ndkVersion = "26.1.10909125"//new
 

@@ -309,7 +309,9 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     Get.to(
       () => TripDetails(
         fromAjwady: false,
-        place: _touristExploreController.touristModel.value!.places![index],
+        placeId:
+            _touristExploreController.touristModel.value!.places![index].id!,
+        //  place: _touristExploreController.touristModel.value!.places![index],
         userLocation: userLocation,
       ),
     );

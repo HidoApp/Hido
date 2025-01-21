@@ -713,6 +713,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                             ShareWidget(
                               id: adventure!.id,
                               type: 'activity',
+                              title: adventure!.nameEn,
+                              description: adventure!.descriptionEn,
+                              image: adventure!.image!.first,
+                              validTo: adventure!.date!,
                             )
                           ],
                         ),
@@ -779,6 +783,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               ShareWidget(
                                 id: adventure!.id,
                                 type: 'activity',
+                                title: adventure!.nameEn,
+                                description: adventure!.descriptionEn,
+                                image: adventure!.image!.first,
+                                validTo: adventure!.date!,
                               )
                             ],
                           )),
