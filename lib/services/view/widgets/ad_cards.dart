@@ -153,21 +153,12 @@ class _AdCardsState extends State<AdCards> {
                                     } else if (_srvicesController
                                             .advertisementList[index].type ==
                                         'PLACE') {
-                                      final TouristExploreController
-                                          touristExploreController =
-                                          Get.put(TouristExploreController());
-
-                                      touristExploreController
-                                          .getPlaceById(
-                                              id: _srvicesController
-                                                  .advertisementList[index]
-                                                  .content,
-                                              context: context)
-                                          .then((value) {
-                                        Get.to(() => (TripDetails(
-                                            place: touristExploreController
-                                                .thePlace.value)));
-                                      });
+                                      Get.to(() => (TripDetails(
+                                            fromAjwady: false,
+                                            placeId: _srvicesController
+                                                .advertisementList[index]
+                                                .content,
+                                          )));
                                     } else if (_srvicesController
                                             .advertisementList[index].type ==
                                         'HOSPITALITY') {
