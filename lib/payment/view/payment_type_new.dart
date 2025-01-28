@@ -89,10 +89,8 @@ class _PaymentTypeState extends State<PaymentType> {
     }
     if (widget.type == 'adventure') {
       final isValid = adventureController.checkForOneHour(
-          context: context,
-          date: widget.adventure!.date,
-          time:
-              '${widget.adventure!.date ?? ''} ${widget.adventure!.times!.first.startTime}');
+        context: context,
+      );
       if (!isValid) {
         return;
       }
@@ -680,6 +678,9 @@ class _PaymentTypeState extends State<PaymentType> {
     await adventureController.checkAdventureBooking(
       adventureID: widget.adventure!.id,
       context: context,
+      date: adventureController.selectedDate.value,
+      dayId: widget
+          .adventure!.daysInfo![adventureController.selectedDateIndex.value].id,
       personNumber: widget.personNumber!,
       couponId: _paymentController.couponId.value,
       invoiceId: checkInvoice.id,
@@ -715,17 +716,6 @@ class _PaymentTypeState extends State<PaymentType> {
     ).then((_) {
       Get.offAll(() => const TouristBottomBar());
 
-      log("inside adventure");
-      // log("${updatedAdventure!.booking?.last.id}");
-      log(widget.adventure!.date!);
-      log(widget.adventure!.nameEn!);
-      log(widget.adventure!.nameAr!);
-
-      // LocalNotification().showAdventureNotification(
-      //     context,
-      //     updatedAdventure!.booking?.last.id,
-      //     updatedAdventure.date,
-      //     updatedAdventure.nameEn,
       //     updatedAdventure.nameAr);
       Get.to(() => TicketDetailsScreen(
             adventure: updatedAdventure,
@@ -783,7 +773,6 @@ class _PaymentTypeState extends State<PaymentType> {
 
   @override
   Widget build(BuildContext context) {
-    log(widget.price.toString());
     final width = MediaQuery.sizeOf(context).width;
     return Obx(
       () => Scaffold(

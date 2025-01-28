@@ -47,7 +47,6 @@ class CustomAdventureItem extends StatefulWidget {
 }
 
 class _CustomAdventureItemState extends State<CustomAdventureItem> {
-  final _servicesController = Get.put(AdventureController());
   RxString address = ''.obs;
   Future<String> _getAddressFromLatLng(
       double position1, double position2) async {

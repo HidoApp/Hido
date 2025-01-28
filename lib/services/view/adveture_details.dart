@@ -8,6 +8,7 @@ import 'package:ajwad_v4/reviews/allReviewsScreen.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/view/service_local_info.dart';
+import 'package:ajwad_v4/services/view/widgets/bottom_activity_booking.dart';
 
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_aleart_widget.dart';
@@ -29,7 +30,6 @@ import 'package:ajwad_v4/services/view/widgets/images_services_widget.dart';
 import 'package:ajwad_v4/services/view/widgets/service_profile_card.dart';
 
 import 'package:ajwad_v4/widgets/custom_policy_sheet.dart';
-import 'package:ajwad_v4/widgets/floating_booking_button.dart';
 
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -98,7 +98,15 @@ class _AdventureDetailsState extends State<AdventureDetails> {
       _fetchAddress(adventure!.coordinates!.latitude ?? '',
           adventure!.coordinates!.longitude ?? '');
     }
-
+    for (var day in adventure!.daysInfo!) {
+      if (AppUtil.isDateTimeBefore24Hours(day.startTime)) {
+        avilableDate.add(
+          DateTime.parse(
+            day.startTime.substring(0, 10),
+          ),
+        );
+      }
+    }
     if (!AppUtil.isGuest() &&
         _profileController.profile.id != '' &&
         !widget.isLocal) {
@@ -170,6 +178,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                       child: Padding(
                         padding: EdgeInsets.only(top: width * 0.025),
                         child: BottomAdventureBooking(
+                          avilableDate: avilableDate,
                           adventure: adventure!,
                           address: address,
                         ),
@@ -343,8 +352,8 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                     width: width * 0.012,
                                   ),
                                   CustomText(
-                                    text: AppUtil.formatBookingDate(
-                                        context, adventure!.date ?? ''),
+                                    text: AppUtil.formatBookingDate(context,
+                                        adventure!.daysInfo!.first.startTime),
                                     color: colorDarkGrey,
                                     fontSize: width * 0.038,
                                     fontWeight: FontWeight.w300,
@@ -716,7 +725,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               title: adventure!.nameEn,
                               description: adventure!.descriptionEn,
                               image: adventure!.image!.first,
-                              validTo: adventure!.date!,
+                              validTo: adventure!.daysInfo!.last.endTime,
                             )
                           ],
                         ),
@@ -786,7 +795,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 title: adventure!.nameEn,
                                 description: adventure!.descriptionEn,
                                 image: adventure!.image!.first,
-                                validTo: adventure!.date!,
+                                validTo: adventure!.daysInfo!.last.endTime,
                               )
                             ],
                           )),

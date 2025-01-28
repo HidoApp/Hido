@@ -197,12 +197,8 @@ class _ServicesCardState extends State<ServicesCard> {
                               width: width * 0.01,
                             ),
                             CustomText(
-                              text: widget.experience.experiencesType ==
-                                      'adventure'
-                                  ? AppUtil.formatBookingDate(
-                                      context, widget.experience.date)
-                                  : AppUtil.formatSelectedDaysInfo(
-                                      widget.experience.daysInfo, context),
+                              text: AppUtil.formatSelectedDaysInfo(
+                                  widget.experience.daysInfo, context),
                               color: colorDarkGrey,
                               fontSize: 11,
                               fontFamily: AppUtil.rtlDirection2(context)
@@ -261,10 +257,8 @@ class _ServicesCardState extends State<ServicesCard> {
                               width: width * 0.01,
                             ),
                             CustomText(
-                              text: widget.experience.experiencesType ==
-                                      'adventure'
-                                  ? '${AppUtil.formatStringTimeWithLocale(context, widget.experience.times.first.startTime)} -  ${AppUtil.formatStringTimeWithLocale(context, widget.experience.times.first.endTime)}'
-                                  : '${AppUtil.formatTimeOnly(context, widget.experience.daysInfo.first.startTime)} -  ${AppUtil.formatTimeOnly(context, widget.experience.daysInfo.first.endTime)}',
+                              text:
+                                  '${AppUtil.formatTimeOnly(context, widget.experience.daysInfo.first.startTime)} -  ${AppUtil.formatTimeOnly(context, widget.experience.daysInfo.first.endTime)}',
                               color: colorDarkGrey,
                               fontSize: 11,
                               fontFamily: AppUtil.rtlDirection2(context)

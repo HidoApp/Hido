@@ -1,5 +1,6 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/add_event_calender_dialog.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/add_hospitality_calender_dialog.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -109,20 +110,21 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                           showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return HostCalenderDialog(
+                                return EventCalenderDialog(
                                   type: 'adv',
                                   advController: widget.adventureController,
-                                  ajwadiExploreController:
-                                      widget.ajwadiExploreController,
                                 );
                               });
                         },
                         child: CustomText(
                           text: widget.adventureController
                                   .isAdventureDateSelcted.value
-                              ? AppUtil.formatBookingDate(context,
-                                  widget.adventureController.selectedDate.value)
-                              //formatSelectedDates(srvicesController.selectedDates,context)
+                              // ? AppUtil.formatBookingDate(
+                              //     context,
+                              //       _EventrController.selectedDate.value)
+                              ? AppUtil.formatSelectedDates(
+                                  widget.adventureController.selectedDates,
+                                  context)
                               // srvicesController.selectedDates.map((date) => intel.DateFormat('dd/MM/yyyy').format(date)).join(', ')
                               : 'DD/MM/YYYY'.tr,
                           fontWeight: FontWeight.w400,

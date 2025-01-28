@@ -92,6 +92,8 @@ class AdventureService {
   static Future<bool> checkAdventureBooking(
       {required BuildContext context,
       required String adventureID,
+      required String dayId,
+      required String date,
       String? invoiceId,
       String? couponId,
       required int personNumber}) async {
@@ -121,7 +123,13 @@ class AdventureService {
           "Content-Type": "application/json",
           'Authorization': 'Bearer $token',
         },
-        body: jsonEncode({'guestNumber': personNumber}));
+        body: jsonEncode({
+          'date': date.toString().substring(0, 10),
+          'guestInfo': {
+            'dayId': dayId.toString(),
+            "guestNumber": personNumber,
+          },
+        }));
     log('status book adv');
     log(response.statusCode.toString());
     log(response.body);
@@ -144,16 +152,17 @@ class AdventureService {
     required String descriptionEn,
     required String longitude,
     required String latitude,
-    required String date,
+    //required String date,
     required int price,
     required List<String> image,
     required String regionAr,
     required String locationUrl,
     required String regionEn,
     // required List<Map<String, dynamic>> times,
-    required String start,
-    required String end,
+    // required String start,
+    // required String end,
     required int seat,
+    required List<Map<String, dynamic>> daysInfo,
     required BuildContext context,
   }) async {
     final getStorage = GetStorage();
@@ -174,24 +183,17 @@ class AdventureService {
       "descriptionEn": descriptionEn,
       "price": price,
       "image": image,
-      "date": date,
       "coordinates": {
         "longitude": longitude,
         "latitude": latitude,
       },
-      "times": [
-        {
-          "startTime": start,
-          "endTime": end,
-        }
-      ],
+      "daysInfo": daysInfo,
       "locationUrl": locationUrl,
       "regionAr": regionAr,
       "regionEn": regionEn,
       "adventureGenre": "string",
-      "seats": seat
     };
-
+    log("before Create");
     final response = await http.post(Uri.parse('$baseUrl/adventure'),
         headers: {
           'Accept': 'application/json',
@@ -201,7 +203,8 @@ class AdventureService {
         body: jsonEncode(body));
 
     //
-
+    log(response.statusCode.toString());
+    log(response.body.toString());
     if (response.statusCode == 200) {
       //  var data = jsonDecode(response.body);
       //
@@ -235,7 +238,7 @@ class AdventureService {
     required String locationUrl,
     required String regionEn,
     String? Genre,
-    // required List<Map<String, dynamic>> times,
+    required List<Map<String, dynamic>> daysInfo,
     required String start,
     required String end,
     required int seat,
@@ -259,7 +262,8 @@ class AdventureService {
         "descriptionEn": descriptionEn,
         "price": price,
         "image": image,
-        "date": date,
+        //  "date": date,
+        "daysInfo": daysInfo,
         "coordinates": {"longitude": longitude, "latitude": latitude},
         "times": [
           {"startTime": start, "endTime": end}
@@ -267,11 +271,12 @@ class AdventureService {
         "locationUrl": locationUrl,
         "regionAr": regionAr,
         "regionEn": regionEn,
-        "seats": seat,
+        //     "seats": seat,
         "adventureGenre": Genre,
       }),
     );
-
+    log(response.statusCode.toString());
+    log(response.body.toString());
     if (response.statusCode == 200) {
       try {
         var adventureData = jsonDecode(response.body);
@@ -359,6 +364,7 @@ class AdventureService {
   static Future<AdventureSummary?> getAdventureSummaryById({
     required BuildContext context,
     required String id,
+    required String date,
   }) async {
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken') ?? "";
@@ -373,8 +379,9 @@ class AdventureService {
     }
 
     final response = await http.get(
-      Uri.parse('$baseUrl/adventure/$id/summary')
-          .replace(queryParameters: ({'id': id})),
+      Uri.parse('$baseUrl/adventure/$id/summary').replace(
+        queryParameters: ({'id': id}),
+      ),
       headers: {
         'Accept': 'application/json',
         if (token != '') 'Authorization': 'Bearer $token',

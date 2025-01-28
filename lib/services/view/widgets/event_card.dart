@@ -188,14 +188,14 @@ class _EventCardItemState extends State<EventCardItem> {
                         SizedBox(
                           width: width * 0.01,
                         ),
-                        //  if (!AppUtil.rtlDirection2(context))
-                        CustomText(
-                          text: widget.rate,
-                          fontSize: width * 0.03,
-                          fontWeight: FontWeight.w500,
-                          color: black,
-                          fontFamily: AppUtil.SfFontType(context),
-                        ),
+                        if (!AppUtil.rtlDirection2(context))
+                          CustomText(
+                            text: widget.rate,
+                            fontSize: width * 0.03,
+                            fontWeight: FontWeight.w500,
+                            color: black,
+                            fontFamily: AppUtil.SfFontType(context),
+                          ),
                       ],
                     ),
                   ),

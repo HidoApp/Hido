@@ -287,8 +287,8 @@ class HospitalityService {
       "location": location,
       "price": price,
       "image": images,
-      "regionAr": "الرياض",
-      "regionEn": "Riyadh",
+      "regionAr": regionAr,
+      "regionEn": regionEn,
     };
 
     final response = await http.post(Uri.parse('$baseUrl/hospitality'),

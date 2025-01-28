@@ -70,7 +70,7 @@ class _ShareWidgetState extends State<ShareWidget> {
           final result = await Share.share(shortLink.toString());
           if (result.status == ShareResultStatus.success) {
             if (!context.mounted) return;
-            AppUtil.successToast(context, "Share was succes");
+            AppUtil.successToast(context, "shareSuccessful".tr);
           }
         } catch (e) {
           log('Error sharing: $e');

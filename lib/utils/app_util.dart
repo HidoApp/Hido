@@ -51,7 +51,7 @@ class AppUtil {
     "الباحة",
     "الجوف"
   ];
-  
+
   static bool rtlDirection(context) {
     return !(Get.locale == const Locale('ar', 'ar') ? true : false);
     //return Get.locale == const Locale('ar', 'ar');
@@ -138,27 +138,45 @@ class AppUtil {
     }
   }
 
-  static bool isDateBefore24Hours(String Date) {
+  static bool isDateBefore24Hours(String date) {
     const String timeZoneName = 'Asia/Riyadh';
     late tz.Location location;
 
-    tz.initializeTimeZones();
-    location = tz.getLocation(timeZoneName);
-    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-    DateTime parsedDate = DateTime.parse(Date);
-    final tripDateInRiyadh = tz.TZDateTime.from(parsedDate, location);
+    try {
+      // Initialize the time zones
+      tz.initializeTimeZones();
+      location = tz.getLocation(timeZoneName);
 
-    // .subtract(const Duration(hours: 3));
+      // Get the current date/time in the specified time zone
+      DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
 
-    //Duration difference = tripDateInRiyadh.difference(currentDateInRiyadh);
+      // Split the input string if it contains multiple dates
+      List<String> dateList = date.split(',');
 
-    // return difference.inHours >= 24;
-    //return tripDateInRiyadh.isAfter(currentDateInRiyadh); //before last updated
+      for (String singleDate in dateList) {
+        // Trim and parse each date
+        singleDate = singleDate.trim();
+        DateTime parsedDate = DateTime.parse(singleDate);
 
-    return tripDateInRiyadh.isAfter(currentDateInRiyadh) ||
-        (tripDateInRiyadh.year == currentDateInRiyadh.year &&
-            tripDateInRiyadh.month == currentDateInRiyadh.month &&
-            tripDateInRiyadh.day == currentDateInRiyadh.day);
+        // Convert the parsed date to the specified time zone
+        final tripDateInRiyadh = tz.TZDateTime.from(parsedDate, location);
+
+        // Check if the trip date is at least 24 hours before the current date/time
+        Duration difference = tripDateInRiyadh.difference(currentDateInRiyadh);
+
+        // If any date is not at least 24 hours ahead, return false
+        if (difference.inHours < 24) {
+          return false;
+        }
+      }
+
+      // All dates are at least 24 hours ahead
+      return true;
+    } catch (e) {
+      // Log the error and return false if parsing or other operations fail
+      log('Error in isDateBefore24Hours: $e');
+      return false;
+    }
   }
 
   static bool isDateTimeBefore24Hours(String date) {
@@ -356,25 +374,52 @@ class AppUtil {
     const String timeZoneName = 'Asia/Riyadh';
     late tz.Location location;
 
-    tz.initializeTimeZones();
-    location = tz.getLocation(timeZoneName);
-    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-    DateTime parsedDate = DateTime.parse(date);
+    try {
+      // Initialize time zones
+      tz.initializeTimeZones();
+      location = tz.getLocation(timeZoneName);
 
-    final tripTime = DateTime(parsedDate.year, parsedDate.month, parsedDate.day,
-        startTime.hour, startTime.minute, startTime.second);
-    log('enter');
-    log(currentDateInRiyadh.toString());
-    log(tripTime.toString());
-    log((tripTime.isBefore(currentDateInRiyadh) ||
-            tripTime.isAtSameMomentAs(currentDateInRiyadh))
-        .toString());
-    if (tripTime.isBefore(currentDateInRiyadh) ||
-        tripTime.isAtSameMomentAs(currentDateInRiyadh)) {
-      return true;
+      // Get the current date/time in the specified time zone
+      DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+
+      // Split the input into individual dates if it's a comma-separated string
+      List<String> dateList = date.split(',');
+
+      for (String singleDate in dateList) {
+        singleDate = singleDate.trim(); // Remove extra spaces
+
+        // Parse the single date
+        DateTime parsedDate = DateTime.parse(singleDate);
+
+        // Combine the parsed date with the provided start time
+        final tripTime = tz.TZDateTime(
+          location,
+          parsedDate.year,
+          parsedDate.month,
+          parsedDate.day,
+          startTime.hour,
+          startTime.minute,
+          startTime.second,
+        );
+
+        // Log the values for debugging
+        log('Current Date in Riyadh: $currentDateInRiyadh');
+        log('Trip Time: $tripTime');
+
+        // If any trip time is before or at the same moment as the current time, return true
+        if (tripTime.isBefore(currentDateInRiyadh) ||
+            tripTime.isAtSameMomentAs(currentDateInRiyadh)) {
+          return true;
+        }
+      }
+
+      // If no date is before or at the same moment, return false
+      return false;
+    } catch (e) {
+      // Log the error and return false if parsing or other operations fail
+      log('Error in isDateTimeBefore: $e');
+      return false;
     }
-
-    return false;
   }
 
   static bool isEndTimeLessThanStartTime(DateTime startTime, DateTime endTime) {

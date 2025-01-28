@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
+import 'package:ajwad_v4/explore/ajwadi/view/add_event_calender_dialog.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/add_hospitality_calender_dialog.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/widget/image_slider.dart';
 import 'package:ajwad_v4/request/ajwadi/view/view_experience_images.dart';
@@ -10,6 +11,7 @@ import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
+import 'package:intl/intl.dart' as intl;
 
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
@@ -47,6 +49,8 @@ late double width, height;
 
 class _EditAdventureState extends State<EditAdventure> {
   final _servicesController = Get.put(AdventureController());
+  List<Map<String, dynamic>> daysInfo = [];
+
   int _currentIndex = 0;
   bool isExpanded = false;
   bool isAviailable = false;
@@ -66,6 +70,7 @@ class _EditAdventureState extends State<EditAdventure> {
       TextEditingController();
   List<String> imageUrls = [];
   final _eventController = Get.put(EventController());
+
   String address = '';
   // String ragionAr = '';
   // String ragionEn = '';
@@ -211,6 +216,42 @@ class _EditAdventureState extends State<EditAdventure> {
     return true;
   }
 
+  void addDaysInfo() {
+    var formatter = intl.DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+    for (var date in _servicesController.selectedDates) {
+      DateTime newStartTime = DateTime(
+          date.year,
+          date.month,
+          date.day,
+          newTimeToGo.hour,
+          newTimeToGo.minute,
+          newTimeToGo.second,
+          newTimeToGo.millisecond);
+      DateTime newEndTime = DateTime(
+          date.year,
+          date.month,
+          date.day,
+          newTimeToReturn.hour,
+          newTimeToReturn.minute,
+          newTimeToReturn.second,
+          newTimeToReturn.millisecond);
+
+      //startTime = formatter.format(newStartTime);
+      //endTime = formatter.format(newEndTime);
+
+      var newEntry = {
+        "startTime": formatter.format(newStartTime),
+        "endTime": formatter.format(newEndTime),
+        "seats": guestNum
+      };
+
+      daysInfo.add(newEntry);
+    }
+
+    // Print the new dates list
+  }
+
   Future<String> _getAddressFromLatLng(
       double position1, double position2) async {
     try {
@@ -334,6 +375,7 @@ class _EditAdventureState extends State<EditAdventure> {
         _servicesController.images.length >= 3 &&
         _servicesController.DateErrorMessage.value) {
       if (await uploadImages()) {
+        addDaysInfo();
         _updateAdventure();
       } else {
         if (context.mounted) {
@@ -379,16 +421,19 @@ class _EditAdventureState extends State<EditAdventure> {
       //     DateFormat.Hms().parse(widget.adventureObj.times!.first.startTime);
       // newTimeToReturn =
       //     DateFormat.Hms().parse(widget.adventureObj.times!.first.endTime);
+      newTimeToGo = widget.adventureObj.daysInfo!.isNotEmpty
+          ? DateTime.parse(widget.adventureObj.daysInfo!.first.startTime)
+          : DateTime.now();
 
-      newTimeToGo = DateFormat('yyyy-MM-dd HH:mm:ss').parse(
-          "${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${widget.adventureObj.times!.first.startTime}");
-      newTimeToReturn = DateFormat('yyyy-MM-dd HH:mm:ss').parse(
-          "${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${widget.adventureObj.times!.first.endTime}");
+      newTimeToReturn = widget.adventureObj.daysInfo!.isNotEmpty
+          ? DateTime.parse(widget.adventureObj.daysInfo!.first.endTime)
+          : DateTime.now();
 
       _servicesController.selectedStartTime.value = newTimeToGo; //new
       _servicesController.selectedEndTime.value = newTimeToReturn;
 
-      _servicesController.selectedDate.value = widget.adventureObj.date!;
+      _servicesController.selectedDate.value =
+          widget.adventureObj.daysInfo!.first.startTime!;
       _priceController.text = widget.adventureObj.price.toString();
 
       _servicesController.DateErrorMessage.value = true;
@@ -424,8 +469,10 @@ class _EditAdventureState extends State<EditAdventure> {
     try {
       print(
           "Longitude: ${_servicesController.pickUpLocLatLang.value.longitude}");
+      print(daysInfo.length);
 
       final Adventure? result = await _servicesController.editAdventure(
+        daysinfo: daysInfo,
         id: widget.adventureObj.id,
         nameAr: adventureTitleControllerAr.text,
         nameEn: adventureTitleControllerEn.text,
@@ -1426,21 +1473,23 @@ class _EditAdventureState extends State<EditAdventure> {
                                                     context: context,
                                                     builder:
                                                         (BuildContext context) {
-                                                      return HostCalenderDialog(
+                                                      return EventCalenderDialog(
                                                         type: 'adv',
                                                         advController:
                                                             _servicesController,
-                                                        ajwadiExploreController:
-                                                            ajwadiExploreController,
                                                       );
                                                     });
                                               },
                                               child: CustomText(
-                                                text: AppUtil.formatBookingDate(
-                                                  context,
-                                                  _servicesController
-                                                      .selectedDate.value,
-                                                ),
+                                                text: _servicesController
+                                                        .isAdventureDateSelcted
+                                                        .value
+                                                    ? AppUtil
+                                                        .formatSelectedDates(
+                                                            _servicesController
+                                                                .selectedDates,
+                                                            context)
+                                                    : 'DD/MM/YYYY'.tr,
                                                 fontWeight: FontWeight.w400,
                                                 color: Graytext,
                                                 fontFamily:

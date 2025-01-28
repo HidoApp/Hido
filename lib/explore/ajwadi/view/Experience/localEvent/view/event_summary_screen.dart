@@ -48,7 +48,10 @@ class _AdventureSummaryScreenState extends State<EventSummaryScreen> {
 
   void getEventSummary() async {
     _summary = await _servicesController.getEventSummaryById(
-        context: context, id: widget.eventId, date: widget.date);
+      context: context,
+      id: widget.eventId,
+      date: widget.date,
+    );
 
     for (var guest in _summary!.touristList) {
       totalguest += guest.guestNumber;

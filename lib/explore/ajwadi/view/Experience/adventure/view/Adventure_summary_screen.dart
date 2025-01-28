@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
+import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/model/adventure_summary.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
@@ -15,10 +16,14 @@ import 'package:intl/intl.dart';
 class AdventureSummaryScreen extends StatefulWidget {
   // final ProfileController profileController;
   final String adventureId;
+  final Adventure experience;
+  final String date;
 
   const AdventureSummaryScreen({
     super.key,
     required this.adventureId,
+    required this.experience,
+    required this.date,
   });
 
   @override
@@ -45,7 +50,7 @@ class _AdventureSummaryScreenState extends State<AdventureSummaryScreen> {
 
   void gethospitalitySummary() async {
     _summary = await _servicesController.getAdventureSummaryById(
-        context: context, id: widget.adventureId);
+        date: widget.date, context: context, id: widget.adventureId);
 
     for (var guest in _summary!.touristList) {
       totalguest += guest.guestNumber;
@@ -70,6 +75,7 @@ class _AdventureSummaryScreenState extends State<AdventureSummaryScreen> {
   void initState() {
     super.initState();
     gethospitalitySummary();
+
     // getTotalGuest();
     // widget.profileController.getPastTicket(context: context);
   }
