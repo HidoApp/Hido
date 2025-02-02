@@ -108,9 +108,6 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
 
   @override
   Widget build(BuildContext context) {
-    final TouristExploreController touristExploreController =
-        Get.put(TouristExploreController());
-    Place? thePlace;
 
     final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.sizeOf(context).height;

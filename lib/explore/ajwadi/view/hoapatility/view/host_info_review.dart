@@ -236,13 +236,14 @@ class _HostInfoReviewState extends State<HostInfoReview> {
           widget.adventureController!.selectedStartTime.value.second,
           widget.adventureController!.selectedStartTime.value.millisecond);
       DateTime newEndTime = DateTime(
-          date.year,
-          date.month,
-          date.day,
-          widget.adventureController!.selectedEndTime.value.hour,
-          widget.adventureController!.selectedEndTime.value.minute,
-          widget.adventureController!.selectedEndTime.value.second,
-          widget.adventureController!.selectedEndTime.value.millisecond);
+        date.year,
+        date.month,
+        date.day,
+        widget.adventureController!.selectedEndTime.value.hour,
+        widget.adventureController!.selectedEndTime.value.minute,
+        widget.adventureController!.selectedEndTime.value.second,
+        widget.adventureController!.selectedEndTime.value.millisecond,
+      );
 
       //startTime = formatter.format(newStartTime);
       //endTime = formatter.format(newEndTime);
@@ -250,11 +251,13 @@ class _HostInfoReviewState extends State<HostInfoReview> {
       var newEntry = {
         "startTime": formatter.format(newStartTime),
         "endTime": formatter.format(newEndTime),
-        "seats": widget.adventureController!.seletedSeat
+        "seats": widget.adventureController!.seletedSeat.value
       };
 
       DaysInfo.add(newEntry);
     }
+
+    // Print the new dates list
 
     // Print the new dates list
   }
@@ -452,16 +455,13 @@ class _HostInfoReviewState extends State<HostInfoReview> {
           .toString(),
       latitude: widget.adventureController!.pickUpLocLatLang.value.latitude
           .toString(),
-      date: widget.adventureController!.selectedDate.value.substring(0, 10),
+      daysInfo: DaysInfo,
+      //  date: widget.adventureController!.selectedDate.value.substring(0, 10),
       price: widget.adventurePrice!,
       image: imageUrls,
       regionAr: widget.adventureController!.ragionAr.value,
       locationUrl: locationUrl,
       regionEn: widget.adventureController!.ragionEn.value,
-      start: intl.DateFormat('HH:mm:ss')
-          .format(widget.adventureController!.selectedStartTime.value),
-      end: intl.DateFormat('HH:mm:ss')
-          .format(widget.adventureController!.selectedEndTime.value),
       seat: widget.adventureController!.seletedSeat.value,
       context: context,
     );
@@ -536,6 +536,7 @@ class _HostInfoReviewState extends State<HostInfoReview> {
               AppUtil.isDateTimeBefore(
                   widget.adventureController!.selectedDate.value,
                   widget.adventureController!.selectedStartTime.value);
+          advDates();
         }
       }
     });
@@ -730,8 +731,10 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                       ),
                                       //'${AppUtil.formatSelectedDates(widget.adventureController!.selectedDates,context,)} ',
                                       CustomText(
-                                        text:
-                                            '${AppUtil.formatBookingDate(context, widget.adventureController!.selectedDate.value)} ',
+                                        text: AppUtil.formatSelectedDates(
+                                            widget.adventureController!
+                                                .selectedDates,
+                                            context),
                                         color: const Color(0xFF9392A0),
                                         fontSize: 11,
                                         fontFamily:

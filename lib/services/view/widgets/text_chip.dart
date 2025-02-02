@@ -15,11 +15,18 @@ class TextChip extends StatelessWidget {
         color: const Color(0xffF6F6F6),
         borderRadius: BorderRadius.circular(4),
       ),
-      child: CustomText(
-        text: text,
-        fontFamily: AppUtil.SfFontType(context),
-        fontSize: MediaQuery.sizeOf(context).width * 0.028,
-        fontWeight: FontWeight.w400,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.sizeOf(context).width *
+              0.4, // Adjust this value as needed
+        ),
+        child: CustomText(
+          text: text,
+          textOverflow: TextOverflow.ellipsis,
+          fontFamily: AppUtil.SfFontType(context),
+          fontSize: MediaQuery.sizeOf(context).width * 0.028,
+          fontWeight: FontWeight.w400,
+        ),
       ),
     );
   }

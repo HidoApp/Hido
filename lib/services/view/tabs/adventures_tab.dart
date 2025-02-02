@@ -84,7 +84,7 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                   image: _adventureController
                                       .adventureList[index].image![0],
                                   date: _adventureController
-                                      .adventureList[index].date!,
+                                      .adventureList[index].daysInfo!.first.startTime,
                                   title: AppUtil.rtlDirection2(context)
                                       ? _adventureController
                                           .adventureList[index].nameAr!

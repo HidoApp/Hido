@@ -30,7 +30,6 @@ class _AddExperienceInfoState extends State<AddExperienceInfo> {
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.sizeOf(context).height;
-
     return Scaffold(
       backgroundColor: lightGreyBackground,
       body:

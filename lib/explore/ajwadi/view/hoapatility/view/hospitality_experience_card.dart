@@ -111,10 +111,6 @@ class _HospitalityExperienceCardState extends State<HospitalityExperienceCard> {
 
   @override
   Widget build(BuildContext context) {
-    final TouristExploreController touristExploreController =
-        Get.put(TouristExploreController());
-    Place? thePlace;
-
     final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.sizeOf(context).height;
     return Padding(
@@ -178,9 +174,9 @@ class _HospitalityExperienceCardState extends State<HospitalityExperienceCard> {
                             Row(
                               children: [
                                 CustomText(
-                                  text: widget.experience.daysInfo!.isNotEmpty
+                                  text: widget.experience.daysInfo.isNotEmpty
                                       ? AppUtil.formatSelectedDaysInfo(
-                                          widget.experience.daysInfo!, context)
+                                          widget.experience.daysInfo, context)
                                       : '',
                                   fontSize: 12,
                                   fontFamily: AppUtil.rtlDirection2(context)
@@ -198,9 +194,9 @@ class _HospitalityExperienceCardState extends State<HospitalityExperienceCard> {
                           children: [
                             CustomText(
                               text: isDateOut(selectedDate!)
-                                  ? widget.experience.daysInfo!.isNotEmpty
+                                  ? widget.experience.daysInfo.isNotEmpty
                                       ? AppUtil.formatSelectedDaysInfo(
-                                          widget.experience.daysInfo!, context)
+                                          widget.experience.daysInfo, context)
                                       : ''
                                   : formatBookingDate(context, selectedDate!),
                               fontSize: 12,

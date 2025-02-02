@@ -53,6 +53,9 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
 
   void freeAdventureBooking() async {
     final isSucces = await _adventureController.checkAdventureBooking(
+      date: _adventureController.selectedDate.value,
+      dayId: widget.adventure
+          .daysInfo![_adventureController.selectedDateIndex.value].id,
       adventureID: widget.adventure.id,
       context: context,
       personNumber: widget.person,
@@ -70,18 +73,13 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
             icon: SvgPicture.asset('assets/icons/adventure.svg'),
             bookTypeText: "adventure",
           ));
-      log("inside adventure");
-      // log("${updatedAdventure!.booking?.last.id}");
-      log(widget.adventure.date!);
-      log(widget.adventure.nameEn!);
-      log(widget.adventure.nameAr!);
 
-      LocalNotification().showAdventureNotification(
-          context,
-          updatedAdventure!.booking?.last.id,
-          updatedAdventure.date,
-          updatedAdventure.nameEn,
-          updatedAdventure.nameAr);
+      // LocalNotification().showAdventureNotification(
+      //     context,
+      //     updatedAdventure!.booking?.last.id,
+      //     updatedAdventure.date,
+      //     updatedAdventure.nameEn,
+      //     updatedAdventure.nameAr);
 
       AmplitudeService.amplitude.track(BaseEvent(
         'Get Adventure Ticket',
@@ -129,17 +127,23 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
 
                     ReviewDetailsTile(
                         title: AppUtil.formatBookingDate(
-                            context, widget.adventure.date!),
+                            context, _adventureController.selectedDate.value),
                         image: 'assets/icons/calendar.svg'),
                     SizedBox(
                       height: width * .010,
                     ),
 
                     ReviewDetailsTile(
-                        title: widget.adventure.times != null &&
-                                widget.adventure.times!.isNotEmpty
-                            ? '${widget.adventure.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.startTime)).join(', ')} - ${widget.adventure.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.endTime)).join(', ')}'
-                            : '5:00-8:00 AM',
+                        title:
+                            '${AppUtil.formatTimeOnly(context, widget.adventure.daysInfo![_adventureController.selectedDateIndex.value].startTime)} -  ${AppUtil.formatTimeOnly(context, widget.adventure.daysInfo![_adventureController.selectedDateIndex.value].endTime)}',
+
+                        //  widget.adventure.times != null &&
+                        //         widget.adventure.times!.isNotEmpty
+                        //     ? widget.adventure.times!
+                        //         .map((time) => AppUtil.formatStringTimeWithLocale(
+                        //             context, time.startTime))
+                        //         .join(', ')
+                        //     : '5:00-8:00 AM',
                         image: "assets/icons/Clock.svg"),
                     SizedBox(
                       height: width * 0.041,
@@ -245,11 +249,10 @@ class _ReviewAdventureState extends State<ReviewAdventure> {
                             child: CircularProgressIndicator.adaptive())
                         : CustomButton(
                             onPressed: () async {
-                              final isValid = _adventureController.checkForOneHour(
-                                  context: context,
-                                  date: widget.adventure.date,
-                                  time:
-                                      '${widget.adventure.date ?? ''} ${widget.adventure.times!.first.startTime}');
+                              final isValid =
+                                  _adventureController.checkForOneHour(
+                                context: context,
+                              );
                               if (!isValid) {
                                 return;
                               }

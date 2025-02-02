@@ -56,7 +56,7 @@ late double width, height;
 class _LocalEventDetailsState extends State<LocalEventDetails> {
   final _eventController = Get.put(EventController());
   final _profileController = Get.put(ProfileController());
-  final _rattingController = Get.put(RatingController());
+  // final _rattingController = Get.put(RatingController());
 
   int _currentIndex = 0;
   bool isExpanded = false;

@@ -1,6 +1,6 @@
-import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/explore/tourist/model/coordinates.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
+import 'package:ajwad_v4/explore/tourist/model/booking.dart';
 import 'package:ajwad_v4/services/model/booking_dates.dart';
 import 'package:ajwad_v4/services/model/days_info.dart';
 

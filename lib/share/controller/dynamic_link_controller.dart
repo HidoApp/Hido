@@ -4,6 +4,7 @@ import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/base_url.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
+import 'package:ajwad_v4/services/view/adveture_details.dart';
 import 'package:ajwad_v4/services/view/hospitality_details.dart';
 import 'package:ajwad_v4/services/view/local_event_details.dart';
 import 'package:flutter/material.dart';
@@ -93,9 +94,9 @@ class DynamicLinkController extends GetxController {
             break;
           case 'activity':
             if (userRole == 'local') {
-              Get.to(() => LocalEventDetails(eventId: id, isLocal: true));
+              Get.to(() => AdventureDetails(adventureId: id, isLocal: true));
             } else {
-              Get.to(() => LocalEventDetails(eventId: id));
+              Get.to(() => AdventureDetails(adventureId: id));
             }
             break;
           case 'place':

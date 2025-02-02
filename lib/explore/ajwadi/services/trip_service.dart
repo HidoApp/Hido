@@ -193,6 +193,8 @@ class TripService {
         if (token != '') 'Authorization': 'Bearer $token',
       },
     );
+    log(response.statusCode.toString());
+    log(response.body.toString());
 
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);

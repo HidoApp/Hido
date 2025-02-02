@@ -1,43 +1,98 @@
-import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/services/view/review_adventure_screen.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
-import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
-import 'package:ajwad_v4/services/model/hospitality.dart';
-import 'package:ajwad_v4/services/view/widgets/hospitality_booking_sheet.dart';
+import 'package:ajwad_v4/services/view/widgets/activity_booking_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
-import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/sign_sheet.dart';
-import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 
-class BottomHospitalityBooking extends StatefulWidget {
-  const BottomHospitalityBooking({
+class BottomAdventureBooking extends StatefulWidget {
+  const BottomAdventureBooking({
     super.key,
-    required this.hospitalityObj,
-    required this.servicesController,
-    required this.avilableDate,
+    required this.adventure,
     this.address = '',
+    required this.avilableDate,
   });
-  final Hospitality hospitalityObj;
-  final List<DateTime> avilableDate;
-  final HospitalityController servicesController;
+  final Adventure adventure;
   final String address;
+  final List<DateTime> avilableDate;
 
   @override
-  State<BottomHospitalityBooking> createState() =>
-      _BottomHospitalityBookingState();
+  State<BottomAdventureBooking> createState() => _BottomAdventureBookingState();
 }
 
-class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
+class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
+  final _adventureController = Get.put(AdventureController());
+
+  @override
+  void initState() {
+    super.initState();
+
+    _adventureController.address(widget.address);
+  }
+
+  final String timeZoneName = 'Asia/Riyadh';
+  late tz.Location location;
+  int seat = 0;
+  bool showErrorGuests = false;
+
+  bool isDateBeforeToday() {
+    DateTime adventureDate =
+        DateFormat('yyyy-MM-dd').parse(widget.adventure.date!);
+    tz.initializeTimeZones();
+    location = tz.getLocation(timeZoneName);
+
+    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+    return adventureDate.isBefore(currentDateInRiyadh);
+  }
+
+  bool isSameDay() {
+    tz.initializeTimeZones();
+    location = tz.getLocation(timeZoneName);
+
+    DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
+    DateTime adventureDate =
+        DateFormat('yyyy-MM-dd').parse(widget.adventure.date!);
+
+    DateTime Date =
+        DateFormat('HH:mm').parse(widget.adventure.times!.last.startTime);
+
+    DateTime AdventureStartDate = DateTime(
+        adventureDate.year,
+        adventureDate.month,
+        adventureDate.day,
+        Date.hour,
+        Date.minute,
+        Date.second);
+
+    DateTime bookingDeadline =
+        AdventureStartDate.subtract(const Duration(hours: 24));
+
+    return bookingDeadline.isBefore(currentDateInRiyadh);
+  }
+
+  bool getSeat() {
+    //TODO : change the validtion here
+    seat = widget.adventure.daysInfo!.first.seats;
+
+    _adventureController.address(widget.address);
+
+    return seat == 0;
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  var person = 0;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.sizeOf(context).height;
@@ -46,8 +101,8 @@ class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
       padding: EdgeInsets.symmetric(horizontal: width * 0.041),
       color: Colors.white,
       width: double.infinity,
-      height: width * 0.38,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: width * 0.01),
@@ -66,7 +121,8 @@ class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
                   color: Colors.black,
                 ),
                 CustomText(
-                  text: '${widget.hospitalityObj.price} ${'sar'.tr}',
+                  //text: '400 ${'sar'.tr}',
+                  text: '${widget.adventure.price} ${'sar'.tr}',
                   fontWeight: FontWeight.w900,
                   fontSize: width * 0.043,
                   fontFamily: 'HT Rakik',
@@ -87,9 +143,11 @@ class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
                   bottom: width * 0.08),
 
               child: IgnorePointer(
-                ignoring: widget.hospitalityObj.daysInfo.isEmpty,
+                ignoring: widget.adventure.daysInfo!.isEmpty,
                 child: CustomButton(
                   onPressed: () {
+                    _adventureController.DateErrorMessage.value = false;
+
                     AppUtil.isGuest()
                         ? showModalBottomSheet(
                             context: context,
@@ -104,11 +162,9 @@ class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
                                   topRight: Radius.circular(width * 0.06)),
                             ))
                         : Get.bottomSheet(
-                            HospitalityBookingSheet(
-                              color: Colors.green,
-                              hospitality: widget.hospitalityObj,
+                            ActivityBookingSheet(
                               avilableDate: widget.avilableDate,
-                              serviceController: widget.servicesController,
+                              activity: widget.adventure,
                               address: widget.address,
                             ),
                             backgroundColor: Colors.white,
@@ -117,21 +173,22 @@ class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(width * 0.06),
                                   topRight: Radius.circular(width * 0.06)),
-                            ));
+                            ),
+                          );
                   },
                   iconColor: darkPurple,
-                  title: widget.hospitalityObj.daysInfo.isEmpty
+                  title: widget.adventure.daysInfo!.isEmpty
                       ? 'fullyBooked'.tr
                       : "book".tr,
-                  buttonColor: widget.hospitalityObj.daysInfo.isEmpty
-                      ? colorlightGreen
-                      : colorGreen,
-                  borderColor: widget.hospitalityObj.daysInfo.isEmpty
-                      ? colorlightGreen
-                      : colorGreen,
                   icon: AppUtil.rtlDirection2(context)
                       ? const Icon(Icons.arrow_back_ios)
                       : const Icon(Icons.arrow_forward_ios),
+                  buttonColor: widget.adventure.daysInfo!.isEmpty
+                      ? colorlightGreen
+                      : colorGreen,
+                  borderColor: widget.adventure.daysInfo!.isEmpty
+                      ? colorlightGreen
+                      : colorGreen,
                 ),
               ),
             ),
@@ -141,4 +198,3 @@ class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
     );
   }
 }
-

@@ -46,7 +46,6 @@ class HostCalenderDialog extends StatefulWidget {
 class _HostCalenderDialogState extends State<HostCalenderDialog> {
   String selectedDate = '';
   List<DateTime> selectedDates = [];
-  final _ajwadiExploreController = Get.put(AjwadiExploreController());
 
   @override
   void initState() {

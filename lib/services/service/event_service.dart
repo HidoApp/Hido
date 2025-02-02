@@ -371,8 +371,9 @@ class EventService {
     }
 
     final response = await http.get(
-      Uri.parse('$baseUrl/event/$id/summary')
-          .replace(queryParameters: ({'date': date, 'id': id})),
+      Uri.parse('$baseUrl/event/$id/summary').replace(
+        queryParameters: ({'date': date, 'id': id}),
+      ),
       headers: {
         'Accept': 'application/json',
         if (token != '') 'Authorization': 'Bearer $token',
@@ -474,7 +475,8 @@ class EventService {
     request.files.add(await http.MultipartFile.fromPath('image', file.path));
 
     http.StreamedResponse response = await request.send();
-
+    log(response.statusCode.toString());
+    log(response.toString());
     late String id, filePath, publicId;
 
     if (response.statusCode == 200) {

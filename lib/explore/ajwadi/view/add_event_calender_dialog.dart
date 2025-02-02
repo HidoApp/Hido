@@ -152,10 +152,7 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                       enablePastDates: false,
                       selectableDayPredicate:
                           widget.avilableDate != null ? defineSelectable : null,
-                      selectionMode:
-                          widget.type == 'event' || widget.type == 'hospitality'
-                              ? DateRangePickerSelectionMode.multiRange
-                              : DateRangePickerSelectionMode.single,
+                      selectionMode: DateRangePickerSelectionMode.multiRange,
                       selectionColor: colorGreen,
                       selectionTextStyle: const TextStyle(),
                       selectionShape: DateRangePickerSelectionShape.circle,
@@ -286,12 +283,23 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                       widget.advController!.isAdventureDateSelcted.value = true;
                       // widget.ajwadiExploreController!
                       //     .selectedAdvDate(selectedDate);
-
                       widget.advController!.selectedDate(selectedDate);
+                      widget.advController!.selectedDates(selectedDates);
+                      widget.advController!.DateErrorMessage.value =
+                          !AppUtil.areAllDatesAfter24Hours(
+                              widget.advController!.selectedDates);
+                      widget.advController!.DateErrorMessage.value =
+                          AppUtil.isDateBefore24Hours(
+                              widget.advController!.selectedDate.value);
+                      if (widget.advController!.isAdventureTimeSelcted.value) {
+                        widget.advController!.newRangeTimeErrorMessage.value =
+                            AppUtil.areAllDatesTimeBefore(
+                                widget.advController!.selectedDates,
+                                widget.advController!.selectedStartTime.value);
+                      }
                       //  widget.advController!.selectedDates(selectedDates);
                     } else if (widget.type == 'event') {
                       widget.eventController!.isEventDateSelcted.value = true;
-
                       widget.eventController!.selectedDate(selectedDate);
                       widget.eventController!.selectedDates(selectedDates);
 

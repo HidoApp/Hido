@@ -1,5 +1,8 @@
 import 'package:ajwad_v4/explore/tourist/model/coordinates.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
+import 'package:ajwad_v4/services/model/days_info.dart';
+import 'package:ajwad_v4/explore/tourist/model/booking.dart';
+import 'package:ajwad_v4/services/model/booking_dates.dart';
 
 class Adventure {
   final String id;
@@ -19,6 +22,10 @@ class Adventure {
   final String? status;
   final Profile? user;
   final List<AdventureBooking>? booking;
+  final List<DayInfo>? daysInfo;
+  //final List<Booking>? booking;
+  final List<BookingDates>? bookingDates;
+
   final List<Time>? times;
   final double? rating;
   final String userId;
@@ -26,8 +33,10 @@ class Adventure {
   Adventure({
     required this.id,
     required this.userId,
+    this.bookingDates,
     this.descriptionAr,
     this.descriptionEn,
+    this.daysInfo,
     this.rating,
     this.nameAr,
     this.nameEn,
@@ -65,7 +74,9 @@ class Adventure {
     String? status,
     Profile? user,
     List<AdventureBooking>? booking,
+    final List<BookingDates>? bookingDates,
     List<Time>? times,
+    final List<DayInfo>? daysInfo,
     double? rating,
   }) {
     return Adventure(
@@ -86,10 +97,14 @@ class Adventure {
       seats: seats ?? this.seats,
       status: status ?? this.status,
       user: user ?? this.user,
+      bookingDates: bookingDates != null
+          ? List<BookingDates>.from(bookingDates)
+          : this.bookingDates,
       booking:
           booking != null ? List<AdventureBooking>.from(booking) : this.booking,
       times: times != null ? List<Time>.from(times) : this.times,
       rating: rating ?? this.rating,
+      daysInfo: daysInfo ?? this.daysInfo,
     );
   }
 
@@ -116,6 +131,11 @@ class Adventure {
       coordinates: json['coordinates'] != null
           ? Coordinate.fromJson(json['coordinates'])
           : null,
+      bookingDates: json['bookingDates'] != null
+          ? (json['bookingDates'] as List)
+              .map((e) => BookingDates.fromJson(e))
+              .toList()
+          : [],
       times: json['times'] != null
           ? (json['times'] as List).map((e) => Time.fromJson(e)).toList()
           : null,
@@ -127,6 +147,9 @@ class Adventure {
       rating: json['rating'] != null
           ? double.parse((json['rating'] as num).toStringAsFixed(1))
           : 0.0,
+      daysInfo: json['daysInfo'] != null
+          ? (json['daysInfo'] as List).map((e) => DayInfo.fromJson(e)).toList()
+          : [],
     );
   }
 
@@ -165,12 +188,14 @@ class AdventureBooking {
   final String timeToReturn;
   final int guestNumber;
   final double cost;
+  final GuestInfo? guestInfo;
 
   final String status;
   final String orderStatus;
   final DateTime created;
 
   AdventureBooking({
+    required this.guestInfo,
     required this.id,
     required this.userId,
     required this.adventureId,
@@ -186,6 +211,9 @@ class AdventureBooking {
 
   factory AdventureBooking.fromJson(Map<String, dynamic> json) {
     return AdventureBooking(
+      guestInfo: json["guestInfo"] == null
+          ? null
+          : GuestInfo.fromJson(json["guestInfo"]),
       id: json['id'] ?? '',
       userId: json['userId'] ?? '',
       adventureId: json['adventureId'] ?? '',

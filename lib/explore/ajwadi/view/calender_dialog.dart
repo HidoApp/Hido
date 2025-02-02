@@ -4,8 +4,10 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
+import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
+import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -23,16 +25,20 @@ class CalenderDialog extends StatefulWidget {
     this.srvicesController,
     this.hospitality,
     this.event,
+    this.activity,
     this.eventController,
+    this.activityController,
   }) : super(key: key);
   final bool fromAjwady;
   final String type;
   final AjwadiExploreController? ajwadiExploreController;
   final HospitalityController? srvicesController;
+  final AdventureController? activityController;
   final TouristExploreController? touristExploreController;
   final List<DateTime>? avilableDate;
   final Hospitality? hospitality;
   final Event? event;
+  final Adventure? activity;
   final EventController? eventController;
 
   @override
@@ -159,9 +165,25 @@ class _CalenderDialogState extends State<CalenderDialog> {
                     log('no date');
                   } else {
                     if (widget.type == 'adv') {
-                      widget.ajwadiExploreController!.isDateEmpty.value = false;
-                      widget.ajwadiExploreController!
-                          .selectedAdvDate(selectedDate);
+                      widget.activityController!.isAdventureDateSelcted.value =
+                          true;
+                      widget.activityController!.selectedDate(selectedDate);
+                      widget.activityController!.DateErrorMessage.value = false;
+                      for (int i = 0;
+                          i < widget.activity!.daysInfo!.length;
+                          i++) {
+                        if (DateTime.parse(widget
+                                    .activity!.daysInfo![i].startTime
+                                    .substring(0, 10))
+                                .toString() ==
+                            selectedDate) {
+                          widget.activityController!.selectedDateIndex(i);
+                          widget.activityController!
+                              .selectedDateId(widget.activity!.daysInfo![i].id);
+                          widget.activityController!.selectedTime("");
+                          //
+                        }
+                      }
                     } else if (widget.type == 'event') {
                       widget.eventController!.isEventDateSelcted.value = true;
                       widget.eventController!.selectedDate(selectedDate);
