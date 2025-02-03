@@ -119,6 +119,17 @@ class AppUtil {
     }
   }
 
+  static String formatBookingDateSummary(BuildContext context, String date) {
+    DateTime dateTime = DateTime.parse(date);
+    if (AppUtil.rtlDirection2(context)) {
+      // Set Arabic locale for date formatting
+      return DateFormat('d MMMM yyyy', 'ar').format(dateTime);
+    } else {
+      // Default to English locale
+      return DateFormat('E dd MMM yyyy').format(dateTime);
+    }
+  }
+
   static String formatTimeWithLocale(
       BuildContext context, String dateTimeString, String format) {
     DateTime dateTime = DateTime.parse(dateTimeString);

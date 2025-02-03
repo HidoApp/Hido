@@ -231,7 +231,6 @@ class AdventureService {
     required String descriptionEn,
     required String longitude,
     required String latitude,
-    required String date,
     required int price,
     required List<String> image,
     required String regionAr,
@@ -239,9 +238,6 @@ class AdventureService {
     required String regionEn,
     String? Genre,
     required List<Map<String, dynamic>> daysInfo,
-    required String start,
-    required String end,
-    required int seat,
     required BuildContext context,
   }) async {
     final getStorage = GetStorage();
@@ -262,16 +258,11 @@ class AdventureService {
         "descriptionEn": descriptionEn,
         "price": price,
         "image": image,
-        //  "date": date,
         "daysInfo": daysInfo,
         "coordinates": {"longitude": longitude, "latitude": latitude},
-        "times": [
-          {"startTime": start, "endTime": end}
-        ],
         "locationUrl": locationUrl,
         "regionAr": regionAr,
         "regionEn": regionEn,
-        //     "seats": seat,
         "adventureGenre": Genre,
       }),
     );
@@ -379,9 +370,8 @@ class AdventureService {
     }
 
     final response = await http.get(
-      Uri.parse('$baseUrl/adventure/$id/summary').replace(
-        queryParameters: ({'id': id}),
-      ),
+      Uri.parse('$baseUrl/adventure/$id/summary')
+          .replace(queryParameters: ({'date': date, 'id': id})),
       headers: {
         'Accept': 'application/json',
         if (token != '') 'Authorization': 'Bearer $token',

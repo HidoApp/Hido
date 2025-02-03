@@ -50,6 +50,7 @@ class AdventureController extends GetxController {
   var showErrorSeat = false.obs;
   var showErrorGuests = false.obs;
   var person = 0.obs;
+  var startTime = ''.obs;
 
   // Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
   //  Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264,46.544731).obs;
@@ -189,7 +190,6 @@ class AdventureController extends GetxController {
     required String descriptionEn,
     required String longitude,
     required String latitude,
-    required String date,
     required int price,
     required List<String> image,
     required String regionAr,
@@ -197,9 +197,6 @@ class AdventureController extends GetxController {
     required String regionEn,
     String? Genre,
     // required List<Map<String, dynamic>> times,
-    required String start,
-    required String end,
-    required int seat,
     required List<Map<String, dynamic>> daysinfo,
     required BuildContext context,
   }) async {
@@ -211,7 +208,6 @@ class AdventureController extends GetxController {
           id: id,
           nameAr: nameAr,
           nameEn: nameEn,
-          date: date,
           descriptionAr: descriptionAr,
           descriptionEn: descriptionEn,
           longitude: longitude,
@@ -222,9 +218,6 @@ class AdventureController extends GetxController {
           locationUrl: locationUrl,
           regionEn: regionEn,
           // times: times,
-          start: start,
-          end: end,
-          seat: seat,
           Genre: Genre,
           context: context);
       if (adventure != null) {
@@ -313,12 +306,12 @@ class AdventureController extends GetxController {
   Future<AdventureSummary?> getAdventureSummaryById({
     required BuildContext context,
     required String id,
-    required String date ,
+    required String date,
   }) async {
     try {
       isAdventureByIdLoading(true);
-      final data = await AdventureService.getAdventureSummaryById(date: date,
-          context: context, id: id);
+      final data = await AdventureService.getAdventureSummaryById(
+          date: date, context: context, id: id);
       return data;
     } catch (e) {
       isAdventureByIdLoading(false);
@@ -353,12 +346,12 @@ class AdventureController extends GetxController {
   // }
 
   bool checkForOneHour({required BuildContext context}) {
-    log(startDate.value);
+    log(startTime.value);
     log(selectedDate.value);
-    log((AppUtil.areDatesOnSameDay(startDate.value, selectedDate.value))
+    log((AppUtil.areDatesOnSameDay(startTime.value, selectedDate.value))
         .toString());
-    if (AppUtil.areDatesOnSameDay(startDate.value, selectedDate.value)) {
-      final isValid = AppUtil.isTimeDifferenceOneHour(startDate.value);
+    if (AppUtil.areDatesOnSameDay(startTime.value, selectedDate.value)) {
+      final isValid = AppUtil.isTimeDifferenceOneHour(startTime.value);
       if (isValid) {
         return true;
       } else {
@@ -366,11 +359,12 @@ class AdventureController extends GetxController {
             context,
             AppUtil.rtlDirection2(context)
                 ? "لا يمكنك الحجز اليوم لأن موعد التجربة بعد ساعة من الآن"
-                : "You cannot book today because the experience is after 1 hour from now.");
+                : "You cannot book today because the experience is after  1 hour from now.");
 
         return false;
       }
     } else {
+      log('hj');
       return true;
     }
   }

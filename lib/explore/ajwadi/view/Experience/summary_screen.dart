@@ -16,7 +16,6 @@ import 'package:intl/intl.dart';
 import '../../../../services/model/summary.dart';
 
 class SummaryScreen extends StatefulWidget {
-  // final ProfileController profileController;
   final String hospitalityId;
   final String date;
 
@@ -46,7 +45,6 @@ class _SummaryScreenState extends State<SummaryScreen> {
   ];
   final _servicesController = Get.put(HospitalityController());
   Summary? _summary;
-  //List<String> status = ['canceled', 'waiting', 'confirmed'];
 
   void gethospitalitySummary() async {
     log("test");
@@ -63,20 +61,11 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
   int totalFemales = 0;
   int totalMales = 0;
-  getTotalGuest() {
-    if (_summary!.guestList.isNotEmpty || _summary!.guestList != [])
-      for (var guest in _summary!.guestList) {
-        totalFemales += guest.female;
-        totalMales += guest.male;
-      }
-  }
 
   @override
   void initState() {
     super.initState();
     gethospitalitySummary();
-    // getTotalGuest();
-    // widget.profileController.getPastTicket(context: context);
   }
 
   OverlayEntry? _overlayEntry;
@@ -222,8 +211,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                 ),
                                 if (_summary!.daysInfo.isNotEmpty)
                                   CustomText(
-                                    text:
-                                        formatBookingDate(context, widget.date),
+                                    text: AppUtil.formatBookingDateSummary(
+                                        context, widget.date),
                                     color: const Color(0xFF070708),
                                     fontSize: 15,
                                     fontFamily: AppUtil.rtlDirection2(context)
@@ -379,81 +368,4 @@ class _SummaryScreenState extends State<SummaryScreen> {
       ),
     );
   }
-
-  String formatBookingDate(BuildContext context, String date) {
-    DateTime dateTime = DateTime.parse(date);
-    if (AppUtil.rtlDirection2(context)) {
-      // Set Arabic locale for date formatting
-      return DateFormat('d MMMM yyyy', 'ar').format(dateTime);
-    } else {
-      // Default to English locale
-      return DateFormat('E dd MMM yyyy').format(dateTime);
-    }
-  }
 }
-
-
-// class SummaryScreen extends StatefulWidget {
-//   // final ProfileController profileController;
-//   const SummaryScreen({
-//     super.key,
-//     // required this.profileController,
-//   });
-
-//   @override
-//   State<SummaryScreen> createState() => _SummaryScreenState();
-// }
-
-// class _SummaryScreenState extends State<SummaryScreen>
-//     with SingleTickerProviderStateMixin {
-//   late TabController _tabController;
-//   int tabIndex = 0;
-//   final _servicesController = Get.put(HospitalityController());
-
-//   //List<String> status = ['canceled', 'waiting', 'confirmed'];
-
-//   @override
-//   void initState() {
-//     super.initState();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final width = MediaQuery.sizeOf(context).width;
-//     final height =MediaQuery.sizeOf(context).height;
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       appBar: CustomAppBar(
-//         'Summary'.tr,
-//       ),
-//       body:
-//           // Obx(
-//           //   () =>
-
-//           Padding(
-//         padding: const EdgeInsets.symmetric(horizontal: 16),
-//         child: Column(
-//           children: [
-//             Expanded(
-//               child: Container(
-//                 child: ListView(
-//                   children: [
-//                     SizedBox(
-//                         //new
-//                         height: height * 0.84,
-//                         width: width,
-//                         child: CustomEmptyWidget(
-//                           title: 'noSummary'.tr,
-//                           image: 'empty_summary',
-//                           subtitle: 'noSummarySub'.tr,
-//                         )),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

@@ -14,15 +14,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class AdventureSummaryScreen extends StatefulWidget {
-  // final ProfileController profileController;
   final String adventureId;
-  final Adventure experience;
   final String date;
 
   const AdventureSummaryScreen({
     super.key,
     required this.adventureId,
-    required this.experience,
     required this.date,
   });
 
@@ -31,22 +28,9 @@ class AdventureSummaryScreen extends StatefulWidget {
 }
 
 class _AdventureSummaryScreenState extends State<AdventureSummaryScreen> {
-  final String referenceNumber = '#1102238';
-  final String titlePlace = 'Juwai Farm';
-  final String bookingDate = '25 April 2024';
-  final String time = '12:00 PM - 6:00 PM';
-  final int numberOfWomen = 12;
-  final int numberOfMen = 10;
-  final double cost = 3960;
-  final String currency = 'SAR';
-  final List<Map<String, String>> guestList = [
-    {'name': 'Esther Howard', 'gender': 'Female'},
-    {'name': 'John Doe', 'gender': 'Male'},
-    // Add more guests as needed
-  ];
   final _servicesController = Get.put(AdventureController());
   AdventureSummary? _summary;
-  //List<String> status = ['canceled', 'waiting', 'confirmed'];
+  int totalguest = 0;
 
   void gethospitalitySummary() async {
     _summary = await _servicesController.getAdventureSummaryById(
@@ -57,27 +41,10 @@ class _AdventureSummaryScreenState extends State<AdventureSummaryScreen> {
     }
   }
 
-  int totalguest = 0;
-
-//  getTotalGuest(){
-//   if(_summary!.touristList.isNotEmpty||_summary!.touristList!=[])
-
-//   for (var guest in _summary!.guestList) {
-//   totalFemales += guest.female;
-//   totalMales += guest.male;
-//   }
-
-//
-//
-// }
-
   @override
   void initState() {
     super.initState();
     gethospitalitySummary();
-
-    // getTotalGuest();
-    // widget.profileController.getPastTicket(context: context);
   }
 
   OverlayEntry? _overlayEntry;
@@ -221,36 +188,37 @@ class _AdventureSummaryScreenState extends State<AdventureSummaryScreen> {
                                       : 'SF Pro',
                                   fontWeight: FontWeight.w500,
                                 ),
-                                CustomText(
-                                  text: AppUtil.formatBookingDate(
-                                      context, _summary!.date),
-                                  color: const Color(0xFF070708),
-                                  fontSize: 15,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                if (_summary!.daysInfo.isNotEmpty)
+                                  CustomText(
+                                    text: AppUtil.formatBookingDateSummary(
+                                        context, widget.date),
+                                    color: const Color(0xFF070708),
+                                    fontSize: 15,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w500,
+                                  ),
                               ],
                             ),
                             const SizedBox(height: 12),
                             const Divider(
                                 color: Color(0xFFDCDCE0), thickness: 1),
                             const SizedBox(height: 12),
-                            // Third Row: Time, Number of Male and Women, and Cost
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                CustomText(
-                                  text:
-                                      '${formatTimeWithLocale(context, _summary?.times.first.startTime ?? '', 'hh:mm a')} - ${formatTimeWithLocale(context, _summary?.times.first.endTime ?? '', 'hh:mm a')}',
-                                  color: const Color(0xFF070708),
-                                  fontSize: 12,
-                                  fontFamily: AppUtil.rtlDirection2(context)
-                                      ? 'SF Arabic'
-                                      : 'SF Pro',
-                                  fontWeight: FontWeight.w400,
-                                ),
+                                if (_summary!.daysInfo.isNotEmpty)
+                                  CustomText(
+                                    text:
+                                        '${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.startTime ?? '', 'hh:mm a')} - ${AppUtil.formatTimeWithLocale(context, _summary?.daysInfo.first.endTime ?? '', 'hh:mm a')}',
+                                    color: const Color(0xFF070708),
+                                    fontSize: 12,
+                                    fontFamily: AppUtil.rtlDirection2(context)
+                                        ? 'SF Arabic'
+                                        : 'SF Pro',
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 const SizedBox(height: 8),
                                 Row(
                                   children: [

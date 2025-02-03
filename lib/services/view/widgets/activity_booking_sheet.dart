@@ -39,6 +39,7 @@ class _ActivityBookingSheetState extends State<ActivityBookingSheet> {
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
   final _activityController = Get.put(AdventureController());
+
   bool isDateBeforeToday() {
     DateTime parsedDate =
         DateTime.parse(_activityController.selectedDate.value);
@@ -328,23 +329,7 @@ class _ActivityBookingSheetState extends State<ActivityBookingSheet> {
                   } else if ((getSeat(_activityController.selectedDate.value
                       .substring(0, 10)))) {
                     _activityController.showErrorSeat.value = true;
-                    // return;
-                  }
-                  // else if (isSameDay()) {
-                  //   AppUtil.errorToast(
-                  //       context,
-                  //       AppUtil.rtlDirection2(context)
-                  //           ? "يجب أن تحجز قبل 24 ساعة "
-                  //           : "You must booking before 24 hours");
-                  // }
-                  // else if (!isDateBeforeToday()) {
-                  //   AppUtil.errorToast(
-                  //       context,
-                  //       AppUtil.rtlDirection2(context)
-                  //           ? "غير متاح"
-                  //           : "not avalible ");
-                  // }
-                  else {
+                  } else {
                     _activityController.showErrorMaxGuest.value = false;
 
                     _activityController.showErrorGuests.value = false;

@@ -83,8 +83,6 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                   },
                                   image: _adventureController
                                       .adventureList[index].image![0],
-                                  date: _adventureController
-                                      .adventureList[index].daysInfo!.first.startTime,
                                   title: AppUtil.rtlDirection2(context)
                                       ? _adventureController
                                           .adventureList[index].nameAr!
@@ -98,8 +96,8 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                   seats: _adventureController
                                       .adventureList[index].seats
                                       .toString(),
-                                  times: _adventureController
-                                      .adventureList[index].times,
+                                  dayInfo: _adventureController
+                                      .adventureList[index].daysInfo,
                                   rate: _adventureController
                                       .adventureList[index].rating
                                       .toString(),
