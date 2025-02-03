@@ -26,6 +26,7 @@ class CityFilter extends StatelessWidget {
         SizedBox(
           height: MediaQuery.sizeOf(context).width * 0.0205,
         ),
+        const SizedBox(height: 10),
         Wrap(
           spacing: 8.0, // Space between chips horizontally
           runSpacing: 8.0, // Space between chips vertically
@@ -51,10 +52,10 @@ class CityFilter extends StatelessWidget {
                             ? AppUtil.regionListAr[index]
                             : AppUtil.regionListEn[index],
                         textColor: controller.selectedCityIndex == index
-                            ? colorGreen
-                            : black,
+                            ? const Color(0xFF1EAB5B)
+                            : const Color(0xFF0B1215),
                         backgroundColor: controller.selectedCityIndex == index
-                            ? const Color(0xffD4F7DD)
+                            ? const Color(0xFFEDFCF2)
                             : const Color(0xffF6F6F6),
                       ),
                     ),

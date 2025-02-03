@@ -288,17 +288,27 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                           false,
                                       message: AppUtil.rtlDirection2(context)
                                           ? (_srvicesController
-                                                  .notifications[index]
-                                                  .data?["body"] ??
-                                              _srvicesController
-                                                  .notifications[index]
-                                                  .data?["title"] ??
-                                              '')
+                                                          .notifications[index]
+                                                          .data!["body"]
+                                                          ?.isNotEmpty ==
+                                                      true
+                                                  ? _srvicesController
+                                                      .notifications[index]
+                                                      .data!["body"]
+                                                  : _srvicesController
+                                                      .notifications[index]
+                                                      .data!["title"]) ??
+                                              ''
                                           : (_srvicesController
-                                                  .notifications[index].body ??
-                                              _srvicesController
-                                                  .notifications[index].title ??
-                                              ''),
+                                                  .notifications[index]
+                                                  .body!
+                                                  .isNotEmpty
+                                              ? _srvicesController
+                                                  .notifications[index].body!
+                                              : _srvicesController
+                                                      .notifications[index]
+                                                      .title ??
+                                                  ''),
                                       isRtl: AppUtil.rtlDirection2(context),
                                       width: width,
                                     ),

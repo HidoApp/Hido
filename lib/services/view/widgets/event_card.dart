@@ -108,62 +108,59 @@ class _EventCardItemState extends State<EventCardItem> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                        child: widget.image.isNotEmpty
-                            ? ImageCacheWidget(
-                                image: widget.image,
-                                width: width * 0.23,
-                                height: width * 0.23,
-                              )
-                            : Image.asset('assets/images/Placeholder.png'),
-                      ),
-                      SizedBox(
-                        width: width * 0.028,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomText(
-                            text: widget.title,
-                            fontSize: width * 0.041,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                          ),
-                          SizedBox(
-                            height: width * 0.01,
-                          ),
-                          Obx(
-                            () => TextChip(
-                              text: address.value.isNotEmpty
-                                  ? '${widget.location}, ${address.value}'
-                                  : widget.location,
-                            ),
-                          ),
-                          SizedBox(
-                            height: width * 0.01,
-                          ),
-                          TextChip(
-                              text: AppUtil.formatSelectedDaysInfo(
-                                  widget.daysInfo, context)),
-                          SizedBox(
-                            height: width * 0.01,
-                          ),
-                          TextChip(
-                            text:
-                                '${AppUtil.formatTimeOnly(context, widget.daysInfo[0].startTime)} -  ${AppUtil.formatTimeOnly(context, widget.daysInfo[0].endTime)}',
-                          ),
-                        ],
-                      ),
-                    ],
+                  ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    child: widget.image.isNotEmpty
+                        ? ImageCacheWidget(
+                            image: widget.image,
+                            width: width * 0.23,
+                            height: width * 0.23,
+                          )
+                        : Image.asset('assets/images/Placeholder.png'),
                   ),
-                  const Spacer(),
+                  SizedBox(width: width * 0.028),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          text: widget.title,
+                          fontSize: width * 0.041,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
+                        ),
+                        SizedBox(height: width * 0.02),
+                        Wrap(
+                          spacing: width * 0.013, // space between chips
+                          runSpacing:
+                              width * 0.013, //  space when wrapping to new line
+                          children: [
+                            // Obx(
+                            //   () => TextChip(
+                            //     text: address.value.isNotEmpty
+                            //         ? '${widget.location}, ${address.value}'
+                            //         : widget.location,
+                            //   ),
+                            // ),
+                            TextChip(
+                              text: widget.location,
+                            ),
+                            if (widget.daysInfo.isNotEmpty)
+                              TextChip(
+                                  text: AppUtil.formatSelectedDaysInfo(
+                                      widget.daysInfo, context)),
+                            if (widget.daysInfo.isNotEmpty)
+                              TextChip(
+                                text:
+                                    '${AppUtil.formatTimeOnly(context, widget.daysInfo[0].startTime)} -  ${AppUtil.formatTimeOnly(context, widget.daysInfo[0].endTime)}',
+                              ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                   Padding(
                     padding: EdgeInsets.only(top: width * 0.0128),
                     child: Row(

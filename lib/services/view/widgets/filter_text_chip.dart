@@ -12,10 +12,10 @@ class FilterTextChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 26,
+      height: 28,
       padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.sizeOf(context).width * 0.0205,
-          vertical: MediaQuery.sizeOf(context).width * 0.0102),
+          horizontal: MediaQuery.sizeOf(context).width * 0.0189,
+          vertical: MediaQuery.sizeOf(context).width * 0.010),
       decoration: BoxDecoration(
         color: backgroundColor ?? const Color(0xffF6F6F6),
         borderRadius: BorderRadius.circular(4),
@@ -24,7 +24,7 @@ class FilterTextChip extends StatelessWidget {
         text: text,
         color: textColor ?? black,
         fontFamily: AppUtil.SfFontType(context),
-        fontSize: MediaQuery.sizeOf(context).width * 0.028,
+        fontSize: MediaQuery.sizeOf(context).width * 0.035,
         fontWeight: FontWeight.w400,
       ),
     );

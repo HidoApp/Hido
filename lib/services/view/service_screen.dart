@@ -198,25 +198,20 @@ class _ServiceScreenState extends State<ServiceScreen>
           headerSliverBuilder: (context, isScrolled) => [
             SliverAppBar(
               automaticallyImplyLeading: false,
-              toolbarHeight: width * 0.36,
+              toolbarHeight: width * 0.43,
               forceMaterialTransparency: true,
               pinned: false,
               centerTitle: false,
               leading: Padding(
-                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 18),
+                padding: EdgeInsets.only(
+                    left: width * 0.041, right: width * 0.041, top: 38),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
                       text: "serviceTitle".tr,
                       color: Colors.white,
-                      // shadows: const [
-                      //   Shadow(
-                      //     blurRadius: 15.0, // Soften the shadow
-                      //     color: Colors.black, // Set shadow color
-                      //   ),
-                      // ],
                       maxlines: 2,
                       fontSize: 20,
                       fontFamily: AppUtil.rtlDirection2(context)
@@ -257,7 +252,7 @@ class _ServiceScreenState extends State<ServiceScreen>
                             right: width * 0.06,
                           ),
                     child: Align(
-                      alignment: Alignment.topCenter,
+                      alignment: Alignment.center,
                       child: !AppUtil.isGuest()
                           ? Row(
                               children: [
@@ -296,10 +291,8 @@ class _ServiceScreenState extends State<ServiceScreen>
                                     _notifyController.notifyCount.value = 0;
                                   },
                                   icon: 'assets/icons/Alerts_white.svg',
-                                  badgeCount: _notifyController
-                                      .notifyCount, // Reactive badge count
-                                  badgeColor: Colors
-                                      .red, // Optional: customize the badge color
+                                  badgeCount: _notifyController.notifyCount,
+                                  badgeColor: Colors.red,
                                 ),
                               ],
                             )

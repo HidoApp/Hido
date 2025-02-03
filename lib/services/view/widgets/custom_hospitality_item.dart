@@ -112,83 +112,60 @@ class _ServicesCardState extends State<ServicesCard> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      child: widget.image.isNotEmpty
-                          ? ImageCacheWidget(
-                              image: widget.image,
-                              width: width * 0.23,
-                              height: width * 0.23,
-                            )
-                          : Image.asset('assets/images/Placeholder.png'),
-                      // Image.network(
-                      //   widget.image,
-                      //   fit: BoxFit.fill,
-                      // ),
-                    ),
-                    SizedBox(
-                      width: width * 0.028,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomText(
-                          text: widget.title,
-                          fontSize: width * 0.041,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: AppUtil.rtlDirection2(context)
-                              ? 'SF Arabic'
-                              : 'SF Pro',
-                        ),
-                        SizedBox(
-                          height: width * 0.010,
-                        ),
-                        SizedBox(
-                          height: width * 0.01,
-                        ),
-                        if (widget.dayInfo != null &&
-                            widget.dayInfo!.isNotEmpty)
-                          Row(
-                            //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextChip(
-                                  text: address.value.isNotEmpty
-                                      ? widget.location
-                                      : widget.location),
-                              SizedBox(
-                                width: width * 0.01,
-                              ),
-                              TextChip(
-                                text:
-                                    '${AppUtil.formatTimeOnly(context, widget.dayInfo![0].startTime)} -  ${AppUtil.formatTimeOnly(context, widget.dayInfo![0].endTime)}',
-                              ),
-                            ],
-                          ),
-                        SizedBox(
-                          height: width * 0.013,
-                        ),
-                        SizedBox(
-                          width: width * 0.011,
-                        ),
-                        Row(
-                          children: [
-                            TextChip(text: widget.meal),
-                            SizedBox(
-                              width: width * 0.01,
-                            ),
-                            //  TextChip(text: widget.meal),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+                // Image Section
+                ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  child: widget.image.isNotEmpty
+                      ? ImageCacheWidget(
+                          image: widget.image,
+                          width: width * 0.23,
+                          height: width * 0.23,
+                        )
+                      : Image.asset('assets/images/Placeholder.png'),
                 ),
-                const Spacer(),
+                SizedBox(width: width * 0.028),
+
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: width * 0.01),
+                      CustomText(
+                        text: widget.title,
+                        fontSize: width * 0.041,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                      ),
+                      SizedBox(height: width * 0.02),
+                      Wrap(
+                        spacing: width * 0.013, // space between chips
+                        runSpacing:
+                            width * 0.013, //  space when wrapping to new line
+                        children: [
+                          TextChip(
+                            text:
+                                // address.value.isNotEmpty
+                                //     ? '${widget.location}, ${address.value}'
+                                widget.location,
+                          ),
+                          if (widget.dayInfo != null &&
+                              widget.dayInfo!.isNotEmpty)
+                            TextChip(
+                              text:
+                                  '${AppUtil.formatTimeOnly(context, widget.dayInfo![0].startTime)} -  ${AppUtil.formatTimeOnly(context, widget.dayInfo![0].endTime)}',
+                            ),
+                          TextChip(text: widget.meal),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Rating Section (Beside Title/Chips)
                 Padding(
-                  padding: EdgeInsets.only(top: width * 0.0128),
+                  padding: EdgeInsets.only(top: width * 0.0198),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -201,17 +178,14 @@ class _ServicesCardState extends State<ServicesCard> {
                           fontFamily: AppUtil.SfFontType(context),
                         ),
                       if (AppUtil.rtlDirection2(context))
-                        SizedBox(
-                          width: width * 0.01,
-                        ),
+                        SizedBox(width: width * 0.01),
                       RepaintBoundary(
-                          child: SvgPicture.asset(
-                        'assets/icons/star.svg',
-                        color: Colors.black,
-                      )),
-                      SizedBox(
-                        width: width * 0.01,
+                        child: SvgPicture.asset(
+                          'assets/icons/star.svg',
+                          color: Colors.black,
+                        ),
                       ),
+                      SizedBox(width: width * 0.01),
                       if (!AppUtil.rtlDirection2(context))
                         CustomText(
                           text: widget.rate,
@@ -225,6 +199,7 @@ class _ServicesCardState extends State<ServicesCard> {
                 ),
               ],
             ),
+            SizedBox(height: width * 0.029),
             CustomText(
               text: widget.price,
             ),
