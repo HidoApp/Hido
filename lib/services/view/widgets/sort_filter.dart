@@ -20,29 +20,47 @@ class SortFilter extends StatelessWidget {
           fontSize: width * 0.043,
           fontWeight: FontWeight.w500,
         ),
+        const SizedBox(height: 10),
         GetBuilder(
           init: FilterController(),
           builder: (controller) {
-            log(controller.sortBySelected.value);
-            return ListView.builder(
-              padding: EdgeInsets.zero,
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: controller.sortBy.length,
-              itemBuilder: (context, index) => RadioListTile<String>(
-                contentPadding: EdgeInsets.zero,
-                //    overlayColor: WidgetStatePropertyAll(colorGreen),
-                //    fillColor: WidgetStatePropertyAll(starGreyColor),
-                activeColor: colorGreen,
-                title: CustomText(
-                  text: controller.sortBy[index],
+            return Column(
+              mainAxisSize: MainAxisSize.min, // Prevents extra space
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: List.generate(
+                controller.sortBy.length,
+                (index) => Row(
+                  children: [
+                    Radio<String>(
+                      value: controller.sortBy[index],
+                      groupValue: controller.sortBySelected.value,
+                      onChanged: (value) {
+                        controller.sortBySelected(value);
+                        controller.update();
+                      },
+                      activeColor: colorGreen, // Selected color
+                      fillColor:
+                          WidgetStateProperty.resolveWith<Color>((states) {
+                        if (states.contains(WidgetState.selected)) {
+                          return colorGreen; // Selected color
+                        }
+                        return thinGrey; // Unselected color (gray)
+                      }),
+                      materialTapTargetSize:
+                          MaterialTapTargetSize.shrinkWrap, // Shrinks tap area
+                      visualDensity: const VisualDensity(
+                        horizontal:
+                            -4, // Shrinks horizontal padding inside the radio button
+                      ),
+                    ),
+                    const SizedBox(
+                        width: 8), // Space between radio button and text
+                    CustomText(
+                      text: controller.sortBy[index],
+                      fontSize: width * 0.035,
+                    ),
+                  ],
                 ),
-                value: controller.sortBy[index],
-                groupValue: controller.sortBySelected.value,
-                onChanged: (value) {
-                  controller.sortBySelected(value);
-                  controller.update();
-                },
               ),
             );
           },

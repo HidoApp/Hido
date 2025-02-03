@@ -712,5 +712,6 @@ const localeAr = {
   'priceFromLow': 'السعر (من الأدنى إلى الأعلى)',
   'priceFromHigh': 'السعر (من الأعلى إلى الأدنى)',
   'byGender': "حسب الجنس",
-  'shareSuccessful': 'تمت المشاركة بنجاح'
+  'shareSuccessful': 'تمت المشاركة بنجاح',
+  'reset': 'مسح',
 };

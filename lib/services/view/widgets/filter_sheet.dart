@@ -1,6 +1,7 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/services/controller/filter_controller.dart';
 import 'package:ajwad_v4/services/view/widgets/city_filter.dart';
+import 'package:ajwad_v4/services/view/widgets/gender_filter.dart';
 import 'package:ajwad_v4/services/view/widgets/sort_filter.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -38,32 +39,34 @@ class FilterSheet extends StatelessWidget {
             right: 0,
             child: BottomSheetIndicator(),
           ),
-          ListView(
-            //   physics: const NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.zero,
-            children: [
-              SizedBox(
-                height: width * 0.071,
-              ),
-              const SortFilter(),
-              SizedBox(
-                height: width * 0.061,
-              ),
-              const CityFilter(),
-              // if (isHospitality) ...[
-              //   SizedBox(
-              //     height: width * 0.061,
-              //   ),
-              //   const GenderFilter(),
-              // ],
-              SizedBox(
-                height: width * 0.19,
-              ),
-              // CustomButton(
-              //   title: 'apply'.tr,
-              //   onPressed: () {},
-              // ),
-            ],
+          SizedBox(
+            child: ListView(
+              //   physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
+              children: [
+                SizedBox(
+                  height: width * 0.071,
+                ),
+                const SortFilter(),
+                SizedBox(
+                  height: width * 0.061,
+                ),
+                const CityFilter(),
+                // if (isHospitality) ...[
+                //   SizedBox(
+                //     height: width * 0.061,
+                //   ),
+                //   const GenderFilter(),
+                // ],
+                SizedBox(
+                  height: width * 0.19,
+                ),
+                // CustomButton(
+                //   title: 'apply'.tr,
+                //   onPressed: () {},
+                // ),
+              ],
+            ),
           ),
           Positioned(
               bottom: 0,
