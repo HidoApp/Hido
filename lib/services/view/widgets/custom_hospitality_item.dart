@@ -151,22 +151,17 @@ class _ServicesCardState extends State<ServicesCard> {
                         ),
                         if (widget.dayInfo != null &&
                             widget.dayInfo!.isNotEmpty)
-                          Row(
-                            //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextChip(
-                                  text: address.value.isNotEmpty
-                                      ? widget.location
-                                      : widget.location),
-                              SizedBox(
-                                width: width * 0.01,
-                              ),
-                              TextChip(
-                                text:
-                                    '${AppUtil.formatTimeOnly(context, widget.dayInfo![0].startTime)} -  ${AppUtil.formatTimeOnly(context, widget.dayInfo![0].endTime)}',
-                              ),
-                            ],
-                          ),
+                          TextChip(
+                              text: address.value.isNotEmpty
+                                  ? widget.location
+                                  : widget.location),
+                        SizedBox(
+                          height: width * 0.01,
+                        ),
+                        TextChip(
+                          text:
+                              '${AppUtil.formatTimeOnly(context, widget.dayInfo![0].startTime)} -  ${AppUtil.formatTimeOnly(context, widget.dayInfo![0].endTime)}',
+                        ),
                         SizedBox(
                           height: width * 0.013,
                         ),

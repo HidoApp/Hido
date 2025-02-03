@@ -721,6 +721,5 @@ const localeEn = {
   'priceFromHigh': 'Price (High to Low)',
   'byGender':"By Gender",
   'shareSuccessful':'Share was successful'
-
-  // 'experienceTitleExampleAr':"example: Dana’s house"
+   
 };

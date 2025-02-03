@@ -6,6 +6,7 @@ import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.d
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/widget/AdventureTicketData.dart';
 import 'package:ajwad_v4/profile/widget/cancleSheet.dart';
+import 'package:ajwad_v4/profile/widget/contact_info_widget.dart';
 import 'package:ajwad_v4/profile/widget/event_ticket_data.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
@@ -69,8 +70,7 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
   void getBooking() async {
     profileBooking = await _touristExploreController.getTouristBookingById(
         context: context, bookingId: widget.booking?.id ?? "");
-    if (widget.booking!.bookingType == 'hospitality' ||
-        widget.booking!.bookingType == 'adventure') {
+    if (widget.booking!.bookingType != 'event') {
       getProfile();
     }
   }
@@ -129,9 +129,11 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                                 .isBookingByIdLoading.value ||
                             _profileController.isProfileLoading.value,
                         child: Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: width * 0.041),
-                          child: GestureDetector(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.051,
+                            vertical: width * 0.041,
+                          ),
+                          child: InkWell(
                             onTap: () {
                               if (widget.booking!.bookingType ==
                                   'hospitality') {
@@ -228,21 +230,42 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                                     SizedBox(
                                       width: width * 0.0205,
                                     ),
-                                    CustomText(
-                                      fontFamily: AppUtil.SfFontType(context),
-                                      fontSize: width * 0.038,
-                                      fontWeight: FontWeight.w500,
-                                      text: widget.booking!.bookingType ==
-                                                  'hospitality' ||
-                                              widget.booking!.bookingType ==
-                                                  'adventure'
-                                          ? AppUtil.capitalizeFirstLetter(
-                                              _profileController.profile.name ??
-                                                  "Name")
-                                          : AppUtil.capitalizeFirstLetter(
-                                              profileBooking?.offers?.first
-                                                      .user!.profile.name ??
-                                                  "Name"),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CustomText(
+                                          fontFamily:
+                                              AppUtil.SfFontType(context),
+                                          fontSize: width * 0.038,
+                                          fontWeight: FontWeight.w500,
+                                          text: widget.booking!.bookingType ==
+                                                      'hospitality' ||
+                                                  widget.booking!.bookingType ==
+                                                      'adventure'
+                                              ? AppUtil.capitalizeFirstLetter(
+                                                  _profileController
+                                                          .profile.name ??
+                                                      "Name")
+                                              : AppUtil.capitalizeFirstLetter(
+                                                  profileBooking?.offers?.first
+                                                          .user!.profile.name ??
+                                                      "Name"),
+                                        ),
+                                        SizedBox(
+                                          width: 33,
+                                        ),
+                                        if (_profileController
+                                                .profile.phoneNumber !=
+                                            null)
+                                          ContactInfoWidget(
+                                              chatId: profileBooking == null
+                                                  ? ""
+                                                  : profileBooking!.chatId ??
+                                                      "",
+                                              phoneNumber: _profileController
+                                                  .profile.phoneNumber!)
+                                      ],
                                     ),
                                     // const Spacer(),
                                     // SizedBox(

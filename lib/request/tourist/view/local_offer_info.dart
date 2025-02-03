@@ -65,7 +65,6 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
   final chatController = Get.put(ChatController());
   late ChatMessage? message;
   final getStorage = GetStorage();
-  final RequestController _RequestController = Get.put(RequestController());
   late Profile? profile;
   void getProfile() async {
     await _profileController.getProfile(
@@ -74,13 +73,8 @@ class _LocalOfferInfoState extends State<LocalOfferInfo> {
 
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
-    log(_offerController.acceptedOffer.value.orderStatus ?? "s");
-
-    getProfile();
-    // AmplitudeService.initializeAmplitude();
+    Future.microtask(() => getProfile());
   }
 
   @override
