@@ -87,11 +87,15 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
     return [];
   }
 
-  List<PickerDateRange> _getInitialSelectedRangesOfhospitality() {
-    if (widget.srvicesController != null &&
-        widget.srvicesController!.isHospatilityDateSelcted.value) {
+  List<PickerDateRange> _getInitialSelectedRangesOfExperience() {
+    if ((widget.srvicesController != null &&
+            widget.srvicesController!.isHospatilityDateSelcted.value) ||
+        (widget.advController != null &&
+            widget.advController!.isAdventureDateSelcted.value)) {
       List<PickerDateRange> ranges = [];
-      final selectedDates = widget.srvicesController!.selectedDates;
+      final selectedDates = widget.type == 'hospitality'
+          ? widget.srvicesController!.selectedDates
+          : widget.advController!.selectedDates;
 
       for (int i = 0; i < selectedDates.length; i += 1) {
         DateTime startDate = selectedDates[i];
@@ -140,7 +144,7 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                       minDate: DateTime.now(),
                       initialSelectedRanges: widget.type == 'event'
                           ? _getInitialSelectedRanges()
-                          : _getInitialSelectedRangesOfhospitality(),
+                          : _getInitialSelectedRangesOfExperience(),
 
                       // initialSelectedRange: widget.eventController != null &&
                       //         widget.eventController!.isEventDateSelcted.value
@@ -285,12 +289,13 @@ class _EventCalenderDialogState extends State<EventCalenderDialog> {
                       //     .selectedAdvDate(selectedDate);
                       widget.advController!.selectedDate(selectedDate);
                       widget.advController!.selectedDates(selectedDates);
+
                       widget.advController!.DateErrorMessage.value =
                           !AppUtil.areAllDatesAfter24Hours(
                               widget.advController!.selectedDates);
-                      widget.advController!.DateErrorMessage.value =
-                          AppUtil.isDateBefore24Hours(
-                              widget.advController!.selectedDate.value);
+                      // widget.advController!.DateErrorMessage.value =
+                      //     AppUtil.isDateBefore24Hours(
+                      //         widget.advController!.selectedDate.value);
                       if (widget.advController!.isAdventureTimeSelcted.value) {
                         widget.advController!.newRangeTimeErrorMessage.value =
                             AppUtil.areAllDatesTimeBefore(

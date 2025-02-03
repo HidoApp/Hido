@@ -36,6 +36,7 @@ class _CustomExperienceCardState extends State<CustomExperienceCard> {
   late ExpandedTileController _controller;
 
   List<BookingDates>? sortedBookingDates;
+
   bool isDateBefore24Hours(String date) {
     const String timeZoneName = 'Asia/Riyadh';
     late tz.Location location;
@@ -47,14 +48,6 @@ class _CustomExperienceCardState extends State<CustomExperienceCard> {
     final parsedDateInRiyadh = tz.TZDateTime.from(parsedDate, location)
         .subtract(const Duration(hours: 3));
 
-    // Compare only year, month, and day
-    // bool isSameDay = currentDateInRiyadh.year == parsedDateInRiyadh.year &&
-    //                   currentDateInRiyadh.month == parsedDateInRiyadh.month &&
-    //                   currentDateInRiyadh.day == parsedDateInRiyadh.day;
-
-    // if (isSameDay) {
-    //   return true;
-    // }
     Duration difference = parsedDateInRiyadh.difference(currentDateInRiyadh);
     log('deference ${widget.experience.nameEn}');
     log(difference.toString());
@@ -91,9 +84,11 @@ class _CustomExperienceCardState extends State<CustomExperienceCard> {
   @override
   void initState() {
     super.initState();
+
     sortedBookingDates = widget.experience.bookingDates!
       ..sort((a, b) => a.date.compareTo(b.date));
     selectedDate = sortedBookingDates?.first.date;
+
     _controller = ExpandedTileController(isExpanded: false);
   }
 
@@ -211,7 +206,6 @@ class _CustomExperienceCardState extends State<CustomExperienceCard> {
                             Get.to(() => AdventureSummaryScreen(
                                   adventureId: widget.experience.id,
                                   date: selectedDate!,
-                                  experience: widget.experience,
                                 ));
                           },
                           style: ElevatedButton.styleFrom(
@@ -279,14 +273,13 @@ class _CustomExperienceCardState extends State<CustomExperienceCard> {
                         runSpacing: 8.0,
                         children:
                             sortedBookingDates!.map<Widget>((bookingDate) {
-                          final date = bookingDate
-                              .date; // Access the date property directly
+                          final date = bookingDate.date;
                           bool isSelected = date == selectedDate;
                           bool isPastDate = isDateOut(date);
 
                           return GestureDetector(
                             onTap: isPastDate
-                                ? null // Disable tap if date is in the past
+                                ? null
                                 : () {
                                     setState(() {
                                       selectedDate = date;
@@ -299,7 +292,7 @@ class _CustomExperienceCardState extends State<CustomExperienceCard> {
                                   horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
                                 color: isPastDate
-                                    ? Colors.transparent // Gray out past dates
+                                    ? Colors.transparent
                                     : isSelected
                                         ? const Color(0xFFECF9F1)
                                         : Colors.transparent,
@@ -310,8 +303,7 @@ class _CustomExperienceCardState extends State<CustomExperienceCard> {
                                   text: formatBookingDateMonth(context, date),
                                   textAlign: TextAlign.center,
                                   color: isPastDate
-                                      ? const Color(
-                                          0xFF9392A0) // Gray out past dates
+                                      ? const Color(0xFF9392A0)
                                       : isSelected
                                           ? const Color(0xFF37B268)
                                           : const Color(0xFF9392A0),

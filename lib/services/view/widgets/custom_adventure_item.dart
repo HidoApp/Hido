@@ -1,6 +1,7 @@
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
+import 'package:ajwad_v4/services/model/days_info.dart';
 import 'package:ajwad_v4/services/view/widgets/text_chip.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -21,9 +22,8 @@ class CustomAdventureItem extends StatefulWidget {
     required this.location,
     required this.seats,
     required this.rate,
-    required this.date,
     required this.onTap,
-    required this.times,
+    this.dayInfo,
     this.lang,
     this.long,
     required this.price,
@@ -35,8 +35,7 @@ class CustomAdventureItem extends StatefulWidget {
   final String location;
   final String seats;
   final String rate;
-  final String date;
-  final List<Time>? times;
+  final List<DayInfo>? dayInfo;
   final VoidCallback onTap;
   final String? lang;
   final String? long;
@@ -158,15 +157,17 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
                         SizedBox(
                           height: width * 0.01,
                         ),
-                        TextChip(text: formatBookingDate(context, widget.date)),
+                        TextChip(
+                            text: AppUtil.formatSelectedDaysInfo(
+                                widget.dayInfo!, context)),
                         SizedBox(
                           height: width * 0.01,
                         ),
                         TextChip(
-                            text: widget.times != null &&
-                                    widget.times!.isNotEmpty
-                                ? '${widget.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.startTime)).join(', ')} - ${widget.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.endTime)).join(', ')}'
-                                : '5:00-8:00 AM'),
+                            text: widget.dayInfo != null &&
+                                    widget.dayInfo!.isNotEmpty
+                                ? '${AppUtil.formatTimeOnly(context, widget.dayInfo![0].startTime)} -  ${AppUtil.formatTimeOnly(context, widget.dayInfo![0].endTime)}'
+                                : '00:00 - 00:00'),
                       ],
                     ),
                   ],

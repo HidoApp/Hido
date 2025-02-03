@@ -95,8 +95,6 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
     hospitalityObj = (await _servicesController.getHospitalityById(
         context: context, id: widget.hospitalityId));
     _servicesController.startTime(hospitalityObj!.daysInfo.first.startTime);
-    log("here start time for diff");
-    log(_servicesController.startTime.value);
 
     if (!widget.isLocal) {
       _fetchAddress(hospitalityObj!.coordinate.latitude ?? '',
@@ -669,7 +667,6 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                               const SizedBox(
                                 width: 8,
                               ),
-                              
                               ShareWidget(
                                 id: hospitalityObj!.id,
                                 type: 'hospitality',

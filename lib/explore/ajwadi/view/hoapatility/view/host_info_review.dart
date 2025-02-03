@@ -531,12 +531,12 @@ class _HostInfoReviewState extends State<HostInfoReview> {
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.experienceType == 'adventure') {
+        advDates();
         if (widget.adventureController!.isAdventureDateSelcted.value) {
           widget.adventureController!.newRangeTimeErrorMessage.value =
-              AppUtil.isDateTimeBefore(
-                  widget.adventureController!.selectedDate.value,
+              AppUtil.areAllDatesTimeBefore(
+                  widget.adventureController!.selectedDates,
                   widget.adventureController!.selectedStartTime.value);
-          advDates();
         }
       }
     });
@@ -892,9 +892,9 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                       'adventure') {
                                     widget.adventureController!
                                             .newRangeTimeErrorMessage.value =
-                                        AppUtil.isDateTimeBefore(
+                                        AppUtil.areAllDatesTimeBefore(
                                             widget.adventureController!
-                                                .selectedDate.value,
+                                                .selectedDates,
                                             widget.adventureController!
                                                 .selectedStartTime.value);
 

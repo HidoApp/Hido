@@ -86,16 +86,6 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
     location = tz.getLocation(timeZoneName);
 
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
-    //DateTime currentDate = DateTime(currentDateInRiyadh.year, currentDateInRiyadh.month, currentDateInRiyadh.day);
-
-    //DateTime selectedDate = DateTime.parse(widget.serviceController.selectedDate.value);
-
-    //
-    //
-    // ignore: unrelated_type_equality_checks
-    //
-    // ignore: unrelated_type_equality_checks
-    //return selectedDate== currentDate;
 
     DateTime selectedDate =
         DateTime.parse(widget.serviceController.selectedDate.value);
@@ -571,9 +561,9 @@ class _HospitalityBookingSheetState extends State<HospitalityBookingSheet> {
                           AmplitudeService.amplitude.track(
                             BaseEvent('Review Hospitality Booking',
                                 eventProperties: {
-                                  'eventTime':
+                                  'hospitalityTime':
                                       '${AppUtil.formatTimeOnly(context, widget.hospitality!.daysInfo.first.startTime)} - ${AppUtil.formatTimeOnly(context, widget.hospitality!.daysInfo.first.endTime)} ',
-                                  'eventDate': AppUtil.formatBookingDate(
+                                  'hospitalityDate': AppUtil.formatBookingDate(
                                       context,
                                       widget.serviceController.selectedDate
                                           .value),

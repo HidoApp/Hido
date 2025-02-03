@@ -460,6 +460,7 @@ class _EditEventState extends State<EditEvent> {
         _servicesController.selectedDates.add(DateTime.now());
       }
       _priceController.text = widget.eventObj.price.toString();
+
       _servicesController.isEventDateSelcted.value =
           widget.eventObj.daysInfo!.isNotEmpty ? true : false;
       _servicesController.isEventTimeSelcted.value =

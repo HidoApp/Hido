@@ -92,7 +92,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                           width: 1,
                           color: widget.adventureController
                                       .isAdventureDateSelcted.value &&
-                                  !widget.adventureController.DateErrorMessage
+                                  widget.adventureController.DateErrorMessage
                                       .value
                               ? colorRed
                               : const Color(0xFFB9B8C1)),
@@ -125,6 +125,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                               ? AppUtil.formatSelectedDates(
                                   widget.adventureController.selectedDates,
                                   context)
+
                               // srvicesController.selectedDates.map((date) => intel.DateFormat('dd/MM/yyyy').format(date)).join(', ')
                               : 'DD/MM/YYYY'.tr,
                           fontWeight: FontWeight.w400,
@@ -141,7 +142,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
               ),
               Obx(
                 () => widget.adventureController.isAdventureDateSelcted.value &&
-                        !widget.adventureController.DateErrorMessage.value
+                        widget.adventureController.DateErrorMessage.value
                     ? Padding(
                         padding: const EdgeInsets.only(bottom: 4),
                         child: CustomText(
@@ -259,17 +260,16 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                           //new srs
                                                           if (widget
                                                               .adventureController
-                                                              .isAdventureDateSelcted
+                                                              .isAdventureTimeSelcted
                                                               .value) {
                                                             widget
                                                                     .adventureController
                                                                     .newRangeTimeErrorMessage
                                                                     .value =
-                                                                AppUtil.isDateTimeBefore(
+                                                                AppUtil.areAllDatesTimeBefore(
                                                                     widget
                                                                         .adventureController
-                                                                        .selectedDate
-                                                                        .value,
+                                                                        .selectedDates,
                                                                     widget
                                                                         .adventureController
                                                                         .selectedStartTime
@@ -345,17 +345,16 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                         //new srs
                                                         if (widget
                                                             .adventureController
-                                                            .isAdventureDateSelcted
+                                                            .isAdventureTimeSelcted
                                                             .value) {
                                                           widget
                                                                   .adventureController
                                                                   .newRangeTimeErrorMessage
                                                                   .value =
-                                                              AppUtil.isDateTimeBefore(
+                                                              AppUtil.areAllDatesTimeBefore(
                                                                   widget
                                                                       .adventureController
-                                                                      .selectedDate
-                                                                      .value,
+                                                                      .selectedDates,
                                                                   widget
                                                                       .adventureController
                                                                       .selectedStartTime

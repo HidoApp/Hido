@@ -33,6 +33,10 @@ class HospitalityExperienceCard extends StatefulWidget {
 }
 
 class _HospitalityExperienceCardState extends State<HospitalityExperienceCard> {
+  late ExpandedTileController _controller;
+  String? selectedDate;
+  List<BookingDates>? sortedBookingDates;
+
   @override
   void initState() {
     super.initState();
@@ -97,17 +101,6 @@ class _HospitalityExperienceCardState extends State<HospitalityExperienceCard> {
 
     // return parsedDateInRiyadh.isBefore(currentDateInRiyadh);
   }
-
-  late ExpandedTileController _controller;
-  String? selectedDate;
-  List<BookingDates>? sortedBookingDates;
-  final List<String> dates = [
-    '27 فبراير',
-    '25 فبراير',
-    '29 فبراير',
-    '23فبراير',
-    '28 فبراير',
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -290,14 +283,13 @@ class _HospitalityExperienceCardState extends State<HospitalityExperienceCard> {
                         runSpacing: 8.0,
                         children:
                             sortedBookingDates!.map<Widget>((bookingDate) {
-                          final date = bookingDate
-                              .date; // Access the date property directly
+                          final date = bookingDate.date;
                           bool isSelected = date == selectedDate;
                           bool isPastDate = isDateOut(date);
 
                           return GestureDetector(
                             onTap: isPastDate
-                                ? null // Disable tap if date is in the past
+                                ? null
                                 : () {
                                     setState(() {
                                       selectedDate = date;
@@ -310,7 +302,7 @@ class _HospitalityExperienceCardState extends State<HospitalityExperienceCard> {
                                   horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
                                 color: isPastDate
-                                    ? Colors.transparent // Gray out past dates
+                                    ? Colors.transparent
                                     : isSelected
                                         ? const Color(0xFFECF9F1)
                                         : Colors.transparent,
@@ -321,8 +313,7 @@ class _HospitalityExperienceCardState extends State<HospitalityExperienceCard> {
                                   text: formatBookingDateMonth(context, date),
                                   textAlign: TextAlign.center,
                                   color: isPastDate
-                                      ? const Color(
-                                          0xFF9392A0) // Gray out past dates
+                                      ? const Color(0xFF9392A0)
                                       : isSelected
                                           ? const Color(0xFF37B268)
                                           : const Color(0xFF9392A0),

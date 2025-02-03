@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
@@ -132,7 +133,6 @@ class _AddLocationState extends State<AddLocation> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     //
     //
     // addCustomIcon();

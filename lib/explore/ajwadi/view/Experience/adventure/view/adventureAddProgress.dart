@@ -174,14 +174,15 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
     if (activeIndex == 3) {
       return _AdventureControllerController.seletedSeat.value != 0;
     }
+
     if (activeIndex == 4) {
       // return  _AdventureControllerController.selectedDates.value.isNotEmpty && _AdventureControllerController.isAdventureTimeSelcted.value ;
 
-      return !ajwadiExploreController.isDateEmpty.value &&
+      return _AdventureControllerController.selectedDates.isNotEmpty &&
           _AdventureControllerController.isAdventureTimeSelcted.value &&
           !_AdventureControllerController.TimeErrorMessage.value &&
           !_AdventureControllerController.newRangeTimeErrorMessage.value &&
-          _AdventureControllerController.DateErrorMessage.value;
+          !_AdventureControllerController.DateErrorMessage.value;
     }
 
     if (activeIndex == 5) {

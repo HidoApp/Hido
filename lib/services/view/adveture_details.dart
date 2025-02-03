@@ -85,7 +85,6 @@ class _AdventureDetailsState extends State<AdventureDetails> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //  initializeDateFormatting(); //very important
     getAdventureById();
     addCustomIcon();
   }
@@ -94,10 +93,13 @@ class _AdventureDetailsState extends State<AdventureDetails> {
     adventure = (await _adventureController.getAdvdentureById(
         context: context, id: widget.adventureId));
 
+    _adventureController.startTime(adventure!.daysInfo!.first.startTime);
+
     if (!widget.isLocal) {
       _fetchAddress(adventure!.coordinates!.latitude ?? '',
           adventure!.coordinates!.longitude ?? '');
     }
+
     for (var day in adventure!.daysInfo!) {
       if (AppUtil.isDateTimeBefore24Hours(day.startTime)) {
         avilableDate.add(
@@ -352,8 +354,8 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                     width: width * 0.012,
                                   ),
                                   CustomText(
-                                    text: AppUtil.formatBookingDate(context,
-                                        adventure!.daysInfo!.first.startTime),
+                                    text: AppUtil.formatSelectedDaysInfo(
+                                        adventure!.daysInfo!, context),
                                     color: colorDarkGrey,
                                     fontSize: width * 0.038,
                                     fontWeight: FontWeight.w300,
@@ -376,10 +378,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                   ),
                                   //time
                                   CustomText(
-                                    text: adventure?.times != null &&
-                                            adventure!.times!.isNotEmpty
-                                        ? '${adventure?.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.startTime)).join(', ')} - ${adventure?.times!.map((time) => AppUtil.formatStringTimeWithLocale(context, time.endTime)).join(', ')}'
-                                        : '5:00-8:00 AM',
+                                    text: adventure!.daysInfo != null &&
+                                            adventure!.daysInfo!.isNotEmpty
+                                        ? '${AppUtil.formatTimeOnly(context, adventure!.daysInfo!.first.startTime)} -  ${AppUtil.formatTimeOnly(context, adventure!.daysInfo!.first.endTime)}'
+                                        : '00:00 - 00:00',
                                     color: colorDarkGrey,
                                     fontSize: width * 0.038,
                                     fontWeight: FontWeight.w300,
