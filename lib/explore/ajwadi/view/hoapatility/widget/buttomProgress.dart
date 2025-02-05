@@ -444,8 +444,9 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                   SizedBox(height: width * 0.0205),
                   TextField(
                     inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(
-                          r'[\u0600-\u06FF\s]')), // Allow only Arabic characters and spaces
+                      FilteringTextInputFormatter.allow(
+                        RegExp(r'[\u0600-\u06FF\s]'),
+                      ), // Allow only Arabic characters and spaces
                     ],
                     maxLength: 20,
                     controller: textFieldTitleArController,
@@ -583,8 +584,11 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                         controller: textFieldDescArController,
                         focusNode: _focusNodeAr,
                         inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp(
-                              r'[\u0600-\u06FF\s]')), // Allow only Arabic characters and spaces
+                          FilteringTextInputFormatter.allow(
+                            RegExp(r'[\u0600-\u06FF0-9\s\p{P}]', unicode: true),
+                          ),
+
+//  Allow only Arabic characters and spaces
 
                           TextInputFormatter.withFunction(
                             (oldValue, newValue) {
@@ -675,8 +679,7 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                     focusNode: _focusNodeEn,
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(
-                        RegExp(r'[a-zA-Z0-9\s]'),
-                      ),
+                          RegExp(r'^(?:[a-zA-Z]|\P{L})+$', unicode: true)),
                       TextInputFormatter.withFunction(
                         (oldValue, newValue) {
                           if (newValue.text

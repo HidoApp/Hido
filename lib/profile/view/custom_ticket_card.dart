@@ -98,12 +98,13 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
     }
   }
 
+  final TouristExploreController touristExploreController =
+      Get.put(TouristExploreController());
+  Place? thePlace;
+  // log(widget.booking.cost!);
+
   @override
   Widget build(BuildContext context) {
-    final TouristExploreController touristExploreController =
-        Get.put(TouristExploreController());
-    Place? thePlace;
-    // log(widget.booking.cost!);
     final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.sizeOf(context).height;
     return InkWell(

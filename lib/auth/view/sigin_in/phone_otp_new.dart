@@ -166,79 +166,84 @@ class _PhoneOTPState extends State<PhoneOTP> {
             SizedBox(
               height: width * 0.061,
             ),
-            Center(
-              child: Pinput(
-                length: 4,
+            Directionality(
+              textDirection: AppUtil.rtlDirection2(context)
+                  ? TextDirection.rtl
+                  : TextDirection.ltr,
+              child: Center(
+                child: Pinput(
+                  length: 4,
 
-                onCompleted: (value) {
-                  log("enter oncompleted");
-                  switch (widget.type) {
-                    case 'stepper':
-                      stepper(value);
-                      break;
-                    case 'signIn':
-                      signIn(value);
-                      break;
-                    case 'signUp':
-                      signUp(value);
-                      break;
-                    case 'password':
-                      resetPassword(value);
-                      break;
-                    default:
-                  }
-                },
-                // validator: (s) {
-                //   return s == widget.otp ? null : '';
-                // },
-                //errorText: 'invalid code',
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                autofocus: true,
-                pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                  onCompleted: (value) {
+                    log("enter oncompleted");
+                    switch (widget.type) {
+                      case 'stepper':
+                        stepper(value);
+                        break;
+                      case 'signIn':
+                        signIn(value);
+                        break;
+                      case 'signUp':
+                        signUp(value);
+                        break;
+                      case 'password':
+                        resetPassword(value);
+                        break;
+                      default:
+                    }
+                  },
+                  // validator: (s) {
+                  //   return s == widget.otp ? null : '';
+                  // },
+                  //errorText: 'invalid code',
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  autofocus: true,
+                  pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
 
-                keyboardType: TextInputType.number,
-                separatorBuilder: (index) => SizedBox(
-                  width: width * .097,
-                ),
-                followingPinTheme: PinTheme(
-                  width: width * 0.143,
-                  height: width * 0.143,
-                  textStyle: TextStyle(
-                      fontSize: width * 0.038,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: AppUtil.SfFontType(context),
-                      color: colorGreen),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: borderGrey),
-                    borderRadius: BorderRadius.circular(8),
+                  keyboardType: TextInputType.number,
+                  separatorBuilder: (index) => SizedBox(
+                    width: width * .097,
                   ),
-                ),
-                defaultPinTheme: PinTheme(
-                  width: width * 0.143,
-                  height: width * 0.143,
-                  textStyle: TextStyle(
-                      fontSize: width * 0.038,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: AppUtil.SfFontType(context),
-                      color: colorGreen),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: colorGreen),
-                    borderRadius: BorderRadius.circular(8),
+                  followingPinTheme: PinTheme(
+                    width: width * 0.143,
+                    height: width * 0.143,
+                    textStyle: TextStyle(
+                        fontSize: width * 0.038,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: AppUtil.SfFontType(context),
+                        color: colorGreen),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: borderGrey),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
-                ),
-                errorPinTheme: PinTheme(
-                  width: width * 0.143,
-                  height: width * 0.143,
-                  textStyle: TextStyle(
-                      fontSize: width * 0.038,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: AppUtil.SfFontType(context),
-                      color: colorRed),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: colorRed),
-                    borderRadius: BorderRadius.circular(8),
+                  defaultPinTheme: PinTheme(
+                    width: width * 0.143,
+                    height: width * 0.143,
+                    textStyle: TextStyle(
+                        fontSize: width * 0.038,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: AppUtil.SfFontType(context),
+                        color: colorGreen),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: colorGreen),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  errorPinTheme: PinTheme(
+                    width: width * 0.143,
+                    height: width * 0.143,
+                    textStyle: TextStyle(
+                        fontSize: width * 0.038,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: AppUtil.SfFontType(context),
+                        color: colorRed),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: colorRed),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                 ),
               ),
