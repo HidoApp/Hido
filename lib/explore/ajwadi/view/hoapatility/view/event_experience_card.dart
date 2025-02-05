@@ -48,17 +48,20 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
     location = tz.getLocation(timeZoneName);
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
     DateTime parsedDate = DateTime.parse(date);
-    final parsedDateInRiyadh = tz.TZDateTime.from(parsedDate, location)
-        .subtract(const Duration(hours: 3));
+    // final parsedDateInRiyadh = tz.TZDateTime.from(parsedDate, location)
+    //     .subtract(const Duration(hours: 3));
+    final parsedDateInRiyadh = tz.TZDateTime(
+      location,
+      parsedDate.year,
+      parsedDate.month,
+      parsedDate.day,
+      currentDateInRiyadh.hour,
+      currentDateInRiyadh.minute,
+      currentDateInRiyadh.second,
+      currentDateInRiyadh.millisecond,
+      currentDateInRiyadh.microsecond,
+    );
 
-    // Compare only year, month, and day
-    // bool isSameDay = currentDateInRiyadh.year == parsedDateInRiyadh.year &&
-    //                   currentDateInRiyadh.month == parsedDateInRiyadh.month &&
-    //                   currentDateInRiyadh.day == parsedDateInRiyadh.day;
-
-    // if (isSameDay) {
-    //   return true;
-    // }
     Duration difference = parsedDateInRiyadh.difference(currentDateInRiyadh);
     log('deference ${widget.experience.nameEn}');
     log(difference.toString());
@@ -77,8 +80,20 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
     location = tz.getLocation(timeZoneName);
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
     DateTime parsedDate = DateTime.parse(date);
-    final parsedDateInRiyadh = tz.TZDateTime.from(parsedDate, location)
-        .subtract(const Duration(hours: 3));
+    // final parsedDateInRiyadh = tz.TZDateTime.from(parsedDate, location)
+    //     .subtract(const Duration(hours: 3));
+
+    final parsedDateInRiyadh = tz.TZDateTime(
+      location,
+      parsedDate.year,
+      parsedDate.month,
+      parsedDate.day,
+      currentDateInRiyadh.hour,
+      currentDateInRiyadh.minute,
+      currentDateInRiyadh.second,
+      currentDateInRiyadh.millisecond,
+      currentDateInRiyadh.microsecond,
+    );
     log(widget.experience.nameAr.toString());
     log(parsedDate.toString());
     log(parsedDateInRiyadh.toString());
@@ -108,7 +123,6 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
 
   @override
   Widget build(BuildContext context) {
-
     final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.sizeOf(context).height;
     return Padding(

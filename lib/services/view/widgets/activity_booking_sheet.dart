@@ -92,6 +92,7 @@ class _ActivityBookingSheetState extends State<ActivityBookingSheet> {
   void initState() {
     super.initState();
     _activityController.address(widget.address);
+    _activityController.person.value = 0;
   }
 
   @override

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/widget/add_adventure_info.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/widget/add_guests.dart';
@@ -172,6 +174,8 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
     }
 
     if (activeIndex == 3) {
+      log(activeIndex.toString());
+
       return _AdventureControllerController.seletedSeat.value != 0;
     }
 
@@ -209,7 +213,7 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
       return "PhotoGallery".tr;
     }
     if (activeIndex == 3) {
-      'peopleNumber'.tr;
+      return 'peopleNumber'.tr;
     }
     if (activeIndex == 4) {
       return "Date&Time".tr;

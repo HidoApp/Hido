@@ -380,7 +380,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                 child: CustomText(
                                   text: _EventrController
                                           .newRangeTimeErrorMessage.value
-                                      ? 'StartTimeDuration'.tr
+                                      ? 'StartTimeDurationError'.tr
                                       : '',
                                   color: colorRed,
                                   fontSize: width * 0.028,

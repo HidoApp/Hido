@@ -53,7 +53,6 @@ class _ReviewHospitaltyState extends State<ReviewHospitalty> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    log(widget.servicesController.selectedDate.value);
     finalCost = widget.hospitality.price *
         (widget.maleGuestNum + widget.femaleGuestNum).toDouble();
   }

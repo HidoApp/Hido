@@ -69,6 +69,7 @@ class CustomPloicySheet extends StatelessWidget {
               color: starGreyColor,
               fontSize: width * 0.038,
               fontWeight: FontWeight.w400,
+              maxlines: 200,
               fontFamily:
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
             ),

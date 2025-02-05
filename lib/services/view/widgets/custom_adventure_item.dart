@@ -111,68 +111,66 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      child: widget.image.isNotEmpty
-                          ? ImageCacheWidget(
-                              image: widget.image,
-                              width: width * 0.23,
-                              height: width * 0.23,
-                            )
-                          : Image.asset('assets/images/Placeholder.png'),
-                    ),
-                    SizedBox(
-                      width: width * 0.028,
-                    ),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomText(
-                          text: widget.title,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: AppUtil.rtlDirection2(context)
-                              ? 'SF Arabic'
-                              : 'SF Pro',
-                        ),
-                        SizedBox(
-                          height: width * 0.01,
-                        ),
-                        Obx(
-                          () => TextChip(
-                            text: address.value.isNotEmpty
-                                ? '${widget.location}, ${address.value}'
-                                : widget.location,
-                          ),
-                        ),
-                        SizedBox(
-                          height: width * 0.01,
-                        ),
-                        TextChip(
-                            text: AppUtil.formatSelectedDaysInfo(
-                                widget.dayInfo!, context)),
-                        SizedBox(
-                          height: width * 0.01,
-                        ),
-                        TextChip(
-                            text: widget.dayInfo != null &&
-                                    widget.dayInfo!.isNotEmpty
-                                ? '${AppUtil.formatTimeOnly(context, widget.dayInfo![0].startTime)} -  ${AppUtil.formatTimeOnly(context, widget.dayInfo![0].endTime)}'
-                                : '00:00 - 00:00'),
-                      ],
-                    ),
-                  ],
+                ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  child: widget.image.isNotEmpty
+                      ? ImageCacheWidget(
+                          image: widget.image,
+                          width: width * 0.23,
+                          height: width * 0.23,
+                        )
+                      : Image.asset('assets/images/Placeholder.png'),
                 ),
-                const Spacer(),
+                SizedBox(
+                  width: width * 0.028,
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: width * 0.01),
+                      CustomText(
+                        text: widget.title,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                      ),
+                      SizedBox(height: width * 0.02),
+                      Wrap(
+                        spacing: width * 0.013, // space between chips
+                        runSpacing:
+                            width * 0.013, //  space when wrapping to new line
+                        children: [
+                          TextChip(
+                            text:
+                                //  address.value.isNotEmpty
+                                //     ? '${widget.location}, ${address.value}'
+                                widget.location,
+                          ),
+                          if (widget.dayInfo != null &&
+                              widget.dayInfo!.isNotEmpty)
+                            TextChip(
+                                text: AppUtil.formatSelectedDaysInfo(
+                                    widget.dayInfo!, context)),
+                          if (widget.dayInfo != null &&
+                              widget.dayInfo!.isNotEmpty)
+                            TextChip(
+                                text: widget.dayInfo != null &&
+                                        widget.dayInfo!.isNotEmpty
+                                    ? '${AppUtil.formatTimeOnly(context, widget.dayInfo![0].startTime)} -  ${AppUtil.formatTimeOnly(context, widget.dayInfo![0].endTime)}'
+                                    : '00:00 - 00:00'),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
                 Padding(
                   padding: EdgeInsets.only(top: width * 0.0128),
                   child: Row(

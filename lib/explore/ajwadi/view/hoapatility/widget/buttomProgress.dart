@@ -2464,7 +2464,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                 child: CustomText(
                                   text: widget.hospitalityController
                                           .newRangeTimeErrorMessage.value
-                                      ? 'StartTimeDuration'.tr
+                                      ? 'StartTimeDurationError'.tr
                                       : '',
                                   // AppUtil.rtlDirection2(context)
                                   //     ? "اختر الوقت"
