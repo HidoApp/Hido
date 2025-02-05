@@ -45,8 +45,19 @@ class _CustomExperienceCardState extends State<CustomExperienceCard> {
     location = tz.getLocation(timeZoneName);
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
     DateTime parsedDate = DateTime.parse(date);
-    final parsedDateInRiyadh = tz.TZDateTime.from(parsedDate, location)
-        .subtract(const Duration(hours: 3));
+    // final parsedDateInRiyadh = tz.TZDateTime.from(parsedDate, location)
+    //     .subtract(const Duration(hours: 3));
+    final parsedDateInRiyadh = tz.TZDateTime(
+      location,
+      parsedDate.year,
+      parsedDate.month,
+      parsedDate.day,
+      currentDateInRiyadh.hour,
+      currentDateInRiyadh.minute,
+      currentDateInRiyadh.second,
+      currentDateInRiyadh.millisecond,
+      currentDateInRiyadh.microsecond,
+    );
 
     Duration difference = parsedDateInRiyadh.difference(currentDateInRiyadh);
     log('deference ${widget.experience.nameEn}');
@@ -66,8 +77,20 @@ class _CustomExperienceCardState extends State<CustomExperienceCard> {
     location = tz.getLocation(timeZoneName);
     DateTime currentDateInRiyadh = tz.TZDateTime.now(location);
     DateTime parsedDate = DateTime.parse(date);
-    final parsedDateInRiyadh = tz.TZDateTime.from(parsedDate, location)
-        .subtract(const Duration(hours: 3));
+    // final parsedDateInRiyadh = tz.TZDateTime.from(parsedDate, location)
+    //     .subtract(const Duration(hours: 3));
+    final parsedDateInRiyadh = tz.TZDateTime(
+      location,
+      parsedDate.year,
+      parsedDate.month,
+      parsedDate.day,
+      currentDateInRiyadh.hour,
+      currentDateInRiyadh.minute,
+      currentDateInRiyadh.second,
+      currentDateInRiyadh.millisecond,
+      currentDateInRiyadh.microsecond,
+    );
+
     log(widget.experience.nameAr.toString());
     log(parsedDate.toString());
     log(parsedDateInRiyadh.toString());

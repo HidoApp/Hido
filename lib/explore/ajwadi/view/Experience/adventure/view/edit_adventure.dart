@@ -1899,7 +1899,7 @@ class _EditAdventureState extends State<EditAdventure> {
                                                       : _servicesController
                                                               .newRangeTimeErrorMessage
                                                               .value
-                                                          ? 'StartTimeDuration'
+                                                          ? 'StartTimeDurationError'
                                                               .tr
                                                           : '',
                                                   style: TextStyle(

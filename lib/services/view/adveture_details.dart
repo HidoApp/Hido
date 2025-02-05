@@ -644,7 +644,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                                           ? 'SF Arabic'
                                                           : 'SF Pro',
                                                   color: starGreyColor,
-                                                  maxlines: 1,
+                                                  maxlines: 2,
                                                 ),
                                               ),
                                             ],

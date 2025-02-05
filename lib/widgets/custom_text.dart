@@ -18,11 +18,13 @@ class CustomText extends StatelessWidget {
       this.fontFamily,
       this.fontStyle,
       this.shadows,
+      this.softWrap = false,
       this.textDecorationStyle})
       : super(key: key);
 
   final String? text;
   final double fontSize;
+  final bool? softWrap;
   final TextAlign? textAlign;
   final FontWeight fontWeight;
   final Color color;
@@ -47,6 +49,7 @@ class CustomText extends StatelessWidget {
             (AppUtil.rtlDirection2(context) ? TextAlign.right : TextAlign.left),
         maxLines: maxlines,
         overflow: textOverflow,
+        softWrap: softWrap,
         style: TextStyle(
             fontFamily: fontFamily ?? 'HT Rakik',
             color: color,

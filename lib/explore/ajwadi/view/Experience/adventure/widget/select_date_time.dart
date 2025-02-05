@@ -409,7 +409,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                     child: CustomText(
                                       text: widget.adventureController
                                               .newRangeTimeErrorMessage.value
-                                          ? 'StartTimeDuration'.tr
+                                          ? 'StartTimeDurationError'.tr
                                           : '',
                                       color: colorRed,
                                       fontSize: width * 0.028,

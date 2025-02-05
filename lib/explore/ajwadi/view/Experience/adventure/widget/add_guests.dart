@@ -38,7 +38,7 @@ class _AddGuestsState extends State<AddGuests> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomText(
-          text: "guests2".tr,
+          text: "peopleNo".tr,
           color: black,
           fontSize: 17,
           fontWeight: FontWeight.w500,
@@ -72,7 +72,7 @@ class _AddGuestsState extends State<AddGuests> {
                 child: Row(
                   children: [
                     CustomText(
-                      text: "guests".tr,
+                      text: "persons".tr,
                       fontWeight: FontWeight.w400,
                       color: Graytext,
                       fontFamily: AppUtil.rtlDirection2(context)

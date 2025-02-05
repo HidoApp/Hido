@@ -2174,7 +2174,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                                                       : _servicesController
                                                               .newRangeTimeErrorMessage
                                                               .value
-                                                          ? 'StartTimeDuration'
+                                                          ? 'StartTimeDurationError'
                                                               .tr
                                                           : '',
                                                   color: colorRed,
