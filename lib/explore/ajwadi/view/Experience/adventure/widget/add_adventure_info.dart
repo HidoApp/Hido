@@ -219,9 +219,9 @@ class _AddInfoState extends State<AddInfo> {
                         controller: textFieldDescArController,
                         focusNode: _focusNodeAr,
                         inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp(
-                              r'[\u0600-\u06FF\s]')), // Allow only Arabic characters and spaces
-
+                          FilteringTextInputFormatter.allow(
+                            RegExp(r'[\u0600-\u06FF0-9\s\p{P}]', unicode: true),
+                          ),
                           TextInputFormatter.withFunction(
                             (oldValue, newValue) {
                               if (newValue.text
@@ -311,8 +311,7 @@ class _AddInfoState extends State<AddInfo> {
                     focusNode: _focusNodeEn,
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(
-                        RegExp(r'[a-zA-Z0-9\s]'),
-                      ), //
+                          RegExp(r'^(?:[a-zA-Z]|\P{L})+$', unicode: true)),
                       TextInputFormatter.withFunction(
                         (oldValue, newValue) {
                           if (newValue.text

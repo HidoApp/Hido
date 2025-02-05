@@ -14,7 +14,6 @@ class CityFilter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -39,12 +38,7 @@ class CityFilter extends StatelessWidget {
                       onTap: () {
                         controller.selectedCityIndex = index;
                         controller.selectedCity.value =
-                            AppUtil.rtlDirection2(context)
-                                ? AppUtil
-                                    .regionListAr[controller.selectedCityIndex]
-                                : AppUtil
-                                    .regionListEn[controller.selectedCityIndex];
-                        log(controller.selectedCity.value);
+                            AppUtil.regionListEn[controller.selectedCityIndex];
                         controller.update();
                       },
                       child: FilterTextChip(

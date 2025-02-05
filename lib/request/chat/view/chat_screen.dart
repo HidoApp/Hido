@@ -116,6 +116,7 @@ class _ChatScreenState extends State<ChatScreen> {
               backgroundColor: lightGreyBackground,
               appBar: CustomAppBar(
                 "chat".tr,
+                
               ),
               body: SafeArea(
                 child: Column(

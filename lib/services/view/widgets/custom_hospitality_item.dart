@@ -112,6 +112,7 @@ class _ServicesCardState extends State<ServicesCard> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
                 // Image Section
                 ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),

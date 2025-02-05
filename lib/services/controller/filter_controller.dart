@@ -61,12 +61,12 @@ class FilterController extends GetxController {
     // Sort by selected option (if selected)
     if (sortBySelected.isNotEmpty) {
       eventFilterCounter++;
-
       switch (sortBySelected.value) {
-        case 'newest':
-          //   filteredEvents.sort((a, b) => b.id.compareTo(a.id)); // Assuming `id` reflects time
-          break;
         case 'Highest Rated':
+          eventController.eventList
+              .sort((a, b) => (b.rating ?? 0).compareTo(a.rating ?? 0));
+          break;
+        case 'الأعلى تقييما':
           eventController.eventList
               .sort((a, b) => (b.rating ?? 0).compareTo(a.rating ?? 0));
           break;
@@ -74,7 +74,16 @@ class FilterController extends GetxController {
           eventController.eventList
               .sort((a, b) => (a.price ?? 0).compareTo(b.price ?? 0));
           break;
+        case 'السعر (من الأدنى إلى الأعلى)':
+          eventController.eventList
+              .sort((a, b) => (a.price ?? 0).compareTo(b.price ?? 0));
+          break;
         case 'Price (High to Low)':
+          eventController.eventList
+              .sort((a, b) => (b.price ?? 0).compareTo(a.price ?? 0));
+
+          break;
+        case 'السعر (من الأعلى إلى الأدنى)':
           eventController.eventList
               .sort((a, b) => (b.price ?? 0).compareTo(a.price ?? 0));
 
@@ -138,11 +147,24 @@ class FilterController extends GetxController {
           activityController.adventureList
               .sort((a, b) => (b.rating ?? 0).compareTo(a.rating ?? 0));
           break;
+        case 'الأعلى تقييما':
+          activityController.adventureList
+              .sort((a, b) => (b.rating ?? 0).compareTo(a.rating ?? 0));
+          break;
         case 'Price (Low to High)':
           activityController.adventureList
               .sort((a, b) => (a.price).compareTo(b.price));
           break;
+        case 'السعر (من الأدنى إلى الأعلى)':
+          activityController.adventureList
+              .sort((a, b) => (a.price).compareTo(b.price));
+          break;
         case 'Price (High to Low)':
+          activityController.adventureList
+              .sort((a, b) => (b.price).compareTo(a.price));
+
+          break;
+        case 'السعر (من الأعلى إلى الأدنى)':
           activityController.adventureList
               .sort((a, b) => (b.price).compareTo(a.price));
 
@@ -199,10 +221,11 @@ class FilterController extends GetxController {
       hospitalityFilterCounter++;
 
       switch (sortBySelected.value) {
-        // case 'newest':
-        //   filteredEvents.sort((a, b) => b.id.compareTo(a.id)); // Assuming `id` reflects time
-        //   break;
         case 'Highest Rated':
+          hospitalityController.hospitalityList
+              .sort((a, b) => (b.rating ?? 0).compareTo(a.rating ?? 0));
+          break;
+        case 'الأعلى تقييما':
           hospitalityController.hospitalityList
               .sort((a, b) => (b.rating ?? 0).compareTo(a.rating ?? 0));
           break;
@@ -210,7 +233,16 @@ class FilterController extends GetxController {
           hospitalityController.hospitalityList
               .sort((a, b) => (a.price).compareTo(b.price));
           break;
+        case 'السعر (من الأدنى إلى الأعلى)':
+          hospitalityController.hospitalityList
+              .sort((a, b) => (a.price).compareTo(b.price));
+          break;
         case 'Price (High to Low)':
+          hospitalityController.hospitalityList
+              .sort((a, b) => (b.price).compareTo(a.price));
+
+          break;
+        case 'السعر (من الأعلى إلى الأدنى)':
           hospitalityController.hospitalityList
               .sort((a, b) => (b.price).compareTo(a.price));
 

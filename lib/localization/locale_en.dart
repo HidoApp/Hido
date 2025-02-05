@@ -725,6 +725,7 @@ const localeEn = {
   'highestRated': 'Highest Rated',
   'priceFromLow': 'Price (Low to High)',
   'priceFromHigh': 'Price (High to Low)',
+
   'byGender': "By Gender",
   'shareSuccessful': 'Share was successful',
   'reset': 'Reast',

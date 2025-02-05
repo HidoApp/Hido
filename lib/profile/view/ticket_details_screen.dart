@@ -6,6 +6,7 @@ import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.d
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/widget/AdventureTicketData.dart';
 import 'package:ajwad_v4/profile/widget/cancleSheet.dart';
+import 'package:ajwad_v4/profile/widget/contact_info_widget.dart';
 import 'package:ajwad_v4/profile/widget/event_ticket_data.dart';
 import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
@@ -69,8 +70,7 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
   void getBooking() async {
     profileBooking = await _touristExploreController.getTouristBookingById(
         context: context, bookingId: widget.booking?.id ?? "");
-    if (widget.booking!.bookingType == 'hospitality' ||
-        widget.booking!.bookingType == 'adventure') {
+    if (widget.booking!.bookingType != 'event') {
       getProfile();
     }
   }
@@ -103,11 +103,7 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: lightGreyBackground,
-      appBar: CustomAppBar(
-        'myTickets'.tr,
-        // backgroundColor: Colors.red,
-      ),
-      //CustomAppBar('myTickets'.tr),
+      appBar: CustomAppBar('myTickets'.tr),
       body: SingleChildScrollView(
         child: Container(
           color: lightGreyBackground, // Background color for the Container
@@ -116,7 +112,6 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: width * 0.051),
-
               if (widget.adventure == null &&
                   widget.event == null &&
                   widget.hospitality == null &&
@@ -129,131 +124,102 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                                 .isBookingByIdLoading.value ||
                             _profileController.isProfileLoading.value,
                         child: Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: width * 0.041),
-                          child: GestureDetector(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.041,
+                            vertical: width * 0.041,
+                          ),
+                          child: InkWell(
                             onTap: () {
-                              if (widget.booking!.bookingType ==
-                                  'hospitality') {
-                                if (profileBooking!.localId!.isNotEmpty) {
-                                  Get.to(
-                                    () => ServicesLocalInfo(
-                                      isHospitality: true,
-                                      profileId: profileBooking?.localId ?? '',
-                                      isFromTicket: true,
-                                    ),
-                                  );
-                                }
-                              } else if (widget.booking!.bookingType ==
-                                  'adventure') {
-                                if (profileBooking!.localId!.isNotEmpty) {
-                                  Get.to(
-                                    () => ServicesLocalInfo(
-                                        profileId:
-                                            profileBooking?.localId ?? '',
-                                        isFromTicket: true),
-                                  );
-                                }
-                              } else {
-                                Get.to(() => LocalOfferInfo(
-                                      image: profileBooking?.offers?.first.user!
-                                              .profile.image ??
-                                          "",
-                                      name: profileBooking?.offers?.first.user!
-                                              .profile.name ??
-                                          "",
-                                      price: int.parse(
-                                          profileBooking?.cost ?? "0"),
-                                      rating: profileBooking?.offers?.first
-                                              .user!.profile.tourRating
-                                              .toDouble() ??
-                                          0.0,
-                                      tripNumber: profileBooking?.offers?.first
-                                              .user!.profile.tourNumber ??
-                                          0,
-                                      place: null,
-                                      userId:
-                                          profileBooking!.offers!.first.userId,
-                                      profileId:
-                                          profileBooking!.offers!.first.userId,
-                                    ));
-                              }
+                              // Handle navigation logic
                             },
                             child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: width * 0.041,
-                                    horizontal: width * 0.051),
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                    //border: Border.all(color: lightGrey),
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(16)),
-                                height: 70,
-                                child: Row(
-                                  children: [
-                                    CircleAvatar(
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(60),
-                                        child: profileBooking?.offers?.first
-                                                        .user!.profile.image !=
-                                                    null ||
-                                                _profileController
-                                                        .profile.profileImage !=
-                                                    null
-                                            ? ImageCacheWidget(
-                                                height: width * 0.093,
-                                                width: width * 0.093,
-                                                image: (widget.booking!
-                                                                .bookingType ==
-                                                            'hospitality' ||
-                                                        widget.booking!
-                                                                .bookingType ==
-                                                            'adventure')
-                                                    ? _profileController.profile
-                                                            .profileImage ??
-                                                        ''
-                                                    : profileBooking
-                                                            ?.offers
-                                                            ?.first
-                                                            .user!
-                                                            .profile
-                                                            .image ??
-                                                        "",
-                                                fit: BoxFit.cover,
-                                              )
-                                            : Image.asset(
-                                                'assets/images/profile_image.png'),
-                                      ),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: width * 0.041,
+                                  horizontal: width * 0.051),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16)),
+                              height: 70,
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(60),
+                                      child: profileBooking?.offers?.first.user!
+                                                      .profile.image !=
+                                                  null ||
+                                              _profileController
+                                                      .profile.profileImage !=
+                                                  null
+                                          ? ImageCacheWidget(
+                                              height: width * 0.093,
+                                              width: width * 0.093,
+                                              image:
+                                                  widget.booking!.bookingType ==
+                                                              'hospitality' ||
+                                                          widget.booking!
+                                                                  .bookingType ==
+                                                              'adventure'
+                                                      ? _profileController
+                                                              .profile
+                                                              .profileImage ??
+                                                          ''
+                                                      : profileBooking
+                                                              ?.offers
+                                                              ?.first
+                                                              .user!
+                                                              .profile
+                                                              .image ??
+                                                          "",
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.asset(
+                                              'assets/images/profile_image.png'),
                                     ),
-                                    SizedBox(
-                                      width: width * 0.0205,
+                                  ),
+                                  SizedBox(
+                                    width: width * 0.0205,
+                                  ),
+                                  Expanded(
+                                    // Use Expanded to take available space
+                                    child: Row(
+                                      children: [
+                                        CustomText(
+                                          fontFamily:
+                                              AppUtil.SfFontType(context),
+                                          fontSize: width * 0.038,
+                                          fontWeight: FontWeight.w500,
+                                          text: widget.booking!.bookingType ==
+                                                      'hospitality' ||
+                                                  widget.booking!.bookingType ==
+                                                      'adventure'
+                                              ? AppUtil.capitalizeFirstLetter(
+                                                  _profileController
+                                                          .profile.name ??
+                                                      "Name")
+                                              : AppUtil.capitalizeFirstLetter(
+                                                  profileBooking?.offers?.first
+                                                          .user!.profile.name ??
+                                                      "Name"),
+                                        ),
+                                        const Spacer(),
+                                        if (_profileController
+                                                .profile.phoneNumber !=
+                                            null)
+                                          ContactInfoWidget(
+                                              chatId: profileBooking == null
+                                                  ? ""
+                                                  : profileBooking!.chatId ??
+                                                      "",
+                                              phoneNumber: _profileController
+                                                  .profile.phoneNumber!)
+                                      ],
                                     ),
-                                    CustomText(
-                                      fontFamily: AppUtil.SfFontType(context),
-                                      fontSize: width * 0.038,
-                                      fontWeight: FontWeight.w500,
-                                      text: widget.booking!.bookingType ==
-                                                  'hospitality' ||
-                                              widget.booking!.bookingType ==
-                                                  'adventure'
-                                          ? AppUtil.capitalizeFirstLetter(
-                                              _profileController.profile.name ??
-                                                  "Name")
-                                          : AppUtil.capitalizeFirstLetter(
-                                              profileBooking?.offers?.first
-                                                      .user!.profile.name ??
-                                                  "Name"),
-                                    ),
-                                    // const Spacer(),
-                                    // SizedBox(
-                                    //   width: width * 0.233,
-                                    //   child: CustomButton(
-                                    //     title: 'chat'.tr,
-                                    //     onPressed: () {},
-                                    //   ),
-                                    // )
-                                  ],
-                                )),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -273,11 +239,8 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 23),
                   color: const Color.fromRGBO(255, 255, 255, 1),
                   child: getBookingTypeWidget(context, widget.bookTypeText!),
-
-                  //TicketData(booking: booking,icon: icon,bookTypeText: bookTypeText,),
                 ),
               ),
-              // const Expanded(child: SizedBox()), // Takes up remaining space
             ],
           ),
         ),
@@ -305,14 +268,10 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                       'Click on Cancel booking ',
                     ));
                   },
-
-                  // },
                   title: 'CancelBooking'.tr,
-                  buttonColor:
-                      lightGreyBackground, // Set the button color to transparent white
+                  buttonColor: lightGreyBackground,
                   textColor: colorRed,
                   borderColor: colorRed,
-                  // Set the text color to red
                 ),
               ]
             ],

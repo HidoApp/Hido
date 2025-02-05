@@ -143,7 +143,7 @@ String formatBookingDate(BuildContext context, String date) {
   DateTime dateTime = DateTime.parse(date);
   if (AppUtil.rtlDirection2(context)) {
     // Set Arabic locale for date formatting without the day name
-    return intel.DateFormat('d /M /yyyy', 'ar').format(dateTime);
+    return intel.DateFormat('d /M /yyyy', 'en').format(dateTime);
   } else {
     // Default to English locale without the day name
     return intel.DateFormat('dd /M /yyyy').format(dateTime);
