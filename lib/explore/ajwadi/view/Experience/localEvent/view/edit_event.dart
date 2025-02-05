@@ -1871,7 +1871,8 @@ class _EditEventState extends State<EditEvent> {
                                                       : _servicesController
                                                               .newRangeTimeErrorMessage
                                                               .value
-                                                          ? 'StartTimeDuration'
+                                                          ? 'StartTimeDurationError'
+                                                              .tr
                                                               .tr
                                                           : '',
                                                   style: TextStyle(

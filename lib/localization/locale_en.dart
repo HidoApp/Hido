@@ -210,7 +210,10 @@ const localeEn = {
   "date": "Date",
   "confirm": "Confirm",
   "guests2": "Number of Guests",
+  "peopleNo": "Number of People",
   "forMoreThan10": "For more than 7 you can choose the van as a ride",
+  "checkForOneOur":
+      "You can't book this experience because it starts in less than an hour",
   "pickUpLocation": "Pick up location",
   "pickUpRide": "Vehicle type",
   "sedan": "Sedan",
@@ -381,9 +384,9 @@ const localeEn = {
   "CancelBookingConfirm": 'Are you sure you want to cancel your booking?',
   'Confirm': 'Confirm',
   "cancellationPolicyBreifAdventure":
-      "Partial refund: Cancellations made between 24 and 48 hours before the tour departure time will receive a 50% refund.",
+      "Partial refund: Cancellations made between 24 and 48 hours before the booking time will receive a 50% refund.",
   "cancellationPolicyNote":
-      "No refund: Cancellations made within 24 hours of the tour departure time will not be eligible for a refund.",
+      "No refund: Cancellations made within 24 hours of the booking time will not be eligible for a refund.",
   "cancellationPolicySubNote":
       '  All refunds will be processed within 1-7 business days.',
   "notFind":
@@ -497,6 +500,7 @@ const localeEn = {
   'expirationDate': 'Expiration Date',
   'dateHint': 'MM/YY',
   'person': "person",
+  'persons': "Person",
   'adventuredetails': 'Activity Details',
   "GeneralInformation": "General Information",
   "Location": "Location",
@@ -570,7 +574,9 @@ const localeEn = {
   'editExperience': 'You can not edit this experience',
   'DateDuration': 'The date must be after the current date',
   'TimeDuration': "End time is less than start time",
-  'StartTimeDuration': 'Start time is less than current time',
+  'StartTimeDurationError': 'Select a start time after current time',
+  'StartTimeDuration':
+      ' You must choose a start time that is later than the current time',
   "": "We've sent code to your number",
   "account": "Account",
   "legalDoc": "Legal document",

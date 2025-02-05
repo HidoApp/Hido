@@ -249,7 +249,8 @@ class _ServiceScreenState extends State<ServiceScreen>
                         ? EdgeInsets.only(
                             left: width * 0.061, bottom: height * 0.10)
                         : EdgeInsets.only(
-                            right: width * 0.06,
+                            right: width * 0.061,
+                            bottom: height * 0.10,
                           ),
                     child: Align(
                       alignment: Alignment.center,
