@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';

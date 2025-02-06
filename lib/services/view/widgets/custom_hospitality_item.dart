@@ -1,5 +1,4 @@
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/days_info.dart';
 import 'package:ajwad_v4/services/view/widgets/text_chip.dart';
 import 'package:ajwad_v4/utils/app_util.dart';

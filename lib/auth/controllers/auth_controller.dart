@@ -623,6 +623,7 @@ class AuthController extends GetxController {
   void checkAppVersion({required BuildContext context}) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final version = packageInfo.version;
+    final build = packageInfo.buildNumber;
 
     final appVersion = await getAppVersion(context: context);
 
@@ -632,6 +633,7 @@ class AuthController extends GetxController {
 
     log(appVersion.versionNumber ?? "NO Ver");
     log(version);
+    log(build);
 
     if (appVersion.versionNumber == version) {
       log('Same Version');

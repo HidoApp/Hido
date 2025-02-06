@@ -1,15 +1,10 @@
 import 'dart:developer';
 
-import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/trip_controller.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/Adventure_summary_screen.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/view/event_summary_screen.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/Experience/summary_screen.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/local_ticket_screen.dart';
 import 'package:ajwad_v4/notification/controller/notification_controller.dart';
 import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
-import 'package:ajwad_v4/request/ajwadi/view/new_request_screen.dart';
 import 'package:ajwad_v4/request/tourist/view/offers_screen.dart';
 import 'package:ajwad_v4/request/widgets/PushNotificationCard.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';

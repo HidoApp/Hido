@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/services/bookmark_services.dart';
 import 'package:ajwad_v4/profile/widget/bookmark_card.dart';
@@ -7,7 +6,6 @@ import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class BookmarkScreen extends StatefulWidget {
   const BookmarkScreen({
