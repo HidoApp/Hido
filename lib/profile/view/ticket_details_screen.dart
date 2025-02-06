@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/event/model/event.dart';
@@ -8,9 +7,7 @@ import 'package:ajwad_v4/profile/widget/AdventureTicketData.dart';
 import 'package:ajwad_v4/profile/widget/cancleSheet.dart';
 import 'package:ajwad_v4/profile/widget/contact_info_widget.dart';
 import 'package:ajwad_v4/profile/widget/event_ticket_data.dart';
-import 'package:ajwad_v4/request/tourist/view/local_offer_info.dart';
 import 'package:ajwad_v4/services/model/adventure.dart';
-import 'package:ajwad_v4/services/view/service_local_info.dart';
 import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
 import 'package:ajwad_v4/widgets/image_cache_widget.dart';
 import 'package:amplitude_flutter/events/base_event.dart';

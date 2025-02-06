@@ -1,16 +1,13 @@
-import 'dart:developer';
 
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
-import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/bookmark.dart';
 import 'package:ajwad_v4/profile/services/bookmark_services.dart';
-import 'package:ajwad_v4/request/tourist/controllers/rating_controller.dart';
 // import 'package:ajwad_v4/request/tourist/models/offer.dart';
 import 'package:ajwad_v4/request/tourist/view/find_ajwady.dart';
 import 'package:ajwad_v4/reviews/allReviewsScreen.dart';
@@ -34,7 +31,6 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:readmore/readmore.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../profile/models/profile.dart';

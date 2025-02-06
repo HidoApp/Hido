@@ -48,15 +48,10 @@ class CalenderDialog extends StatefulWidget {
 class _CalenderDialogState extends State<CalenderDialog> {
   String selectedDate = '';
 
-  final _ajwadiExploreController = Get.put(AjwadiExploreController());
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (widget.avilableDate != null) {
-      for (var date in widget.avilableDate!) {}
-    }
   }
 
   bool defineSelectable(DateTime val) {

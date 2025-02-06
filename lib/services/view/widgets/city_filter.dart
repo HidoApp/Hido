@@ -1,6 +1,4 @@
-import 'dart:developer';
 
-import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/services/controller/filter_controller.dart';
 import 'package:ajwad_v4/services/view/widgets/filter_text_chip.dart';
 import 'package:ajwad_v4/utils/app_util.dart';

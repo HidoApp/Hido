@@ -19,14 +19,12 @@ import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/dotted_line_separator.dart';
-import 'package:ajwad_v4/widgets/payment_web_view.dart';
 import 'package:ajwad_v4/widgets/promocode_field.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../request/ajwadi/controllers/request_controller.dart';
 
 class ReviewHospitalty extends StatefulWidget {
   const ReviewHospitalty(

@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/add_event_calender_dialog.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/add_hospitality_calender_dialog.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 
@@ -23,7 +22,6 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart' as intel;
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../../services/controller/hospitality_controller.dart';

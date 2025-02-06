@@ -7,7 +7,6 @@ import 'package:ajwad_v4/notification/customBadge.dart';
 import 'package:ajwad_v4/notification/notifications_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/view/messages_screen.dart';
-import 'package:ajwad_v4/profile/view/ticket_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

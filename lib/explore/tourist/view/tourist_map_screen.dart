@@ -8,7 +8,6 @@ import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/widget/guide_bottom_sheet.dart';
 import 'package:ajwad_v4/explore/widget/map_icons_widget.dart';
-import 'package:ajwad_v4/explore/widget/map_search_widget.dart';
 import 'package:ajwad_v4/explore/tourist/view/trip_details.dart';
 import 'package:ajwad_v4/explore/widget/map_marker.dart';
 import 'package:ajwad_v4/explore/widget/map_widget.dart';

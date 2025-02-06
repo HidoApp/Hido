@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/add_event_calender_dialog.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/add_hospitality_calender_dialog.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/widget/image_slider.dart';
 import 'package:ajwad_v4/request/ajwadi/view/view_experience_images.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
@@ -500,10 +499,6 @@ class _EditAdventureState extends State<EditAdventure> {
 
   Future<void> _updateAdventure() async {
     try {
-      print(
-          "Longitude: ${_servicesController.pickUpLocLatLang.value.longitude}");
-      print(daysInfo.length);
-
       final Adventure? result = await _servicesController.editAdventure(
         daysinfo: daysInfo,
         id: widget.adventureObj.id,

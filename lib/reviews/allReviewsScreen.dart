@@ -1,12 +1,8 @@
-import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/Experience/experience_type.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/Experience/widget/custom_experience_item.dart';
 import 'package:ajwad_v4/request/tourist/controllers/rating_controller.dart';
 import 'package:ajwad_v4/reviews/review_card.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_empty_widget.dart';
-import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skeletonizer/skeletonizer.dart';

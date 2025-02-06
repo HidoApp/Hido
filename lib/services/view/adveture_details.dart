@@ -165,7 +165,6 @@ class _AdventureDetailsState extends State<AdventureDetails> {
   Widget build(BuildContext context) {
     width = MediaQuery.sizeOf(context).width;
     height = MediaQuery.sizeOf(context).height;
-
     return Obx(
       () => _adventureController.isAdventureByIdLoading.value
           ? const Scaffold(

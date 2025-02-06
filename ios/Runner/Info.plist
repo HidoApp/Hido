@@ -97,7 +97,7 @@
     <!-- Universal Links -->
     <key>com.apple.developer.associated-domains</key>
     <array>
-        <string>applinks:stg-api.hido.app</string>
+        <string>applinks:api.hido.app</string>
     </array>
     
 </dict>

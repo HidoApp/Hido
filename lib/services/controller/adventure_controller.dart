@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/services/model/adventure.dart';
 import 'package:ajwad_v4/services/model/adventure_summary.dart';
-import 'package:ajwad_v4/services/model/days_info.dart';
 import 'package:ajwad_v4/services/service/adventure_service.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/cupertino.dart';
