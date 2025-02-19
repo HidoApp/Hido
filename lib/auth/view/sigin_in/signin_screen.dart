@@ -290,7 +290,10 @@ class _SignInScreenState extends State<SignInScreen> {
                                             }
                                             Get.offAll(
                                                 () => const TouristBottomBar());
-                                          } else {}
+                                          } else {
+                                            AppUtil.errorToast(
+                                                context, 'invalidSingIn'.tr);
+                                          }
                                         }
                                       }
                                     },

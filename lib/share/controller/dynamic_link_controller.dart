@@ -67,7 +67,6 @@ class DynamicLinkController extends GetxController {
   }
 
   void handleDynamicLink(Map data) {
-    print('Received dynamic link data: $data');
 
     if (data.containsKey('type') && data.containsKey('id')) {
       final String? type = data['type']?.toString();

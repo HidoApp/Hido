@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/view/edit_event.dart';
@@ -164,7 +163,6 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
   Widget build(BuildContext context) {
     width = MediaQuery.sizeOf(context).width;
     height = MediaQuery.sizeOf(context).height;
-
     return Obx(
       () => _eventController.isEventByIdLoading.value
           ? const Scaffold(
@@ -206,7 +204,9 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                             color: Colors.black,
                           ),
                           CustomText(
-                            text: '${event!.price} ${'sar'.tr}',
+                            text: event!.price != 0
+                                ? '${event!.price} ${'sar'.tr}'
+                                : "free".tr,
                             fontWeight: FontWeight.w900,
                             fontSize: width * 0.043,
                             fontFamily: AppUtil.rtlDirection2(context)

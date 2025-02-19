@@ -28,35 +28,44 @@ class Event {
   final String? cost; //final int?seats;
   //final List<Time>? times;
   final double? rating;
-  Event({
-    required this.id,
-    this.descriptionAr,
-    this.rating,
-    this.descriptionEn,
-    this.nameAr,
-    this.nameEn,
-    this.regionAr,
-    this.regionEn,
-    this.image,
-    this.cost,
-    this.price,
-    this.locationUrl,
-    this.bookingDates,
-    // this.date,
-    required this.allowedGuests,
-    required this.status,
-    this.user,
-    this.daysInfo,
-    this.coordinates,
-    this.booking,
-    required this.images,
+  final bool allowCoupons;
+  final bool hasFreeBooking;
+  final int totalSeats;
+  Event(
+      {required this.id,
+      this.descriptionAr,
+      this.rating,
+      this.descriptionEn,
+      this.nameAr,
+      this.nameEn,
+      this.regionAr,
+      this.regionEn,
+      this.image,
+      this.cost,
+      this.price,
+      this.locationUrl,
+      this.bookingDates,
+      // this.date,
+      required this.allowedGuests,
+      required this.status,
+      required this.allowCoupons,
+      this.user,
+      this.daysInfo,
+      this.coordinates,
+      this.booking,
+      required this.images,
+      required this.hasFreeBooking,
+      required this.totalSeats
 
-    //this.seats,
-    //this.times
-  });
+      //this.seats,
+      //this.times
+      });
 
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
+      allowCoupons: json['allowCoupons'] ?? true,
+      hasFreeBooking: json['hasFreeBooking'] ?? true,
+      totalSeats: json['totalSeats'] ?? 0,
       id: json['id'] ?? '',
       cost: json['cost'] ?? "",
       descriptionAr: json['descriptionAr'] ?? '',
@@ -106,6 +115,9 @@ class Event {
     String? nameEn,
     String? descriptionAr,
     String? descriptionEn,
+    bool? allowCoupons,
+    bool? hasFreeBooking,
+    int? totalSeats,
     int? price,
     List<String>? image,
     String? regionAr,
@@ -145,6 +157,9 @@ class Event {
       images: images != null ? List<String>.from(images) : this.images,
       cost: cost ?? this.cost,
       rating: rating ?? this.rating,
+      hasFreeBooking: hasFreeBooking ?? this.hasFreeBooking,
+      allowCoupons: allowCoupons ?? this.allowCoupons,
+      totalSeats: totalSeats ?? this.totalSeats,
     );
   }
 

@@ -42,7 +42,7 @@ if (keystorePropertiesFile.exists()) {
 android {
    
     //compileSdkVersion flutter.compileSdkVersion
-    compileSdkVersion 34
+    compileSdkVersion 35
     namespace 'com.hido.hidoapp'
     
     // ndkVersion "25.1.8937393"
@@ -98,6 +98,8 @@ flutter {
 dependencies {
     implementation 'androidx.window:window:1.0.0'
     implementation 'androidx.window:window-java:1.0.0'
+    // implementation 'com.github.User:Repo:Tag'
+
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:multidex:2.0.1'

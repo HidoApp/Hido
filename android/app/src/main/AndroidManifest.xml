@@ -46,10 +46,14 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
-              <intent-filter>
+              <intent-filter android:autoVerify="true">
   <action android:name="android.intent.action.VIEW" />
   <category android:name="android.intent.category.DEFAULT" />
   <category android:name="android.intent.category.BROWSABLE" />
+
+  
+
+  
   <data android:scheme="https"
         android:host="api.hido.app"
         android:pathPrefix="/dynamic-link"

@@ -64,7 +64,7 @@ dependencies:
   easy_localization: ^3.0.3
   webview_flutter: ^4.4.4
   flutter_local_notifications: ^17.1.1
-  awesome_notifications: ^0.8.2
+  # awesome_notifications: ^0.8.2
   timezone: ^0.9.3
   ticket_widget: ^1.0.2
   flutter_rating_bar: ^4.0.1
@@ -96,7 +96,7 @@ dependencies:
   package_info_plus:
   readmore: ^3.0.0
   badges: ^3.1.2
-  firebase_dynamic_links: ^6.0.10
+  # firebase_dynamic_links: ^6.0.10
   # uni_links:
 
   # flutter_spinkit: ^5.2.1

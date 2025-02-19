@@ -93,7 +93,6 @@ void main() async {
 
   timeago.setLocaleMessages('ar', timeago.ArMessages());
   Get.put(DynamicLinkController());
-  await DynamicLinkService.init();
 
   try {
     await Firebase.initializeApp(
@@ -154,7 +153,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
+      data: MediaQuery.of(context)
+          .copyWith(textScaler: const TextScaler.linear(1.0)),
       child: GetMaterialApp(
         localizationsDelegates: const [
           CountryLocalizations.delegate,
@@ -176,6 +176,7 @@ class _MyAppState extends State<MyApp> {
         home: const SplashScreen(),
         navigatorKey: navigatorKey,
         routes: {
+          //'/': (context) => const SplashScreen(),
           //'/tourist_bottom_bar': (context) => const TouristBottomBar(),
           '/notification_screen': (context) => NotificationsScreen(),
         },

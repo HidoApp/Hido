@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:ajwad_v4/amplitude_service.dart';
+import 'package:ajwad_v4/constants/app_constants.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/calender_dialog.dart';
@@ -40,6 +41,7 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
   bool showErrorSeat = false;
   bool showErrorMaxGuest = false;
   int seat = 0;
+  int totalFreeSeats = 0;
   int person = 0;
   final String timeZoneName = 'Asia/Riyadh';
   late tz.Location location;
@@ -88,6 +90,32 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
       }
     }
     return false;
+  }
+
+  void validateFreeSeat() {
+    // check if seat in daysInfo < event free seat
+    if (widget
+            .event!.daysInfo![_eventController.selectedDateIndex.value].seats >
+        widget.event!.totalSeats) {
+      // then check if total seat is < 5 which is constant called freeSeatCap
+      if (widget.event!.totalSeats < freeSeatCap &&
+          person < freeSeatCap - widget.event!.totalSeats) {
+        // person ++
+        setState(() {
+          person = person + 1;
+          showErrorGuests = false;
+        });
+      } else {
+        _eventController.showErrorMaxGuest.value = true;
+      }
+    }
+
+    // if (person < totalFreeSeats) {
+    //   setState(() {
+    //     person = person + 1;
+    //     showErrorGuests = false;
+    //   });
+    // }
   }
 
   @override
@@ -270,16 +298,31 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
                         _eventController.DateErrorMessage.value = true;
                         return;
                       }
-                      if (person <
+
+                      if (widget.event!.price == 0) {
+                        validateFreeSeat();
+                      }
+                      // check if person lower than seat in dayInfo
+                      else if (person <
                           widget
                               .event!
                               .daysInfo![
                                   _eventController.selectedDateIndex.value]
                               .seats) {
-                        setState(() {
-                          person = person + 1;
-                          showErrorGuests = false;
-                        });
+                        // if this a free price and total seat is > daysInfo seat we will check also for total seat if is lower than 5
+                        if (widget.event!.price == 0 &&
+                            widget.event!.totalSeats < freeSeatCap) {
+                          //example: totalSeat =3 if 3<5 will incremnet person
+                          setState(() {
+                            person = person + 1;
+                            showErrorGuests = false;
+                          });
+                        } else {
+                          setState(() {
+                            person = person + 1;
+                            showErrorGuests = false;
+                          });
+                        }
                       } else {
                         _eventController.showErrorMaxGuest.value = true;
                       }
@@ -362,10 +405,15 @@ class _EventBookingSheetState extends State<EventBookingSheet> {
                     showErrorGuests = false;
                     showErrorSeat = false;
                   });
-          final isValid =     _eventController.checkForOneHour(context: context);
-          if (!isValid) {
-            return;
-          }
+                  final isValid =
+                      _eventController.checkForOneHour(context: context);
+                  if (!isValid) {
+                    return;
+                  }
+                  // if (widget.event!.price == 0 &&
+                  //     widget.event!.totalSeats < 5) {
+                  //   person = widget.event!.totalSeats;
+                  // }
                   Get.to(
                       () => EventReview(event: widget.event!, person: person));
 

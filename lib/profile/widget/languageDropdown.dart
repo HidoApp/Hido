@@ -50,7 +50,7 @@ class _LanguageDropdownState extends State<LanguageDropdown> {
               });
             },
             child: SizedBox(
-              width: width * 0.3,
+              width: width * 0.31,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
