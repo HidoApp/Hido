@@ -24,9 +24,11 @@ class ServicesCard extends StatefulWidget {
     this.long,
     this.dayInfo,
     required this.price,
+    required this.status,
   }) : super(key: key);
 
   final String image;
+  final String status;
   final String? personImage;
   final String title;
   final String location;
@@ -91,7 +93,7 @@ class _ServicesCardState extends State<ServicesCard> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-
+    print(widget.status);
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
@@ -111,7 +113,6 @@ class _ServicesCardState extends State<ServicesCard> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 // Image Section
                 ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -201,7 +202,8 @@ class _ServicesCardState extends State<ServicesCard> {
             ),
             SizedBox(height: width * 0.029),
             CustomText(
-              text: widget.price,
+              color: widget.status != 'CLOSED' ? black : starGreyColor,
+              text: widget.status != 'CLOSED' ? widget.price : "finished".tr,
             ),
           ],
         ),

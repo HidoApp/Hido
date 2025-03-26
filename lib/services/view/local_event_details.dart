@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/view/edit_event.dart';
@@ -172,7 +174,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
               body: Center(child: CircularProgressIndicator.adaptive()),
             )
           : Scaffold(
-              bottomNavigationBar: !widget.isLocal
+              bottomNavigationBar: !widget.isLocal && event!.status != 'CLOSED'
                   ? SizedBox(
                       child: Padding(
                         padding: EdgeInsets.only(top: width * 0.025),

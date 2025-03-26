@@ -86,6 +86,8 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                           .user
                                           .profile
                                           .image,
+                                      status: _srvicesController
+                                          .hospitalityList[index].status,
                                       title: AppUtil.rtlDirection2(context)
                                           ? _srvicesController
                                               .hospitalityList[index].titleAr
@@ -99,10 +101,9 @@ class _HospitalityTabState extends State<HospitalityTab> {
                                       meal: AppUtil.rtlDirection2(context)
                                           ? _srvicesController
                                               .hospitalityList[index].mealTypeAr
-                                          : AppUtil.capitalizeFirstLetter(
-                                              _srvicesController
-                                                  .hospitalityList[index]
-                                                  .mealTypeEn),
+                                          : AppUtil.capitalizeFirstLetter(_srvicesController
+                                              .hospitalityList[index]
+                                              .mealTypeEn),
                                       category: AppUtil.rtlDirection(context)
                                           ? _srvicesController
                                               .hospitalityList[index].categoryAr

@@ -61,6 +61,9 @@ class _EventsTabState extends State<EventsTab> {
                                 itemCount: _eventController.eventList.length,
                                 itemBuilder: (context, index) {
                                   return EventCardItem(
+                                    status: _eventController
+                                            .eventList[index].status ??
+                                        "",
                                     onTap: () {
                                       Get.to(() => LocalEventDetails(
                                           eventId: _eventController

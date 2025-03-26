@@ -730,6 +730,7 @@ const localeEn = {
   'shareSuccessful': 'Share was successful',
   'reset': 'Reast',
   'free':'Free',
-   'invalidSingIn':"This user cannot sign in as a tourist"
+   'invalidSingIn':"This user cannot sign in as a tourist",
+   'finished':'Finished'
   // 'experienceTitleExampleAr':"example: Dana’s house"
 };

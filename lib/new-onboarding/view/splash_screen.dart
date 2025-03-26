@@ -102,7 +102,6 @@ class _SplashScreenState extends State<SplashScreen>
     });
   }
 
-
   @override
   void dispose() {
     _controller.dispose();
@@ -115,7 +114,7 @@ class _SplashScreenState extends State<SplashScreen>
       body: Stack(
         children: [
           Lottie.asset(
-            'assets/splashScreen.json',
+            'assets/Splash_Eid.json',
             controller: _controller,
             onLoaded: (composition) {
               _controller.duration = composition.duration;

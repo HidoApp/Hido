@@ -147,7 +147,6 @@ class _MyAppState extends State<MyApp> {
 
     local = GetStorage().read('language') ??
         Platform.localeName.toLocale().languageCode;
-    log("AMMAR");
   }
 
   @override

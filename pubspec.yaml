@@ -149,6 +149,7 @@ flutter:
     - assets/onboarding_55555.json
     - assets/splash_screen_new.json
     - assets/splashScreen.json
+    - assets/Splash_Eid.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

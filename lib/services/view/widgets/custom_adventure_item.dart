@@ -24,6 +24,7 @@ class CustomAdventureItem extends StatefulWidget {
     this.lang,
     this.long,
     required this.price,
+    required this.status,
   }) : super(key: key);
 
   final String image;
@@ -32,6 +33,7 @@ class CustomAdventureItem extends StatefulWidget {
   final String location;
   final String seats;
   final String rate;
+  final String status;
   final List<DayInfo>? dayInfo;
   final VoidCallback onTap;
   final String? lang;
@@ -206,7 +208,8 @@ class _CustomAdventureItemState extends State<CustomAdventureItem> {
               ],
             ),
             CustomText(
-              text: widget.price,
+              color: widget.status != 'CLOSED' ? black : starGreyColor,
+              text: widget.status != 'CLOSED' ? widget.price : "finished".tr,
             ),
           ],
         ),

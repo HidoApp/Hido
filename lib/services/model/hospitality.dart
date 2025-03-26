@@ -101,7 +101,6 @@ class Hospitality {
     );
   }
 
-
   /// CopyWith method
   Hospitality copyWith({
     String? id,
@@ -159,7 +158,6 @@ class Hospitality {
     );
   }
 }
-
 
 class HospitalityBooking {
   final String id;
