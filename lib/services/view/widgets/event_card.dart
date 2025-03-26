@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/model/days_info.dart';
@@ -19,7 +18,7 @@ class EventCardItem extends StatefulWidget {
       required this.image,
       required this.title,
       required this.location,
-      // required this.seats,
+      required this.status,
       required this.rate,
       required this.daysInfo,
       required this.onTap,
@@ -29,7 +28,7 @@ class EventCardItem extends StatefulWidget {
   final String image;
   final String title;
   final String location;
-  //final String seats;
+  final String status;
   final String rate;
   final List<DayInfo> daysInfo;
   final VoidCallback onTap;
@@ -42,7 +41,6 @@ class EventCardItem extends StatefulWidget {
 }
 
 class _EventCardItemState extends State<EventCardItem> {
-  final _eventController = Get.put(EventController());
   RxString address = ''.obs;
   Future<String> _getAddressFromLatLng(
       double position1, double position2) async {
@@ -198,7 +196,8 @@ class _EventCardItemState extends State<EventCardItem> {
                 ],
               ),
               CustomText(
-                text: widget.price,
+                color: widget.status != 'CLOSED' ? black : starGreyColor,
+                text: widget.status != 'CLOSED' ? widget.price : "finished".tr,
               ),
             ],
           ),

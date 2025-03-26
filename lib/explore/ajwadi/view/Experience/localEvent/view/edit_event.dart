@@ -340,7 +340,7 @@ class _EditEventState extends State<EditEvent> {
 
       if (_priceController.text.isNotEmpty) {
         int? price = int.tryParse(_priceController.text);
-        PriceLarger = price == null || price < 1;
+        PriceLarger = price == null;
 
         //check if price not int
         String priceText = _priceController.text;

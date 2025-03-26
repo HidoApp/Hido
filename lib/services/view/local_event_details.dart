@@ -1,3 +1,4 @@
+import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
@@ -164,7 +165,6 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
   Widget build(BuildContext context) {
     width = MediaQuery.sizeOf(context).width;
     height = MediaQuery.sizeOf(context).height;
-
     return Obx(
       () => _eventController.isEventByIdLoading.value
           ? const Scaffold(
@@ -174,7 +174,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
               body: Center(child: CircularProgressIndicator.adaptive()),
             )
           : Scaffold(
-              bottomNavigationBar: !widget.isLocal
+              bottomNavigationBar: !widget.isLocal && event!.status != 'CLOSED'
                   ? SizedBox(
                       child: Padding(
                         padding: EdgeInsets.only(top: width * 0.025),
@@ -206,7 +206,9 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                             color: Colors.black,
                           ),
                           CustomText(
-                            text: '${event!.price} ${'sar'.tr}',
+                            text: event!.price != 0
+                                ? '${event!.price} ${'sar'.tr}'
+                                : "free".tr,
                             fontWeight: FontWeight.w900,
                             fontSize: width * 0.043,
                             fontFamily: AppUtil.rtlDirection2(context)

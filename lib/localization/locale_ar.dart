@@ -719,4 +719,7 @@ const localeAr = {
   'byGender': "حسب الجنس",
   'shareSuccessful': 'تمت المشاركة بنجاح',
   'reset': 'مسح',
+  'free': 'مجاني',
+  'invalidSingIn': "لا يمكن لهذا المستخدم تسجيل الدخول كسائح.",
+  'finished': 'انتهت'
 };

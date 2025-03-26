@@ -308,10 +308,13 @@ class AuthService {
 
       final getStorage = GetStorage();
 
-      getStorage.write('accessToken', accessToken);
-      getStorage.write('refreshToken', refreshToken);
-      getStorage.write('rememberMe', true);
-      getStorage.write('userRole', token.userRole);
+      if (token.userRole == 'tourist') {
+        getStorage.write('accessToken', accessToken);
+        getStorage.write('refreshToken', refreshToken);
+        getStorage.write('rememberMe', true);
+        getStorage.write('userRole', token.userRole);
+      }
+
       return User.fromJson(user);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];

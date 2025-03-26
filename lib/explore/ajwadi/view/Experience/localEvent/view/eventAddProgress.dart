@@ -173,7 +173,7 @@ class _EventAddProgressState extends State<EventAddProgress> {
     if (activeIndex == 5) {
       if (EventPrice.text.isNotEmpty) {
         int? price = int.tryParse(EventPrice.text);
-        if (price != null && price > 0) {
+        if (price != null && price >= 0) {
           return true;
         }
       }

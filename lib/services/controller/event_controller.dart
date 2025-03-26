@@ -14,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 
 class EventController extends GetxController {
   var eventList = <Event>[].obs;
+
   var originalEventList = <Event>[].obs;
 
   var isEventListLoading = false.obs;
@@ -52,6 +53,12 @@ class EventController extends GetxController {
   var startDate = ''.obs;
   var isEventDateSelcted = false.obs;
   var isEventTimeSelcted = false.obs;
+  //check if this event  allow coupons or not
+  var allowCoupons = true.obs;
+  // check if user can make free booking
+  var hasFreeBooking = true.obs;
+  // // total allowed seat for free booking
+  // var totalSeats = true.obs;
 
   // Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
   //  Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264,46.544731).obs;
@@ -86,7 +93,11 @@ class EventController extends GetxController {
     try {
       isEventByIdLoading(true);
       final data = await EventService.getEventById(context: context, id: id);
-      return data;
+      if (data != null) {
+        allowCoupons(data.allowCoupons);
+        hasFreeBooking(data.hasFreeBooking);
+        return data;
+      }
     } catch (e) {
       isEventByIdLoading(false);
       if (context.mounted) {

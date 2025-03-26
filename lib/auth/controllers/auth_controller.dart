@@ -9,6 +9,7 @@ import 'package:ajwad_v4/auth/view/ajwadi_register/provided_services.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/request/widgets/app_version_dialog.dart';
+import 'package:ajwad_v4/share/services/dynamic_link_service.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';

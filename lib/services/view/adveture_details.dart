@@ -174,48 +174,49 @@ class _AdventureDetailsState extends State<AdventureDetails> {
               body: Center(child: CircularProgressIndicator.adaptive()),
             )
           : Scaffold(
-              bottomNavigationBar: !widget.isLocal
-                  ? SizedBox(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: width * 0.025),
-                        child: BottomAdventureBooking(
-                          avilableDate: avilableDate,
-                          adventure: adventure!,
-                          address: address,
+              bottomNavigationBar:
+                  !widget.isLocal && adventure!.status != "CLOSED"
+                      ? SizedBox(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: width * 0.025),
+                            child: BottomAdventureBooking(
+                              avilableDate: avilableDate,
+                              adventure: adventure!,
+                              address: address,
+                            ),
+                          ),
+                        )
+                      : Padding(
+                          padding: EdgeInsets.only(
+                              right: 17, left: 17, bottom: width * 0.085),
+                          child: Row(
+                            children: [
+                              CustomText(
+                                text: "pricePerPerson".tr,
+                                fontSize: width * 0.038,
+                                color: colorDarkGrey,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
+                              ),
+                              CustomText(
+                                text: " /  ",
+                                fontWeight: FontWeight.w900,
+                                fontSize: width * 0.043,
+                                color: Colors.black,
+                              ),
+                              CustomText(
+                                text: '${adventure!.price} ${'sar'.tr}',
+                                fontWeight: FontWeight.w900,
+                                fontSize: width * 0.043,
+                                fontFamily: AppUtil.rtlDirection2(context)
+                                    ? 'SF Arabic'
+                                    : 'SF Pro',
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    )
-                  : Padding(
-                      padding: EdgeInsets.only(
-                          right: 17, left: 17, bottom: width * 0.085),
-                      child: Row(
-                        children: [
-                          CustomText(
-                            text: "pricePerPerson".tr,
-                            fontSize: width * 0.038,
-                            color: colorDarkGrey,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                          ),
-                          CustomText(
-                            text: " /  ",
-                            fontWeight: FontWeight.w900,
-                            fontSize: width * 0.043,
-                            color: Colors.black,
-                          ),
-                          CustomText(
-                            text: '${adventure!.price} ${'sar'.tr}',
-                            fontWeight: FontWeight.w900,
-                            fontSize: width * 0.043,
-                            fontFamily: AppUtil.rtlDirection2(context)
-                                ? 'SF Arabic'
-                                : 'SF Pro',
-                          ),
-                        ],
-                      ),
-                    ),
               backgroundColor: Colors.white,
               extendBodyBehindAppBar: true,
               persistentFooterAlignment: AlignmentDirectional.bottomCenter,

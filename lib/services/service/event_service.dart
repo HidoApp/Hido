@@ -187,6 +187,7 @@ class EventService {
       "locationUrl": locationUrl,
       "regionAr": regionAr,
       "regionEn": regionEn,
+      "allowCoupons": price != 0
     };
 
     try {
@@ -255,6 +256,7 @@ class EventService {
       "locationUrl": locationUrl,
       "regionAr": regionAr,
       "regionEn": regionEn,
+      "allowCoupons": price != 0
     };
 
     final response = await http.put(

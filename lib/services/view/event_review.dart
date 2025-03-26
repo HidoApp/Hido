@@ -45,25 +45,24 @@ class _EventReviewState extends State<EventReview> {
   }
 
   void freeEventBooking() async {
-    await _eventController.checkAndBookEvent(
+    final isSucces = await _eventController.checkAndBookEvent(
         context: context,
         eventId: widget.event.id,
-        couponId: paymentController.couponId.value,
+        couponId: finalCost != 0 ? paymentController.couponId.value : "",
         dayId:
             widget.event.daysInfo![_eventController.selectedDateIndex.value].id,
         person: widget.person,
         date: _eventController.selectedDate.value);
     if (!mounted) return;
+    if (!isSucces) return;
 
     final updatedEvent = await _eventController.getEventById(
         context: context, id: widget.event.id);
     if (!mounted) return;
     Get.offAll(() => const TouristBottomBar());
-    log("inside adventure");
-    log("${updatedEvent!.booking?.last.id}");
     LocalNotification().showEventNotification(
         context,
-        updatedEvent.booking?.last.id,
+        updatedEvent!.booking?.last.id,
         _eventController.selectedDate.value,
         updatedEvent.nameEn,
         updatedEvent.nameAr);
@@ -168,10 +167,11 @@ class _EventReviewState extends State<EventReview> {
                     ),
 
                     ///discount widget
-                    PromocodeField(
-                      type: 'EVENT',
-                      price: (widget.event.price! * widget.person).toDouble(),
-                    ),
+                    if (widget.event.allowCoupons && finalCost > 0)
+                      PromocodeField(
+                        type: 'EVENT',
+                        price: (widget.event.price! * widget.person).toDouble(),
+                      ),
                     if (paymentController.isUnderMinSpend.value)
                       CustomText(
                         text:
@@ -199,7 +199,9 @@ class _EventReviewState extends State<EventReview> {
                         const Spacer(),
                         CustomText(
                           // text: 'SAR ${widget.adventure.price.toString()}',
-                          text: '${"sar".tr} ${finalCost.toString()}',
+                          text: finalCost != 0
+                              ? '$finalCost ${'sar'.tr}'
+                              : "free".tr,
 
                           fontSize: width * 0.051,
                         )
@@ -242,7 +244,8 @@ class _EventReviewState extends State<EventReview> {
                               if (!isValid) {
                                 return;
                               }
-                              if (paymentController.isPriceFree.value) {
+                              if (paymentController.isPriceFree.value ||
+                                  finalCost == 0) {
                                 freeEventBooking();
                               } else {
                                 Get.to(

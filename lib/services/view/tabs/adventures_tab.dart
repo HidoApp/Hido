@@ -67,6 +67,9 @@ class _AdventuresTabState extends State<AdventuresTab> {
                                   _adventureController.adventureList.length,
                               itemBuilder: (context, index) {
                                 return CustomAdventureItem(
+                                  status: _adventureController
+                                          .adventureList[index].status ??
+                                      "",
                                   price:
                                       "${_adventureController.adventureList[index].price.toString()}  ${'sar'.tr}",
                                   onTap: () {

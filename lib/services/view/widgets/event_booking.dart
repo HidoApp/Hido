@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:ajwad_v4/amplitude_service.dart';
+import 'package:ajwad_v4/constants/app_constants.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
@@ -42,7 +43,6 @@ class _BottomEventBookingState extends State<BottomEventBooking> {
 
   @override
   Widget build(BuildContext context) {
-    log(_eventController.address.value);
     final height = MediaQuery.sizeOf(context).height;
     final width = MediaQuery.sizeOf(context).width;
 
@@ -70,7 +70,9 @@ class _BottomEventBookingState extends State<BottomEventBooking> {
                   color: Colors.black,
                 ),
                 CustomText(
-                  text: '${widget.event.price} ${'sar'.tr}',
+                  text: widget.event.price != 0
+                      ? '${widget.event.price} ${'sar'.tr}'
+                      : "free".tr,
                   fontWeight: FontWeight.w900,
                   fontSize: width * 0.043,
                   fontFamily: 'HT Rakik',
@@ -91,7 +93,8 @@ class _BottomEventBookingState extends State<BottomEventBooking> {
                   bottom: width * 0.08),
 
               child: IgnorePointer(
-                ignoring: widget.event.daysInfo!.isEmpty,
+                ignoring: widget.event.daysInfo!.isEmpty ||
+                    widget.event.totalSeats == freeSeatCap,
                 child: CustomButton(
                   onPressed: () {
                     _eventController.DateErrorMessage.value = false;
