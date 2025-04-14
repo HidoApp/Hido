@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
-import 'package:ajwad_v4/share/services/dynamic_link_service.dart';
 import 'package:ajwad_v4/widgets/verion_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

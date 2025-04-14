@@ -3,7 +3,7 @@ PODS:
     - AmplitudeSwift (~> 1.11)
     - Flutter
     - FlutterMacOS
-  - AmplitudeSwift (1.11.5):
+  - AmplitudeSwift (1.11.7):
     - AnalyticsConnector (~> 1.3.0)
   - AnalyticsConnector (1.3.1)
   - app_links (0.0.2):
@@ -334,7 +334,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   amplitude_flutter: 6d1f1befdf0c5601a44012331adb1ca207bcd02b
-  AmplitudeSwift: 16f62b30b8f6ac90eec4fc24798daf1fba4c7869
+  AmplitudeSwift: d779154ed598aeb2bfd1dab8da6e5ea529bf170c
   AnalyticsConnector: 3def11199b4ddcad7202c778bde982ec5da0ebb3
   app_links: 76b66b60cc809390ca1ad69bfd66b998d2387ac7
   connectivity_plus: cb623214f4e1f6ef8fe7403d580fdad517d2f7dd
