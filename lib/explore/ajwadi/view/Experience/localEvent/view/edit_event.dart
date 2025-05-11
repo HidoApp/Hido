@@ -340,7 +340,7 @@ class _EditEventState extends State<EditEvent> {
 
       if (_priceController.text.isNotEmpty) {
         int? price = int.tryParse(_priceController.text);
-        PriceLarger = price == null;
+        PriceLarger = price == null || price < 1;
 
         //check if price not int
         String priceText = _priceController.text;
@@ -500,8 +500,8 @@ class _EditEventState extends State<EditEvent> {
 
   Future<void> _updateEvent() async {
     try {
-      print(
-          "Longitude: ${_servicesController.pickUpLocLatLang.value.longitude}");
+      // print(
+      //     "Longitude: ${_servicesController.pickUpLocLatLang.value.longitude}");
 
       final Event? result = await _servicesController.editEvent(
         id: widget.eventObj.id,

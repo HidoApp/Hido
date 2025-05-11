@@ -4,11 +4,14 @@ import 'dart:io';
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/request/widgets/AlertDialog.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
+import 'package:ajwad_v4/services/view/widgets/text_chip.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
+import 'package:ajwad_v4/widgets/custom_publish_widget.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
@@ -256,10 +259,6 @@ class _HostInfoReviewState extends State<HostInfoReview> {
 
       DaysInfo.add(newEntry);
     }
-
-    // Print the new dates list
-
-    // Print the new dates list
   }
 
   // Function to generate the Google Maps URL
@@ -368,8 +367,6 @@ class _HostInfoReviewState extends State<HostInfoReview> {
   }
 
   Future<void> createHospitalityExperience() async {
-    log('enter to create');
-
     final isSuccess = await widget.hospitalityController!.createHospitality(
         titleAr: widget.hospitalityTitleAr,
         titleEn: widget.hospitalityTitleEn,
@@ -399,49 +396,37 @@ class _HostInfoReviewState extends State<HostInfoReview> {
       showDialog(
         context: context,
         builder: (BuildContext context) {
-          return Dialog(
-            backgroundColor: Colors.white,
-            surfaceTintColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Container(
-              width: 350,
-              height: 110, // Custom width
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('assets/images/paymentSuccess.gif', width: 38),
-                  const SizedBox(height: 16),
-                  CustomText(
-                    text: !AppUtil.rtlDirection2(context)
-                        ? "Experience published successfully"
-                        : "تم نشر تجربتك بنجاح ",
-                    textDirection: AppUtil.rtlDirection2(context)
-                        ? TextDirection.rtl
-                        : TextDirection.ltr,
-                  ),
-                ],
-              ),
-            ),
+          return CustomPublishDialog(
+            icon: 'publish.svg',
+            title: 'ExperienceSent'.tr,
+            description: 'ExperienceSentDes'.tr,
+            bgIconColor: const Color(0xFFEDFCF2),
           );
         },
       ).then((_) {
         AmplitudeService.amplitude.track(
             BaseEvent('Hospitality published successfully', eventProperties: {
-          'titleEn:': widget.hospitalityTitleEn,
+          'titleAr:': widget.hospitalityTitleAr,
         }));
         Get.offAll(() => const AjwadiBottomBar());
       });
     } else {
-      log(isSuccess.toString());
       AmplitudeService.amplitude
           .track(BaseEvent('Hospitality published failed', eventProperties: {
-        'titleEn:': widget.hospitalityTitleEn,
+        'titleAr:': widget.hospitalityTitleAr,
       }));
-      AppUtil.errorToast(context, 'somthingWentWrong'.tr);
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomAlertDialog(
+                dialogWidth: 308,
+                dialogHight: 196,
+                title: 'ExperienceNotSent'.tr,
+                buttonTitle2: 'contactUs'.tr,
+                buttonTitle1: 'TryAgain'.tr,
+                buttonColor2: Colors.white.withOpacity(0.3),
+                icon: 'Alertsc.svg');
+          });
     }
   }
 
@@ -470,53 +455,44 @@ class _HostInfoReviewState extends State<HostInfoReview> {
       showDialog(
         context: context,
         builder: (BuildContext context) {
-          return Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Container(
-              width: 350,
-              height: 110, // Custom width
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('assets/images/paymentSuccess.gif', width: 38),
-                  const SizedBox(height: 16),
-                  CustomText(
-                    text: !AppUtil.rtlDirection2(context)
-                        ? "Experience published successfully"
-                        : "تم نشر تجربتك بنجاح ",
-                    textDirection: AppUtil.rtlDirection2(context)
-                        ? TextDirection.rtl
-                        : TextDirection.ltr,
-                  ),
-                ],
-              ),
-            ),
+          return CustomPublishDialog(
+            icon: 'publish.svg',
+            title: 'ExperienceSent'.tr,
+            description: 'ExperienceSentDes'.tr,
+            bgIconColor: const Color(0xFFEDFCF2),
           );
         },
       ).then((_) {
         AmplitudeService.amplitude.track(
             BaseEvent('Adventure published successfully', eventProperties: {
-          'title:': widget.hospitalityTitleEn,
+          'title:': widget.hospitalityTitleAr,
         }));
         Get.offAll(() => const AjwadiBottomBar());
       });
     } else {
       AmplitudeService.amplitude
           .track(BaseEvent('Adventure published Failed', eventProperties: {
-        'title:': widget.hospitalityTitleEn,
+        'title:': widget.hospitalityTitleAr,
       }));
-      AppUtil.errorToast(context, 'somthingWentWrong'.tr);
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CustomAlertDialog(
+                dialogWidth: 308,
+                dialogHight: 196,
+                title: 'ExperienceNotSent'.tr,
+                buttonTitle2: 'contactUs'.tr,
+                buttonTitle1: 'TryAgain'.tr,
+                buttonColor2: Colors.white.withOpacity(0.3),
+                icon: 'Alertsc.svg');
+          });
     }
   }
 
   @override
   void initState() {
     super.initState();
-    _fetchAddress();
+    // _fetchAddress();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.experienceType == 'hospitality') {
         // daysInfo();
@@ -585,6 +561,7 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                     : 'explinationAdve'.tr,
                 color: const Color(0xFF9392A0),
                 fontSize: 15,
+                maxlines: 200,
                 fontFamily:
                     AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                 fontWeight: FontWeight.w400,
@@ -633,193 +610,75 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomText(
-                              text: AppUtil.rtlDirection2(context)
-                                  ? widget.hospitalityTitleAr
+                        SizedBox(height: width * 0.01),
+                        CustomText(
+                          text: AppUtil.rtlDirection2(context)
+                              ? widget.hospitalityTitleAr
+                              : widget.hospitalityTitleEn.isEmpty
+                                  ? 'Not title yet'
                                   : widget.hospitalityTitleEn,
-                              color: const Color(0xFF070708),
-                              fontSize: 16,
-                              fontFamily: AppUtil.rtlDirection2(context)
-                                  ? 'SF Arabic'
-                                  : 'SF Pro',
-                              fontWeight: FontWeight.w500,
-                            ),
-                            // Row(
-                            //   children: [
-                            //     Icon(Icons.star,
-                            //         color: Color(0xFF36B268), size: 14),
-                            //     const SizedBox(width: 4),
-                            //     CustomText(
-                            //       text: '5.0',
-                            //       color: Color(0xFF36B268),
-                            //       fontSize: 12,
-                            //       fontFamily: AppUtil.rtlDirection2(context)
-                            //           ? 'SF Arabic'
-                            //           : 'SF Pro',
-                            //       fontWeight: FontWeight.w500,
-                            //     ),
-                            //   ],
-                            // ),
-                          ],
+                          fontSize: width * 0.041,
+                          fontFamily: AppUtil.rtlDirection2(context)
+                              ? 'SF Arabic'
+                              : 'SF Pro',
+                          fontWeight: FontWeight.w500,
                         ),
-                        const SizedBox(height: 8),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                        SizedBox(height: width * 0.02),
+                        Wrap(
+                          spacing: width * 0.013, // space between chips
+                          runSpacing:
+                              width * 0.013, //  space when wrapping to new line
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                        'assets/icons/map_pin.svg'),
-                                    SizedBox(
-                                      width: width * 0.01,
-                                    ),
-                                    CustomText(
-                                      text: widget.experienceType ==
-                                              'hospitality'
-                                          ? AppUtil.rtlDirection2(context)
-                                              ? '${widget.hospitalityController!.ragionAr.value}, $address'
-                                              : '${widget.hospitalityController!.ragionEn.value}, $address'
-                                          : AppUtil.rtlDirection2(context)
-                                              ? '${widget.adventureController!.ragionAr.value}, $address'
-                                              : '${widget.adventureController!.ragionEn.value}, $address',
-                                      color: const Color(0xFF9392A0),
-                                      fontSize: 11,
-                                      fontFamily: AppUtil.SfFontType(context),
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 4),
-                                if (widget.experienceType == 'hospitality')
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        'assets/icons/calendar.svg',
-                                      ),
-                                      SizedBox(
-                                        width: width * 0.01,
-                                      ),
-                                      CustomText(
-                                        text:
-                                            '${AppUtil.formatSelectedDates(widget.hospitalityController!.selectedDates, context)} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.hospitalityController!.selectedStartTime.value))}',
-
-                                        // '${AppUtil.formatBookingDate(context, widget.hospitalityController!.selectedDate.value)} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.hospitalityController!.selectedStartTime.value))}',
-                                        color: const Color(0xFF9392A0),
-                                        fontSize: 11,
-                                        fontFamily:
-                                            AppUtil.rtlDirection2(context)
-                                                ? 'SF Arabic'
-                                                : 'SF Pro',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ],
-                                  ),
-                                if (widget.experienceType == 'adventure')
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        'assets/icons/calendar.svg',
-                                      ),
-                                      SizedBox(
-                                        width: width * 0.01,
-                                      ),
-                                      //'${AppUtil.formatSelectedDates(widget.adventureController!.selectedDates,context,)} ',
-                                      CustomText(
-                                        text: AppUtil.formatSelectedDates(
-                                            widget.adventureController!
-                                                .selectedDates,
-                                            context),
-                                        color: const Color(0xFF9392A0),
-                                        fontSize: 11,
-                                        fontFamily:
-                                            AppUtil.rtlDirection2(context)
-                                                ? 'SF Arabic'
-                                                : 'SF Pro',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ],
-                                  ),
-                                const SizedBox(height: 4),
-                                if (widget.experienceType == 'adventure')
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 2),
-                                        child: SvgPicture.asset(
-                                          'assets/icons/Clock.svg',
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: width * 0.01,
-                                      ),
-                                      CustomText(
-                                        text:
-                                            '${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedStartTime.value))} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedEndTime.value))}',
-                                        color: const Color(0xFF9392A0),
-                                        fontSize: 11,
-                                        fontFamily:
-                                            AppUtil.rtlDirection2(context)
-                                                ? 'SF Arabic'
-                                                : 'SF Pro',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ],
-                                  ),
-                                if (widget.experienceType == 'hospitality')
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        "assets/icons/meal.svg",
-                                      ),
-                                      SizedBox(
-                                        width: width * 0.01,
-                                      ),
-                                      CustomText(
-                                        text: AppUtil.rtlDirection2(context)
-                                            ? widget.hospitalityController!
-                                                .selectedMealAr.value
-                                            : widget.hospitalityController!
-                                                .selectedMealEn.value,
-                                        color: const Color(0xFF9392A0),
-                                        fontSize: 11,
-                                        fontFamily:
-                                            AppUtil.rtlDirection2(context)
-                                                ? 'SF Arabic'
-                                                : 'SF Pro',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-
-                                      // SizedBox(
-                                      //     width:
-                                      //         68), // Adjust spacing between text and button
-                                      // Container(
-                                      //   padding: const EdgeInsets.symmetric(
-                                      //       horizontal: 16, vertical: 8),
-                                      //   decoration: BoxDecoration(
-                                      //     color: Color(0xFFECF9F1),
-                                      //     borderRadius:
-                                      //         BorderRadius.circular(9999),
-                                      //   ),
-                                      //   child: Text(
-                                      //     'show preview',
-                                      //     style: TextStyle(
-                                      //       color: Color(0xFF36B268),
-                                      //       fontSize: 13,
-                                      //       fontFamily: 'SF Pro',
-                                      //       fontWeight: FontWeight.w400,
-                                      //     ),
-                                      //   ),
-                                      // ),
-                                    ],
-                                  ),
-                              ],
+                            TextChip(
+                              text: widget.experienceType == 'hospitality'
+                                  ? AppUtil.rtlDirection2(context)
+                                      ? widget
+                                          .hospitalityController!.ragionAr.value
+                                      : widget
+                                          .hospitalityController!.ragionEn.value
+                                  : AppUtil.rtlDirection2(context)
+                                      ? widget
+                                          .adventureController!.ragionAr.value
+                                      : widget
+                                          .adventureController!.ragionEn.value,
+                              // ? AppUtil.rtlDirection2(context)
+                              //     ? '${widget.hospitalityController!.ragionAr.value}, $address'
+                              //     : '${widget.hospitalityController!.ragionEn.value}, $address'
+                              // : AppUtil.rtlDirection2(context)
+                              //     ? '${widget.adventureController!.ragionAr.value}, $address'
+                              //     : '${widget.adventureController!.ragionEn.value}, $address',
                             ),
+                            if (widget.experienceType == 'hospitality')
+                              TextChip(
+                                text:
+                                    '${AppUtil.formatSelectedDates(widget.hospitalityController!.selectedDates, context)} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.hospitalityController!.selectedStartTime.value))}',
+                              ),
+                            if (widget.experienceType == 'adventure')
+                              TextChip(
+                                text: AppUtil.formatSelectedDates(
+                                    widget.adventureController!.selectedDates,
+                                    context),
+                              ),
+                            if (widget.experienceType == 'adventure')
+                              TextChip(
+                                text:
+                                    '${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedStartTime.value))} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(widget.adventureController!.selectedEndTime.value))}',
+                              ),
+                            if (widget.experienceType == 'hospitality')
+                              TextChip(
+                                text: AppUtil.rtlDirection2(context)
+                                    ? widget.hospitalityController!
+                                        .selectedMealAr.value
+                                    : widget.hospitalityController!
+                                        .selectedMealEn.value,
+                              ),
+                            if (widget.experienceType == 'hospitality')
+                              TextChip(
+                                text: widget
+                                    .hospitalityController!.selectedGender.value
+                                    .toLowerCase()
+                                    .tr,
+                              ),
                           ],
                         ),
                       ],

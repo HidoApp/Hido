@@ -89,6 +89,12 @@ class FilterController extends GetxController {
 
           break;
       }
+      //put finished  item in the last of list
+      eventController.eventList.sort((a, b) {
+        if (a.status == 'CLOSED' && b.status != 'CLOSED') return 1;
+        if (a.status != 'CLOSED' && b.status == 'CLOSED') return -1;
+        return 0;
+      });
     }
     return eventController.eventList;
   }
@@ -170,6 +176,12 @@ class FilterController extends GetxController {
 
           break;
       }
+      //put finished  item in the last of list
+      activityController.adventureList.sort((a, b) {
+        if (a.status == 'CLOSED' && b.status != 'CLOSED') return 1;
+        if (a.status != 'CLOSED' && b.status == 'CLOSED') return -1;
+        return 0;
+      });
     }
     return activityController.adventureList;
   }
@@ -248,6 +260,12 @@ class FilterController extends GetxController {
 
           break;
       }
+      //put finished  item in the last of list
+      hospitalityController.hospitalityList.sort((a, b) {
+        if (a.status == 'CLOSED' && b.status != 'CLOSED') return 1;
+        if (a.status != 'CLOSED' && b.status == 'CLOSED') return -1;
+        return 0;
+      });
     }
     return hospitalityController.hospitalityList;
   }

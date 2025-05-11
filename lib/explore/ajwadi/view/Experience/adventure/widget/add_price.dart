@@ -2,6 +2,7 @@ import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -78,6 +79,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
             ? '*السعر يجب أن يكون عدد صحيح فقط'
             : '*The price must be an integer value only';
       });
+      return;
     } else {
       int price = int.tryParse(priceText) ?? 0;
       if (price < 150) {
@@ -180,6 +182,9 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                         child: TextField(
                           controller: widget.priceController,
                           keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,

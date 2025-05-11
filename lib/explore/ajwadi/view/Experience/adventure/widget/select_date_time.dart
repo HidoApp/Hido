@@ -411,7 +411,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                           ? 'StartTimeDurationError'.tr
                                           : '',
                                       color: colorRed,
-                                      fontSize: width * 0.028,
+                                      fontSize: width * 0.026,
                                       fontFamily: AppUtil.rtlDirection2(context)
                                           ? 'SF Arabic'
                                           : 'SF Pro',
@@ -497,10 +497,10 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                       widget.adventureController
                                                           .isAdventureTimeSelcted(
                                                               true);
-                                                      print(widget
-                                                          .adventureController
-                                                          .isAdventureTimeSelcted
-                                                          .value);
+                                                      // print(widget
+                                                      //     .adventureController
+                                                      //     .isAdventureTimeSelcted
+                                                      //     .value);
                                                       setState(() {
                                                         Get.back();
                                                         returnTime =
@@ -560,9 +560,9 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                   use24hFormat: false,
                                                   onDateTimeChanged:
                                                       (DateTime newT) {
-                                                    print(DateFormat('HH:mm:ss')
-                                                        .format(
-                                                            newTimeToReturn));
+                                                    // print(DateFormat('HH:mm:ss')
+                                                    //     .format(
+                                                    //         newTimeToReturn));
                                                     setState(() {
                                                       newTimeToReturn = newT;
                                                       widget
@@ -596,7 +596,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                           .isAdventureTimeSelcted.value
                                       ? AppUtil.rtlDirection2(context)
                                           ? "00:00 مساء"
-                                          : "00 :00 PM"
+                                          : "00:00 PM"
                                       : AppUtil.formatStringTimeWithLocale(
                                           context,
                                           DateFormat('HH:mm:ss').format(widget

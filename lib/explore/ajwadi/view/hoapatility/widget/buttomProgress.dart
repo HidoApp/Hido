@@ -68,9 +68,9 @@ class _ButtomProgressState extends State<ButtomProgress> {
   dispose() {
     super.dispose();
     hospitalityBioControllerAr.dispose();
-    hospitalityBioControllerEn.dispose();
+    // hospitalityBioControllerEn.dispose();
     hospitalityTitleControllerAr.dispose();
-    hospitalityTitleControllerEn.dispose();
+    // hospitalityTitleControllerEn.dispose();
     hospitalityLocation.dispose();
     hospitalityPrice.dispose();
   }
@@ -181,10 +181,11 @@ class _ButtomProgressState extends State<ButtomProgress> {
 
   bool _validateFields() {
     if (activeIndex == 0) {
-      return hospitalityTitleControllerEn.text.isNotEmpty &&
-          hospitalityBioControllerEn.text.isNotEmpty &&
+      return
+          // hospitalityTitleControllerEn.text.isNotEmpty &&
+          // hospitalityBioControllerEn.text.isNotEmpty &&
           hospitalityTitleControllerAr.text.isNotEmpty &&
-          hospitalityBioControllerAr.text.isNotEmpty;
+              hospitalityBioControllerAr.text.isNotEmpty;
     }
     if (activeIndex == 1) {
       return _hospitalityController.pickUpLocLatLang.value !=
@@ -390,7 +391,6 @@ class AddHospitalityInfo extends StatefulWidget {
 }
 
 class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
-  //int _selectedLanguageIndex = 1; // 0 for AR, 1 for EN
   final FocusNode _focusNodeAr = FocusNode();
   final FocusNode _focusNodeEn = FocusNode();
 
@@ -409,7 +409,6 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    final height = MediaQuery.sizeOf(context).height;
 
     final TextEditingController textFieldTitleArController =
         widget.textField1ControllerAR;
@@ -584,9 +583,7 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(
                             RegExp(r'[\u0600-\u06FF0-9\s\p{P}]', unicode: true),
-                          ),
-
-//  Allow only Arabic characters and spaces
+                          ), //  Allow only Arabic characters and spaces
 
                           TextInputFormatter.withFunction(
                             (oldValue, newValue) {
@@ -2427,7 +2424,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                             .isHospatilityTimeSelcted.value
                                         ? AppUtil.rtlDirection2(context)
                                             ? "00:00 مساء"
-                                            : "00 :00 PM"
+                                            : "00:00 PM"
                                         : AppUtil.formatStringTimeWithLocale(
                                             context,
                                             intel.DateFormat('HH:mm:ss').format(
@@ -2468,7 +2465,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                   //     ? "اختر الوقت"
                                   //     : "Select Time",
                                   color: colorRed,
-                                  fontSize: width * 0.028,
+                                  fontSize: width * 0.026,
                                   fontFamily: AppUtil.rtlDirection2(context)
                                       ? 'SF Arabic'
                                       : 'SF Pro',
@@ -2556,10 +2553,10 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                             .hospitalityController
                                                             .isHospatilityTimeSelcted(
                                                                 true);
-                                                        print(widget
-                                                            .hospitalityController
-                                                            .isHospatilityTimeSelcted
-                                                            .value);
+                                                        // print(widget
+                                                        //     .hospitalityController
+                                                        //     .isHospatilityTimeSelcted
+                                                        //     .value);
                                                         setState(() {
                                                           Get.back();
                                                           returnTime =
@@ -2634,10 +2631,10 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                     use24hFormat: false,
                                                     onDateTimeChanged:
                                                         (DateTime newT) {
-                                                      print(intel.DateFormat(
-                                                              'HH:mm:ss')
-                                                          .format(
-                                                              newTimeToReturn));
+                                                      // print(intel.DateFormat(
+                                                      //         'HH:mm:ss')
+                                                      //     .format(
+                                                      //         newTimeToReturn));
                                                       setState(() {
                                                         newTimeToReturn = newT;
                                                         widget
@@ -2673,7 +2670,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                             .isHospatilityTimeSelcted.value
                                         ? AppUtil.rtlDirection2(context)
                                             ? "00:00 مساء"
-                                            : "00 :00 PM"
+                                            : "00:00 PM"
                                         : AppUtil.formatStringTimeWithLocale(
                                             context,
                                             intel.DateFormat('HH:mm:ss').format(
@@ -2900,10 +2897,10 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
   }
 
   void _validatePrice() {
-    if (!mounted) return; // Check if the widget is still mounted
+    if (!mounted) return;
+
     String priceText = widget.priceController.text;
-    RegExp doubleRegex =
-        RegExp(r'^[0-9]*\.[0-9]+$'); // Regular expression to match doubles
+    RegExp doubleRegex = RegExp(r'^[0-9]*\.[0-9]+$');
 
     if (doubleRegex.hasMatch(priceText)) {
       setState(() {
@@ -2911,6 +2908,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
             ? '*السعر يجب أن يكون عدد صحيح فقط'
             : '*The price must be an integer value only';
       });
+      return;
     } else {
       int price = int.tryParse(priceText) ?? 0;
       if (price < 150) {
@@ -3013,14 +3011,16 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                         child: TextField(
                           controller: widget.priceController,
                           keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
                             errorBorder: InputBorder.none,
                             disabledBorder: InputBorder.none,
-                            contentPadding:
-                                EdgeInsets.all(0), // Optional: Remove padding
+                            contentPadding: EdgeInsets.all(0),
                           ),
                           style: const TextStyle(
                             color: Color(0xFF070708),

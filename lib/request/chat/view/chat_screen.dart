@@ -116,7 +116,6 @@ class _ChatScreenState extends State<ChatScreen> {
               backgroundColor: lightGreyBackground,
               appBar: CustomAppBar(
                 "chat".tr,
-                
               ),
               body: SafeArea(
                 child: Column(
@@ -410,12 +409,6 @@ class _ChatScreenState extends State<ChatScreen> {
                                                         setState(() {
                                                           isDetailsTapped3 =
                                                               !isDetailsTapped3;
-                                                          print(
-                                                              'state of secdle');
-                                                          print(offers
-                                                              ?.last
-                                                              .schedule
-                                                              ?.length);
                                                         });
                                                       }
                                                     },
@@ -566,19 +559,6 @@ class _ChatScreenState extends State<ChatScreen> {
                                                   // message.senderName;
                                                   // message.senderImage;
 
-                                                  print(
-                                                    intel.DateFormat(
-                                                            'dd/MM/yyyy hh:mm a')
-                                                        .format(
-                                                      DateTime.parse(
-                                                        chatController
-                                                            .chat
-                                                            .messages!
-                                                            .last
-                                                            .created!,
-                                                      ),
-                                                    ),
-                                                  );
                                                   return ChatBubble(
                                                     // name: message.senderName ??
                                                     //     "",

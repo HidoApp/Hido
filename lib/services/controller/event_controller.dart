@@ -71,8 +71,13 @@ class EventController extends GetxController {
       final data =
           await EventService.getEventList(context: context, region: region);
       if (data != null) {
-        eventList(data.map((event) => event.copyWith()).toList()); // Deep copy
+        final sorted =
+            data.map((event) => event.copyWith()).toList(); // Deep copy
         originalEventList(data.map((event) => event.copyWith()).toList()); //
+
+        //order list
+        AppUtil.sortByClosedLast(sorted);
+        eventList(sorted);
       }
       return eventList;
     } catch (e) {

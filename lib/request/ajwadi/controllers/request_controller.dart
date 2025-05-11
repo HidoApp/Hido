@@ -163,12 +163,13 @@ class RequestController extends GetxController {
     try {
       isRequestEndLoading(true);
       final data = await RequestService.requestEnd(id: id, context: context);
+      // log(data.toString());
       isRequestEndReject.value = data ?? false;
       return isRequestEndReject.value;
     } catch (e) {
       log(e.toString());
       isRequestEndReject.value = false;
-      return null;
+      return isRequestEndReject.value;
     } finally {
       isRequestEndLoading(false);
     }

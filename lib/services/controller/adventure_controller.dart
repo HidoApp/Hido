@@ -61,9 +61,14 @@ class AdventureController extends GetxController {
       final data = await AdventureService.getAdvdentureList(
           context: context, region: region);
       if (data != null) {
-        adventureList(data.map((activity) => activity.copyWith()).toList());
+        // adventureList(data.map((activity) => activity.copyWith()).toList());
+        final sorted = data.map((activity) => activity.copyWith()).toList();
         originalAdventureList(
             data.map((activity) => activity.copyWith()).toList());
+
+        //order list
+        AppUtil.sortByClosedLast(sorted);
+        adventureList(sorted);
       }
       return adventureList;
     } catch (e) {

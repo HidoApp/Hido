@@ -113,7 +113,7 @@ class _SplashScreenState extends State<SplashScreen>
       body: Stack(
         children: [
           Lottie.asset(
-            'assets/Splash_Eid.json',
+            'assets/splashScreen.json',
             controller: _controller,
             onLoaded: (composition) {
               _controller.duration = composition.duration;

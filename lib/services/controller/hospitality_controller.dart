@@ -68,9 +68,14 @@ class HospitalityController extends GetxController {
       final data = await HospitalityService.getAllHospitality(
           context: context, region: region);
       if (data != null) {
-        hospitalityList(data.map((activity) => activity.copyWith()).toList());
+        final sorted = data.map((activity) => activity.copyWith()).toList();
+
         originalHospitalityList(
             data.map((activity) => activity.copyWith()).toList());
+
+        //order list
+        AppUtil.sortByClosedLast(sorted);
+        hospitalityList(sorted);
       }
       return hospitalityList;
     } catch (e) {

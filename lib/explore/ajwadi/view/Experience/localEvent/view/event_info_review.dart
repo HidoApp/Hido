@@ -4,10 +4,13 @@ import 'dart:io';
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/request/widgets/AlertDialog.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
+import 'package:ajwad_v4/services/view/widgets/text_chip.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
+import 'package:ajwad_v4/widgets/custom_publish_widget.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:amplitude_flutter/events/base_event.dart';
 import 'package:flutter/material.dart';
@@ -45,40 +48,8 @@ class EventInfoReview extends StatefulWidget {
   _EventInfoReviewState createState() => _EventInfoReviewState();
 }
 
-//   List<String> regionListEn = [
-//   "Riyadh",
-//   "Mecca",
-//   "Medina",
-//   "Dammam",
-//   "Qassim",
-//   "Hail",
-//   "Northern Borders",
-//   "Jazan",
-//   "Asir",
-//   "Tabuk",
-//   "Najran",
-//   "Al Baha",
-//   "Al Jouf"
-// ];
-
-//  List<String> regionListAr = [
-//   "الرياض",
-//   "مكة",
-//   "المدينة",
-//   "الدمام",
-//   "القصيم",
-//   "حائل",
-//   "الحدود الشمالية",
-//   "جازان",
-//   "عسير",
-//   "تبوك",
-//   "نجران",
-//   "الباحة",
-//   "الجوف"
-// ];
-
 class _EventInfoReviewState extends State<EventInfoReview> {
-  String address = ''; // State variable to store the fetched address
+  String address = '';
   String startTime = '';
   String endTime = '';
   List<String> imageUrls = [];
@@ -229,7 +200,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
       setState(() {
         locationUrl = getLocationUrl(_EventController.pickUpLocLatLang.value);
       });
-      _fetchAddress();
+      // _fetchAddress();
     });
   }
 
@@ -293,6 +264,8 @@ class _EventInfoReviewState extends State<EventInfoReview> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+
     return Scaffold(
         appBar: CustomAppBar(
           'Review'.tr,
@@ -312,14 +285,16 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                 fontWeight: FontWeight.w500,
               ),
               const SizedBox(height: 6),
-              FittedBox(
+              SizedBox(
+                width: double.infinity,
                 child: CustomText(
                   text: 'explinationEvent'.tr,
                   color: const Color(0xFF9392A0),
                   fontSize: 15,
+                  maxlines: 200,
                   fontFamily:
                       AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               const SizedBox(height: 20),
@@ -364,114 +339,42 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomText(
-                                text: AppUtil.rtlDirection2(context)
-                                    ? widget.hospitalityTitleAr
+                          SizedBox(height: width * 0.01),
+                          CustomText(
+                            text: AppUtil.rtlDirection2(context)
+                                ? widget.hospitalityTitleAr
+                                : widget.hospitalityTitleEn.isEmpty
+                                    ? 'Not title yet'
                                     : widget.hospitalityTitleEn,
-                                color: const Color(0xFF070708),
-                                fontSize: 16,
-                                fontFamily: AppUtil.rtlDirection2(context)
-                                    ? 'SF Arabic'
-                                    : 'SF Pro',
-                                fontWeight: FontWeight.w500,
-                              ),
-                              // Row(
-                              //   children: [
-                              //     Icon(Icons.star,
-                              //         color: Color(0xFF36B268), size: 14),
-                              //     const SizedBox(width: 4),
-                              //     CustomText(
-                              //       text: '5.0',
-                              //       color: Color(0xFF36B268),
-                              //       fontSize: 12,
-                              //       fontFamily: AppUtil.rtlDirection2(context)
-                              //           ? 'SF Arabic'
-                              //           : 'SF Pro',
-                              //       fontWeight: FontWeight.w500,
-                              //     ),
-                              //   ],
-                              // ),
-                            ],
+                            color: const Color(0xFF070708),
+                            fontSize: width * 0.041,
+                            fontFamily: AppUtil.rtlDirection2(context)
+                                ? 'SF Arabic'
+                                : 'SF Pro',
+                            fontWeight: FontWeight.w500,
                           ),
-                          const SizedBox(height: 8),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                          'assets/icons/map_pin.svg'),
-                                      const SizedBox(width: 4),
-                                      CustomText(
-                                        text: AppUtil.rtlDirection2(context)
-                                            ? '${_EventController.ragionAr.value}, $address'
-                                            : '${_EventController.ragionEn.value}, $address',
-                                        color: const Color(0xFF9392A0),
-                                        fontSize: 11,
-                                        fontFamily:
-                                            AppUtil.rtlDirection2(context)
-                                                ? 'SF Arabic'
-                                                : 'SF Pro',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        'assets/icons/calendar.svg',
-                                      ),
-                                      const SizedBox(width: 6),
-                                      CustomText(
-                                        text: AppUtil.formatSelectedDates(
-                                            _EventController.selectedDates,
-                                            context),
-                                        color: const Color(0xFF9392A0),
-                                        fontSize: 11,
-                                        fontFamily:
-                                            AppUtil.rtlDirection2(context)
-                                                ? 'SF Arabic'
-                                                : 'SF Pro',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: AppUtil.rtlDirection2(context)
-                                            ? const EdgeInsets.only(left: 2)
-                                            : const EdgeInsets.only(right: 2),
-                                        child: SvgPicture.asset(
-                                          'assets/icons/Clock.svg',
-                                        ),
-                                      ),
-                                      const SizedBox(width: 4),
-                                      CustomText(
-                                        text:
-                                            '${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(_EventController.selectedStartTime.value))} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(_EventController.selectedEndTime.value))}',
-                                        color: const Color(0xFF9392A0),
-                                        fontSize: 11,
-                                        fontFamily:
-                                            AppUtil.rtlDirection2(context)
-                                                ? 'SF Arabic'
-                                                : 'SF Pro',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                          SizedBox(height: width * 0.02),
+                          Wrap(
+                              spacing: width * 0.013, // space between chips
+                              runSpacing: width *
+                                  0.013, //  space when wrapping to new line
+                              children: [
+                                TextChip(
+                                  text: AppUtil.rtlDirection2(context)
+                                      ? _EventController.ragionAr.value
+                                      : _EventController.ragionEn.value,
+                                  // ? '${_EventController.ragionAr.value}, $address'
+                                  // : '${_EventController.ragionEn.value}, $address',
+                                ),
+                                TextChip(
+                                    text: AppUtil.formatSelectedDates(
+                                        _EventController.selectedDates,
+                                        context)),
+                                TextChip(
+                                  text:
+                                      '${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(_EventController.selectedStartTime.value))} - ${AppUtil.formatStringTimeWithLocale(context, intl.DateFormat('HH:mm:ss').format(_EventController.selectedEndTime.value))}',
+                                ),
+                              ]),
                         ],
                       ),
                     ),
@@ -562,52 +465,17 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                                       context: context,
                                                       builder: (BuildContext
                                                           context) {
-                                                        return Dialog(
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          surfaceTintColor:
-                                                              Colors.white,
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8),
-                                                          ),
-                                                          child: Container(
-                                                            width: 350,
-                                                            height:
-                                                                110, // Custom width
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(16),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                Image.asset(
-                                                                    'assets/images/paymentSuccess.gif',
-                                                                    width: 38),
-                                                                const SizedBox(
-                                                                    height: 16),
-                                                                CustomText(
-                                                                    text: !AppUtil.rtlDirection2(
-                                                                            context)
-                                                                        ? "Experience published successfully"
-                                                                        : "تم نشر تجربتك بنجاح ",
-                                                                    fontSize:
-                                                                        15),
-                                                                //textDirection:
-                                                                //AppUtil.rtlDirection2(context)
-                                                                //? TextDirection.rtl
-                                                                //: TextDirection.ltr,
-                                                              ],
-                                                            ),
-                                                          ),
+                                                        return CustomPublishDialog(
+                                                          icon: 'publish.svg',
+                                                          title:
+                                                              'ExperienceSent'
+                                                                  .tr,
+                                                          description:
+                                                              'ExperienceSentDes'
+                                                                  .tr,
+                                                          bgIconColor:
+                                                              const Color(
+                                                                  0xFFEDFCF2),
                                                         );
                                                       },
                                                     ).then((_) {
@@ -617,15 +485,35 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                                               eventProperties: {
                                                             'event:':
                                                                 _EventController
-                                                                    .titleEn
+                                                                    .titleAr
                                                                     .value,
                                                           }));
                                                       Get.offAll(() =>
                                                           const AjwadiBottomBar());
                                                     });
                                                   } else {
-                                                    AppUtil.errorToast(context,
-                                                        'somthingWentWrong'.tr);
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return CustomAlertDialog(
+                                                              dialogWidth: 308,
+                                                              dialogHight: 196,
+                                                              title:
+                                                                  'ExperienceNotSent'
+                                                                      .tr,
+                                                              buttonTitle2:
+                                                                  'contactUs'
+                                                                      .tr,
+                                                              buttonTitle1:
+                                                                  'TryAgain'.tr,
+                                                              buttonColor2: Colors
+                                                                  .white
+                                                                  .withOpacity(
+                                                                      0.3),
+                                                              icon:
+                                                                  'Alertsc.svg');
+                                                        });
                                                   }
                                                 }
                                               });

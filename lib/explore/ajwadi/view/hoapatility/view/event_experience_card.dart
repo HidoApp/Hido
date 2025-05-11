@@ -230,10 +230,10 @@ class _EventExperienceCardState extends State<EventExperienceCard> {
                   child: isDateBefore24Hours(selectedDate!)
                       ? ElevatedButton(
                           onPressed: () {
-                            Get.to(EventSummaryScreen(
-                              eventId: widget.experience.id,
-                              date: selectedDate!,
-                            ));
+                            Get.to(() => EventSummaryScreen(
+                                  eventId: widget.experience.id,
+                                  date: selectedDate!,
+                                ));
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: colorGreen,

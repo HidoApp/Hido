@@ -11,12 +11,12 @@ class Wallet {
 
   factory Wallet.fromJson(Map<String, dynamic> json) {
     return Wallet(
-        totalInitiatedAmount: (json['totalInitiatedAmount'] is int)
-          ? double.parse(
-              (json['totalInitiatedAmount'] as int).toDouble().toStringAsFixed(1))
-          : double.parse(
-              (json['totalInitiatedAmount'] as double? ?? 0.0).toStringAsFixed(1)),
-
+      totalInitiatedAmount: (json['totalInitiatedAmount'] is int)
+          ? double.parse((json['totalInitiatedAmount'] as int)
+              .toDouble()
+              .toStringAsFixed(1))
+          : double.parse((json['totalInitiatedAmount'] as double? ?? 0.0)
+              .toStringAsFixed(1)),
       transactions: json['transactions'] != null
           ? (json['transactions'] as List)
               .map((e) => Transaction.fromJson(e))
@@ -33,4 +33,3 @@ class Wallet {
     };
   }
 }
-

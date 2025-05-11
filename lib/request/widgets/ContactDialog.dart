@@ -7,13 +7,13 @@ import '../../utils/app_util.dart';
 import '../../widgets/custom_text.dart';
 
 class ContactDialog extends StatelessWidget {
-  final double dialogWidth;
-  final double buttonWidth;
+  final double? dialogWidth;
+  final double? buttonWidth;
 
   const ContactDialog({
     Key? key,
-    required this.dialogWidth,
-    required this.buttonWidth,
+    this.dialogWidth,
+    this.buttonWidth,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

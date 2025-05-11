@@ -275,7 +275,7 @@ class HospitalityService {
       "titleAr": titleAr,
       "titleEn": titleEn,
       "bioAr": bioAr,
-      "bioEn": bioEn,
+      "bioEn": titleEn,
       "mealTypeAr": mealTypeAr,
       "mealTypeEn": mealTypeEn,
       "coordinates": {"longitude": longitude, "latitude": latitude},

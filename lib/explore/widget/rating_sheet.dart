@@ -178,7 +178,11 @@ class _RatingSheetState extends State<RatingSheet> {
                               ? "n"
                               : _placeReview.text,
                         );
-                        Get.back();
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          if (Get.isOverlaysOpen) {
+                            Get.back();
+                          }
+                        });
                       },
                     ),
             )

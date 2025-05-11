@@ -105,12 +105,13 @@ dependencies:
   country_code_picker: ^3.0.0
   internet_connection_checker_plus: ^2.5.1
   win32: ^5.7.1
-
   image: any
   galleryimage: ^2.0.1
   search_page: ^2.3.0
   share_plus: ^10.1.2
   app_links: ^6.3.3
+  blur: ^4.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -149,7 +150,6 @@ flutter:
     - assets/onboarding_55555.json
     - assets/splash_screen_new.json
     - assets/splashScreen.json
-    - assets/Splash_Eid.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
