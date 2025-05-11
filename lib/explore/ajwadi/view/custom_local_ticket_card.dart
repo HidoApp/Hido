@@ -429,7 +429,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                                         .updatedActivity
                                                         .value
                                                         .activityProgress!);
-                                                    log("this end trip ${_tripController.isTripEnd.value}");
+                                                    // log("this end trip ${_tripController.isTripEnd.value}");
                                                     log("End Trip Taped ${_tripController.nextTrip.value.id}");
                                                     // log('miunted ${context.mounted}');
 
