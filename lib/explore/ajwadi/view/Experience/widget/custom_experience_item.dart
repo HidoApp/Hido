@@ -164,7 +164,8 @@ class _ServicesCardState extends State<ServicesCard> {
                   ),
                 )
               : null,
-          borderRadius: BorderRadius.horizontal(right: Radius.circular(20)),
+          borderRadius:
+              const BorderRadius.horizontal(right: Radius.circular(20)),
           child: Container(
             // height: width * 0.29,
             padding: EdgeInsets.symmetric(
