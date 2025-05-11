@@ -500,9 +500,6 @@ class _EditEventState extends State<EditEvent> {
 
   Future<void> _updateEvent() async {
     try {
-      // print(
-      //     "Longitude: ${_servicesController.pickUpLocLatLang.value.longitude}");
-
       final Event? result = await _servicesController.editEvent(
         id: widget.eventObj.id,
         nameAr: eventTitleControllerAr.text,
