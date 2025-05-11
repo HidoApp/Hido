@@ -164,7 +164,8 @@ class _ServicesCardState extends State<ServicesCard> {
                   ),
                 )
               : null,
-          borderRadius: BorderRadius.horizontal(right: Radius.circular(20)),
+          borderRadius:
+              const BorderRadius.horizontal(right: Radius.circular(20)),
           child: Container(
             // height: width * 0.29,
             padding: EdgeInsets.symmetric(
@@ -245,13 +246,12 @@ class _ServicesCardState extends State<ServicesCard> {
                               ),
                               if (widget.experience.experiencesType ==
                                       'adventure' ||
-                                  (widget.experience.experiencesType ==
-                                          'event' &&
-                                      widget.experience.daysInfo.isNotEmpty))
-                                TextChip(
-                                  text: AppUtil.formatSelectedDaysInfo(
-                                      widget.experience.daysInfo, context),
-                                ),
+                                  widget.experience.experiencesType == 'event')
+                                if (widget.experience.daysInfo.isNotEmpty)
+                                  TextChip(
+                                    text: AppUtil.formatSelectedDaysInfo(
+                                        widget.experience.daysInfo, context),
+                                  ),
                               if (widget.experience.experiencesType ==
                                   'hospitality')
                                 if (widget.experience.daysInfo.isNotEmpty)
@@ -261,13 +261,12 @@ class _ServicesCardState extends State<ServicesCard> {
                                   ),
                               if (widget.experience.experiencesType ==
                                       'adventure' ||
-                                  (widget.experience.experiencesType ==
-                                          'event' &&
-                                      widget.experience.daysInfo.isNotEmpty))
-                                TextChip(
-                                  text:
-                                      '${AppUtil.formatTimeOnly(context, widget.experience.daysInfo.first.startTime)} -  ${AppUtil.formatTimeOnly(context, widget.experience.daysInfo.first.endTime)}',
-                                ),
+                                  widget.experience.experiencesType == 'event')
+                                if (widget.experience.daysInfo.isNotEmpty)
+                                  TextChip(
+                                    text:
+                                        '${AppUtil.formatTimeOnly(context, widget.experience.daysInfo.first.startTime)} -  ${AppUtil.formatTimeOnly(context, widget.experience.daysInfo.first.endTime)}',
+                                  ),
                               if (widget.experience.experiencesType ==
                                   'hospitality')
                                 TextChip(
