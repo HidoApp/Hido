@@ -573,9 +573,6 @@ class _EditHospitalityState extends State<EditHospitality> {
 
   Future<void> _updateProfile() async {
     try {
-      print(
-          "Longitude: ${_servicesController.pickUpLocLatLang.value.longitude}");
-
       final result = await _servicesController.editHospatility(
         id: widget.hospitalityObj.id,
         titleAr: hospitalityTitleControllerAr.text,
