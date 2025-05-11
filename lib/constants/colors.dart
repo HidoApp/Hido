@@ -23,6 +23,8 @@ const Color borderGrey = Color(0xFFB9B8C1);
 const Color colorGreen = Color(0xFF36B268);
 const Color colorDarkGreen = Color(0xFF3C9351);
 const Color colorlightGreen = Color(0xFFEDFCF2);
+const Color textlightGreen = Color(0xFF78DD9E);
+
 // const Color colorRed = Color(0xFFD75051);
 const Color colorRed = Color(0xFFDC362E);
 const Color colorDarkRed = Color(0xFFB64243);

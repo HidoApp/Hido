@@ -283,59 +283,75 @@ class AdventureTicketData extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  'cost'.tr,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: starGreyColor,
-                    fontSize: width * 0.035,
-                    fontFamily: AppUtil.SfFontType(context),
-                    fontWeight: FontWeight.w500,
-                    height: 0,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  // booking.place!.price.toString(),
-                  adventure == null
-                      ? booking!.cost.toString()
-                      : adventure!.booking!.last.cost.toString(),
+            SizedBox(
+              width: double.infinity,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'cost'.tr,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: starGreyColor,
+                          fontSize: width * 0.035,
+                          fontFamily: AppUtil.SfFontType(context),
+                          fontWeight: FontWeight.w500,
+                          height: 0,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            // booking.place!.price.toString(),
+                            adventure == null
+                                ? booking!.cost.toString()
+                                : adventure!.booking!.last.cost.toString(),
 
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: black,
-                    fontSize: width * 0.044,
-                    fontFamily: AppUtil.SfFontType(context),
-                    fontWeight: FontWeight.w500,
-                    height: 0,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: black,
+                              fontSize: width * 0.044,
+                              fontFamily: AppUtil.SfFontType(context),
+                              fontWeight: FontWeight.w500,
+                              height: 0,
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            AppUtil.rtlDirection2(context) ? 'ريال' : 'SAR',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: black,
+                              fontSize: width * 0.035,
+                              fontFamily: AppUtil.SfFontType(context),
+                              fontWeight: FontWeight.w500,
+                              height: 0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(width: 5),
-                Text(
-                  AppUtil.rtlDirection2(context) ? 'ريال' : 'SAR',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: black,
-                    fontSize: width * 0.035,
-                    fontFamily: AppUtil.SfFontType(context),
-                    fontWeight: FontWeight.w500,
-                    height: 0,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
         const SizedBox(
-          height: 8,
+          height: 12,
         ),
         const DottedSeparator(
           color: almostGrey,

@@ -94,8 +94,11 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
   void getHospitalityById() async {
     hospitalityObj = (await _servicesController.getHospitalityById(
         context: context, id: widget.hospitalityId));
-    _servicesController.startTime(hospitalityObj!.daysInfo.first.startTime);
 
+    if (hospitalityObj?.daysInfo != null &&
+        hospitalityObj!.daysInfo.isNotEmpty) {
+      _servicesController.startTime(hospitalityObj!.daysInfo.first.startTime);
+    }
     if (!widget.isLocal) {
       _fetchAddress(hospitalityObj!.coordinate.latitude ?? '',
           hospitalityObj!.coordinate.longitude ?? '');
@@ -674,7 +677,10 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                 title: hospitalityObj!.titleEn,
                                 description: hospitalityObj!.bioEn,
                                 image: hospitalityObj!.images[0],
-                                validTo: hospitalityObj!.daysInfo.last.endTime,
+                                validTo: (hospitalityObj?.daysInfo != null &&
+                                        hospitalityObj!.daysInfo.isNotEmpty)
+                                    ? hospitalityObj!.daysInfo.last.endTime
+                                    : '',
                               )
                             ],
                           ),
@@ -730,7 +736,10 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                 title: hospitalityObj!.titleEn,
                                 description: hospitalityObj!.bioEn,
                                 image: hospitalityObj!.images[0],
-                                validTo: hospitalityObj!.daysInfo[0].endTime,
+                                validTo: (hospitalityObj?.daysInfo != null &&
+                                        hospitalityObj!.daysInfo.isNotEmpty)
+                                    ? hospitalityObj!.daysInfo[0].endTime
+                                    : "",
                               )
                             ],
                           )),

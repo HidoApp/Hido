@@ -347,6 +347,9 @@ class HostTicketData extends StatelessWidget {
                           height: 0,
                         ),
                       ),
+                      const SizedBox(
+                        height: 6,
+                      ),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -389,7 +392,7 @@ class HostTicketData extends StatelessWidget {
           ],
         ),
         const SizedBox(
-          height: 4,
+          height: 12,
         ),
         const DottedSeparator(
           color: almostGrey,
