@@ -328,6 +328,9 @@ class _EventTicketDataState extends State<EventTicketData> {
                           height: 0,
                         ),
                       ),
+                      const SizedBox(
+                        height: 6,
+                      ),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -370,7 +373,7 @@ class _EventTicketDataState extends State<EventTicketData> {
           ],
         ),
         const SizedBox(
-          height: 8,
+          height: 12,
         ),
         const DottedSeparator(
           color: almostGrey,

@@ -189,6 +189,9 @@ class _BottomAdventureBookingState extends State<BottomAdventureBooking> {
                   borderColor: widget.adventure.daysInfo!.isEmpty
                       ? colorlightGreen
                       : colorGreen,
+                  textColor: widget.adventure.daysInfo!.isEmpty
+                      ? textlightGreen
+                      : Colors.white,
                 ),
               ),
             ),

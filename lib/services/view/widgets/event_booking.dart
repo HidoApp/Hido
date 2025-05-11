@@ -144,6 +144,9 @@ class _BottomEventBookingState extends State<BottomEventBooking> {
                   borderColor: widget.event.daysInfo!.isEmpty
                       ? colorlightGreen
                       : colorGreen,
+                  textColor: widget.event.daysInfo!.isEmpty
+                      ? textlightGreen
+                      : Colors.white,
                 ),
               ),
             ),

@@ -120,6 +120,9 @@ class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
                   borderColor: widget.hospitalityObj.daysInfo.isEmpty
                       ? colorlightGreen
                       : colorGreen,
+                  textColor: widget.hospitalityObj.daysInfo.isEmpty
+                      ? textlightGreen
+                      : Colors.white,
                   icon: AppUtil.rtlDirection2(context)
                       ? const Icon(Icons.arrow_back_ios)
                       : const Icon(Icons.arrow_forward_ios),
@@ -132,4 +135,3 @@ class _BottomHospitalityBookingState extends State<BottomHospitalityBooking> {
     );
   }
 }
-

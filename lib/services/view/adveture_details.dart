@@ -93,13 +93,14 @@ class _AdventureDetailsState extends State<AdventureDetails> {
     adventure = (await _adventureController.getAdvdentureById(
         context: context, id: widget.adventureId));
 
-    _adventureController.startTime(adventure!.daysInfo!.first.startTime);
+    if (adventure?.daysInfo != null && adventure!.daysInfo!.isNotEmpty) {
+      _adventureController.startTime(adventure!.daysInfo!.first.startTime);
+    }
 
     if (!widget.isLocal) {
       _fetchAddress(adventure!.coordinates!.latitude ?? '',
           adventure!.coordinates!.longitude ?? '');
     }
-
     for (var day in adventure!.daysInfo!) {
       if (AppUtil.isDateTimeBefore24Hours(day.startTime)) {
         avilableDate.add(
@@ -109,6 +110,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
         );
       }
     }
+
     if (!AppUtil.isGuest() &&
         _profileController.profile.id != '' &&
         !widget.isLocal) {
@@ -343,60 +345,65 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               SizedBox(
                                 height: width * 0.01,
                               ),
-                              Row(
-                                children: [
-                                  RepaintBoundary(
-                                    child: SvgPicture.asset(
-                                      'assets/icons/calendar.svg',
+                              if (adventure!.daysInfo != null &&
+                                  adventure!.daysInfo!.isNotEmpty)
+                                Row(
+                                  children: [
+                                    RepaintBoundary(
+                                      child: SvgPicture.asset(
+                                        'assets/icons/calendar.svg',
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: width * 0.012,
-                                  ),
-                                  CustomText(
-                                    text: AppUtil.formatSelectedDaysInfo(
-                                        adventure!.daysInfo!, context),
-                                    color: colorDarkGrey,
-                                    fontSize: width * 0.038,
-                                    fontWeight: FontWeight.w300,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                  ),
-                                ],
-                              ),
+                                    SizedBox(
+                                      width: width * 0.012,
+                                    ),
+                                    CustomText(
+                                      text: AppUtil.formatSelectedDaysInfo(
+                                          adventure!.daysInfo!, context),
+                                      color: colorDarkGrey,
+                                      fontSize: width * 0.038,
+                                      fontWeight: FontWeight.w300,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                    ),
+                                  ],
+                                ),
                               SizedBox(
                                 height: width * 0.01,
                               ),
-                              Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    "assets/icons/Clock.svg",
-                                  ),
-                                  SizedBox(
-                                    width: width * 0.012,
-                                  ),
-                                  //time
-                                  CustomText(
-                                    text: adventure!.daysInfo != null &&
-                                            adventure!.daysInfo!.isNotEmpty
-                                        ? '${AppUtil.formatTimeOnly(context, adventure!.daysInfo!.first.startTime)} -  ${AppUtil.formatTimeOnly(context, adventure!.daysInfo!.first.endTime)}'
-                                        : '00:00 - 00:00',
-                                    color: colorDarkGrey,
-                                    fontSize: width * 0.038,
-                                    fontWeight: FontWeight.w300,
-                                    fontFamily: AppUtil.rtlDirection2(context)
-                                        ? 'SF Arabic'
-                                        : 'SF Pro',
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: width * 0.025,
-                              ),
-                              SizedBox(
-                                height: width * 0.012,
-                              ),
+                              if (adventure!.daysInfo != null &&
+                                  adventure!.daysInfo!.isNotEmpty) ...[
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      "assets/icons/Clock.svg",
+                                    ),
+                                    SizedBox(
+                                      width: width * 0.012,
+                                    ),
+                                    //time
+                                    CustomText(
+                                      text: adventure!.daysInfo != null &&
+                                              adventure!.daysInfo!.isNotEmpty
+                                          ? '${AppUtil.formatTimeOnly(context, adventure!.daysInfo!.first.startTime)} -  ${AppUtil.formatTimeOnly(context, adventure!.daysInfo!.first.endTime)}'
+                                          : '00:00 - 00:00',
+                                      color: colorDarkGrey,
+                                      fontSize: width * 0.038,
+                                      fontWeight: FontWeight.w300,
+                                      fontFamily: AppUtil.rtlDirection2(context)
+                                          ? 'SF Arabic'
+                                          : 'SF Pro',
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: width * 0.025,
+                                ),
+                                SizedBox(
+                                  height: width * 0.012,
+                                ),
+                              ],
                               Align(
                                   alignment: AppUtil.rtlDirection2(context)
                                       ? Alignment.centerRight
@@ -727,7 +734,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               title: adventure!.nameEn,
                               description: adventure!.descriptionEn,
                               image: adventure!.image!.first,
-                              validTo: adventure!.daysInfo!.last.endTime,
+                              validTo: (adventure?.daysInfo != null &&
+                                      adventure!.daysInfo!.isNotEmpty)
+                                  ? adventure!.daysInfo!.last.endTime
+                                  : '',
                             )
                           ],
                         ),
@@ -797,7 +807,10 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                 title: adventure!.nameEn,
                                 description: adventure!.descriptionEn,
                                 image: adventure!.image!.first,
-                                validTo: adventure!.daysInfo!.last.endTime,
+                                validTo: (adventure?.daysInfo != null &&
+                                        adventure!.daysInfo!.isNotEmpty)
+                                    ? adventure!.daysInfo!.last.endTime
+                                    : '',
                               )
                             ],
                           )),

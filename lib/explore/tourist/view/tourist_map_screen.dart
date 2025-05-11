@@ -127,6 +127,9 @@ class _TouristMapScreenState extends State<TouristMapScreen> {
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(
           userLocation!.latitude, userLocation!.longitude);
+
+      if (!mounted) return;
+
       if (placemarks.isNotEmpty) {
         Placemark place = placemarks[0];
         setState(() {

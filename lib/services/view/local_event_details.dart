@@ -92,13 +92,16 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
     event = (await _eventController.getEventById(
         context: context, id: widget.eventId));
 
-    if (event != null) {
+    if (event != null &&
+        event?.daysInfo != null &&
+        event!.daysInfo!.isNotEmpty) {
       _eventController.startDate(event!.daysInfo!.first.startTime);
     }
     if (!widget.isLocal) {
       _fetchAddress(event!.coordinates!.latitude ?? '',
           event!.coordinates!.longitude ?? '');
     }
+
     for (var day in event!.daysInfo!) {
       if (AppUtil.isDateTimeBefore24Hours(day.startTime)) {
         avilableDate.add(
@@ -642,7 +645,9 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                             ShareWidget(
                               id: event!.id,
                               type: 'event',
-                              validTo: event!.daysInfo!.last.endTime,
+                              validTo: (event!.daysInfo!.isNotEmpty)
+                                  ? event!.daysInfo!.last.endTime
+                                  : '',
                               title: event!.nameEn,
                               description: event!.descriptionEn,
                               image: event!.images[0],
@@ -712,7 +717,9 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                               ShareWidget(
                                 id: event!.id,
                                 type: 'event',
-                                validTo: event!.daysInfo!.last.endTime,
+                                validTo: (event!.daysInfo!.isNotEmpty)
+                                    ? event!.daysInfo!.last.endTime
+                                    : '',
                                 title: event!.nameEn,
                                 description: event!.descriptionEn,
                                 image: event!.images[0],
