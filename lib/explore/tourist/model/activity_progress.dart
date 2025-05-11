@@ -65,15 +65,18 @@ class RequestName {
   RequestName({
     required this.nameEn,
     required this.nameAr,
+    required this.nameZh,
   });
 
   final String? nameEn;
   final String? nameAr;
+  final String? nameZh;
 
   factory RequestName.fromJson(Map<String, dynamic> json) {
     return RequestName(
       nameEn: json["nameEn"] ?? "",
       nameAr: json["nameAr"] ?? "",
+      nameZh: json["nameZh"] ?? "",
     );
   }
 }

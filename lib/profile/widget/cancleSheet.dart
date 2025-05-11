@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:ajwad_v4/amplitude_service.dart';
+import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/new-onboarding/view/splash_screen.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
@@ -167,6 +168,8 @@ class _CancelSheetState extends State<CancelSheet> {
                                       reason: textField2Controller.text) ??
                                   false;
                           if (bookingCancel) {
+                            // log(bookingCancel.toString());
+
                             int notificationId = int.tryParse(bookID!) ?? 0;
                             await flutterLocalNotificationsPlugin
                                 .cancel(int.tryParse(widget.bookId) ?? 0);
@@ -177,21 +180,24 @@ class _CancelSheetState extends State<CancelSheet> {
                                   'type': widget.type.toUpperCase(),
                                   'reason': textField2Controller.text,
                                 }));
-
+                            // log('context,${(context.mounted).toString()}');
                             if (context.mounted) {
                               AppUtil.successToast(context, 'EndTrip'.tr);
                               await Future.delayed(const Duration(seconds: 1));
                             }
                             Get.back();
                             Get.back();
-                            Get.back();
-                            final profileController =
-                                Get.put(ProfileController());
 
-                            profileController.getPastTicket(context: context);
+                            Get.offAll(() => const TouristBottomBar());
 
-                            await profileController.getUpcommingTicket(
-                                context: context);
+                            // final profileController =
+                            //     Get.put(ProfileController());
+
+                            // await profileController.getPastTicket(
+                            //     context: context);
+
+                            // await profileController.getUpcommingTicket(
+                            //     context: context);
                           } else {
                             if (context.mounted) {
                               AppUtil.errorToast(context, 'noEndTrip'.tr);

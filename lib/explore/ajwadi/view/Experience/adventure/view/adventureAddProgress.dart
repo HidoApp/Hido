@@ -52,11 +52,11 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
   dispose() {
     super.dispose();
     AdventureBioControllerAr.dispose();
-    AdventureBioControllerEn.dispose();
+    // AdventureBioControllerEn.dispose();
     AdventureLocation.dispose();
     AdventurePrice.dispose();
     AdventureTitleControllerAr.dispose();
-    AdventureTitleControllerEn.dispose();
+    // AdventureTitleControllerEn.dispose();
   }
 
   final List<String> _AdventureImages = [];
@@ -144,9 +144,6 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
           ajwadiExploreController: ajwadiExploreController,
         );
       case 5:
-        print(
-            'Selected Start Time: ${_AdventureControllerController.selectedDates.value}');
-
         return PriceDecisionCard(priceController: AdventurePrice);
 
       default:
@@ -158,10 +155,11 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
 
   bool _validateFields() {
     if (activeIndex == 0) {
-      return AdventureTitleControllerEn.text.isNotEmpty &&
-          AdventureBioControllerEn.text.isNotEmpty &&
+      return
+          //  AdventureTitleControllerEn.text.isNotEmpty &&
+          //   AdventureBioControllerEn.text.isNotEmpty &&
           AdventureTitleControllerAr.text.isNotEmpty &&
-          AdventureBioControllerAr.text.isNotEmpty;
+              AdventureBioControllerAr.text.isNotEmpty;
     }
     if (activeIndex == 1) {
       return _AdventureControllerController.pickUpLocLatLang.value !=

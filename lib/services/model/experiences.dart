@@ -10,8 +10,10 @@ class Experience {
   final String mealTypeEn;
   final String titleAr;
   final String titleEn;
+  final String titleZh;
   final String nameAr;
   final String nameEn;
+  final String nameZh;
   final String regionAr;
   final String regionEn;
   final List<DayInfo> times;
@@ -31,6 +33,7 @@ class Experience {
     required this.mealTypeEn,
     required this.titleAr,
     required this.titleEn,
+    required this.titleZh,
     required this.regionAr,
     required this.regionEn,
     required this.times,
@@ -43,6 +46,7 @@ class Experience {
     required this.created,
     required this.nameAr,
     required this.nameEn,
+    required this.nameZh,
     required this.isHasBooking,
     required this.rating, // Initialize in constructor
   });
@@ -55,8 +59,10 @@ class Experience {
       mealTypeEn: json['mealTypeEn'] ?? '',
       titleAr: json['titleAr'] ?? '',
       titleEn: json['titleEn'] ?? '',
+      titleZh: json['titleZh'] ?? '',
       nameAr: json['nameAr'] ?? '',
       nameEn: json['nameEn'] ?? '',
+      nameZh: json['nameZh'] ?? '',
       coordinates: Coordinate.fromJson(json['coordinates'] ?? {}),
       image: (json['image'] as List<dynamic>).map((e) => e as String).toList(),
       regionAr: json['regionAr'] ?? '',

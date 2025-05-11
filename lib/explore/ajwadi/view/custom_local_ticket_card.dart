@@ -210,11 +210,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
 
   @override
   Widget build(BuildContext context) {
-    final TouristExploreController touristExploreController =
-        Get.put(TouristExploreController());
-
     final width = MediaQuery.sizeOf(context).width;
-    final height = MediaQuery.sizeOf(context).height;
 
     return InkWell(
       child: Column(
@@ -435,6 +431,7 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                                         .activityProgress!);
                                                     log("this end trip ${_tripController.isTripEnd.value}");
                                                     log("End Trip Taped ${_tripController.nextTrip.value.id}");
+                                                    // log('miunted ${context.mounted}');
 
                                                     bool requestEnd =
                                                         await _requestController.requestEnd(
@@ -446,7 +443,18 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                                                         .id ??
                                                                     '') ??
                                                             false;
+
                                                     if (requestEnd) {
+                                                      // log('miunted ${context.mounted}');
+
+                                                      if (context.mounted) {
+                                                        AppUtil.successToast(
+                                                            context,
+                                                            'EndRound'.tr);
+                                                      }
+                                                      await Future.delayed(
+                                                          const Duration(
+                                                              seconds: 1));
                                                       returnProgress(
                                                           _tripController
                                                                   .progress
@@ -470,9 +478,12 @@ class _CustomLocalTicketCardState extends State<CustomLocalTicketCard> {
                                                         }
                                                       });
                                                     } else {
-                                                      AppUtil.errorToast(
-                                                          context,
-                                                          'EndTrip1'.tr);
+                                                      if (context.mounted) {
+                                                        AppUtil.errorToast(
+                                                            context,
+                                                            'EndTrip1'.tr);
+                                                      }
+
                                                       await Future.delayed(
                                                           const Duration(
                                                               seconds: 3));

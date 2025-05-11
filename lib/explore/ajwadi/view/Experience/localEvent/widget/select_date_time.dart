@@ -383,7 +383,7 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                       ? 'StartTimeDurationError'.tr
                                       : '',
                                   color: colorRed,
-                                  fontSize: width * 0.028,
+                                  fontSize: width * 0.026,
                                   fontFamily: AppUtil.rtlDirection2(context)
                                       ? 'SF Arabic'
                                       : 'SF Pro',
@@ -469,9 +469,9 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                       _EventrController
                                                           .isEventTimeSelcted(
                                                               true);
-                                                      print(_EventrController
-                                                          .isEventTimeSelcted
-                                                          .value);
+                                                      // print(_EventrController
+                                                      //     .isEventTimeSelcted
+                                                      //     .value);
                                                       setState(() {
                                                         Get.back();
                                                         returnTime =
@@ -526,9 +526,9 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                                   use24hFormat: false,
                                                   onDateTimeChanged:
                                                       (DateTime newT) {
-                                                    print(DateFormat('HH:mm:ss')
-                                                        .format(
-                                                            newTimeToReturn));
+                                                    // print(DateFormat('HH:mm:ss')
+                                                    //     .format(
+                                                    //         newTimeToReturn));
                                                     setState(() {
                                                       newTimeToReturn = newT;
                                                       _EventrController
@@ -593,7 +593,6 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                                   fontSize: width * 0.028,
                                   color: colorRed,
                                   fontFamily: AppUtil.SfFontType(context),
-                                  fontWeight: FontWeight.w400,
                                 ),
                               )
                             : Container(),

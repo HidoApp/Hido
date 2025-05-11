@@ -638,8 +638,8 @@ class AuthController extends GetxController {
 
     if (appVersion.versionNumber == version) {
       log('Same Version');
-    } else {
-      // Use a parent context or check if the current context is still mounted
+      // log(appVersion.isMandatory.toString());
+    } else if (appVersion.isMandatory ?? true) {
       if (context.mounted) {
         showDialog(
           context: context,
@@ -651,6 +651,8 @@ class AuthController extends GetxController {
           ),
         );
       }
+    } else {
+      log('not Same Version but not mandatory');
     }
   }
 }

@@ -1082,4 +1082,17 @@ class AppUtil {
     // Format DateTime to 12-hour time with am/pm in lowercase
     return DateFormat('h:mma').format(dateTime).toLowerCase();
   }
+
+  static void sortByClosedLast(List<dynamic> list) {
+    const closedStatus = 'CLOSED';
+
+    list.sort((a, b) {
+      final aIsClosed = a.status == closedStatus;
+      final bIsClosed = b.status == closedStatus;
+
+      if (aIsClosed && !bIsClosed) return 1;
+      if (!aIsClosed && bIsClosed) return -1;
+      return 0;
+    });
+  }
 }

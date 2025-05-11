@@ -171,8 +171,6 @@ class _EditAdventureState extends State<EditAdventure> {
 
         if (!allowedFormats.contains(fileExtension)) {
           allExtensionsValid = false;
-          print(
-              'File ${image.path} is not in an allowed format (${allowedFormats.join(', ')}).');
         } else {
           imagesToUpload.add(image);
         }
@@ -2116,10 +2114,10 @@ class _EditAdventureState extends State<EditAdventure> {
                                                                 !_servicesController
                                                                     .isAdventureTimeSelcted
                                                                     .value;
-                                                            print(DateFormat(
-                                                                    'HH:mm:ss')
-                                                                .format(
-                                                                    newTimeToReturn));
+                                                            // print(DateFormat(
+                                                            //         'HH:mm:ss')
+                                                            //     .format(
+                                                            //         newTimeToReturn));
                                                             setState(() {
                                                               newTimeToReturn =
                                                                   newT;
@@ -2152,10 +2150,10 @@ class _EditAdventureState extends State<EditAdventure> {
                                                                 !_servicesController
                                                                     .isAdventureTimeSelcted
                                                                     .value;
-                                                            print(DateFormat(
-                                                                    'HH:mm:ss')
-                                                                .format(
-                                                                    newTimeToReturn));
+                                                            // print(DateFormat(
+                                                            //         'HH:mm:ss')
+                                                            //     .format(
+                                                            //         newTimeToReturn));
                                                             setState(() {
                                                               newTimeToReturn =
                                                                   newT;

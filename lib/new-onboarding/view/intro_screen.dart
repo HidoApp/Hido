@@ -357,9 +357,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                           //vertical:32
                         ),
                         child: CustomText(
-                          text: AppUtil.rtlDirection2(context)
-                              ? 'الإستمرار كزائر'
-                              : 'Continue as a Guest',
+                          text: 'ContinueGuest'.tr,
                           textAlign: AppUtil.rtlDirection2(context)
                               ? TextAlign.end
                               : TextAlign.start,

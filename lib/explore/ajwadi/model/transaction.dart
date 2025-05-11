@@ -1,4 +1,3 @@
-
 class Transaction {
   final String? id;
   final double? amount;
@@ -6,7 +5,7 @@ class Transaction {
   final String? status;
   final String? userId;
   final bool? hasRefunded;
-  final String? refundedAmount;
+  final double? refundedAmount;
   final String? refundPercentage;
   final String? paymentId;
   final String? invoiceId;
@@ -40,14 +39,19 @@ class Transaction {
       status: json['status'] ?? '',
       userId: json['userId'] ?? '',
       hasRefunded: json['hasRefunded'] ?? true,
-      refundedAmount: json['refundedAmount'] ?? '',
+      refundedAmount: (json['refundedAmount'] is int)
+          ? double.parse(
+              (json['refundedAmount'] as int).toDouble().toStringAsFixed(1))
+          : double.parse(
+              (json['refundedAmount'] as double? ?? 0.0).toStringAsFixed(1)),
       refundPercentage: json['refundPercentage'] ?? '',
       paymentId: json['paymentId'] ?? '',
       invoiceId: json['invoiceId'] ?? '',
       created: json['created'] ?? '',
       updated: json['updated'] ?? '',
-      details: json['details'] != null ? DetailsInfo.fromJson(json['details']) : null, // Handle as single object
-
+      details: json['details'] != null
+          ? DetailsInfo.fromJson(json['details'])
+          : null, // Handle as single object
     );
   }
 
@@ -75,11 +79,14 @@ class DetailsInfo {
   final String? adventureId;
   final String? eventId;
   final String? hospitalityId;
- final String? placeId;
-
+  final String? placeId;
 
   DetailsInfo(
-      {this.bookingId, this.adventureId, this.eventId, this.hospitalityId,this.placeId});
+      {this.bookingId,
+      this.adventureId,
+      this.eventId,
+      this.hospitalityId,
+      this.placeId});
 
   factory DetailsInfo.fromJson(Map<String, dynamic> json) {
     return DetailsInfo(
@@ -88,7 +95,6 @@ class DetailsInfo {
       hospitalityId: json['hospitalityId'] ?? '',
       eventId: json['eventId'] ?? '',
       placeId: json['placeId'] ?? '',
-
     );
   }
 
@@ -97,8 +103,7 @@ class DetailsInfo {
       'bookingId': bookingId,
       'adventureId': adventureId,
       'placeId': placeId,
-     'eventId':eventId,
-
+      'eventId': eventId,
     };
   }
 }

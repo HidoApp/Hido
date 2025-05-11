@@ -109,7 +109,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
-                        text: 'idIqama'.tr,
+                        text: 'nationalId'.tr,
                         fontSize: width * 0.043,
                         fontFamily: AppUtil.SfFontType(context),
                         fontWeight: FontWeight.w500,

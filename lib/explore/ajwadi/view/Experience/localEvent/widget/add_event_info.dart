@@ -24,16 +24,6 @@ class AddInfo extends StatefulWidget {
 }
 
 class _AddInfoState extends State<AddInfo> {
-  //  final TextEditingController EventTitleControllerEn =
-  //     TextEditingController();
-  // final TextEditingController EventBioControllerEn =
-  //     TextEditingController();
-
-  // final TextEditingController EventTitleControllerAr =
-  //     TextEditingController();
-  // final TextEditingController EventBioControllerAr =
-  //     TextEditingController();
-
   final FocusNode _focusNodeAr = FocusNode();
   final FocusNode _focusNodeEn = FocusNode();
   final EventController _EventController = Get.put(EventController());

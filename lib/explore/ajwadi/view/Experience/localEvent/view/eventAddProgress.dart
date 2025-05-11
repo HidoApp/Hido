@@ -143,13 +143,10 @@ class _EventAddProgressState extends State<EventAddProgress> {
   bool _validateFields() {
     if (activeIndex == 0) {
       return (_EventController.titleAr.isNotEmpty &&
-          _EventController.bioAr.isNotEmpty &&
-          _EventController.bioEn.isNotEmpty &&
-          _EventController.titleEn.isNotEmpty);
-      // EventTitleControllerEn.text.isNotEmpty &&
-      //     EventBioControllerEn.text.isNotEmpty &&
-      //     EventTitleControllerAr.text.isNotEmpty &&
-      //     EventBioControllerAr.text.isNotEmpty;
+              _EventController.bioAr.isNotEmpty
+          // _EventController.bioEn.isNotEmpty &&
+          // _EventController.titleEn.isNotEmpty
+          );
     }
     if (activeIndex == 1) {
       return _EventController.pickUpLocLatLang.value !=

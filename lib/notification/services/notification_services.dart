@@ -17,7 +17,7 @@ class NotificationServices {
   static Future<String> getDeviceToken() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
     var token = await messaging.getToken();
-    log(token ?? "EMpty Token");
+    log('token ${token ?? "EMpty Token"}');
     return token ?? "";
   }
 
@@ -46,6 +46,8 @@ class NotificationServices {
           'deviceToken': deviceToken,
           'deviceType': Platform.operatingSystem.toUpperCase()
         }));
+    log('deviceToken');
+
     log(response.statusCode.toString());
     log(response.body);
     if (response.statusCode == 200) {

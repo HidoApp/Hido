@@ -149,37 +149,42 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                             MediaQuery(
                               data: MediaQuery.of(context)
                                   .copyWith(textScaler: TextScaler.linear(1.0)),
-                              child: RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: AppUtil.rtlDirection2(context)
-                                          ? "ياهلا"
-                                          : 'Welcome ',
-                                      style: const TextStyle(
-                                        color: Color.fromRGBO(7, 7, 8, 1),
-                                        fontSize: 20,
-                                        fontFamily: 'HT Rakik',
-                                        fontWeight: FontWeight.w500,
-                                        height: 0.07,
-                                        letterSpacing: 0.80,
+                              child: Expanded(
+                                child: RichText(
+                                  maxLines: 1,
+                                  overflow: TextOverflow.visible,
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: AppUtil.rtlDirection2(context)
+                                            ? "ياهلا"
+                                            : 'Welcome ',
+                                        style: const TextStyle(
+                                          color: Color.fromRGBO(7, 7, 8, 1),
+                                          fontSize: 20,
+                                          fontFamily: 'HT Rakik',
+                                          fontWeight: FontWeight.w500,
+                                          height: 0.07,
+                                          letterSpacing: 0.80,
+                                        ),
                                       ),
-                                    ),
-                                    TextSpan(
-                                      text: _profileController
-                                              .isProfileLoading.value
-                                          ? ""
-                                          : ' ${_profileController.profile.name ?? "".split(' ').take(1).join(' ')}',
-                                      style: TextStyle(
-                                        color: const Color(0xFF37B268),
-                                        fontSize: width * 0.051,
-                                        fontFamily: 'HT Rakik',
-                                        fontWeight: FontWeight.w500,
-                                        height: 0.07,
-                                        letterSpacing: 0.80,
+                                      TextSpan(
+                                        text: _profileController
+                                                .isProfileLoading.value
+                                            ? ""
+                                            // : "ABDILMAJEED ALJAHDALDDDD",
+                                            : ' ${_profileController.profile.name ?? "".split(' ').take(1).join(' ')}',
+                                        style: TextStyle(
+                                          color: const Color(0xFF37B268),
+                                          fontSize: width * 0.051,
+                                          fontFamily: 'HT Rakik',
+                                          fontWeight: FontWeight.w500,
+                                          height: 0.07,
+                                          letterSpacing: 0.80,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -221,12 +226,12 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                       ],
                     ),
                     SizedBox(height: width * 0.02),
-                    SizedBox(
+                    const SizedBox(
                       width: double.infinity,
                       height: 168,
                       // padding: const EdgeInsets.symmetric(
                       //     horizontal: 0, vertical: 16),
-                      child: const Center(
+                      child: Center(
                         child: CustomWalletCard(),
                       ),
                     ),

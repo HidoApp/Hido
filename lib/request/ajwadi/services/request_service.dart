@@ -280,10 +280,8 @@ class RequestService {
     required String id,
     required BuildContext context,
   }) async {
-    log("jwtToken");
     final getStorage = GetStorage();
     String token = getStorage.read('accessToken');
-    log('isExpired');
     log(JwtDecoder.isExpired(token).toString());
     if (JwtDecoder.isExpired(token)) {
       String refreshToken = getStorage.read('refreshToken');
@@ -307,10 +305,10 @@ class RequestService {
     log(response.statusCode.toString());
     if (response.statusCode == 200 || response.statusCode == 201) {
       log("enter");
-      if (context.mounted) {
-        AppUtil.successToast(context, 'EndRound'.tr);
-        await Future.delayed(const Duration(seconds: 1));
-      }
+      // if (context.mounted) {
+      //   AppUtil.successToast(context, 'EndRound'.tr);
+      // }
+      // await Future.delayed(const Duration(seconds: 1));
       return true;
     } else {
       String errorMessage = jsonDecode(response.body)['message'];

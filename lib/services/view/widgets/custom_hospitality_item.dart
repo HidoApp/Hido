@@ -93,7 +93,6 @@ class _ServicesCardState extends State<ServicesCard> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    print(widget.status);
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
