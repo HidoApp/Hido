@@ -1904,7 +1904,7 @@ class _AddGuestsState extends State<AddGuests> {
                 height: width * 0.047,
               ),
               CustomText(
-                text: AppUtil.rtlDirection2(context) ? "يستقبل فقط" : "Accepts",
+                text: AppUtil.rtlDirection2(context) ? "استقبل فقط" : "Accepts",
                 color: black,
                 fontSize: 17,
                 fontWeight: FontWeight.w500,
