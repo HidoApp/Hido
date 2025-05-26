@@ -652,7 +652,7 @@ class AuthController extends GetxController {
         );
       }
     } else {
-      log('not Same Version but not mandatory');
+      // log('not Same Version but not mandatory');
     }
   }
 }
