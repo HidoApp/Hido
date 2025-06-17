@@ -58,6 +58,13 @@ class HospitalityController extends GetxController {
   var tabIndex = 0.obs;
   var addresHostCard = ''.obs;
   var startTime = ''.obs;
+  var titleAr = "".obs;
+  var titleEn = "".obs;
+  var titleZh = "".obs;
+
+  var bioAr = "".obs;
+  var bioEn = "".obs;
+  var bioZh = "".obs;
   // Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
   Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264, 46.544731).obs;
 
@@ -213,8 +220,10 @@ class HospitalityController extends GetxController {
   Future<bool> createHospitality({
     required String titleAr,
     required String titleEn,
+    required String titleZh,
     required String bioAr,
     required String bioEn,
+    required String bioZh,
     required String mealTypeAr,
     required String mealTypeEn,
     required String longitude,
@@ -237,8 +246,10 @@ class HospitalityController extends GetxController {
       final isSuccess = await HospitalityService.createHospitality(
           titleAr: titleAr,
           titleEn: titleEn,
+          titleZh: titleZh,
           bioAr: bioAr,
           bioEn: bioEn,
+          bioZh: bioZh,
           mealTypeAr: mealTypeAr,
           mealTypeEn: mealTypeEn,
           longitude: longitude,

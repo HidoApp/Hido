@@ -7,6 +7,7 @@ import 'package:ajwad_v4/auth/widget/countdown_timer.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/notification/controller/notification_controller.dart';
+import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -40,11 +41,13 @@ class _PhoneOTPState extends State<PhoneOTP> {
   late String otp;
   final _authController = Get.put(AuthController());
   final notificationController = Get.put(NotificationController());
+  final _profileController = Get.put(ProfileController());
+
   void stepper(String otpCode) async {
-    if (_authController.activeBar.value == 2) {
+    if (_authController.activeBar.value == 3) {
       log('Succes');
       final isSuccess = await _authController.getAjwadiLinceseInfo(
-          expiryDate: _authController.drivingDate.value,
+          expiryDate: _profileController.drivingDate.value,
           transactionId: _authController.transactionIdDriving.value,
           otp: otpCode,
           context: context);
@@ -53,11 +56,11 @@ class _PhoneOTPState extends State<PhoneOTP> {
           BaseEvent(
             "Local add  driving license successfully",
             eventProperties: {
-              'expiryDater': _authController.drivingDate.value,
+              'expiryDater': _profileController.drivingDate.value,
             },
           ),
         );
-        _authController.activeBar(3);
+        _authController.activeBar(4);
         Get.back();
       } else {
         AmplitudeService.amplitude.track(
@@ -72,10 +75,11 @@ class _PhoneOTPState extends State<PhoneOTP> {
           otp: otpCode,
           context: context);
       if (isSuccess) {
-        _authController.activeBar(1);
-        Get.offAll(() => const AjwadiBottomBar());
-        storage.remove('localName');
-        storage.write('userRole', 'local');
+        Get.back();
+        // _authController.activeBar(1);
+        // Get.offAll(() => const AjwadiBottomBar());
+        //storage.remove('localName');
+        // storage.write('userRole', 'local');
       }
     }
   }

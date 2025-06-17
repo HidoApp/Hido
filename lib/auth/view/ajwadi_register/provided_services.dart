@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/amplitude_service.dart';
+import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/contact_info.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
 import 'package:ajwad_v4/auth/widget/provided_services_card.dart';
@@ -22,8 +23,10 @@ class ProvidedServices extends StatefulWidget {
 
 class _ProvidedServicesState extends State<ProvidedServices> {
   final storage = GetStorage();
-  var tourSelected = false;
-  var experiencesSelected = false;
+  // var tourSelected = false;
+  // var experiencesSelected = false;
+  final _authController = Get.put(AuthController());
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
@@ -62,42 +65,58 @@ class _ProvidedServicesState extends State<ProvidedServices> {
             text: 'serviceHint'.tr,
             color: starGreyColor,
             fontSize: width * 0.038,
-            fontFamily: 'SF Pro',
+            fontFamily: AppUtil.SfFontType(context),
             fontWeight: FontWeight.w400,
           ),
           SizedBox(
             height: width * 0.06,
           ),
-          ProvidedServicesCard(
-            onTap: () {
-              setState(() {
-                tourSelected = !tourSelected;
-              });
-            },
-            textColor: tourSelected ? colorGreen : black,
-            title: 'ajwady'.tr,
-            iconPath: 'tourProvide',
-            subtitle: 'tourSub'.tr,
-            color: tourSelected ? lightGreen : Colors.white,
-            iconColor: tourSelected ? colorGreen : black,
-            borderColor: tourSelected ? colorGreen : borderGrey,
+          Obx(
+            () => ProvidedServicesCard(
+              onTap: () {
+                _authController.tourSelected.value =
+                    !_authController.tourSelected.value;
+              },
+              textColor:
+                  _authController.tourSelected.value ? colorGreen : black,
+              title: 'ajwady'.tr,
+              checkValue: _authController.tourSelected,
+              subtitle: 'tourSub'.tr,
+              color: _authController.tourSelected.value
+                  ? extralightGreen
+                  : Colors.white,
+              iconColor:
+                  _authController.tourSelected.value ? colorGreen : black,
+              borderColor: _authController.tourSelected.value
+                  ? colorGreenBorder
+                  : borderGrey,
+            ),
           ),
           SizedBox(
             height: width * .0307,
           ),
-          ProvidedServicesCard(
-            onTap: () {
-              setState(() {
-                experiencesSelected = !experiencesSelected;
-              });
-            },
-            textColor: experiencesSelected ? colorGreen : black,
-            title: 'services'.tr,
-            iconPath: 'serviceProvide',
-            subtitle: 'exprinceHint'.tr,
-            color: experiencesSelected ? lightGreen : Colors.white,
-            iconColor: experiencesSelected ? colorGreen : black,
-            borderColor: experiencesSelected ? colorGreen : borderGrey,
+          Obx(
+            () => ProvidedServicesCard(
+              onTap: () {
+                _authController.experiencesSelected.value =
+                    !_authController.experiencesSelected.value;
+              },
+              textColor: _authController.experiencesSelected.value
+                  ? colorGreen
+                  : black,
+              title: 'experiences'.tr,
+              checkValue: _authController.experiencesSelected,
+              subtitle: 'exprinceHint'.tr,
+              color: _authController.experiencesSelected.value
+                  ? extralightGreen
+                  : Colors.white,
+              iconColor: _authController.experiencesSelected.value
+                  ? colorGreen
+                  : black,
+              borderColor: _authController.experiencesSelected.value
+                  ? colorGreenBorder
+                  : borderGrey,
+            ),
           )
         ],
       )),
@@ -106,21 +125,23 @@ class _ProvidedServicesState extends State<ProvidedServices> {
             vertical: width * 0.09, horizontal: width * 0.041),
         child: CustomButton(
           onPressed: () {
-            if (experiencesSelected && tourSelected) {
+            if (_authController.experiencesSelected.value &&
+                _authController.tourSelected.value) {
               AmplitudeService.amplitude
                   .track(BaseEvent('Local choose  to be tour guide'));
-              Get.to(() => const TourStepper());
-            } else if (experiencesSelected) {
+              // Get.to(() => const TourStepper());
+              Get.to(() => const ContactInfo());
+            } else if (_authController.experiencesSelected.value) {
               AmplitudeService.amplitude
                   .track(BaseEvent('Local choose  to be experience'));
               Get.to(() => const ContactInfo());
-            } else if (tourSelected) {
+            } else if (_authController.tourSelected.value) {
               AmplitudeService.amplitude
                   .track(BaseEvent('Local choose  to be tour guide'));
-              Get.to(() => const TourStepper());
+              //  Get.to(() => const TourStepper());
+              Get.to(() => const ContactInfo());
             } else {
-              AppUtil.errorToast(
-                  context, 'You must pick at least one services');
+              AppUtil.errorToast(context, 'pickService'.tr);
             }
           },
           raduis: 8,

@@ -148,8 +148,10 @@ class AdventureService {
   static Future<bool> createAdventure({
     required String nameAr,
     required String nameEn,
+    required String nameZh,
     required String descriptionAr,
     required String descriptionEn,
+    required String descriptionZh,
     required String longitude,
     required String latitude,
     //required String date,
@@ -179,8 +181,10 @@ class AdventureService {
     Map<String, dynamic> body = {
       "nameAr": nameAr,
       "nameEn": nameEn,
+      "nameZh": nameZh,
       "descriptionAr": descriptionAr,
       "descriptionEn": descriptionEn,
+      "descriptionZh": descriptionZh,
       "price": price,
       "image": image,
       "coordinates": {

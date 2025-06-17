@@ -3,6 +3,7 @@ import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/widget/account_tile.dart';
 import 'package:ajwad_v4/profile/widget/driving_sheet.dart';
 import 'package:ajwad_v4/profile/widget/tour_license_sheet.dart';
+import 'package:ajwad_v4/profile/widget/vehcile_sheet.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/screen_padding.dart';
@@ -32,6 +33,10 @@ class _LegalDocumentState extends State<LegalDocument> {
                 ? Container()
                 : AccountTile(
                     title: 'drivinglicense'.tr,
+                    newAddtion: _profileController
+                            .profile.drivingLicenseExpiryDate!.isEmpty
+                        ? true
+                        : false,
                     subtitle: AppUtil.convertHijriToGregorian(
                         AppUtil.convertIsoDateToFormattedDate(_profileController
                             .profile.drivingLicenseExpiryDate!)),
@@ -44,12 +49,16 @@ class _LegalDocumentState extends State<LegalDocument> {
             color: lightGrey,
           ),
           SizedBox(
-            height: width * 0.051,
+            height: width * 0.05,
           ),
           // Obx(
           //   () => _profileController.isProfileLoading.value
           //       ? Container()
           //       : AccountTile(
+          //           newAddtion:
+          //               _profileController.profile.vehicleIdNumber!.isEmpty
+          //                   ? true
+          //                   : false,
           //           title: 'vehicleLicense'.tr,
           //           subtitle: _profileController.profile.vehicleIdNumber,
           //           onTap: () => Get.bottomSheet(const VehcileSheet()),
@@ -59,11 +68,15 @@ class _LegalDocumentState extends State<LegalDocument> {
           //   color: lightGrey,
           // ),
           // SizedBox(
-          //   height: width * 0.051,
+          //   height: width * 0.050,
           // ),
-          AccountTile(
-              title: 'tourLicense'.tr,
-              onTap: () => Get.bottomSheet(const TourLicenseSheet())),
+          if (_profileController.profile.tourGuideLicense!.isNotEmpty)
+            AccountTile(
+                title: 'tourLicense'.tr,
+                subtitle: _profileController.profile.tourGuideLicense
+                    ?.split('/')
+                    .last,
+                onTap: () => Get.bottomSheet(const TourLicenseSheet())),
         ],
       )),
     );

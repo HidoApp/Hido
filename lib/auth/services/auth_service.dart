@@ -573,7 +573,17 @@ class AuthService {
     } else {
       var jsonBody = jsonDecode(response.body);
       String errorMessage = jsonBody['errorDetail']['errorMessage'];
-      AppUtil.errorToast(context, errorMessage);
+      if (errorMessage == 'The provided inputs does not match NIC records') {
+        if (AppUtil.rtlDirection2(context)) {
+          AppUtil.errorToast(context,
+              "البيانات المدخلة غير متطابقة، يرجى التحقق والمحاولة مرة أخرى");
+        } else {
+          AppUtil.errorToast(context,
+              'The provided inputs does not match. Please check and try again');
+        }
+      } else {
+        AppUtil.errorToast(context, errorMessage);
+      }
       return null;
     }
   }
@@ -616,7 +626,17 @@ class AuthService {
       var jsonBody = jsonDecode(response.body);
       String errorMessage = jsonBody['errorDetail']['errorMessage'];
       //log(errorMessage.isEmpty.toString());
-      AppUtil.errorToast(context, errorMessage);
+      if (errorMessage == 'The provided inputs does not match NIC records') {
+        if (AppUtil.rtlDirection2(context)) {
+          AppUtil.errorToast(context,
+              "البيانات المدخلة غير متطابقة، يرجى التحقق والمحاولة مرة أخرى");
+        } else {
+          AppUtil.errorToast(context,
+              'The provided inputs does not match. Please check and try again');
+        }
+      } else {
+        AppUtil.errorToast(context, errorMessage);
+      }
       return null;
     }
   }

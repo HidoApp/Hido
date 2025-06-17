@@ -10,6 +10,7 @@ import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 // import 'package:jhijri_picker/_src/_jWidgets.dart';
 
@@ -96,7 +97,7 @@ class _DrivingSheetState extends State<DrivingSheet> {
           ),
           CustomText(
             text: 'drivinglicense'.tr,
-            fontFamily: "SF Pro",
+            fontFamily: AppUtil.SfFontType(context),
             fontSize: width * 0.043,
             fontWeight: FontWeight.w500,
           ),
@@ -122,12 +123,11 @@ class _DrivingSheetState extends State<DrivingSheet> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(
-                      Icons.date_range,
-                      color: Colors.grey,
+                    SvgPicture.asset(
+                      'assets/icons/Time (2).svg',
                     ),
                     SizedBox(
-                      width: width * 0.051,
+                      width: MediaQuery.of(context).size.width * 0.033,
                     ),
                     CustomText(
                       text:
@@ -137,7 +137,8 @@ class _DrivingSheetState extends State<DrivingSheet> {
                                   AppUtil.convertIsoDateToFormattedDate(
                                       _profileController
                                           .profile.drivingLicenseExpiryDate!)),
-                      color: Colors.grey,
+                      color: Graytext,
+                      fontSize: MediaQuery.of(context).size.width * 0.038,
                       fontWeight: FontWeight.w400,
                     ),
                   ],
@@ -165,7 +166,10 @@ class _DrivingSheetState extends State<DrivingSheet> {
                     child: CircularProgressIndicator.adaptive(),
                   )
                 : CustomButton(
-                    title: 'save'.tr,
+                    title: _profileController
+                            .profile.drivingLicenseExpiryDate!.isEmpty
+                        ? 'Addtion'.tr
+                        : 'update'.tr,
                     onPressed: () async {
                       if (_authController.updatedDriving.value.isEmpty) {
                         _authController.validUpdatedDriving(false);

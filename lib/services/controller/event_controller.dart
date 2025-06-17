@@ -46,8 +46,11 @@ class EventController extends GetxController {
   var selectedDateId = "".obs;
   var titleAr = "".obs;
   var titleEn = "".obs;
+  var titleZh = "".obs;
+
   var bioAr = "".obs;
   var bioEn = "".obs;
+  var bioZh = "".obs;
   var ragionAr = "".obs;
   var ragionEn = "".obs;
   var startDate = ''.obs;
@@ -119,8 +122,10 @@ class EventController extends GetxController {
   Future<bool> createEvent({
     required String nameAr,
     required String nameEn,
+    required String nameZh,
     required String descriptionAr,
     required String descriptionEn,
+    required String descriptionZh,
     required String longitude,
     required String latitude,
     required double price,
@@ -137,8 +142,10 @@ class EventController extends GetxController {
       final isSuccess = await EventService.createEvent(
           nameAr: nameAr,
           nameEn: nameEn,
+          nameZh: nameZh,
           descriptionAr: descriptionAr,
           descriptionEn: descriptionEn,
+          descriptionZh: descriptionZh,
           longitude: longitude,
           latitude: latitude,
           price: price,

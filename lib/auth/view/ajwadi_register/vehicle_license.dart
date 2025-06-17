@@ -1,7 +1,10 @@
 import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
+import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_otp_field.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -12,6 +15,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:win32/win32.dart';
 
 class VehicleLicenseScreen extends StatefulWidget {
   const VehicleLicenseScreen({super.key});
@@ -22,6 +26,7 @@ class VehicleLicenseScreen extends StatefulWidget {
 
 class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
   final _authController = Get.put(AuthController());
+  final _profileController = Get.put(ProfileController());
 
   final Map _pickupRide = {
     'sedan': [
@@ -46,15 +51,87 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
   @override
   void dispose() {
     // TODO: implement dispose
-    _authController.plateNumber1.value = '';
-    _authController.plateNumber2.value = '';
-    _authController.plateNumber3.value = '';
-    _authController.plateNumber4.value = '';
-    _authController.plateletter1.value = '';
-    _authController.plateletter2.value = '';
-    _authController.plateletter3.value = '';
-    _authController.selectedRide.value = '';
+    // _authController.plateNumber1.value = '';
+    // _authController.plateNumber2.value = '';
+    // _authController.plateNumber3.value = '';
+    // _authController.plateNumber4.value = '';
+    // _authController.plateletter1.value = '';
+    // _authController.plateletter2.value = '';
+    // _authController.plateletter3.value = '';
+    // _authController.selectedRide.value = '';
+
     super.dispose();
+  }
+
+  Future<void> processTourGuideStepper(BuildContext context) async {
+    try {
+      // Step 1: Upload Profile PDF and Edit Profile
+      final file = await _profileController.uploadProfileImages(
+        file: _profileController.pdfFile.value!,
+        uploadOrUpdate: "upload",
+        context: context,
+      );
+
+      if (file == null) {
+        AppUtil.errorToast(context, "PDF upload failed");
+        return;
+      }
+
+      final result = await _profileController.editProfile(
+        context: context,
+        tourGuideLicense: file.filePath,
+        spokenLanguage: _profileController.profile.spokenLanguage,
+      );
+
+      if (result == null) {
+        return;
+      }
+
+      // Step 3: Show Success Dialog
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return Dialog(
+              backgroundColor: Colors.white,
+              surfaceTintColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/images/paymentSuccess.gif', width: 38),
+                    SizedBox(height: MediaQuery.of(context).size.width * 0.04),
+                    Text(
+                      'saveChange'.tr,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                      ),
+                      textDirection: AppUtil.rtlDirection2(context)
+                          ? TextDirection.rtl
+                          : TextDirection.ltr,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }).then((_) async {
+        _profileController.reset();
+        _authController.activeBar(1);
+
+        await _profileController.getProfile(context: context);
+        Get.offAll(() => const AjwadiBottomBar());
+      });
+    } catch (e) {
+      AppUtil.errorToast(context, e.toString());
+    }
   }
 
   @override
@@ -66,6 +143,12 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
         appBar: CustomAppBar(
           'registerVehicle'.tr,
           isBack: true,
+          isSkiped: true,
+          onPressedAction: () {
+            AppUtil.showSaveChangesDialog(context, () {
+              processTourGuideStepper(context);
+            });
+          },
         ),
         body: Padding(
           padding: EdgeInsets.only(
@@ -81,9 +164,12 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                 children: [
                   CustomText(
                       text: "vehicleLicense".tr,
-                      fontSize: width * 0.0435,
+                      fontSize: width * 0.044,
                       fontWeight: FontWeight.w500,
-                      fontFamily: 'SF Pro'),
+                      fontFamily: AppUtil.SfFontType(context)),
+                  SizedBox(
+                    height: width * 0.0205,
+                  ),
                   CustomTextField(
                     hintText: 'vehicleHint'.tr,
                     inputFormatters: [
@@ -100,9 +186,12 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                   ),
                   CustomText(
                       text: 'vehiclePlate'.tr,
-                      fontSize: width * 0.0435,
+                      fontSize: width * 0.044,
                       fontWeight: FontWeight.w500,
-                      fontFamily: 'SF Pro'),
+                      fontFamily: AppUtil.SfFontType(context)),
+                  SizedBox(
+                    height: width * 0.0205,
+                  ),
                   Form(
                     // key: _authController.vehicleKey,
                     child: Row(
@@ -112,7 +201,7 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                         CustomOTPField(
                           onChanged: (value) {
                             if (value.isNotEmpty) {
-                              _authController.plateNumber1(value);
+                              _profileController.plateNumber1(value);
                               FocusScope.of(context).nextFocus();
                             } else {
                               FocusScope.of(context).previousFocus();
@@ -128,7 +217,7 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                         CustomOTPField(
                           onChanged: (value) {
                             if (value.isNotEmpty) {
-                              _authController.plateNumber2(value);
+                              _profileController.plateNumber2(value);
                               FocusScope.of(context).nextFocus();
                             } else {
                               FocusScope.of(context).previousFocus();
@@ -144,7 +233,7 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                         CustomOTPField(
                           onChanged: (value) {
                             if (value.isNotEmpty) {
-                              _authController.plateNumber3(value);
+                              _profileController.plateNumber3(value);
                               FocusScope.of(context).nextFocus();
                             } else {
                               FocusScope.of(context).previousFocus();
@@ -160,7 +249,7 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                         CustomOTPField(
                           onChanged: (value) {
                             if (value.isNotEmpty) {
-                              _authController.plateNumber4(value);
+                              _profileController.plateNumber4(value);
                               FocusScope.of(context).nextFocus();
                             } else {
                               FocusScope.of(context).previousFocus();
@@ -178,7 +267,7 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                         CustomOTPField(
                           onChanged: (value) {
                             if (value.isNotEmpty) {
-                              _authController.plateletter1(value);
+                              _profileController.plateletter1(value);
                               FocusScope.of(context).nextFocus();
                             } else {
                               FocusScope.of(context).previousFocus();
@@ -194,7 +283,7 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                         CustomOTPField(
                           onChanged: (value) {
                             if (value.isNotEmpty) {
-                              _authController.plateletter2(value);
+                              _profileController.plateletter2(value);
                               FocusScope.of(context).nextFocus();
                             } else {
                               FocusScope.of(context).previousFocus();
@@ -210,7 +299,7 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                         CustomOTPField(
                           onChanged: (value) {
                             if (value.isNotEmpty) {
-                              _authController.plateletter3(value);
+                              _profileController.plateletter3(value);
                               FocusScope.of(context).nextFocus();
                             } else {
                               FocusScope.of(context).previousFocus();
@@ -232,11 +321,11 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                   ),
                   CustomText(
                       text: 'vehicleType'.tr,
-                      fontSize: width * 0.0435,
+                      fontSize: width * 0.044,
                       fontWeight: FontWeight.w500,
-                      fontFamily: 'SF Pro'),
+                      fontFamily: AppUtil.SfFontType(context)),
                   SizedBox(
-                    height: width * 0.03,
+                    height: width * 0.0205,
                   ),
                   Obx(() => pickupRide()),
                 ],
@@ -255,8 +344,8 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
             margin: const EdgeInsets.only(left: 2),
             child: GestureDetector(
               onTap: () {
-                _authController.selectedRide.value = key;
-                log(_authController.selectedRide.value);
+                _profileController.selectedRide.value = key;
+                log(_profileController.selectedRide.value);
               },
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.1,
@@ -264,7 +353,7 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: _authController.selectedRide.value == key
+                    color: _profileController.selectedRide.value == key
                         ? colorGreen
                         : almostGrey,
                   ),
@@ -274,7 +363,7 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                   //       blurRadius: 9,
                   //       spreadRadius: 8)
                   // ],
-                  color: _authController.selectedRide.value == key
+                  color: _profileController.selectedRide.value == key
                       ? lightGreen
                       : Colors.white,
                 ),
@@ -283,7 +372,7 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                     const Spacer(),
                     RepaintBoundary(
                       child: SvgPicture.asset(
-                        _authController.selectedRide.value == key
+                        _profileController.selectedRide.value == key
                             ? values[0]
                             : values[1],
                       ),
@@ -291,7 +380,7 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                     const Spacer(),
                     CustomText(
                       text: "$key".tr,
-                      color: _authController.selectedRide.value == key
+                      color: _profileController.selectedRide.value == key
                           ? colorGreen
                           : dividerColor,
                     ),

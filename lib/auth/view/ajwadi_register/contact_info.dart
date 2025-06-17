@@ -47,7 +47,8 @@ class _ContactInfoState extends State<ContactInfo> {
                   text: 'email'.tr,
                   fontSize: width * 0.0435,
                   fontWeight: FontWeight.w500,
-                  fontFamily: 'SF Pro'),
+                  fontFamily: AppUtil.SfFontType(context)),
+              SizedBox(height: width * 0.02),
               CustomTextField(
                 hintText: 'yourEmail'.tr,
                 keyboardType: TextInputType.emailAddress,
@@ -69,9 +70,10 @@ class _ContactInfoState extends State<ContactInfo> {
               CustomText(
                 text: 'iban'.tr,
                 fontSize: width * 0.0435,
-                fontFamily: 'SF Pro',
+                fontFamily: AppUtil.SfFontType(context),
                 fontWeight: FontWeight.w500,
               ),
+              SizedBox(height: width * 0.02),
               CustomTextField(
                 hintText: 'ibanHint'.tr,
                 keyboardType: TextInputType.text,
@@ -121,7 +123,12 @@ class _ContactInfoState extends State<ContactInfo> {
                             context: context,
                             email: _authController.email.value,
                             iban: _authController.iban.value,
-                            type: 'EXPERIENCES',
+                            type: (_authController.tourSelected.value &&
+                                    _authController.experiencesSelected.value)
+                                ? 'TOUR_GUID'
+                                : _authController.experiencesSelected.value
+                                    ? 'EXPERIENCES'
+                                    : 'TOUR_GUID',
                           );
                           log(isSuccess.toString());
                           if (isSuccess) {
