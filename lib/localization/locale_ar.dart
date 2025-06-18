@@ -748,5 +748,7 @@ const localeAr = {
   'CompleteInfoDes': 'للبدء باستقبال طلبات الجولات لابد من اكمال معلوماتك ',
   'CompleteInfo': 'اكمال المعلومات ',
   'Addtion': 'اضافة',
-  'imageSizeValid': 'يجب أن يكون حجم الصورة أقل من 2 ميجابايت'
+  'imageSizeValid': 'يجب أن يكون حجم الصورة أقل من 2 ميجابايت',
+  'price include': 'السعر يشمل',
+  'addNewPoint': 'اضافة نقطة جديدة',
 };

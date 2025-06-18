@@ -24,6 +24,7 @@ class RequestController extends GetxController {
   var reviewItenrary = <RequestSchedule>[].obs;
 // valditon itenrary
   var isActivtyValid = true.obs;
+
   var isPriceValid = true.obs;
 
   var isStartTimeValid = true.obs;

@@ -30,6 +30,7 @@ class CustomTextField extends StatelessWidget {
       this.validatorHandle,
       this.onFieldSubmitted,
       this.expand = false,
+      this.autovalidateMode,
       this.textInputAction = TextInputAction.done,
       this.verticalHintPadding = 0,
       this.focusNode,
@@ -37,6 +38,8 @@ class CustomTextField extends StatelessWidget {
 
   final TextEditingController? controller;
   final TextInputType? keyboardType;
+  final AutovalidateMode?
+      autovalidateMode; // 👈 this controls validation timing
   final bool obscureText;
   final bool readOnly;
   final bool isPassword;
@@ -80,6 +83,7 @@ class CustomTextField extends StatelessWidget {
           maxLines: maxLines,
           minLines: minLines,
           readOnly: readOnly,
+          autovalidateMode: autovalidateMode,
           controller: controller,
           obscureText: obscureText,
           keyboardType: keyboardType,
