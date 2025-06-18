@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:ajwad_v4/auth/models/image.dart';
 import 'package:ajwad_v4/payment/model/payment_result.dart';
+import 'package:ajwad_v4/request/ajwadi/view/widget/include_card.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/model/payment.dart';
 import 'package:ajwad_v4/services/service/hospitality_service.dart';
@@ -65,6 +66,11 @@ class HospitalityController extends GetxController {
   var bioAr = "".obs;
   var bioEn = "".obs;
   var bioZh = "".obs;
+  var includeList = <IncludeCard>[].obs;
+  var reviewincludeItenrary = <String>[].obs;
+  var isActivtyValid = true.obs;
+  var validSave = true.obs;
+  var includeCount = 0.obs;
   // Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
   Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264, 46.544731).obs;
 

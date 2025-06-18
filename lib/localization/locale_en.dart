@@ -759,5 +759,7 @@ const localeEn = {
   'CompleteInfo': 'Complete information',
   'fileValidSize': '*The file must be a PDF',
   'Addtion': 'Add',
-  'imageSizeValid': 'Image too large. Maximum allowed size is less than 2GB.'
+  'imageSizeValid': 'Image too large. Maximum allowed size is less than 2GB.',
+  'price include': 'Price includes',
+  'addNewPoint': 'Add new point',
 };

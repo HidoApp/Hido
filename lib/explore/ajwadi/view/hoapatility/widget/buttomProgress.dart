@@ -5,6 +5,8 @@ import 'package:ajwad_v4/api/translation_api.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/add_event_calender_dialog.dart';
+import 'package:ajwad_v4/request/ajwadi/view/widget/include_card.dart';
+import 'package:ajwad_v4/request/ajwadi/view/widget/review_include_card.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 
@@ -2899,7 +2901,8 @@ class PriceDecisionCard extends StatefulWidget {
 
 class _PriceDecisionCardState extends State<PriceDecisionCard> {
   int price = 0;
-
+  final HospitalityController _hospitalityController =
+      Get.put(HospitalityController());
   void _setPrice(int newPrice) {
     setState(() {
       price = newPrice;
@@ -2968,6 +2971,8 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -3229,6 +3234,118 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
             ],
           ),
         ),
+        // Column(
+        //   crossAxisAlignment: CrossAxisAlignment.start,
+        //   children: [
+        //     // SizedBox(height: width * 0.060),
+        //     Padding(
+        //       padding: EdgeInsets.only(
+        //           left: width * 0.01,
+        //           top: width * 0.060,
+        //           bottom: width * 0.050,
+        //           right: width * 0.01),
+        //       child: CustomText(
+        //         text: 'price include'.tr,
+        //         color: black,
+        //         fontSize: 17,
+        //         fontFamily: AppUtil.SfFontType(context),
+        //         fontWeight: FontWeight.w500,
+        //       ),
+        //     ),
+        //     // SizedBox(height: width * 0.05),
+
+        //     Obx(
+        //       () => ListView.separated(
+        //         separatorBuilder: (context, index) => SizedBox(
+        //           height: width * 0.03,
+        //         ),
+        //         shrinkWrap: true,
+        //         physics: const BouncingScrollPhysics(),
+        //         itemCount: _hospitalityController.reviewincludeItenrary.length,
+        //         itemBuilder: (context, index) => ReivewIncludeCard(
+        //           indx: index,
+        //           include: _hospitalityController.reviewincludeItenrary[index],
+        //           experienceController: _hospitalityController,
+        //         ),
+        //       ),
+        //     ),
+        //     Obx(() => _hospitalityController.reviewincludeItenrary.isNotEmpty
+        //         ? SizedBox(
+        //             height: width * 0.06,
+        //           )
+        //         : const SizedBox.shrink()),
+
+        //     Obx(() => ListView.separated(
+        //           shrinkWrap: true,
+        //           physics: const NeverScrollableScrollPhysics(),
+        //           separatorBuilder: (context, index) =>
+        //               SizedBox(height: width * 0.06),
+        //           itemCount: _hospitalityController.includeList.length,
+        //           itemBuilder: (context, index) {
+        //             return _hospitalityController.includeList[index];
+        //           },
+        //         )),
+        //     // SizedBox(height: width * 0.06),
+
+        //     // Add Button
+        //     GestureDetector(
+        //       onTap: () {
+        //         if (_hospitalityController.includeCount >= 1) {
+        //           return;
+        //         }
+        //         _hospitalityController.includeList.add(
+        //           IncludeCard(
+        //             indx: _hospitalityController.includeCount.value,
+        //             experienceController: _hospitalityController,
+        //           ),
+        //         );
+        //         _hospitalityController.includeCount++;
+        //       },
+        //       child: Obx(
+        //         () => Padding(
+        //           padding: EdgeInsets.only(
+        //               left: width * 0.01,
+        //               top: _hospitalityController.includeList.isEmpty
+        //                   ? 0
+        //                   : width * 0.051,
+        //               bottom: width * 0.06,
+        //               right: width * 0.01),
+        //           child: Row(
+        //             mainAxisSize: MainAxisSize.min,
+        //             mainAxisAlignment: MainAxisAlignment.start,
+        //             crossAxisAlignment: CrossAxisAlignment.center,
+        //             children: [
+        //               Container(
+        //                 height: width * 0.06,
+        //                 width: width * 0.06,
+        //                 alignment: Alignment.center,
+        //                 decoration: BoxDecoration(
+        //                   color: colorGreen,
+        //                   borderRadius: BorderRadius.circular(4),
+        //                 ),
+        //                 child: Icon(
+        //                   Icons.add,
+        //                   color: Colors.white,
+        //                   size: width * 0.06,
+        //                 ),
+        //               ),
+        //               SizedBox(width: width * 0.02),
+        //               CustomText(
+        //                 text: "addNewPoint".tr,
+        //                 fontSize: width * 0.038,
+        //                 fontFamily: AppUtil.rtlDirection2(context)
+        //                     ? 'SF Arabic'
+        //                     : 'SF Pro',
+        //                 fontWeight: FontWeight.w400,
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //     SizedBox(height: width * 0.06),
+        //   ],
+        // )
       ],
     );
   }
