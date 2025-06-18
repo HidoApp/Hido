@@ -10,10 +10,13 @@ class AccountTile extends StatelessWidget {
       required this.title,
       this.subtitle,
       this.titleHint,
+      this.newAddtion = false,
       required this.onTap});
   final String title;
   final String? titleHint;
   final String? subtitle;
+  final bool newAddtion;
+
   final void Function() onTap;
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class AccountTile extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
             SizedBox(
-              height: titleHint != null ? 2 : 4,
+              height: titleHint != null ? 2 : 8,
             ),
             if (titleHint != null)
               ConstrainedBox(
@@ -47,21 +50,25 @@ class AccountTile extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.030,
               ),
-            if (subtitle != null)
+            if (subtitle != null) ...[
               CustomText(
                 text: subtitle,
                 fontSize: MediaQuery.of(context).size.width * 0.038,
-                fontFamily: "SF Pro",
+                fontFamily: AppUtil.SfFontType(context),
                 color: almostGrey,
                 fontWeight: FontWeight.w400,
               ),
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.035,
+              ),
+            ],
           ],
         ),
         const Spacer(),
         GestureDetector(
           onTap: onTap,
           child: CustomText(
-            text: "edit".tr,
+            text: newAddtion ? 'Addtion'.tr : "update".tr,
             fontSize: MediaQuery.of(context).size.width * 0.033,
             textDecoration: TextDecoration.underline,
             color: almostGrey,

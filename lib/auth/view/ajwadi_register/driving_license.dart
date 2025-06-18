@@ -3,12 +3,14 @@ import 'dart:developer';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/widget/local_calender.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:jhijri/_src/_jHijri.dart';
 
@@ -21,6 +23,7 @@ class DrivingLicense extends StatefulWidget {
 
 class _DrivingLicenseState extends State<DrivingLicense> {
   final _authController = Get.put(AuthController());
+  final _profileController = Get.put(ProfileController());
 
   String? drivingDate;
   DateTime? date;
@@ -31,28 +34,28 @@ class _DrivingLicenseState extends State<DrivingLicense> {
       builder: (context) => LocalCalender(
         pastAvalible: false,
         onPressed: () {
-          log(_authController.drivingDate.value);
+          log(_profileController.drivingDate.value);
           Get.back();
         },
         onSelectionChanged: (value) {
-          _authController.drivingDateDay(value.value.toString());
-          _authController.drivingDateDay.value =
-              AppUtil.formatDateForRowad(_authController.drivingDateDay.value);
-          _authController.drivingDate.value = AppUtil.convertToHijriForRowad(
-              _authController.drivingDateDay.value);
-          log(_authController.drivingDate.value);
-          log(_authController.drivingDateDay.value);
+          _profileController.drivingDateDay(value.value.toString());
+          _profileController.drivingDateDay.value = AppUtil.formatDateForRowad(
+              _profileController.drivingDateDay.value);
+          _profileController.drivingDate.value = AppUtil.convertToHijriForRowad(
+              _profileController.drivingDateDay.value);
+          log(_profileController.drivingDate.value);
+          log(_profileController.drivingDateDay.value);
         },
       ),
     );
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _authController.drivingDateDay.value = '';
-  }
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   super.dispose();
+  //   _authController.drivingDateDay.value = '';
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +64,7 @@ class _DrivingLicenseState extends State<DrivingLicense> {
       appBar: CustomAppBar(
         'drivinglicense'.tr,
         isBack: true,
+        isSkiped: true,
       ),
       body: Padding(
         padding: const EdgeInsets.only(
@@ -76,7 +80,10 @@ class _DrivingLicenseState extends State<DrivingLicense> {
                 text: "drivingExpire".tr,
                 fontSize: width * 0.0435,
                 fontWeight: FontWeight.w500,
-                fontFamily: 'SF Pro'),
+                fontFamily: AppUtil.SfFontType(context)),
+            SizedBox(
+              height: width * 0.0205,
+            ),
             Obx(
               () => GestureDetector(
                 onTap: () => showCalender(),
@@ -96,18 +103,18 @@ class _DrivingLicenseState extends State<DrivingLicense> {
                   ),
                   child: Row(
                     children: [
-                      const Icon(
-                        Icons.date_range,
-                        color: Colors.grey,
+                      SvgPicture.asset(
+                        'assets/icons/Time (2).svg',
                       ),
-                      const SizedBox(
-                        width: 20,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.039,
                       ),
                       CustomText(
-                        text: _authController.drivingDateDay.isNotEmpty
-                            ? _authController.drivingDateDay.value
+                        text: _profileController.drivingDateDay.isNotEmpty
+                            ? _profileController.drivingDateDay.value
                             : 'mm/dd/yyy'.tr,
-                        color: Colors.grey,
+                        color: Graytext,
+                        fontSize: MediaQuery.of(context).size.width * 0.038,
                         fontWeight: FontWeight.w400,
                       ),
                     ],
@@ -123,7 +130,7 @@ class _DrivingLicenseState extends State<DrivingLicense> {
                       color: colorRed,
                       fontSize: 11,
                       fontWeight: FontWeight.w400,
-                      fontFamily: 'SF Pro',
+                      fontFamily: AppUtil.SfFontType(context),
                     ),
             ),
           ],

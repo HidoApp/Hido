@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:ajwad_v4/amplitude_service.dart';
+import 'package:ajwad_v4/api/translation_api.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/widgets/AlertDialog.dart';
@@ -27,7 +28,7 @@ import '../../../../../services/controller/hospitality_controller.dart';
 
 class HostInfoReview extends StatefulWidget {
   final String hospitalityTitleEn;
-  final String hospitalityBioEn;
+  // final String hospitalityBioEn;
   final String hospitalityTitleAr;
   final String hospitalityBioAr;
   final int? hospitalityPrice;
@@ -43,7 +44,7 @@ class HostInfoReview extends StatefulWidget {
   const HostInfoReview({
     super.key,
     required this.hospitalityBioAr,
-    required this.hospitalityBioEn,
+    // required this.hospitalityBioEn,
     required this.hospitalityTitleAr,
     required this.hospitalityTitleEn,
     this.hospitalityPrice,
@@ -269,109 +270,188 @@ class _HostInfoReviewState extends State<HostInfoReview> {
   Future<bool> uploadhostImages() async {
     //List<String> uploadedImagePaths = [];
     bool allExtensionsValid = true;
+    bool allSizeValid = true;
 
     // Allowed formats
     final allowedFormats = ['jpg', 'jpeg', 'png'];
+    const maxFileSizeInBytes = 2 * 1024 * 1024; // ✅ 2 MB
 
     for (XFile imagePath in widget.hospitalityController!.selectedImages) {
       String fileExtension = imagePath.path.split('.').last.toLowerCase();
+
       if (!allowedFormats.contains(fileExtension)) {
         allExtensionsValid = false;
-        print(
-            'File ${imagePath.path} is not in an allowed format (${allowedFormats.join(', ')}).');
-      }
-      if (!allExtensionsValid) {
+        log('File ${imagePath.path} is not in an allowed format (${allowedFormats.join(', ')}).');
+
         if (context.mounted) {
           AppUtil.errorToast(context, 'uploadError'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
         return false;
-      } else {
+      }
+      final file = File(imagePath.path);
+
+      final fileSize = await file.length();
+
+      if (fileSize >= maxFileSizeInBytes) {
+        allSizeValid = false;
+
+        if (context.mounted) {
+          AppUtil.errorToast(context, 'imageSizeValid'.tr);
+        }
+        return false;
+      }
+    }
+    // } else {
+
+    //   final image = await _EventController.uploadProfileImages(
+    //     file: File(imagePath.path),
+    //     fileType: "hospitality",
+    //     context: context,
+    //   );
+
+    //   //  File file = await convertImageToJpg(File(imagePath.path));
+    //   //   final image = await _EventController.uploadProfileImages(
+    //   //     file:file,
+    //   //     fileType: "event",
+    //   //     context: context,
+    //   //   );
+
+    //   if (image != null) {
+    //     log('vaalid');
+
+    //     imageUrls.add(image.filePath);
+    //     log(image.filePath);
+    //   } else {
+    //     log('not vaalid');
+    //     return false;
+    //   }
+    // }
+
+    // ✅ If all files passed validation, upload them
+    if (allExtensionsValid && allSizeValid) {
+      for (XFile imagePath in widget.hospitalityController!.selectedImages) {
         final image = await _EventController.uploadProfileImages(
           file: File(imagePath.path),
           fileType: "hospitality",
           context: context,
         );
 
-        //  File file = await convertImageToJpg(File(imagePath.path));
-        //   final image = await _EventController.uploadProfileImages(
-        //     file:file,
-        //     fileType: "event",
-        //     context: context,
-        //   );
-
         if (image != null) {
-          log('vaalid');
-
+          log('Uploaded: ${image.filePath}');
           imageUrls.add(image.filePath);
-          log(image.filePath);
         } else {
-          log('not vaalid');
-          return false;
+          log('Upload failed for ${imagePath.path}');
+          // if (context.mounted) {
+          //   AppUtil.errorToast(context, 'Image upload failed.');
+          // }
+          // return false;
         }
       }
     }
     return true;
-
-    // Handle the list of uploaded image paths as needed
   }
 
   Future<bool> uploadAdveImages() async {
-    //List<String> uploadedImagePaths = [];
     bool allExtensionsValid = true;
+    bool allSizeValid = true;
 
     // Allowed formats
     final allowedFormats = ['jpg', 'jpeg', 'png'];
+    const maxFileSizeInBytes = 2 * 1024 * 1024; // ✅ 2 MB
 
     for (XFile imagePath in widget.adventureController!.selectedImages) {
       String fileExtension = imagePath.path.split('.').last.toLowerCase();
+
       if (!allowedFormats.contains(fileExtension)) {
         allExtensionsValid = false;
-        print(
-            'File ${imagePath.path} is not in an allowed format (${allowedFormats.join(', ')}).');
-      }
-      if (!allExtensionsValid) {
+        log('File ${imagePath.path} is not in an allowed format (${allowedFormats.join(', ')}).');
+
         if (context.mounted) {
           AppUtil.errorToast(context, 'uploadError'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
         return false;
-      } else {
+      }
+
+      final file = File(imagePath.path);
+      final fileSize = await file.length();
+      if (fileSize >= maxFileSizeInBytes) {
+        allSizeValid = false;
+        if (context.mounted) {
+          AppUtil.errorToast(context, 'imageSizeValid'.tr);
+        }
+        return false;
+      }
+    }
+
+    // ✅ If all files passed validation, upload them
+    if (allExtensionsValid && allSizeValid) {
+      for (XFile imagePath in widget.adventureController!.selectedImages) {
         final image = await _EventController.uploadProfileImages(
           file: File(imagePath.path),
           fileType: "adventures",
           context: context,
         );
 
-        //  File file = await convertImageToJpg(File(imagePath.path));
-        //   final image = await _EventController.uploadProfileImages(
-        //     file:file,
-        //     fileType: "event",
-        //     context: context,
-        //   );
-
         if (image != null) {
-          log('vaalid');
-
+          log('Uploaded: ${image.filePath}');
           imageUrls.add(image.filePath);
-          log(image.filePath);
         } else {
-          log('not vaalid');
-          return false;
+          log('Upload failed for ${imagePath.path}');
+          // if (context.mounted) {
+          //   AppUtil.errorToast(context, 'Image upload failed.');
+          // }
+          // return false;
         }
       }
     }
     return true;
+  }
 
-    // Handle the list of uploaded image paths as needed
+  Future<void> translateDescriptionFields() async {
+    try {
+      final arabicBioText = widget.hospitalityBioAr;
+      final arabicTitleText = widget.hospitalityTitleAr;
+
+      // Translate to English
+      final translatedBioEn =
+          await TranslationApi.translate(arabicBioText, 'en');
+      // Translate to English
+      final translatedTitleZh =
+          await TranslationApi.translate(arabicTitleText, 'zh');
+
+      // Translate to Chinese (Simplified)
+      final translatedBioZh =
+          await TranslationApi.translate(arabicBioText, 'zh');
+
+      // Set the translated text
+      if (widget.experienceType == 'hospitality') {
+        widget.hospitalityController!.bioEn.value = translatedBioEn;
+        widget.hospitalityController!.bioZh.value = translatedBioZh;
+        widget.hospitalityController!.titleZh.value = translatedTitleZh;
+      } else {
+        widget.adventureController!.desEn.value = translatedBioEn;
+        widget.adventureController!.desZh.value = translatedBioZh;
+        widget.adventureController!.titleZh.value = translatedTitleZh;
+      }
+    } catch (e) {
+      log('Translation failed: $e');
+      // Optionally show a snackbar or message here
+    } finally {
+      TranslationApi.isTranslatingLoading.value = false;
+    }
   }
 
   Future<void> createHospitalityExperience() async {
     final isSuccess = await widget.hospitalityController!.createHospitality(
         titleAr: widget.hospitalityTitleAr,
         titleEn: widget.hospitalityTitleEn,
+        titleZh: widget.hospitalityController!.titleZh.value,
         bioAr: widget.hospitalityBioAr,
-        bioEn: widget.hospitalityBioEn,
+        // bioEn: widget.hospitalityBioEn,
+        bioEn: widget.hospitalityController!.bioEn.value,
+        bioZh: widget.hospitalityController!.bioZh.value,
         mealTypeAr: widget.hospitalityController!.selectedMealAr.value,
         mealTypeEn: widget.hospitalityController!.selectedMealEn.value,
         longitude: widget
@@ -434,8 +514,10 @@ class _HostInfoReviewState extends State<HostInfoReview> {
     final isSuccess = await widget.adventureController!.createAdventure(
       nameAr: widget.hospitalityTitleAr,
       nameEn: widget.hospitalityTitleEn,
+      nameZh: widget.adventureController!.titleZh.value,
       descriptionAr: widget.hospitalityBioAr,
-      descriptionEn: widget.hospitalityBioEn,
+      descriptionEn: widget.adventureController!.desEn.value,
+      descriptionZh: widget.adventureController!.desZh.value,
       longitude: widget.adventureController!.pickUpLocLatLang.value.longitude
           .toString(),
       latitude: widget.adventureController!.pickUpLocLatLang.value.latitude
@@ -705,11 +787,13 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                           if (widget.experienceType == 'hospitality') {
                             isLoading =
                                 _EventController.isImagesLoading.value ||
+                                    TranslationApi.isTranslatingLoading.value ||
                                     widget.hospitalityController!
                                         .isSaudiHospitalityLoading.value;
                           } else if (widget.experienceType == 'adventure') {
                             isLoading =
                                 _EventController.isImagesLoading.value ||
+                                    TranslationApi.isTranslatingLoading.value ||
                                     widget.adventureController!
                                         .isAdventureLoading.value;
                           }
@@ -734,7 +818,10 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                         .newRangeTimeErrorMessage.value) {
                                       bool uploadSuccess =
                                           await uploadhostImages();
+
                                       if (uploadSuccess) {
+                                        await translateDescriptionFields();
+
                                         await createHospitalityExperience();
                                       } else {
                                         // Handle upload failure
@@ -762,6 +849,8 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                       bool uploadSuccess =
                                           await uploadAdveImages();
                                       if (uploadSuccess) {
+                                        await translateDescriptionFields();
+
                                         await createAdventureExperience();
                                       } else {
                                         // Handle upload failure

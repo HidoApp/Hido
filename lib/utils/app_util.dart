@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/coordinates.dart';
+import 'package:ajwad_v4/request/widgets/confirm_dialog.dart';
 import 'package:ajwad_v4/services/model/days_info.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -1094,5 +1095,26 @@ class AppUtil {
       if (!aIsClosed && bIsClosed) return -1;
       return 0;
     });
+  }
+
+  static void showSaveChangesDialog(BuildContext context, VoidCallback onSave) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ConfirmDialog(
+          dialogWidth: 308,
+          dialogHight: 196,
+          title: 'CompleteSaving'.tr,
+          description: 'CompleteSavingDes'.tr,
+          buttonTitle1: 'SaveChanges'.tr,
+          buttonTitle2: 'return'.tr,
+          buttonAction2: () {
+            Get.back(); // Close dialog
+            onSave(); // Run the passed callback
+          },
+          buttonColor2: Colors.white.withOpacity(0.3),
+        );
+      },
+    );
   }
 }

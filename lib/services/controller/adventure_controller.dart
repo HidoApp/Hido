@@ -39,6 +39,13 @@ class AdventureController extends GetxController {
   var ragionAr = "".obs;
   var ragionEn = "".obs;
   var startDate = ''.obs;
+  var titleAr = "".obs;
+  var titleEn = "".obs;
+  var titleZh = "".obs;
+
+  var desAr = "".obs;
+  var desEn = "".obs;
+  var desZh = "".obs;
 
   var selectedImages = <XFile>[].obs;
   var images = <dynamic>[].obs;
@@ -136,8 +143,10 @@ class AdventureController extends GetxController {
   Future<bool> createAdventure({
     required String nameAr,
     required String nameEn,
+    required String nameZh,
     required String descriptionAr,
     required String descriptionEn,
+    required String descriptionZh,
     required String longitude,
     required String latitude,
     //required String date,
@@ -159,10 +168,12 @@ class AdventureController extends GetxController {
       final isSuccess = await AdventureService.createAdventure(
           nameAr: nameAr,
           nameEn: nameEn,
+          nameZh: nameZh,
           daysInfo: daysInfo,
           //  date: date,
           descriptionAr: descriptionAr,
           descriptionEn: descriptionEn,
+          descriptionZh: descriptionZh,
           longitude: longitude,
           latitude: latitude,
           price: price,

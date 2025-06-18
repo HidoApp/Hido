@@ -16,7 +16,7 @@ class ProdvidedServicesSheet extends StatefulWidget {
 }
 
 class _ProdvidedServicesSheetState extends State<ProdvidedServicesSheet> {
-  bool tourSelected = false;
+  RxBool tourSelected = false.obs;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
@@ -51,27 +51,27 @@ class _ProdvidedServicesSheetState extends State<ProdvidedServicesSheet> {
             ),
             ProvidedServicesCard(
               onTap: () {
-                setState(() {
-                  tourSelected = !tourSelected;
-                });
+                tourSelected.value = !tourSelected.value;
               },
-              textColor: tourSelected ? colorGreen : black,
+              textColor: tourSelected.value ? colorGreen : black,
               title: 'ajwady'.tr,
-              iconPath: 'tourProvide',
+              // iconPath: 'tourProvide',
               subtitle: 'tourSub'.tr,
-              color: tourSelected ? lightGreen : Colors.white,
-              iconColor: tourSelected ? colorGreen : black,
-              borderColor: tourSelected ? colorGreen : borderGrey,
+              color: tourSelected.value ? lightGreen : Colors.white,
+              iconColor: tourSelected.value ? colorGreen : black,
+              borderColor: tourSelected.value ? colorGreen : borderGrey,
+              checkValue: tourSelected,
             ),
             SizedBox(
               height: width * 0.061,
             ),
             CustomButton(
-              title: 'confirm'.tr,
+              title: 'save'.tr,
               onPressed: () {
-                if (tourSelected) {
+                if (tourSelected.value) {
                   final authController = Get.put(AuthController());
-                  authController.activeBar(2);
+                  // authController.activeBar(2);
+                  authController.activeBar(1);
 
                   Get.to((() => const TourStepper()));
                 }

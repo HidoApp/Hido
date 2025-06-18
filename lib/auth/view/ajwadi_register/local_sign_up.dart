@@ -219,7 +219,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                                   ),
                                 ),
                                 const Spacer(),
-                                SvgPicture.asset('assets/icons/calendar.svg'),
+                                SvgPicture.asset('assets/icons/Time (2).svg'),
                               ],
                             ),
                           ),
@@ -240,7 +240,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: width * 0.061,
+                  height: width * 0.052,
                 ),
                 const TermsAndConditionsText(),
                 SizedBox(

@@ -242,8 +242,10 @@ class HospitalityService {
   static Future<bool> createHospitality({
     required String titleAr,
     required String titleEn,
+    required String titleZh,
     required String bioAr,
     required String bioEn,
+    required String bioZh,
     required String mealTypeAr,
     required String mealTypeEn,
     required String longitude,
@@ -274,8 +276,10 @@ class HospitalityService {
     Map<String, dynamic> body = {
       "titleAr": titleAr,
       "titleEn": titleEn,
+      "titleZh": titleZh,
       "bioAr": bioAr,
-      "bioEn": titleEn,
+      "bioEn": bioEn,
+      "bioZh": bioZh,
       "mealTypeAr": mealTypeAr,
       "mealTypeEn": mealTypeEn,
       "coordinates": {"longitude": longitude, "latitude": latitude},

@@ -24,6 +24,7 @@ const Color colorGreen = Color(0xFF36B268);
 const Color colorDarkGreen = Color(0xFF3C9351);
 const Color colorlightGreen = Color(0xFFEDFCF2);
 const Color textlightGreen = Color(0xFF78DD9E);
+const Color colorGreenBorder = Color(0xFF1EAB5B);
 
 // const Color colorRed = Color(0xFFD75051);
 const Color colorRed = Color(0xFFDC362E);
@@ -42,6 +43,7 @@ const Color black = Color(0xFF070708);
 const Color dotColor = Color(0xff666666);
 const Color activeDotColor = Color(0xff1D1F22);
 const Color lightGreen = Color(0xffCEEDDD);
+const Color extralightGreen = Color(0xFFEDFCF2);
 const Color darkGrey = Color(0xff404040);
 const Color yellow = Color(0xffF3AE3D);
 const Color darkYellow = Color(0xffCF9535);
@@ -53,8 +55,9 @@ const Color tileGreyColor = Color(0xffCACACA);
 const Color lightGreyColor = Color(0xffEEEEEF);
 const Color lightGreyBackground = Color(0xffF9F9F9);
 const Color Graytext = Color(0xFFB9B8C1);
-
+const Color grayDarkText = Color(0xFFB0B0B0);
 const Color darkBlack = Color(0xff252525);
+const Color extradarkBlack = Color(0xFF0B1215);
 const Color textAreaColor = Color(0xffE4DFDF);
 const Color starGreyColor = Color(0xFF9392A0);
 

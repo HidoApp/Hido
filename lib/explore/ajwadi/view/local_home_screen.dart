@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
+import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/last_activity.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/custom_local_ticket_card.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/local_ticket_screen.dart';
@@ -14,6 +16,7 @@ import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
+import 'package:ajwad_v4/widgets/custom_button.dart';
 
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:ajwad_v4/widgets/custom_wallet_card.dart';
@@ -347,15 +350,63 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                               enabled: _tripController
                                       .isNextActivityLoading.value ||
                                   _requestController.isRequestEndLoading.value,
-                              child: !_tripController.isTripUpdated.value ||
-                                      _tripController.nextTrip.value.id!.isEmpty
-                                  //! _tripController.isTripUpdated.value
+                              child: (_profileController.profile.accountType !=
+                                          'EXPERIENCES' &&
+                                      _profileController
+                                              .profile.tourGuideLicense !=
+                                          '')
+                                  ? !_tripController.isTripUpdated.value ||
+                                          _tripController
+                                              .nextTrip.value.id!.isEmpty
+                                      //! _tripController.isTripUpdated.value
 
-                                  ? Column(
+                                      ? Column(
+                                          children: [
+                                            Container(
+                                              width: double.infinity,
+                                              height: 135,
+                                              decoration: ShapeDecoration(
+                                                shape: RoundedRectangleBorder(
+                                                  side: const BorderSide(
+                                                      width: 1.50,
+                                                      color: Color(0xFFECECEE)),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                ),
+                                              ),
+                                              child: Center(
+                                                child: CustomText(
+                                                  text: "noNextActivity".tr,
+                                                  textAlign: TextAlign.center,
+                                                  color: grayDarkText,
+                                                  fontSize: 16,
+                                                  fontFamily:
+                                                      AppUtil.rtlDirection2(
+                                                              context)
+                                                          ? "SF Arabic"
+                                                          : 'SF Pro',
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 20)
+                                          ],
+                                        )
+                                      : const Column(
+                                          children: [
+                                            //  SizedBox(height: 11),
+                                            CustomLocalTicketCard(),
+
+                                            SizedBox(height: 11),
+                                          ],
+                                        )
+                                  : Column(
                                       children: [
                                         Container(
                                           width: double.infinity,
-                                          height: 135,
+                                          // height: 135,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16, vertical: 28),
                                           decoration: ShapeDecoration(
                                             shape: RoundedRectangleBorder(
                                               side: const BorderSide(
@@ -365,29 +416,43 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                                                   BorderRadius.circular(12),
                                             ),
                                           ),
-                                          child: Center(
-                                            child: CustomText(
-                                              text: "noNextActivity".tr,
-                                              textAlign: TextAlign.center,
-                                              color: const Color(0xFFDCDCE0),
-                                              fontSize: 16,
-                                              fontFamily:
-                                                  AppUtil.rtlDirection2(context)
-                                                      ? "SF Arabic"
-                                                      : 'SF Pro',
-                                              fontWeight: FontWeight.w400,
-                                            ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              CustomText(
+                                                text: 'CompleteInfoDes'.tr,
+                                                textAlign: TextAlign.center,
+                                                color: grayDarkText,
+                                                fontSize: 16,
+                                                fontFamily:
+                                                    AppUtil.rtlDirection2(
+                                                            context)
+                                                        ? "SF Arabic"
+                                                        : 'SF Pro',
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 36,
+                                                        vertical: 12),
+                                                child: CustomButton(
+                                                  title: 'CompleteInfo'.tr,
+                                                  onPressed: () {
+                                                    Get.to(() =>
+                                                        const TourStepper());
+                                                  },
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        const SizedBox(height: 20)
-                                      ],
-                                    )
-                                  : const Column(
-                                      children: [
-                                        //  SizedBox(height: 11),
-                                        CustomLocalTicketCard(),
-
-                                        SizedBox(height: 11),
+                                        const SizedBox(height: 20),
                                       ],
                                     ),
                             ),

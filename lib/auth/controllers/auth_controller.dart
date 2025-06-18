@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/models/ajwadi_info.dart';
@@ -36,6 +37,8 @@ class AuthController extends GetxController {
   var birthDateDay = ''.obs;
   var agreeForTerms = false.obs;
   var isAgreeForTerms = true.obs;
+  var tourSelected = false.obs;
+  var experiencesSelected = false.obs;
   var isSendVehicleDetails = false.obs;
   var isSignUpRowad = false.obs;
   var isCreateAccountLoading = false.obs;
@@ -54,8 +57,8 @@ class AuthController extends GetxController {
   final contactKey = GlobalKey<FormState>();
   final vehicleKey = GlobalKey<FormState>();
   var localID = ''.obs;
-  var drivingDate = ''.obs;
-  var drivingDateDay = ''.obs;
+  // var drivingDate = ''.obs;
+  // var drivingDateDay = ''.obs;
   var email = ''.obs;
   var phoneNumber = ''.obs;
   var iban = ''.obs;
@@ -76,15 +79,16 @@ class AuthController extends GetxController {
   var showResetConfirmedPassword = false.obs;
   var isInternetConnected = true.obs;
 
-  var plateNumber1 = ''.obs;
-  var plateNumber2 = ''.obs;
-  var plateNumber3 = ''.obs;
-  var plateNumber4 = ''.obs;
-  var plateletter1 = ''.obs;
-  var plateletter2 = ''.obs;
-  var plateletter3 = ''.obs;
-  var selectedRide = ''.obs;
-
+  // var plateNumber1 = ''.obs;
+  // var plateNumber2 = ''.obs;
+  // var plateNumber3 = ''.obs;
+  // var plateNumber4 = ''.obs;
+  // var plateletter1 = ''.obs;
+  // var plateletter2 = ''.obs;
+  // var plateletter3 = ''.obs;
+  // var selectedRide = ''.obs;
+  var isVehicleInfSucess = true.obs;
+  var isLinceseInfSucess = true.obs;
   var appVersion = ''.obs;
 
   // 1 GET COUNTRIES ..
@@ -371,6 +375,9 @@ class AuthController extends GetxController {
       }
       return isSuccess;
     } catch (e) {
+      log('i am here');
+      log(e.toString());
+
       return null;
     } finally {
       isLienceseOTPLoading(false);
@@ -415,8 +422,15 @@ class AuthController extends GetxController {
         otp: otp,
         context: context,
       );
+      if (isSuccess) {
+        isLinceseInfSucess(true);
+      } else {
+        isLinceseInfSucess(false);
+      }
       return isSuccess;
     } catch (e) {
+      isLinceseInfSucess(false);
+
       return false;
     } finally {
       isLienceseLoading(false);
@@ -436,8 +450,15 @@ class AuthController extends GetxController {
         transactionId: transactionId,
         context: context,
       );
+      if (isSuccess) {
+        isVehicleInfSucess(true);
+      } else {
+        isVehicleInfSucess(false);
+      }
       return isSuccess;
     } catch (e) {
+      isVehicleInfSucess(false);
+
       return false;
     } finally {
       isVicheleLoading(false);
