@@ -147,48 +147,10 @@ class _PaymentTypeState extends State<PaymentType> {
       )).then((value) async {
         Invoice? checkInvoice;
         if (!mounted) return;
+
         checkInvoice = await _paymentController.getPaymentId(
             context: context, id: invoice!.payId!);
-        if (!mounted) return;
-
-        if (checkInvoice == null) {
-          log('Another check for payment');
-          checkInvoice = await _paymentController.getPaymentId(
-              context: context, id: invoice!.payId!);
-        }
-        if (checkInvoice != null && checkInvoice.payStatus == 'Pending') {
-          if (!mounted) return;
-          checkInvoice = await _paymentController.getPaymentId(
-              context: context, id: invoice!.payId!);
-        }
-        if (checkInvoice == null) {
-          if (!mounted) return;
-
-          showDialog(
-              context: context,
-              builder: (ctx) {
-                return AlertDialog(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  backgroundColor: Colors.white,
-                  surfaceTintColor: Colors.white,
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset('assets/images/paymentFaild.gif', width: 38),
-                      CustomText(
-                        text: "paymentFaild".tr,
-                        fontSize: 15,
-                      ),
-                    ],
-                  ),
-                );
-              });
-        }
-        if (checkInvoice == null) {
-          return;
-        }
-        if (checkInvoice.payStatus == 'Paid') {
+        if (checkInvoice?.payStatus == 'Paid') {
           //if the invoice paid then will booking depend on the type of booking
           AmplitudeService.amplitude.track(BaseEvent(
             'Payment via ApplePay is successful',
@@ -196,22 +158,20 @@ class _PaymentTypeState extends State<PaymentType> {
 
           switch (widget.type) {
             case 'adventure':
-              adventureBooking(checkInvoice);
+              adventureBooking(checkInvoice!);
               break;
             case 'tour':
-              tourBooking(checkInvoice);
+              tourBooking(checkInvoice!);
               break;
             case 'hospitality':
-              hospitalityBooking(checkInvoice);
+              hospitalityBooking(checkInvoice!);
               break;
             case 'event':
-              eventBooking(checkInvoice);
+              eventBooking(checkInvoice!);
               break;
             default:
           }
         } else {
-          log('No');
-
           AmplitudeService.amplitude.track(BaseEvent(
             'Payment via ApplePay is faild',
           ));
@@ -240,7 +200,7 @@ class _PaymentTypeState extends State<PaymentType> {
         }
       });
     } else {
-      log('No');
+      if (!mounted) return;
 
       AmplitudeService.amplitude.track(BaseEvent(
         'Payment via ApplePay is faild',
@@ -281,18 +241,7 @@ class _PaymentTypeState extends State<PaymentType> {
         if (!mounted) return;
         checkInvoice = await _paymentController.getPaymentId(
             context: context, id: invoice!.payId!);
-        if (!mounted) return;
 
-        if (checkInvoice == null) {
-          log('Another check for payment');
-          checkInvoice = await _paymentController.getPaymentId(
-              context: context, id: invoice!.payId!);
-        }
-        if (checkInvoice != null && checkInvoice.payStatus == 'Pending') {
-          if (!mounted) return;
-          checkInvoice = await _paymentController.getPaymentId(
-              context: context, id: invoice!.payId!);
-        }
         if (checkInvoice != null && checkInvoice.payStatus == 'Paid') {
           //if the invoice paid then will booking depend on the type of booking
           AmplitudeService.amplitude.track(BaseEvent(
@@ -315,8 +264,6 @@ class _PaymentTypeState extends State<PaymentType> {
             default:
           }
         } else {
-          log('No');
-
           AmplitudeService.amplitude.track(BaseEvent(
             'Payment via CreditCard is faild',
           ));
@@ -345,8 +292,6 @@ class _PaymentTypeState extends State<PaymentType> {
         }
       });
     } else {
-      log('No');
-
       AmplitudeService.amplitude.track(BaseEvent(
         'Payment via CreditCard is faild',
       ));
@@ -378,29 +323,15 @@ class _PaymentTypeState extends State<PaymentType> {
   void paymentWebViewStcPay() async {
     // webview for Stc pay
     if (invoice != null) {
-      Get.to(
-        () => PaymentWebView(
-          url: invoice!.url!,
-          title: 'payment'.tr,
-        ),
-      )!
-          .then((value) async {
+      Get.to(() => PaymentWebView(
+            url: invoice!.url!,
+            title: 'payment'.tr,
+          ))?.then((value) async {
         Invoice? checkInvoice;
         if (!mounted) return;
 
         checkInvoice = await _paymentController.getPaymentId(
-            context: context, id: invoice!.payId!);
-        if (!mounted) return;
-        if (checkInvoice == null) {
-          log('Another check for payment');
-          checkInvoice = await _paymentController.getPaymentId(
-              context: context, id: invoice!.payId!);
-        }
-        if (checkInvoice != null && checkInvoice.payStatus == 'Pending') {
-          if (!mounted) return;
-          checkInvoice = await _paymentController.getPaymentId(
-              context: context, id: invoice!.payId!);
-        }
+            context: context, id: invoice!.id);
 
         if (checkInvoice != null && checkInvoice.payStatus == 'Paid') {
           //if the invoice paid then will booking depend on the type of booking
@@ -423,8 +354,6 @@ class _PaymentTypeState extends State<PaymentType> {
             default:
           }
         } else {
-          log('No');
-
           AmplitudeService.amplitude.track(BaseEvent(
             'Payment via StcPay is faild',
           ));
@@ -453,7 +382,7 @@ class _PaymentTypeState extends State<PaymentType> {
         }
       });
     } else {
-      log('No');
+      if (!mounted) return;
 
       AmplitudeService.amplitude.track(BaseEvent(
         'Payment via StcPay is faild',

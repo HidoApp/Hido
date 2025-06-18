@@ -120,7 +120,8 @@ class PaymentController extends GetxController {
       return data;
     } catch (e) {
       isPaymentGatewayLoading(false);
-      AppUtil.errorToast(context, e.toString());
+      log(e.toString());
+      // AppUtil.errorToast(context, e.toString());
       return null;
     } finally {
       isPaymentGatewayLoading(false);
