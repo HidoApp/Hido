@@ -256,10 +256,10 @@ class _SignInScreenState extends State<SignInScreen> {
                                             if (ajwadiInfo?.drivingLicense ==
                                                     false ||
                                                 ajwadiInfo?.vehicle == false) {
-                                              if (ajwadiInfo?.drivingLicense ==
-                                                  false) {
-                                              } else if (ajwadiInfo?.vehicle ==
-                                                  false) {}
+                                              // if (ajwadiInfo?.drivingLicense ==
+                                              //     false) {
+                                              // } else if (ajwadiInfo?.vehicle ==
+                                              //     false) {}
                                             } else {
                                               AmplitudeService.amplitude
                                                   .track(BaseEvent(

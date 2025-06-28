@@ -1,12 +1,15 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:ajwad_v4/api/translation_api.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/add_event_calender_dialog.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/widget/image_slider.dart';
 import 'package:ajwad_v4/request/ajwadi/view/view_experience_images.dart';
+import 'package:ajwad_v4/request/ajwadi/view/widget/include_card.dart';
+import 'package:ajwad_v4/request/ajwadi/view/widget/review_include_card.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 
@@ -121,6 +124,8 @@ class _EditEventState extends State<EditEvent> {
     _servicesController.isEventDateSelcted(false);
     _servicesController.selectedDate('');
     _servicesController.selectedDateIndex(-1);
+    _servicesController.reviewincludeItenrary([]);
+
     _loadImages();
     updateData();
     _currentPosition = LatLng(
@@ -198,14 +203,9 @@ class _EditEventState extends State<EditEvent> {
 
   bool PriceDouble = false;
 
+  List<String> priceIncludesEn = [];
+  List<String> priceIncludesZh = [];
   String gender = '';
-  static Future<File> convertImageToJpg(File file) async {
-    final image = img.decodeImage(await file.readAsBytes())!;
-    final jpg = img.encodeJpg(image);
-    final newFile = File('${file.path}.jpg');
-    await newFile.writeAsBytes(jpg);
-    return newFile;
-  }
 
   void daysInfo() {
     var formatter = intl.DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -308,6 +308,88 @@ class _EditEventState extends State<EditEvent> {
     return true;
   }
 
+  Future<void> translateIncludesList() async {
+    final current = _servicesController.reviewincludeItenrary;
+
+    if (current.isNotEmpty) {
+      for (int i = 0; i < current.length; i++) {
+        final isNew = i >= widget.eventObj.priceIncludesAr!.length;
+        final isChanged = !isNew &&
+            current[i].trim() != widget.eventObj.priceIncludesAr![i].trim();
+
+        if ((isNew || isChanged) && current[i].trim().isNotEmpty) {
+          final translatedEn = await TranslationApi.translate(current[i], 'en');
+          final translatedZh = await TranslationApi.translate(current[i], 'zh');
+          if (translatedEn.trim().isNotEmpty) {
+            if (isNew) {
+              widget.eventObj.priceIncludesEn!.add(translatedEn.trim());
+            } else {
+              widget.eventObj.priceIncludesEn![i] = translatedEn.trim();
+            }
+          }
+          if (translatedZh.trim().isNotEmpty) {
+            if (isNew) {
+              widget.eventObj.priceIncludesZh!.add(translatedZh.trim());
+            } else {
+              widget.eventObj.priceIncludesZh![i] = translatedZh.trim();
+            }
+          }
+        }
+      }
+    } else {
+      widget.eventObj.priceIncludesEn!.clear();
+      widget.eventObj.priceIncludesZh!.clear();
+    }
+  }
+
+  Future<void> translateDescriptionFields() async {
+    try {
+      final currentTitleArValue = eventTitleControllerAr.text;
+      final currentBioeArValue = eventBioControllerAr.text;
+
+      final currentTitleEnValue = eventTitleControllerEn.text;
+      final currentBioEnValue = eventBioControllerEn.text;
+
+      if ((currentTitleArValue != widget.eventObj.nameAr &&
+          currentTitleArValue.isNotEmpty)) {
+        final translatedTitleZh =
+            await TranslationApi.translate(currentTitleArValue, 'zh');
+
+        if (translatedTitleZh.isNotEmpty) {
+          _servicesController.titleZh.value = translatedTitleZh;
+        }
+      } else if ((currentTitleEnValue != widget.eventObj.nameEn &&
+          currentTitleEnValue.isNotEmpty)) {
+        final translatedTitleZh =
+            await TranslationApi.translate(currentTitleEnValue, 'zh');
+
+        if (translatedTitleZh.isNotEmpty) {
+          _servicesController.titleZh.value = translatedTitleZh;
+        }
+      }
+      if ((currentBioeArValue != widget.eventObj.descriptionAr &&
+          currentBioeArValue.isNotEmpty)) {
+        final translatedBioZh =
+            await TranslationApi.translate(currentBioeArValue, 'zh');
+        if (translatedBioZh.isNotEmpty) {
+          _servicesController.bioZh.value = translatedBioZh;
+        }
+      } else if ((currentBioEnValue != widget.eventObj.descriptionEn &&
+          currentBioEnValue.isNotEmpty)) {
+        final translatedBioZh =
+            await TranslationApi.translate(currentBioEnValue, 'zh');
+        if (translatedBioZh.isNotEmpty) {
+          _servicesController.bioZh.value = translatedBioZh;
+        }
+      }
+    } catch (e) {
+      log('Translation failed: $e');
+      TranslationApi.isTranslatingLoading.value = false;
+    } finally {
+      TranslationApi.isTranslatingLoading.value = false;
+    }
+  }
+
   Future<void> validateAndSave() async {
     setState(() {
       titleArEmpty = eventTitleControllerAr.text.isEmpty;
@@ -340,7 +422,7 @@ class _EditEventState extends State<EditEvent> {
 
       if (_priceController.text.isNotEmpty) {
         int? price = int.tryParse(_priceController.text);
-        PriceLarger = price == null || price < 1;
+        PriceLarger = price == null;
 
         //check if price not int
         String priceText = _priceController.text;
@@ -365,16 +447,17 @@ class _EditEventState extends State<EditEvent> {
         !_servicesController.newRangeTimeErrorMessage.value && //new srs
         _servicesController.images.length >= 3 &&
         !_servicesController.DateErrorMessage.value) {
-      if (await uploadImages()) {
-        daysInfo();
+      imageUrls = await AppUtil.uploadImagesHelper(
+          PickedImages: _servicesController.images,
+          imageUrl: imageUrls,
+          controller: _servicesController,
+          fileType: "event",
+          context: context);
 
-        _updateEvent();
-      } else {
-        if (context.mounted) {
-          AppUtil.errorToast(context, 'uploadError'.tr);
-          await Future.delayed(const Duration(seconds: 3));
-        }
-      }
+      daysInfo();
+      await translateDescriptionFields();
+      await translateIncludesList();
+      await _updateEvent();
     } else {
       if (_servicesController.DateErrorMessage.value) {
         if (context.mounted) {
@@ -405,8 +488,7 @@ class _EditEventState extends State<EditEvent> {
     List<dynamic> images = [];
     _servicesController.images.clear();
     for (var path in widget.eventObj.image!) {
-      images.add(
-          path); // Add all paths to the list, they can be URLs or File paths.
+      images.add(path);
     }
 
     setState(() {
@@ -421,6 +503,9 @@ class _EditEventState extends State<EditEvent> {
 
       eventTitleControllerEn.text = widget.eventObj.nameEn!;
       eventBioControllerEn.text = widget.eventObj.descriptionEn!;
+
+      _servicesController.titleZh.value = widget.eventObj.nameZh!;
+      _servicesController.bioZh.value = widget.eventObj.descriptionZh!;
 
       _textField1Controller.text = widget.eventObj.daysInfo!.isNotEmpty
           ? widget.eventObj.daysInfo!.first.seats.toString()
@@ -475,9 +560,11 @@ class _EditEventState extends State<EditEvent> {
           double.parse(widget.eventObj.coordinates!.longitude ?? ''));
 
       locationUrl = getLocationUrl(_servicesController.pickUpLocLatLang.value);
+      _servicesController.reviewincludeItenrary.value =
+          widget.eventObj.priceIncludesAr!.toList();
     });
-    log('go $newTimeToGo');
-    log('go $newTimeToReturn');
+    // log('go $newTimeToGo');
+    // log('go $newTimeToReturn');
   }
 
   String getLocationUrl(LatLng location) {
@@ -504,8 +591,13 @@ class _EditEventState extends State<EditEvent> {
         id: widget.eventObj.id,
         nameAr: eventTitleControllerAr.text,
         nameEn: eventTitleControllerEn.text,
+        nameZh: _servicesController.titleZh.value,
         descriptionAr: eventBioControllerAr.text,
         descriptionEn: eventBioControllerEn.text,
+        descriptionZh: _servicesController.bioZh.value,
+        priceIncludesAr: _servicesController.reviewincludeItenrary,
+        priceIncludesEn: widget.eventObj.priceIncludesEn,
+        priceIncludesZh: widget.eventObj.priceIncludesZh,
         longitude:
             _servicesController.pickUpLocLatLang.value.longitude.toString(),
         latitude:
@@ -799,6 +891,7 @@ class _EditEventState extends State<EditEvent> {
                         left: 16.0, right: 16.0, bottom: 24.0, top: 16),
                     child: Obx(
                       () => _servicesController.isImagesLoading.value ||
+                              TranslationApi.isTranslatingLoading.value ||
                               _servicesController.isEditEventLoading.value
                           ? const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 160),
@@ -1299,6 +1392,179 @@ class _EditEventState extends State<EditEvent> {
                                 SizedBox(
                                   height: width * 0.077,
                                 ),
+                                if ((widget
+                                        .eventObj.priceIncludesAr?.isNotEmpty ??
+                                    false)) ...[
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CustomText(
+                                        text: 'priceInclude'.tr,
+                                        color: black,
+                                        fontSize: 17,
+                                        fontFamily: AppUtil.SfFontType(context),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      SizedBox(
+                                        height: width * 0.02,
+                                      ),
+                                      // SizedBox(
+                                      //   height: width * 0.012,
+                                      // ),
+                                      Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          // SizedBox(
+                                          //   height: width * 0.050,
+                                          // ),
+                                          SizedBox(
+                                            height: width * 0.012,
+                                          ),
+                                          Obx(
+                                            () => ListView.separated(
+                                              separatorBuilder:
+                                                  (context, index) => SizedBox(
+                                                height: width * 0.02,
+                                              ),
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const BouncingScrollPhysics(),
+                                              itemCount: _servicesController
+                                                  .reviewincludeItenrary.length,
+                                              itemBuilder: (context, index) =>
+                                                  ReivewIncludeCard(
+                                                indx: index,
+                                                include: _servicesController
+                                                        .reviewincludeItenrary[
+                                                    index],
+                                                experienceController:
+                                                    _servicesController,
+                                              ),
+                                            ),
+                                          ),
+                                          Obx(() => _servicesController
+                                                  .reviewincludeItenrary
+                                                  .isNotEmpty
+                                              ? SizedBox(
+                                                  height: width * 0.04,
+                                                )
+                                              : const SizedBox.shrink()),
+
+                                          Obx(() => ListView.separated(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 4),
+                                                shrinkWrap: true,
+                                                physics:
+                                                    const NeverScrollableScrollPhysics(),
+                                                separatorBuilder: (context,
+                                                        index) =>
+                                                    SizedBox(
+                                                        height: width * 0.06),
+                                                itemCount: _servicesController
+                                                    .includeList.length,
+                                                itemBuilder: (context, index) {
+                                                  return _servicesController
+                                                      .includeList[index];
+                                                },
+                                              )),
+                                          // SizedBox(height: width * 0.06),
+
+                                          // Add Button
+                                          GestureDetector(
+                                            onTap: () {
+                                              if (_servicesController
+                                                      .includeCount >=
+                                                  1) {
+                                                return;
+                                              }
+                                              _servicesController.includeList
+                                                  .add(
+                                                IncludeCard(
+                                                  indx: _servicesController
+                                                      .includeCount.value,
+                                                  experienceController:
+                                                      _servicesController,
+                                                ),
+                                              );
+                                              _servicesController
+                                                  .includeCount++;
+                                            },
+                                            child: Obx(
+                                              () => Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: width * 0.01,
+                                                    top: _servicesController
+                                                            .includeList.isEmpty
+                                                        ? 0
+                                                        : width * 0.050,
+                                                    // bottom: width * 0.06,
+                                                    right: width * 0.01),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      // height: width * 0.06,
+                                                      // width: width * 0.06,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      decoration:
+                                                          ShapeDecoration(
+                                                        color: colorGreen,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      9999),
+                                                        ),
+                                                      ),
+                                                      child: Icon(
+                                                        Icons.add,
+                                                        color: Colors.white,
+                                                        size: width * 0.06,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                        width: width * 0.02),
+                                                    CustomText(
+                                                      text: "addNewPoint".tr,
+                                                      fontSize: width * 0.038,
+                                                      fontFamily:
+                                                          AppUtil.rtlDirection2(
+                                                                  context)
+                                                              ? 'SF Arabic'
+                                                              : 'SF Pro',
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: width * 0.055,
+                                  ),
+                                  const Divider(
+                                    color: lightGrey,
+                                  ),
+                                  SizedBox(
+                                    height: width * 0.077,
+                                  ),
+                                ],
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [

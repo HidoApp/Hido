@@ -761,5 +761,9 @@ const localeEn = {
   'Addtion': 'Add',
   'imageSizeValid': 'Image too large. Maximum allowed size is less than 2GB.',
   'price include': 'Price includes',
-  'addNewPoint': 'Add new point',
+  'addNewPoint': 'Add new item',
+  'snack': 'Snack',
+  'includeHint': 'Add brief description of the item',
+  'priceIncludeDes':
+      'In this section you add the items included in your pricing (This section is optional)',
 };

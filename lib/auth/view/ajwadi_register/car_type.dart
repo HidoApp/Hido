@@ -7,6 +7,7 @@ import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
 import 'package:ajwad_v4/auth/widget/provided_services_card.dart';
 import 'package:ajwad_v4/auth/widget/terms_text.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/constants/transporation_method.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -81,6 +82,9 @@ class _CarTypeState extends State<CarType> {
                     value: _profileController.isDriveCar.value,
                     onChanged: (value) {
                       _profileController.isDriveCar(value);
+                      _profileController.transporationMethod.value =
+                          AppUtil.transportationMethodToValue(
+                              TransportationMethod.ownCar);
                     },
                   ),
                 ),
@@ -108,6 +112,9 @@ class _CarTypeState extends State<CarType> {
                     value: _profileController.isNotDriveCar.value,
                     onChanged: (value) {
                       _profileController.isNotDriveCar(value);
+                      _profileController.transporationMethod.value =
+                          AppUtil.transportationMethodToValue(
+                              TransportationMethod.carPassenger);
                     },
                   ),
                 ),

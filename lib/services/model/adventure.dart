@@ -8,8 +8,15 @@ class Adventure {
   final String id;
   final String? nameAr;
   final String? nameEn;
+  final String? nameZh;
+
   final String? descriptionAr;
   final String? descriptionEn;
+  final String? descriptionZh;
+
+  final List<String>? priceIncludesEn;
+  final List<String>? priceIncludesAr;
+  final List<String>? priceIncludesZh;
   final int price;
   final List<String>? image;
   final String? regionAr;
@@ -36,10 +43,15 @@ class Adventure {
     this.bookingDates,
     this.descriptionAr,
     this.descriptionEn,
+    this.descriptionZh,
+    this.priceIncludesAr,
+    this.priceIncludesEn,
+    this.priceIncludesZh,
     this.daysInfo,
     this.rating,
     this.nameAr,
     this.nameEn,
+    this.nameZh,
     this.regionAr,
     this.regionEn,
     this.user,
@@ -60,8 +72,13 @@ class Adventure {
     String? userId,
     String? nameAr,
     String? nameEn,
+    String? nameZh,
     String? descriptionAr,
     String? descriptionEn,
+    String? descriptionZh,
+    List<String>? priceIncludesEn,
+    List<String>? priceIncludesAr,
+    List<String>? priceIncludesZh,
     int? price,
     List<String>? image,
     String? regionAr,
@@ -84,8 +101,13 @@ class Adventure {
       userId: userId ?? this.userId,
       nameAr: nameAr ?? this.nameAr,
       nameEn: nameEn ?? this.nameEn,
+      nameZh: nameZh ?? this.nameZh,
       descriptionAr: descriptionAr ?? this.descriptionAr,
       descriptionEn: descriptionEn ?? this.descriptionEn,
+      descriptionZh: descriptionZh ?? this.descriptionZh,
+      priceIncludesAr: priceIncludesAr ?? this.priceIncludesAr,
+      priceIncludesEn: priceIncludesEn ?? this.priceIncludesEn,
+      priceIncludesZh: priceIncludesZh ?? this.priceIncludesZh,
       price: price ?? this.price,
       image: image != null ? List<String>.from(image) : this.image,
       regionAr: regionAr ?? this.regionAr,
@@ -114,11 +136,28 @@ class Adventure {
       id: json['id'] ?? '',
       nameAr: json['nameAr'] ?? '',
       nameEn: json['nameEn'] ?? '',
+      nameZh: json['nameZh'] ?? '',
       user: json['user'] != null && json['user']['profile'] != null
           ? Profile.fromJson(json['user']['profile'])
           : null,
       descriptionAr: json['descriptionAr'] ?? '',
       descriptionEn: json['descriptionEn'] ?? '',
+      descriptionZh: json['descriptionZh'] ?? '',
+      priceIncludesAr: json['priceIncludesAr'] != null
+          ? (json['priceIncludesAr'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList()
+          : [],
+      priceIncludesEn: json['priceIncludesEn'] != null
+          ? (json['priceIncludesEn'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList()
+          : [],
+      priceIncludesZh: json['priceIncludesZh'] != null
+          ? (json['priceIncludesZh'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList()
+          : [],
       regionAr: json['regionAr'] ?? '',
       regionEn: json['regionEn'] ?? '',
       image: json['image'] != null ? List<String>.from(json['image']) : null,

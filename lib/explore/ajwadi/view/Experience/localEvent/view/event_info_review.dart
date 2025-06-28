@@ -55,6 +55,8 @@ class _EventInfoReviewState extends State<EventInfoReview> {
   String endTime = '';
   List<String> imageUrls = [];
   List<Map<String, dynamic>> DaysInfo = [];
+  List<String> priceIncludesEn = [];
+  List<String> priceIncludesZh = [];
   // String ragionAr = '';
   // String ragionEn = '';
   final EventController _EventController = Get.put(EventController());
@@ -206,6 +208,8 @@ class _EventInfoReviewState extends State<EventInfoReview> {
   }
 
   Future<bool> uploadImages() async {
+    imageUrls.clear();
+
     bool allExtensionsValid = true;
     bool allSizeValid = true;
 
@@ -229,7 +233,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
 
       final file = File(imagePath.path);
       final fileSize = await file.length();
-      if (fileSize >= maxFileSizeInBytes) {
+      if (fileSize > maxFileSizeInBytes) {
         allSizeValid = false;
         if (context.mounted) {
           AppUtil.errorToast(context, 'imageSizeValid'.tr);
@@ -258,6 +262,8 @@ class _EventInfoReviewState extends State<EventInfoReview> {
           // return false;
         }
       }
+    } else {
+      return false;
     }
     return true;
   }
@@ -311,6 +317,22 @@ class _EventInfoReviewState extends State<EventInfoReview> {
 
   //   // Handle the list of uploaded image paths as needed
   // }
+
+  Future<void> translateReviewIncludeItinerary(dynamic controller) async {
+    if (controller!.reviewincludeItenrary.isNotEmpty) {
+      for (final item in controller!.reviewincludeItenrary) {
+        final translatedEn = await TranslationApi.translate(item, 'en');
+        final translatedZh = await TranslationApi.translate(item, 'zh');
+        if (translatedEn.trim().isNotEmpty) {
+          priceIncludesEn.add(translatedEn);
+        }
+        if (translatedZh.trim().isNotEmpty) {
+          priceIncludesZh.add(translatedZh);
+        }
+      }
+    }
+  }
+
   Future<void> translateDescriptionFields() async {
     try {
       final arabicBioText = widget.hospitalityBioAr;
@@ -507,7 +529,8 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                                 if (!value) {
                                                 } else {
                                                   await translateDescriptionFields();
-
+                                                  await translateReviewIncludeItinerary(
+                                                      _EventController);
                                                   final isSuccess = await _EventController.createEvent(
                                                       nameAr: _EventController
                                                           .titleAr.value,
@@ -517,11 +540,18 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                                           .titleZh.value,
                                                       descriptionAr: _EventController
                                                           .bioAr.value,
-                                                      descriptionEn: _EventController
-                                                          .bioEn.value,
+                                                      descriptionEn:
+                                                          _EventController
+                                                              .bioEn.value,
                                                       descriptionZh:
                                                           _EventController
                                                               .bioZh.value,
+                                                      priceIncludesAr: _EventController
+                                                          .reviewincludeItenrary,
+                                                      priceIncludesEn:
+                                                          priceIncludesEn,
+                                                      priceIncludesZh:
+                                                          priceIncludesZh,
                                                       longitude: _EventController
                                                           .pickUpLocLatLang
                                                           .value
@@ -532,11 +562,9 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                                           .value
                                                           .latitude
                                                           .toString(),
-                                                      price: widget
-                                                          .adventurePrice!,
+                                                      price: widget.adventurePrice!,
                                                       image: imageUrls,
-                                                      regionAr: _EventController
-                                                          .ragionAr.value,
+                                                      regionAr: _EventController.ragionAr.value,
                                                       locationUrl: locationUrl,
                                                       daysInfo: DaysInfo,
                                                       regionEn: _EventController.ragionEn.value,

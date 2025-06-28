@@ -32,6 +32,8 @@ class ProfileController extends GetxController {
   var actionsList = <ActivityProgress>[].obs;
   var isDriveCar = false.obs;
   var isNotDriveCar = false.obs;
+  var transporationMethod = ''.obs;
+
   var profile = Profile();
   var isEmailOtp = false.obs;
   var isEditing = false.obs;
@@ -132,6 +134,7 @@ class ProfileController extends GetxController {
     String? descripttion,
     String? iban,
     String? nationality,
+    String? transportationMethod,
     List<String>? spokenLanguage,
     String? tourGuideLicense,
     required BuildContext context,
@@ -144,6 +147,7 @@ class ProfileController extends GetxController {
         profileImage: profileImage,
         descripttion: descripttion,
         iban: iban,
+        transportationMethod: transportationMethod,
         nationality: nationality,
         spokenLanguage: spokenLanguage,
         tourGuideLicense: tourGuideLicense,

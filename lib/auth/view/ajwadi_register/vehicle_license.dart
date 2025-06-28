@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
+import 'package:ajwad_v4/auth/models/image.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
@@ -65,21 +66,27 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
 
   Future<void> processTourGuideStepper(BuildContext context) async {
     try {
-      // Step 1: Upload Profile PDF and Edit Profile
-      final file = await _profileController.uploadProfileImages(
-        file: _profileController.pdfFile.value!,
-        uploadOrUpdate: "upload",
-        context: context,
-      );
+      UploadImage? file;
 
-      if (file == null) {
-        AppUtil.errorToast(context, "PDF upload failed");
-        return;
+      if (_profileController.pdfFile.value != null) {
+        // Step 1: Upload Profile PDF and Edit Profile
+        file = await _profileController.uploadProfileImages(
+          file: _profileController.pdfFile.value!,
+          uploadOrUpdate: "upload",
+          context: context,
+        );
+
+        if (file == null) {
+          AppUtil.errorToast(context, "PDF upload failed");
+          return;
+        }
       }
-
       final result = await _profileController.editProfile(
         context: context,
-        tourGuideLicense: file.filePath,
+        tourGuideLicense: _profileController.pdfFile.value != null
+            ? file?.filePath
+            : _profileController.profile.tourGuideLicense,
+        transportationMethod: _profileController.transporationMethod.value,
         spokenLanguage: _profileController.profile.spokenLanguage,
       );
 
@@ -126,8 +133,9 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
         _profileController.reset();
         _authController.activeBar(1);
 
-        await _profileController.getProfile(context: context);
         Get.offAll(() => const AjwadiBottomBar());
+        // await _profileController.getProfile(context: context);
+        await _authController.checkLocalInfo(context: context);
       });
     } catch (e) {
       AppUtil.errorToast(context, e.toString());

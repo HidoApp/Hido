@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
+import 'package:ajwad_v4/auth/models/image.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/car_type.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/contact_info.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/driving_license.dart';
@@ -120,7 +121,8 @@ class _TourStepperState extends State<TourStepper> {
   bool _validateFields() {
     if (_authController.activeBar.value == 1) {
       return (_profileController.isPdfValidSize.value &&
-          _profileController.pdfFile.value != null);
+              _profileController.pdfFile.value != null) ||
+          _profileController.profile.tourGuideLicense != '';
     }
 
     if (_authController.activeBar.value == 2) {
@@ -146,21 +148,27 @@ class _TourStepperState extends State<TourStepper> {
 
   Future<void> processTourGuideStepper(BuildContext context) async {
     try {
-      // Step 1: Upload Profile PDF and Edit Profile
-      final file = await _profileController.uploadProfileImages(
-        file: _profileController.pdfFile.value!,
-        uploadOrUpdate: "upload",
-        context: context,
-      );
+      UploadImage? file;
 
-      if (file == null) {
-        AppUtil.errorToast(context, "PDF upload failed");
-        return;
+      if (_profileController.pdfFile.value != null) {
+        // Step 1: Upload Profile PDF and Edit Profile
+        file = await _profileController.uploadProfileImages(
+          file: _profileController.pdfFile.value!,
+          uploadOrUpdate: "upload",
+          context: context,
+        );
+
+        if (file == null) {
+          AppUtil.errorToast(context, "PDF upload failed");
+          return;
+        }
       }
-
       final result = await _profileController.editProfile(
         context: context,
-        tourGuideLicense: file.filePath,
+        tourGuideLicense: _profileController.pdfFile.value != null
+            ? file?.filePath
+            : _profileController.profile.tourGuideLicense,
+        transportationMethod: _profileController.transporationMethod.value,
         spokenLanguage: _profileController.profile.spokenLanguage,
       );
 
@@ -206,8 +214,11 @@ class _TourStepperState extends State<TourStepper> {
           }).then((_) async {
         _profileController.reset();
         _authController.activeBar(1);
-        await _profileController.getProfile(context: context);
-        Get.offAll(() => const AjwadiBottomBar());
+
+        await Get.offAll(() => const AjwadiBottomBar());
+
+        // await _profileController.getProfile(context: context);
+        await _authController.checkLocalInfo(context: context);
       });
     } catch (e) {
       AppUtil.errorToast(context, e.toString());
@@ -290,6 +301,7 @@ class _TourStepperState extends State<TourStepper> {
                                       child: CustomButton(
                                         onPressed: () async {
                                           //Click Endpoint here
+
                                           if (validateScreens()) {
                                             switch (_authController
                                                 .activeBar.value) {
@@ -423,7 +435,6 @@ class _TourStepperState extends State<TourStepper> {
         return const GuidanceLicense();
 
       case 2:
-        log('1');
         return const CarType();
 
       case 3:
@@ -476,12 +487,13 @@ class _TourStepperState extends State<TourStepper> {
       // return _authController.contactKey.currentState!.validate();
       // case 2:
       case 1:
-        return (_profileController.isPdfValidSize.value &&
-            _profileController.pdfFile.value != null);
+        return _profileController.profile.tourGuideLicense != '' ||
+            (_profileController.isPdfValidSize.value &&
+                _profileController.pdfFile.value != null);
       case 2:
         return ((_profileController.isNotDriveCar.value ||
                 _profileController.isDriveCar.value) &&
-            _authController.agreeForTerms.value);
+            _profileController.agreeForTerms.value);
       case 3:
         if (_profileController.drivingDate.value.isEmpty) {
           _authController.validDriving(false);

@@ -38,6 +38,7 @@ class HospitalityController extends GetxController {
   var selectedGender = ''.obs;
   var selectedMealAr = ''.obs;
   var selectedMealEn = ''.obs;
+  var selectedMealZh = ''.obs;
   var selectedDateIndex = (-1).obs;
   var selectedDateId = "".obs;
   var isHospitalityByIdLoading = false.obs;
@@ -71,6 +72,8 @@ class HospitalityController extends GetxController {
   var isActivtyValid = true.obs;
   var validSave = true.obs;
   var includeCount = 0.obs;
+  String lastTranslatedTitleAr = '';
+
   // Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
   Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264, 46.544731).obs;
 
@@ -230,8 +233,12 @@ class HospitalityController extends GetxController {
     required String bioAr,
     required String bioEn,
     required String bioZh,
+    List<String>? priceIncludesEn,
+    List<String>? priceIncludesAr,
+    List<String>? priceIncludesZh,
     required String mealTypeAr,
     required String mealTypeEn,
+    required String mealTypeZh,
     required String longitude,
     required String latitude,
     required String touristsGender,
@@ -256,8 +263,12 @@ class HospitalityController extends GetxController {
           bioAr: bioAr,
           bioEn: bioEn,
           bioZh: bioZh,
+          priceIncludesAr: priceIncludesAr,
+          priceIncludesEn: priceIncludesEn,
+          priceIncludesZh: priceIncludesZh,
           mealTypeAr: mealTypeAr,
           mealTypeEn: mealTypeEn,
+          mealTypeZh: mealTypeZh,
           longitude: longitude,
           latitude: latitude,
           touristsGender: touristsGender,
@@ -307,10 +318,16 @@ class HospitalityController extends GetxController {
     required String id,
     required String titleAr,
     required String titleEn,
+    required String titleZh,
     required String bioAr,
     required String bioEn,
+    required String bioZh,
+    List<String>? priceIncludesEn,
+    List<String>? priceIncludesAr,
+    List<String>? priceIncludesZh,
     required String mealTypeAr,
     required String mealTypeEn,
+    required String mealTypeZh,
     required String longitude,
     required String latitude,
     required String touristsGender,
@@ -332,10 +349,16 @@ class HospitalityController extends GetxController {
           id: id,
           titleAr: titleAr,
           titleEn: titleEn,
+          titleZh: titleZh,
           bioAr: bioAr,
           bioEn: bioEn,
+          bioZh: bioZh,
+          priceIncludesAr: priceIncludesAr,
+          priceIncludesEn: priceIncludesEn,
+          priceIncludesZh: priceIncludesZh,
           mealTypeAr: mealTypeAr,
           mealTypeEn: mealTypeEn,
+          mealTypeZh: mealTypeZh,
           longitude: longitude,
           latitude: latitude,
           touristsGender: touristsGender,

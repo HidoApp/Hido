@@ -68,6 +68,8 @@ class _HostInfoReviewState extends State<HostInfoReview> {
   String endTime = '';
   List<String> imageUrls = [];
   List<Map<String, dynamic>> DaysInfo = [];
+  List<String> priceIncludesEn = [];
+  List<String> priceIncludesZh = [];
 
   // String ragionAr = '';
   // String ragionEn = '';
@@ -268,13 +270,15 @@ class _HostInfoReviewState extends State<HostInfoReview> {
   }
 
   Future<bool> uploadhostImages() async {
+    imageUrls.clear();
+
     //List<String> uploadedImagePaths = [];
     bool allExtensionsValid = true;
     bool allSizeValid = true;
 
     // Allowed formats
     final allowedFormats = ['jpg', 'jpeg', 'png'];
-    const maxFileSizeInBytes = 2 * 1024 * 1024; // ✅ 2 MB
+    const maxFileSizeInBytes = 2 * 1024 * 1024; // 2 MB
 
     for (XFile imagePath in widget.hospitalityController!.selectedImages) {
       String fileExtension = imagePath.path.split('.').last.toLowerCase();
@@ -293,7 +297,7 @@ class _HostInfoReviewState extends State<HostInfoReview> {
 
       final fileSize = await file.length();
 
-      if (fileSize >= maxFileSizeInBytes) {
+      if (fileSize > maxFileSizeInBytes) {
         allSizeValid = false;
 
         if (context.mounted) {
@@ -348,17 +352,21 @@ class _HostInfoReviewState extends State<HostInfoReview> {
           // return false;
         }
       }
+    } else {
+      return false;
     }
     return true;
   }
 
   Future<bool> uploadAdveImages() async {
+    imageUrls.clear();
+
     bool allExtensionsValid = true;
     bool allSizeValid = true;
 
     // Allowed formats
     final allowedFormats = ['jpg', 'jpeg', 'png'];
-    const maxFileSizeInBytes = 2 * 1024 * 1024; // ✅ 2 MB
+    const maxFileSizeInBytes = 2 * 1024 * 1024; // 2 MB
 
     for (XFile imagePath in widget.adventureController!.selectedImages) {
       String fileExtension = imagePath.path.split('.').last.toLowerCase();
@@ -376,7 +384,8 @@ class _HostInfoReviewState extends State<HostInfoReview> {
 
       final file = File(imagePath.path);
       final fileSize = await file.length();
-      if (fileSize >= maxFileSizeInBytes) {
+
+      if (fileSize > maxFileSizeInBytes) {
         allSizeValid = false;
         if (context.mounted) {
           AppUtil.errorToast(context, 'imageSizeValid'.tr);
@@ -405,8 +414,25 @@ class _HostInfoReviewState extends State<HostInfoReview> {
           // return false;
         }
       }
+    } else {
+      return false;
     }
     return true;
+  }
+
+  Future<void> translateReviewIncludeItinerary(dynamic controller) async {
+    if (controller!.reviewincludeItenrary.isNotEmpty) {
+      for (final item in controller!.reviewincludeItenrary) {
+        final translatedEn = await TranslationApi.translate(item, 'en');
+        final translatedZh = await TranslationApi.translate(item, 'zh');
+        if (translatedEn.trim().isNotEmpty) {
+          priceIncludesEn.add(translatedEn);
+        }
+        if (translatedZh.trim().isNotEmpty) {
+          priceIncludesZh.add(translatedZh);
+        }
+      }
+    }
   }
 
   Future<void> translateDescriptionFields() async {
@@ -437,6 +463,8 @@ class _HostInfoReviewState extends State<HostInfoReview> {
       }
     } catch (e) {
       log('Translation failed: $e');
+      TranslationApi.isTranslatingLoading.value = false;
+
       // Optionally show a snackbar or message here
     } finally {
       TranslationApi.isTranslatingLoading.value = false;
@@ -449,11 +477,15 @@ class _HostInfoReviewState extends State<HostInfoReview> {
         titleEn: widget.hospitalityTitleEn,
         titleZh: widget.hospitalityController!.titleZh.value,
         bioAr: widget.hospitalityBioAr,
+        priceIncludesAr: widget.hospitalityController!.reviewincludeItenrary,
+        priceIncludesEn: priceIncludesEn,
+        priceIncludesZh: priceIncludesZh,
         // bioEn: widget.hospitalityBioEn,
         bioEn: widget.hospitalityController!.bioEn.value,
         bioZh: widget.hospitalityController!.bioZh.value,
         mealTypeAr: widget.hospitalityController!.selectedMealAr.value,
         mealTypeEn: widget.hospitalityController!.selectedMealEn.value,
+        mealTypeZh: widget.hospitalityController!.selectedMealZh.value,
         longitude: widget
             .hospitalityController!.pickUpLocLatLang.value.longitude
             .toString(),
@@ -518,6 +550,9 @@ class _HostInfoReviewState extends State<HostInfoReview> {
       descriptionAr: widget.hospitalityBioAr,
       descriptionEn: widget.adventureController!.desEn.value,
       descriptionZh: widget.adventureController!.desZh.value,
+      priceIncludesAr: widget.adventureController!.reviewincludeItenrary,
+      priceIncludesEn: priceIncludesEn,
+      priceIncludesZh: priceIncludesZh,
       longitude: widget.adventureController!.pickUpLocLatLang.value.longitude
           .toString(),
       latitude: widget.adventureController!.pickUpLocLatLang.value.latitude
@@ -608,6 +643,7 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                 widget.adventureController!.pickUpLocLatLang.value);
       });
     });
+    // log(widget.hospitalityController!.reviewincludeItenrary.last.toString());
   }
 
   @override
@@ -821,7 +857,8 @@ class _HostInfoReviewState extends State<HostInfoReview> {
 
                                       if (uploadSuccess) {
                                         await translateDescriptionFields();
-
+                                        await translateReviewIncludeItinerary(
+                                            widget.hospitalityController);
                                         await createHospitalityExperience();
                                       } else {
                                         // Handle upload failure
@@ -850,6 +887,8 @@ class _HostInfoReviewState extends State<HostInfoReview> {
                                           await uploadAdveImages();
                                       if (uploadSuccess) {
                                         await translateDescriptionFields();
+                                        await translateReviewIncludeItinerary(
+                                            widget.adventureController);
 
                                         await createAdventureExperience();
                                       } else {

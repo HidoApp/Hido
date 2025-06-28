@@ -1,4 +1,5 @@
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,7 @@ class CustomButton extends StatelessWidget {
     this.iconColor,
     this.customWidth,
     this.height,
+    this.fontSize = 17,
     this.italic = false,
     this.textColor,
     this.raduis, // Default text color
@@ -29,7 +31,7 @@ class CustomButton extends StatelessWidget {
   final Color? textColor;
   final double? raduis;
   final Color? borderColor;
-
+  final double fontSize;
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
@@ -75,9 +77,10 @@ class CustomButton extends StatelessWidget {
             if (textColor == null)
               CustomText(
                 text: title,
-                fontFamily: 'HT Rakik',
+                fontFamily:
+                    AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
                 textAlign: TextAlign.center,
-                fontSize: width * 0.044,
+                fontSize: fontSize,
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
                 fontStyle: italic ? FontStyle.italic : FontStyle.normal,
@@ -86,10 +89,11 @@ class CustomButton extends StatelessWidget {
             CustomText(
               text: title,
               textAlign: TextAlign.center,
-              fontSize: 17,
+              fontSize: fontSize,
               fontWeight: FontWeight.w500,
               color: textColor!,
-              fontFamily: 'HT Rakik',
+              fontFamily:
+                  AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
               fontStyle: italic ? FontStyle.italic : FontStyle.normal,
             ),
           if (icon != null) const Spacer(),

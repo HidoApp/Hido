@@ -22,6 +22,7 @@ class TextChip extends StatelessWidget {
         ),
         child: CustomText(
           text: text,
+          softWrap: true,
           textOverflow: TextOverflow.ellipsis,
           fontFamily: AppUtil.SfFontType(context),
           fontSize: MediaQuery.sizeOf(context).width * 0.028,

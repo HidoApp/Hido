@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:ajwad_v4/auth/models/image.dart';
 import 'package:ajwad_v4/event/model/event.dart';
+import 'package:ajwad_v4/request/ajwadi/view/widget/include_card.dart';
 import 'package:ajwad_v4/services/model/event_summary.dart';
 import 'package:ajwad_v4/services/service/event_service.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -56,6 +57,13 @@ class EventController extends GetxController {
   var startDate = ''.obs;
   var isEventDateSelcted = false.obs;
   var isEventTimeSelcted = false.obs;
+  var includeList = <IncludeCard>[].obs;
+  var reviewincludeItenrary = <String>[].obs;
+  var isActivtyValid = true.obs;
+  var validSave = true.obs;
+  var includeCount = 0.obs;
+  String lastTranslatedTitleAr = '';
+
   //check if this event  allow coupons or not
   var allowCoupons = true.obs;
   // check if user can make free booking
@@ -126,6 +134,9 @@ class EventController extends GetxController {
     required String descriptionAr,
     required String descriptionEn,
     required String descriptionZh,
+    List<String>? priceIncludesEn,
+    List<String>? priceIncludesAr,
+    List<String>? priceIncludesZh,
     required String longitude,
     required String latitude,
     required double price,
@@ -146,6 +157,9 @@ class EventController extends GetxController {
           descriptionAr: descriptionAr,
           descriptionEn: descriptionEn,
           descriptionZh: descriptionZh,
+          priceIncludesAr: priceIncludesAr,
+          priceIncludesEn: priceIncludesEn,
+          priceIncludesZh: priceIncludesZh,
           longitude: longitude,
           latitude: latitude,
           price: price,
@@ -169,8 +183,13 @@ class EventController extends GetxController {
     required String id,
     required String nameAr,
     required String nameEn,
+    required String nameZh,
     required String descriptionAr,
     required String descriptionEn,
+    required String descriptionZh,
+    List<String>? priceIncludesEn,
+    List<String>? priceIncludesAr,
+    List<String>? priceIncludesZh,
     required String longitude,
     required String latitude,
     required double price,
@@ -188,8 +207,13 @@ class EventController extends GetxController {
           id: id,
           nameAr: nameAr,
           nameEn: nameEn,
+          nameZh: nameZh,
+          priceIncludesAr: priceIncludesAr,
+          priceIncludesEn: priceIncludesEn,
+          priceIncludesZh: priceIncludesZh,
           descriptionAr: descriptionAr,
           descriptionEn: descriptionEn,
+          descriptionZh: descriptionZh,
           longitude: longitude,
           latitude: latitude,
           price: price,

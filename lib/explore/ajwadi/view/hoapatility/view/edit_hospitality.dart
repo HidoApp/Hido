@@ -1,10 +1,13 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:ajwad_v4/api/translation_api.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/add_event_calender_dialog.dart';
 import 'package:ajwad_v4/request/ajwadi/view/view_experience_images.dart';
+import 'package:ajwad_v4/request/ajwadi/view/widget/include_card.dart';
+import 'package:ajwad_v4/request/ajwadi/view/widget/review_include_card.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
@@ -128,6 +131,7 @@ class _EditHospitalityState extends State<EditHospitality> {
     _servicesController.isHospatilityDateSelcted(false);
     _servicesController.selectedDate('');
     _servicesController.selectedDateIndex(-1);
+    _servicesController.reviewincludeItenrary([]);
     _loadImages();
     updateData();
     _currentPosition = LatLng(
@@ -215,16 +219,17 @@ class _EditHospitalityState extends State<EditHospitality> {
   }
 
   Future<bool> uploadImages() async {
-    List<dynamic> imagesToUpload = [];
     bool allExtensionsValid = true;
+    bool allSizeValid = true;
+    List<dynamic> imagesToUpload = [];
+    imageUrls.clear();
 
     // Allowed formats
     final allowedFormats = ['jpg', 'jpeg', 'png'];
+    const maxFileSizeInBytes = 2 * 1024 * 1024; // 2 MB
 
     for (int i = 0; i < _servicesController.images.length; i++) {
       var image = _servicesController.images[i];
-
-      // Check if the path is a URL
       if (image is String && Uri.parse(image).isAbsolute) {
         imageUrls.add(image);
       } else {
@@ -232,46 +237,50 @@ class _EditHospitalityState extends State<EditHospitality> {
 
         if (!allowedFormats.contains(fileExtension)) {
           allExtensionsValid = false;
-          print(
-              'File ${image.path} is not in an allowed format (${allowedFormats.join(', ')}).');
-        } else {
-          imagesToUpload.add(image);
+          log('File ${image.path} is not in an allowed format (${allowedFormats.join(', ')}).');
+
+          if (context.mounted) {
+            AppUtil.errorToast(context, 'uploadError'.tr);
+            await Future.delayed(const Duration(seconds: 3));
+          }
+          return false;
         }
+
+        final file = File(image.path);
+        final fileSize = await file.length();
+        if (fileSize >= maxFileSizeInBytes) {
+          allSizeValid = false;
+          if (context.mounted) {
+            AppUtil.errorToast(context, 'imageSizeValid'.tr);
+          }
+          return false;
+        }
+        imagesToUpload.add(image);
       }
     }
-
-    if (!allExtensionsValid) {
-      //  if (context.mounted) {
-      //       AppUtil.errorToast(context,'uploadError'.tr);
-      //       await Future.delayed(const Duration(seconds: 3));
-      //     }
-      return false;
-    }
-
-    // Upload images that are not URLs
-
-    for (var imageFile in imagesToUpload) {
-      try {
-        final uploadedImage = await _eventController.uploadProfileImages(
+    // ✅ If all files passed validation, upload them
+    if (allExtensionsValid && allSizeValid) {
+      for (var imageFile in imagesToUpload) {
+        final image = await _eventController.uploadProfileImages(
           file: File(imageFile.path),
           fileType: "hospitality",
           context: context,
         );
 
-        if (uploadedImage != null) {
-          log('valid');
-          imageUrls.add(uploadedImage.filePath);
-          log(uploadedImage.filePath);
+        if (image != null) {
+          log('Uploaded: ${image.filePath}');
+          imageUrls.add(image.filePath);
         } else {
-          log('not valid');
+          log('Upload failed for ${imageFile.path}');
+          // if (context.mounted) {
+          //   AppUtil.errorToast(context, 'Image upload failed.');
+          // }
           // return false;
         }
-      } catch (e) {
-        log('Error uploading file ${imageFile.path}: $e');
-        return false;
       }
+    } else {
+      return false;
     }
-
     return true;
   }
 
@@ -288,12 +297,15 @@ class _EditHospitalityState extends State<EditHospitality> {
   int? _selectedRadio2;
   String mealTypeEn = '';
   String mealTypeAr = '';
+  String mealTypeZh = '';
+
   bool titleENEmpty = false;
   bool titleArEmpty = false;
   String locationUrl = '';
   bool bioArEmpty = false;
   bool bioEnEmpty = false;
-
+  List<String> priceIncludesEn = [];
+  List<String> priceIncludesZh = [];
   bool guestEmpty = false;
   bool PriceEmpty = false;
   bool PriceLarger = false;
@@ -360,7 +372,9 @@ class _EditHospitalityState extends State<EditHospitality> {
         !_servicesController.DateErrorMessage.value) {
       if (await uploadImages()) {
         daysInfo();
-        _updateProfile();
+        await translateDescriptionFields();
+        await TranslateIncludesList();
+        await _updateHodpitality();
       } else {
         if (context.mounted) {
           AppUtil.errorToast(context, 'uploadError'.tr);
@@ -402,8 +416,13 @@ class _EditHospitalityState extends State<EditHospitality> {
       hospitalityTitleControllerEn.text = widget.hospitalityObj.titleEn;
       hospitalityBioControllerEn.text = widget.hospitalityObj.bioEn;
 
+      _servicesController.titleZh.value = widget.hospitalityObj.titleZh;
+      _servicesController.bioZh.value = widget.hospitalityObj.bioZh;
+
       mealTypeAr = widget.hospitalityObj.mealTypeAr;
       mealTypeEn = widget.hospitalityObj.mealTypeEn;
+      mealTypeZh = widget.hospitalityObj.mealTypeZh;
+
       guestNum = widget.hospitalityObj.daysInfo.isNotEmpty
           ? widget.hospitalityObj.daysInfo.first.seats
           : 0;
@@ -437,10 +456,6 @@ class _EditHospitalityState extends State<EditHospitality> {
         _servicesController.selectedDates.add(DateTime.now());
       }
 
-      // _servicesController.selectedDate.value =
-      //     widget.hospitalityObj.daysInfo.isNotEmpty
-      //         ? widget.hospitalityObj.daysInfo.first.endTime
-      //         : '';
       _priceController.text = widget.hospitalityObj.price.toString();
       _selectRadio(widget.hospitalityObj.mealTypeEn);
       _selectRadio(widget.hospitalityObj.touristsGender ?? '');
@@ -452,7 +467,6 @@ class _EditHospitalityState extends State<EditHospitality> {
       _servicesController.isHospatilityTimeSelcted.value =
           widget.hospitalityObj.daysInfo.isNotEmpty ? true : false;
 
-      // _servicesController.DateErrorMessage.value = true;
       _servicesController.EmptyTimeErrorMessage.value = false;
       _servicesController.EmptyDateErrorMessage.value = false;
       _servicesController.pickUpLocLatLang.value = LatLng(
@@ -460,38 +474,14 @@ class _EditHospitalityState extends State<EditHospitality> {
           double.parse(widget.hospitalityObj.coordinate.longitude ?? ''));
 
       locationUrl = getLocationUrl(_servicesController.pickUpLocLatLang.value);
+      _servicesController.reviewincludeItenrary.value =
+          widget.hospitalityObj.priceIncludesAr.toList();
     });
   }
 
   String getLocationUrl(LatLng location) {
     return 'https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}';
   }
-
-  // void daysInfo() {
-  //   // Format for combining date and time
-  //   var formatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-  //   DateTime date = DateTime.parse(_servicesController.selectedDate.value);
-
-  //   DateTime newStartTime = DateTime(
-  //       date.year,
-  //       date.month,
-  //       date.day,
-  //       newTimeToGo.hour,
-  //       newTimeToGo.minute,
-  //       newTimeToGo.second,
-  //       newTimeToGo.millisecond);
-  //   DateTime newEndTime = DateTime(
-  //       date.year,
-  //       date.month,
-  //       date.day,
-  //       newTimeToReturn.hour,
-  //       newTimeToReturn.minute,
-  //       newTimeToReturn.second,
-  //       newTimeToReturn.millisecond);
-
-  //   startTime = formatter.format(newStartTime);
-  //   endTime = formatter.format(newEndTime);
-  // }
 
   Future<void> _loadImages() async {
     List<dynamic> images = [];
@@ -534,6 +524,8 @@ class _EditHospitalityState extends State<EditHospitality> {
         _selectedRadio2 = 2;
       } else if (newValue == "Dinner" || newValue == "عشاء") {
         _selectedRadio2 = 3;
+      } else if (newValue == "SNACK" || newValue == "وجبة خفيفة") {
+        _selectedRadio2 = 4;
       }
 
       // widget.onGenderChanged(gender!);  // Call the callback with the new gender value
@@ -560,27 +552,122 @@ class _EditHospitalityState extends State<EditHospitality> {
       if (_selectedRadio2 == 1) {
         mealTypeEn = "BREAKFAST";
         mealTypeAr = "إفطار";
+        mealTypeZh = "早餐";
       } else if (_selectedRadio2 == 3) {
         mealTypeEn = "Dinner";
         mealTypeAr = "عشاء";
+        mealTypeZh = '晚餐';
       } else if (_selectedRadio2 == 2) {
         mealTypeEn = "LUNCH";
         mealTypeAr = "غداء";
+        mealTypeZh = '午餐';
+      } else if (_selectedRadio2 == 4) {
+        mealTypeEn = "SNACK";
+        mealTypeAr = "وجبة خفيفة";
+        mealTypeZh = "小吃";
       }
-      // widget.onGenderChanged(gender!);  // Call the callback with the new gender value
     });
   }
 
-  Future<void> _updateProfile() async {
+  Future<void> TranslateIncludesList() async {
+    final current = _servicesController.reviewincludeItenrary;
+
+    if (current.isNotEmpty) {
+      for (int i = 0; i < current.length; i++) {
+        final isNew = i >= widget.hospitalityObj.priceIncludesAr.length;
+        final isChanged = !isNew &&
+            current[i].trim() !=
+                widget.hospitalityObj.priceIncludesAr[i].trim();
+
+        if ((isNew || isChanged) && current[i].trim().isNotEmpty) {
+          final translatedEn = await TranslationApi.translate(current[i], 'en');
+          final translatedZh = await TranslationApi.translate(current[i], 'zh');
+          if (translatedEn.trim().isNotEmpty) {
+            if (isNew) {
+              widget.hospitalityObj.priceIncludesEn.add(translatedEn.trim());
+            } else {
+              widget.hospitalityObj.priceIncludesEn[i] = translatedEn.trim();
+            }
+          }
+          if (translatedZh.trim().isNotEmpty) {
+            if (isNew) {
+              widget.hospitalityObj.priceIncludesZh.add(translatedZh.trim());
+            } else {
+              widget.hospitalityObj.priceIncludesZh[i] = translatedZh.trim();
+            }
+          }
+        }
+      }
+    } else {
+      widget.hospitalityObj.priceIncludesEn.clear();
+      widget.hospitalityObj.priceIncludesZh.clear();
+    }
+  }
+
+  Future<void> translateDescriptionFields() async {
+    try {
+      final currentTitleArValue = hospitalityTitleControllerAr.text;
+      final currentBioeArValue = hospitalityBioControllerAr.text;
+
+      final currentTitleEnValue = hospitalityTitleControllerEn.text;
+      final currentBioEnValue = hospitalityBioControllerEn.text;
+
+      if ((currentTitleArValue != widget.hospitalityObj.titleAr &&
+          currentTitleArValue.isNotEmpty)) {
+        final translatedTitleZh =
+            await TranslationApi.translate(currentTitleArValue, 'zh');
+
+        if (translatedTitleZh.isNotEmpty) {
+          _servicesController.titleZh.value = translatedTitleZh;
+        }
+      } else if ((currentTitleEnValue != widget.hospitalityObj.titleEn &&
+          currentTitleEnValue.isNotEmpty)) {
+        final translatedTitleZh =
+            await TranslationApi.translate(currentTitleEnValue, 'zh');
+
+        if (translatedTitleZh.isNotEmpty) {
+          _servicesController.titleZh.value = translatedTitleZh;
+        }
+      }
+      if ((currentBioeArValue != widget.hospitalityObj.bioAr &&
+          currentBioeArValue.isNotEmpty)) {
+        final translatedBioZh =
+            await TranslationApi.translate(currentBioeArValue, 'zh');
+        if (translatedBioZh.isNotEmpty) {
+          _servicesController.bioZh.value = translatedBioZh;
+        }
+      } else if ((currentBioEnValue != widget.hospitalityObj.bioEn &&
+          currentBioEnValue.isNotEmpty)) {
+        final translatedBioZh =
+            await TranslationApi.translate(currentBioEnValue, 'zh');
+        if (translatedBioZh.isNotEmpty) {
+          _servicesController.bioZh.value = translatedBioZh;
+        }
+      }
+    } catch (e) {
+      log('Translation failed: $e');
+      TranslationApi.isTranslatingLoading.value = false;
+    } finally {
+      TranslationApi.isTranslatingLoading.value = false;
+    }
+  }
+
+  Future<void> _updateHodpitality() async {
     try {
       final result = await _servicesController.editHospatility(
         id: widget.hospitalityObj.id,
         titleAr: hospitalityTitleControllerAr.text,
         titleEn: hospitalityTitleControllerEn.text,
+        titleZh: _servicesController.titleZh.value,
         bioAr: hospitalityBioControllerAr.text,
         bioEn: hospitalityBioControllerEn.text,
+        bioZh: _servicesController.bioZh.value,
+        priceIncludesAr: _servicesController.reviewincludeItenrary,
+        priceIncludesEn: widget.hospitalityObj.priceIncludesEn,
+        priceIncludesZh: widget.hospitalityObj.priceIncludesZh,
         mealTypeAr: mealTypeAr,
         mealTypeEn: mealTypeEn,
+        mealTypeZh: mealTypeZh,
         longitude:
             _servicesController.pickUpLocLatLang.value.longitude.toString(),
         latitude:
@@ -887,6 +974,7 @@ class _EditHospitalityState extends State<EditHospitality> {
                         left: 16.0, right: 16.0, bottom: 24.0, top: 16),
                     child: Obx(
                       () => _eventController.isImagesLoading.value ||
+                              TranslationApi.isTranslatingLoading.value ||
                               _servicesController.isEditHospitalityLoading.value
                           ? const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 160),
@@ -1389,6 +1477,178 @@ class _EditHospitalityState extends State<EditHospitality> {
                                 SizedBox(
                                   height: width * 0.077,
                                 ),
+                                if ((widget.hospitalityObj.priceIncludesAr
+                                    .isNotEmpty)) ...[
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CustomText(
+                                        text: 'priceInclude'.tr,
+                                        color: black,
+                                        fontSize: 17,
+                                        fontFamily: AppUtil.SfFontType(context),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      SizedBox(
+                                        height: width * 0.02,
+                                      ),
+                                      // SizedBox(
+                                      //   height: width * 0.012,
+                                      // ),
+                                      Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          // SizedBox(
+                                          //   height: width * 0.050,
+                                          // ),
+                                          SizedBox(
+                                            height: width * 0.012,
+                                          ),
+                                          Obx(
+                                            () => ListView.separated(
+                                              separatorBuilder:
+                                                  (context, index) => SizedBox(
+                                                height: width * 0.02,
+                                              ),
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const BouncingScrollPhysics(),
+                                              itemCount: _servicesController
+                                                  .reviewincludeItenrary.length,
+                                              itemBuilder: (context, index) =>
+                                                  ReivewIncludeCard(
+                                                indx: index,
+                                                include: _servicesController
+                                                        .reviewincludeItenrary[
+                                                    index],
+                                                experienceController:
+                                                    _servicesController,
+                                              ),
+                                            ),
+                                          ),
+                                          Obx(() => _servicesController
+                                                  .reviewincludeItenrary
+                                                  .isNotEmpty
+                                              ? SizedBox(
+                                                  height: width * 0.04,
+                                                )
+                                              : const SizedBox.shrink()),
+
+                                          Obx(() => ListView.separated(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 4),
+                                                shrinkWrap: true,
+                                                physics:
+                                                    const NeverScrollableScrollPhysics(),
+                                                separatorBuilder: (context,
+                                                        index) =>
+                                                    SizedBox(
+                                                        height: width * 0.06),
+                                                itemCount: _servicesController
+                                                    .includeList.length,
+                                                itemBuilder: (context, index) {
+                                                  return _servicesController
+                                                      .includeList[index];
+                                                },
+                                              )),
+                                          // SizedBox(height: width * 0.06),
+
+                                          // Add Button
+                                          GestureDetector(
+                                            onTap: () {
+                                              if (_servicesController
+                                                      .includeCount >=
+                                                  1) {
+                                                return;
+                                              }
+                                              _servicesController.includeList
+                                                  .add(
+                                                IncludeCard(
+                                                  indx: _servicesController
+                                                      .includeCount.value,
+                                                  experienceController:
+                                                      _servicesController,
+                                                ),
+                                              );
+                                              _servicesController
+                                                  .includeCount++;
+                                            },
+                                            child: Obx(
+                                              () => Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: width * 0.01,
+                                                    top: _servicesController
+                                                            .includeList.isEmpty
+                                                        ? 0
+                                                        : width * 0.050,
+                                                    // bottom: width * 0.06,
+                                                    right: width * 0.01),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      // height: width * 0.06,
+                                                      // width: width * 0.06,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      decoration:
+                                                          ShapeDecoration(
+                                                        color: colorGreen,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      9999),
+                                                        ),
+                                                      ),
+                                                      child: Icon(
+                                                        Icons.add,
+                                                        color: Colors.white,
+                                                        size: width * 0.06,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                        width: width * 0.02),
+                                                    CustomText(
+                                                      text: "addNewPoint".tr,
+                                                      fontSize: width * 0.038,
+                                                      fontFamily:
+                                                          AppUtil.rtlDirection2(
+                                                                  context)
+                                                              ? 'SF Arabic'
+                                                              : 'SF Pro',
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: width * 0.055,
+                                  ),
+                                  const Divider(
+                                    color: lightGrey,
+                                  ),
+                                  SizedBox(
+                                    height: width * 0.077,
+                                  ),
+                                ],
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -2696,6 +2956,53 @@ class _EditHospitalityState extends State<EditHospitality> {
                                               ),
                                             ],
                                           ),
+                                        ),
+                                        const SizedBox(width: 12),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Radio<int>(
+                                              value: 4,
+                                              groupValue: _selectedRadio2,
+                                              onChanged: _updateMeal,
+                                              materialTapTargetSize:
+                                                  MaterialTapTargetSize
+                                                      .shrinkWrap,
+                                              visualDensity:
+                                                  const VisualDensity(
+                                                      horizontal: -4,
+                                                      vertical: -4),
+                                              fillColor: WidgetStateProperty
+                                                  .resolveWith<Color>(
+                                                      (Set<WidgetState>
+                                                          states) {
+                                                if (states.contains(
+                                                    WidgetState.selected)) {
+                                                  return colorGreen;
+                                                }
+                                                return dotGreyColor;
+                                              }),
+                                            ),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              'snack'.tr,
+                                              style: TextStyle(
+                                                color: const Color(0xFF41404A),
+                                                fontSize: 13,
+                                                fontFamily:
+                                                    AppUtil.rtlDirection2(
+                                                            context)
+                                                        ? 'SF Arabic'
+                                                        : 'SF Pro',
+                                                fontWeight: FontWeight.w500,
+                                                height: 0,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),

@@ -133,10 +133,13 @@ class _DrivingSheetState extends State<DrivingSheet> {
                       text:
                           _authController.updatedDrivingWithoutHijri.isNotEmpty
                               ? _authController.updatedDrivingWithoutHijri.value
-                              : AppUtil.convertHijriToGregorian(
-                                  AppUtil.convertIsoDateToFormattedDate(
-                                      _profileController
-                                          .profile.drivingLicenseExpiryDate!)),
+                              : _profileController
+                                      .profile.drivingLicenseExpiryDate!.isEmpty
+                                  ? 'mm/dd/yyy'.tr
+                                  : AppUtil.convertHijriToGregorian(
+                                      AppUtil.convertIsoDateToFormattedDate(
+                                          _profileController.profile
+                                              .drivingLicenseExpiryDate!)),
                       color: Graytext,
                       fontSize: MediaQuery.of(context).size.width * 0.038,
                       fontWeight: FontWeight.w400,

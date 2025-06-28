@@ -51,12 +51,19 @@ class AccountTile extends StatelessWidget {
                 height: MediaQuery.of(context).size.width * 0.030,
               ),
             if (subtitle != null) ...[
-              CustomText(
-                text: subtitle,
-                fontSize: MediaQuery.of(context).size.width * 0.038,
-                fontFamily: AppUtil.SfFontType(context),
-                color: almostGrey,
-                fontWeight: FontWeight.w400,
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.6,
+                ),
+                child: CustomText(
+                  softWrap: true,
+                  text: subtitle,
+                  maxlines: 3,
+                  fontSize: MediaQuery.of(context).size.width * 0.038,
+                  fontFamily: AppUtil.SfFontType(context),
+                  color: almostGrey,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.035,
