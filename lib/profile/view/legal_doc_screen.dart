@@ -37,17 +37,22 @@ class _LegalDocumentState extends State<LegalDocument> {
                             .profile.drivingLicenseExpiryDate!.isEmpty
                         ? true
                         : false,
-                    subtitle: AppUtil.convertHijriToGregorian(
-                        AppUtil.convertIsoDateToFormattedDate(_profileController
-                            .profile.drivingLicenseExpiryDate!)),
+                    subtitle: _profileController
+                            .profile.drivingLicenseExpiryDate!.isEmpty
+                        ? 'mm/dd/yyy'.tr
+                        : AppUtil.convertHijriToGregorian(
+                            AppUtil.convertIsoDateToFormattedDate(
+                                _profileController
+                                    .profile.drivingLicenseExpiryDate!)),
                     onTap: () {
                       Get.bottomSheet(const DrivingSheet());
                     },
                   ),
           ),
-          const Divider(
-            color: lightGrey,
-          ),
+          if (_profileController.profile.drivingLicenseExpiryDate!.isNotEmpty)
+            const Divider(
+              color: lightGrey,
+            ),
           SizedBox(
             height: width * 0.05,
           ),

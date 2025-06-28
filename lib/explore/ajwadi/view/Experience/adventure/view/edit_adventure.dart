@@ -1,11 +1,14 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:ajwad_v4/api/translation_api.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/add_event_calender_dialog.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/widget/image_slider.dart';
 import 'package:ajwad_v4/request/ajwadi/view/view_experience_images.dart';
+import 'package:ajwad_v4/request/ajwadi/view/widget/include_card.dart';
+import 'package:ajwad_v4/request/ajwadi/view/widget/review_include_card.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/controller/hospitality_controller.dart';
@@ -130,6 +133,8 @@ class _EditAdventureState extends State<EditAdventure> {
     _servicesController.isAdventureDateSelcted(false);
     _servicesController.selectedDate('');
     _servicesController.selectedDateIndex(-1);
+    _servicesController.reviewincludeItenrary([]);
+
     _loadImages();
 
     updateData();
@@ -154,59 +159,25 @@ class _EditAdventureState extends State<EditAdventure> {
   }
 
   Future<bool> uploadImages() async {
-    List<dynamic> imagesToUpload = [];
-    bool allExtensionsValid = true;
-
-    // Allowed formats
-    final allowedFormats = ['jpg', 'jpeg', 'png'];
+    imageUrls.clear();
 
     for (int i = 0; i < _servicesController.images.length; i++) {
       var image = _servicesController.images[i];
-
-      // Check if the path is a URL
       if (image is String && Uri.parse(image).isAbsolute) {
         imageUrls.add(image);
       } else {
-        String fileExtension = image.path.split('.').last.toLowerCase();
-
-        if (!allowedFormats.contains(fileExtension)) {
-          allExtensionsValid = false;
-        } else {
-          imagesToUpload.add(image);
-        }
-      }
-    }
-
-    if (!allExtensionsValid) {
-      // if (context.mounted) {
-      //   AppUtil.errorToast(context,
-      //     'uploadError'.tr);
-      //   await Future.delayed(const Duration(seconds: 3));
-      // }
-      return false;
-    }
-
-    // Upload images that are not URLs
-
-    for (var imageFile in imagesToUpload) {
-      try {
-        final uploadedImage = await _eventController.uploadProfileImages(
-          file: File(imageFile.path),
+        final imageFile = await _eventController.uploadProfileImages(
+          file: File(image.path),
           fileType: "adventures",
           context: context,
         );
 
-        if (uploadedImage != null) {
-          log('valid');
-          imageUrls.add(uploadedImage.filePath);
-          log(uploadedImage.filePath);
+        if (imageFile != null) {
+          log('Uploaded: ${imageFile.filePath}');
+          imageUrls.add(imageFile.filePath);
         } else {
-          log('not valid');
-          // return false;
+          log('Upload failed for ${image.path}');
         }
-      } catch (e) {
-        log('Error uploading file ${imageFile.path}: $e');
-        return false;
       }
     }
 
@@ -314,12 +285,96 @@ class _EditAdventureState extends State<EditAdventure> {
   bool PriceLarger = false;
   bool PriceDouble = false;
 
+  List<String> priceIncludesEn = [];
+  List<String> priceIncludesZh = [];
   bool? DateDurationError;
 
   AjwadiExploreController ajwadiExploreController =
       Get.put(AjwadiExploreController());
 
   String gender = '';
+
+  Future<void> translateIncludesList() async {
+    final current = _servicesController.reviewincludeItenrary;
+
+    if (current.isNotEmpty) {
+      for (int i = 0; i < current.length; i++) {
+        final isNew = i >= widget.adventureObj.priceIncludesAr!.length;
+        final isChanged = !isNew &&
+            current[i].trim() != widget.adventureObj.priceIncludesAr![i].trim();
+
+        if ((isNew || isChanged) && current[i].trim().isNotEmpty) {
+          final translatedEn = await TranslationApi.translate(current[i], 'en');
+          final translatedZh = await TranslationApi.translate(current[i], 'zh');
+          if (translatedEn.trim().isNotEmpty) {
+            if (isNew) {
+              widget.adventureObj.priceIncludesEn!.add(translatedEn.trim());
+            } else {
+              widget.adventureObj.priceIncludesEn![i] = translatedEn.trim();
+            }
+          }
+          if (translatedZh.trim().isNotEmpty) {
+            if (isNew) {
+              widget.adventureObj.priceIncludesZh!.add(translatedZh.trim());
+            } else {
+              widget.adventureObj.priceIncludesZh![i] = translatedZh.trim();
+            }
+          }
+        }
+      }
+    } else {
+      widget.adventureObj.priceIncludesEn!.clear();
+      widget.adventureObj.priceIncludesZh!.clear();
+    }
+  }
+
+  Future<void> translateDescriptionFields() async {
+    try {
+      final currentTitleArValue = adventureTitleControllerAr.text;
+      final currentBioeArValue = adventureBioControllerAr.text;
+
+      final currentTitleEnValue = adventureTitleControllerEn.text;
+      final currentBioEnValue = adventureBioControllerEn.text;
+
+      if ((currentTitleArValue != widget.adventureObj.nameAr &&
+          currentTitleArValue.isNotEmpty)) {
+        final translatedTitleZh =
+            await TranslationApi.translate(currentTitleArValue, 'zh');
+
+        if (translatedTitleZh.isNotEmpty) {
+          _servicesController.titleZh.value = translatedTitleZh;
+        }
+      } else if ((currentTitleEnValue != widget.adventureObj.nameEn &&
+          currentTitleEnValue.isNotEmpty)) {
+        final translatedTitleZh =
+            await TranslationApi.translate(currentTitleEnValue, 'zh');
+
+        if (translatedTitleZh.isNotEmpty) {
+          _servicesController.titleZh.value = translatedTitleZh;
+        }
+      }
+      if ((currentBioeArValue != widget.adventureObj.descriptionAr &&
+          currentBioeArValue.isNotEmpty)) {
+        final translatedBioZh =
+            await TranslationApi.translate(currentBioeArValue, 'zh');
+        if (translatedBioZh.isNotEmpty) {
+          _servicesController.desZh.value = translatedBioZh;
+        }
+      } else if ((currentBioEnValue != widget.adventureObj.descriptionEn &&
+          currentBioEnValue.isNotEmpty)) {
+        final translatedBioZh =
+            await TranslationApi.translate(currentBioEnValue, 'zh');
+        if (translatedBioZh.isNotEmpty) {
+          _servicesController.desZh.value = translatedBioZh;
+        }
+      }
+    } catch (e) {
+      log('Translation failed: $e');
+      TranslationApi.isTranslatingLoading.value = false;
+    } finally {
+      TranslationApi.isTranslatingLoading.value = false;
+    }
+  }
 
   Future<void> validateAndSave() async {
     setState(() {
@@ -381,15 +436,24 @@ class _EditAdventureState extends State<EditAdventure> {
         !_servicesController.TimeErrorMessage.value &&
         !_servicesController.newRangeTimeErrorMessage.value && //new srs
         _servicesController.images.length >= 3) {
-      if (await uploadImages()) {
-        addDaysInfo();
-        _updateAdventure();
-      } else {
-        if (context.mounted) {
-          AppUtil.errorToast(context, 'uploadError'.tr);
-          await Future.delayed(const Duration(seconds: 3));
-        }
-      }
+      // if (await uploadImages()) {
+      imageUrls = await AppUtil.uploadImagesHelper(
+          PickedImages: _servicesController.images,
+          imageUrl: imageUrls,
+          controller: _eventController,
+          fileType: 'adventures',
+          context: context);
+      addDaysInfo();
+      await translateDescriptionFields();
+      await translateIncludesList();
+      await _updateAdventure();
+      // }
+      // else {
+      //   if (context.mounted) {
+      //     AppUtil.errorToast(context, 'uploadError'.tr);
+      //     await Future.delayed(const Duration(seconds: 3));
+      //   }
+      // }
     } else {
       if (_servicesController.DateErrorMessage.value) {
         if (context.mounted) {
@@ -423,6 +487,9 @@ class _EditAdventureState extends State<EditAdventure> {
 
       adventureTitleControllerEn.text = widget.adventureObj.nameEn!;
       adventureBioControllerEn.text = widget.adventureObj.descriptionEn!;
+
+      _servicesController.titleZh.value = widget.adventureObj.nameZh!;
+      _servicesController.desZh.value = widget.adventureObj.descriptionZh!;
 
       guestNum = widget.adventureObj.daysInfo!.isNotEmpty
           ? widget.adventureObj.daysInfo!.first.seats
@@ -476,6 +543,9 @@ class _EditAdventureState extends State<EditAdventure> {
           double.parse(widget.adventureObj.coordinates!.longitude ?? ''));
 
       locationUrl = getLocationUrl(_servicesController.pickUpLocLatLang.value);
+
+      _servicesController.reviewincludeItenrary.value =
+          widget.adventureObj.priceIncludesAr!.toList();
     });
   }
 
@@ -502,8 +572,13 @@ class _EditAdventureState extends State<EditAdventure> {
         id: widget.adventureObj.id,
         nameAr: adventureTitleControllerAr.text,
         nameEn: adventureTitleControllerEn.text,
+        nameZh: _servicesController.titleZh.value,
         descriptionAr: adventureBioControllerAr.text,
         descriptionEn: adventureBioControllerEn.text,
+        descriptionZh: _servicesController.desZh.value,
+        priceIncludesAr: _servicesController.reviewincludeItenrary,
+        priceIncludesEn: widget.adventureObj.priceIncludesEn,
+        priceIncludesZh: widget.adventureObj.priceIncludesZh,
         longitude:
             _servicesController.pickUpLocLatLang.value.longitude.toString(),
         latitude:
@@ -805,6 +880,7 @@ class _EditAdventureState extends State<EditAdventure> {
                         left: 16.0, right: 16.0, bottom: 24.0, top: 16),
                     child: Obx(
                       () => _eventController.isImagesLoading.value ||
+                              TranslationApi.isTranslatingLoading.value ||
                               _servicesController.isEditAdveentureLoading.value
                           ? const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 160),
@@ -1310,6 +1386,179 @@ class _EditAdventureState extends State<EditAdventure> {
                                 SizedBox(
                                   height: width * 0.077,
                                 ),
+                                if ((widget.adventureObj.priceIncludesAr
+                                        ?.isNotEmpty ??
+                                    false)) ...[
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CustomText(
+                                        text: 'priceInclude'.tr,
+                                        color: black,
+                                        fontSize: 17,
+                                        fontFamily: AppUtil.SfFontType(context),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      SizedBox(
+                                        height: width * 0.02,
+                                      ),
+                                      // SizedBox(
+                                      //   height: width * 0.012,
+                                      // ),
+                                      Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          // SizedBox(
+                                          //   height: width * 0.050,
+                                          // ),
+                                          SizedBox(
+                                            height: width * 0.012,
+                                          ),
+                                          Obx(
+                                            () => ListView.separated(
+                                              separatorBuilder:
+                                                  (context, index) => SizedBox(
+                                                height: width * 0.02,
+                                              ),
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const BouncingScrollPhysics(),
+                                              itemCount: _servicesController
+                                                  .reviewincludeItenrary.length,
+                                              itemBuilder: (context, index) =>
+                                                  ReivewIncludeCard(
+                                                indx: index,
+                                                include: _servicesController
+                                                        .reviewincludeItenrary[
+                                                    index],
+                                                experienceController:
+                                                    _servicesController,
+                                              ),
+                                            ),
+                                          ),
+                                          Obx(() => _servicesController
+                                                  .reviewincludeItenrary
+                                                  .isNotEmpty
+                                              ? SizedBox(
+                                                  height: width * 0.04,
+                                                )
+                                              : const SizedBox.shrink()),
+
+                                          Obx(() => ListView.separated(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 4),
+                                                shrinkWrap: true,
+                                                physics:
+                                                    const NeverScrollableScrollPhysics(),
+                                                separatorBuilder: (context,
+                                                        index) =>
+                                                    SizedBox(
+                                                        height: width * 0.06),
+                                                itemCount: _servicesController
+                                                    .includeList.length,
+                                                itemBuilder: (context, index) {
+                                                  return _servicesController
+                                                      .includeList[index];
+                                                },
+                                              )),
+                                          // SizedBox(height: width * 0.06),
+
+                                          // Add Button
+                                          GestureDetector(
+                                            onTap: () {
+                                              if (_servicesController
+                                                      .includeCount >=
+                                                  1) {
+                                                return;
+                                              }
+                                              _servicesController.includeList
+                                                  .add(
+                                                IncludeCard(
+                                                  indx: _servicesController
+                                                      .includeCount.value,
+                                                  experienceController:
+                                                      _servicesController,
+                                                ),
+                                              );
+                                              _servicesController
+                                                  .includeCount++;
+                                            },
+                                            child: Obx(
+                                              () => Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: width * 0.01,
+                                                    top: _servicesController
+                                                            .includeList.isEmpty
+                                                        ? 0
+                                                        : width * 0.050,
+                                                    // bottom: width * 0.06,
+                                                    right: width * 0.01),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      // height: width * 0.06,
+                                                      // width: width * 0.06,
+                                                      alignment:
+                                                          Alignment.center,
+                                                      decoration:
+                                                          ShapeDecoration(
+                                                        color: colorGreen,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      9999),
+                                                        ),
+                                                      ),
+                                                      child: Icon(
+                                                        Icons.add,
+                                                        color: Colors.white,
+                                                        size: width * 0.06,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                        width: width * 0.02),
+                                                    CustomText(
+                                                      text: "addNewPoint".tr,
+                                                      fontSize: width * 0.038,
+                                                      fontFamily:
+                                                          AppUtil.rtlDirection2(
+                                                                  context)
+                                                              ? 'SF Arabic'
+                                                              : 'SF Pro',
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: width * 0.055,
+                                  ),
+                                  const Divider(
+                                    color: lightGrey,
+                                  ),
+                                  SizedBox(
+                                    height: width * 0.077,
+                                  ),
+                                ],
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [

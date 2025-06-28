@@ -261,14 +261,23 @@ class _LocalProfileState extends State<LocalProfile> {
                             maxLines: 10,
                             keyboardType: TextInputType.multiline,
                           )
-                        : CustomText(
-                            text: _profileController.profile.descriptionAboutMe,
-                            fontSize: width * 0.038,
-                            fontFamily: AppUtil.SfFontType(context),
-                            fontWeight: FontWeight.w400,
-                            color: starGreyColor,
-                            maxlines: 20,
-                          ),
+                        : _profileController.profile.descriptionAboutMe!.isEmpty
+                            ? CustomText(
+                                text: 'tellUsMore'.tr,
+                                fontSize: width * 0.038,
+                                fontFamily: AppUtil.SfFontType(context),
+                                fontWeight: FontWeight.w400,
+                                color: starGreyColor,
+                              )
+                            : CustomText(
+                                text: _profileController
+                                    .profile.descriptionAboutMe,
+                                fontSize: width * 0.038,
+                                fontFamily: AppUtil.SfFontType(context),
+                                fontWeight: FontWeight.w400,
+                                color: starGreyColor,
+                                maxlines: 20,
+                              ),
                     SizedBox(
                       height: width * 0.05,
                     ),
@@ -329,26 +338,38 @@ class _LocalProfileState extends State<LocalProfile> {
                           )
                         : SizedBox(
                             height: width * 0.087,
-                            child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: _profileController
-                                  .profile.spokenLanguage!.length,
-                              shrinkWrap: true,
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(
-                                width: 5,
-                              ),
-                              itemBuilder: (context, index) => Obx(
-                                () => _profileController.isProfileLoading.value
-                                    ? const CircularProgressIndicator.adaptive()
-                                    : CustomChips(
-                                        title: _profileController
-                                            .profile.spokenLanguage![index].tr,
-                                        backgroundColor: Colors.transparent,
-                                        borderColor: almostGrey,
-                                        textColor: almostGrey),
-                              ),
-                            ),
+                            child: _profileController
+                                    .profile.spokenLanguage!.isEmpty
+                                ? CustomText(
+                                    text: 'languages'.tr,
+                                    fontSize: width * 0.038,
+                                    fontFamily: AppUtil.SfFontType(context),
+                                    fontWeight: FontWeight.w400,
+                                    color: starGreyColor,
+                                  )
+                                : ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: _profileController
+                                        .profile.spokenLanguage!.length,
+                                    shrinkWrap: true,
+                                    separatorBuilder: (context, index) =>
+                                        const SizedBox(
+                                      width: 5,
+                                    ),
+                                    itemBuilder: (context, index) => Obx(
+                                      () => _profileController
+                                              .isProfileLoading.value
+                                          ? const CircularProgressIndicator
+                                              .adaptive()
+                                          : CustomChips(
+                                              title: _profileController.profile
+                                                  .spokenLanguage![index].tr,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              borderColor: almostGrey,
+                                              textColor: almostGrey),
+                                    ),
+                                  ),
                           ),
                     SizedBox(
                       height: width * 0.05,

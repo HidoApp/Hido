@@ -8,8 +8,15 @@ class Event {
   final String id;
   final String? nameAr;
   final String? nameEn;
+  final String? nameZh;
+
   final String? descriptionAr;
   final String? descriptionEn;
+  final String? descriptionZh;
+
+  final List<String>? priceIncludesEn;
+  final List<String>? priceIncludesAr;
+  final List<String>? priceIncludesZh;
   final int? price;
   final List<String>? image;
   final String? regionAr;
@@ -36,8 +43,13 @@ class Event {
       this.descriptionAr,
       this.rating,
       this.descriptionEn,
+      this.descriptionZh,
+      this.priceIncludesAr,
+      this.priceIncludesEn,
+      this.priceIncludesZh,
       this.nameAr,
       this.nameEn,
+      this.nameZh,
       this.regionAr,
       this.regionEn,
       this.image,
@@ -70,11 +82,29 @@ class Event {
       cost: json['cost'] ?? "",
       descriptionAr: json['descriptionAr'] ?? '',
       descriptionEn: json['descriptionEn'] ?? '',
+
+      descriptionZh: json['descriptionZh'] ?? '',
+      priceIncludesAr: json['priceIncludesAr'] != null
+          ? (json['priceIncludesAr'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList()
+          : [],
+      priceIncludesEn: json['priceIncludesEn'] != null
+          ? (json['priceIncludesEn'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList()
+          : [],
+      priceIncludesZh: json['priceIncludesZh'] != null
+          ? (json['priceIncludesZh'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList()
+          : [],
       nameAr: json['nameAr'] ?? '',
       nameEn: json['nameEn'] ?? '',
+      nameZh: json['nameZh'] ?? '',
       regionAr: json['regionAr'] ?? '',
       regionEn: json['regionEn'] ?? '',
-      image: List<String>.from(json["image"]),
+      image: json['image'] != null ? List<String>.from(json["image"]) : null,
       price: json['price'] ?? 0,
       locationUrl: json['locationUrl'] ?? '',
       allowedGuests: json['allowedGuests'] ?? 0,
@@ -113,8 +143,13 @@ class Event {
     String? id,
     String? nameAr,
     String? nameEn,
+    String? nameZh,
     String? descriptionAr,
     String? descriptionEn,
+    String? descriptionZh,
+    List<String>? priceIncludesEn,
+    List<String>? priceIncludesAr,
+    List<String>? priceIncludesZh,
     bool? allowCoupons,
     bool? hasFreeBooking,
     int? totalSeats,
@@ -140,6 +175,11 @@ class Event {
       nameEn: nameEn ?? this.nameEn,
       descriptionAr: descriptionAr ?? this.descriptionAr,
       descriptionEn: descriptionEn ?? this.descriptionEn,
+      nameZh: nameZh ?? this.nameZh,
+      descriptionZh: descriptionZh ?? this.descriptionZh,
+      priceIncludesAr: priceIncludesAr ?? this.priceIncludesAr,
+      priceIncludesEn: priceIncludesEn ?? this.priceIncludesEn,
+      priceIncludesZh: priceIncludesZh ?? this.priceIncludesZh,
       price: price ?? this.price,
       image: image != null ? List<String>.from(image) : this.image,
       regionAr: regionAr ?? this.regionAr,

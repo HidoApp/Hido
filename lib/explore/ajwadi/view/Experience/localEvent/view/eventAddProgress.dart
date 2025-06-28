@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/api/translation_api.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/view/event_info_review.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/widget/add_event_info.dart';
@@ -202,6 +204,17 @@ class _EventAddProgressState extends State<EventAddProgress> {
     return "";
   }
 
+  Future<void> translateTitleIfChanged() async {
+    final current = _EventController.titleAr.value;
+
+    if (current.isNotEmpty &&
+        current != _EventController.lastTranslatedTitleAr) {
+      final translated = await TranslationApi.translate(current, 'en');
+      _EventController.titleEn.value = translated;
+      _EventController.lastTranslatedTitleAr = current;
+    }
+  }
+
   Widget nextButton() {
     return Obx(
       () => IgnorePointer(
@@ -215,11 +228,12 @@ class _EventAddProgressState extends State<EventAddProgress> {
                   activeIndex++;
                 });
               } else if (activeIndex == totalIndex - 1) {
-                final translatedText = await TranslationApi.translate(
-                  _EventController.titleAr.value,
-                  'en',
-                );
-                _EventController.titleEn.value = translatedText;
+                await translateTitleIfChanged();
+                // final translatedText = await TranslationApi.translate(
+                //   _EventController.titleAr.value,
+                //   'en',
+                // );
+                // _EventController.titleEn.value = translatedText;
                 Get.to(() => EventInfoReview(
                       hospitalityTitleEn: _EventController.titleEn.value,
                       // hospitalityBioEn: _EventController.bioEn.value,

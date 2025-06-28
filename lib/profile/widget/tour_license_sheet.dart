@@ -147,7 +147,7 @@ class _TourLicenseSheetState extends State<TourLicenseSheet> {
                       title: 'update'.tr,
                       buttonColor: !(_profileController.isPdfValidSize.value &&
                               pdfFile != null)
-                          ? textlightGreen
+                          ? colorlightGreen
                           : colorGreen,
                       borderColor: !(_profileController.isPdfValidSize.value &&
                               pdfFile != null)

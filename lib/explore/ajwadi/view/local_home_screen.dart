@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/last_activity.dart';
@@ -48,6 +49,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
   final _requestController = Get.put(RequestController());
   final PaymentController _paymentController = Get.put(PaymentController());
   final _notifyController = Get.put(NotificationController());
+  final _authController = Get.put(AuthController());
 
   NextActivity? nextTrip;
 
@@ -87,6 +89,7 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
   Widget build(BuildContext context) {
     final double width = MediaQuery.sizeOf(context).width;
     final double height = MediaQuery.sizeOf(context).height;
+
     return Obx(
       () => Skeletonizer(
         enabled: _profileController.isProfileLoading.value,
@@ -347,14 +350,18 @@ class _LocalHomeScreenState extends State<LocalHomeScreen> {
                           const SizedBox(height: 27),
                           Obx(
                             () => Skeletonizer(
-                              enabled: _tripController
-                                      .isNextActivityLoading.value ||
-                                  _requestController.isRequestEndLoading.value,
+                              enabled:
+                                  _tripController.isNextActivityLoading.value ||
+                                      _requestController
+                                          .isRequestEndLoading.value ||
+                                      _authController.isCheckLocalLoading.value,
                               child: (_profileController.profile.accountType !=
                                           'EXPERIENCES' &&
                                       _profileController
                                               .profile.tourGuideLicense !=
-                                          '')
+                                          '' &&
+                                      !_authController
+                                          .isNotCompleteLocalInfo.value)
                                   ? !_tripController.isTripUpdated.value ||
                                           _tripController
                                               .nextTrip.value.id!.isEmpty

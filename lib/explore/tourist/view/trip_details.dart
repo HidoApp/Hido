@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
@@ -729,8 +728,8 @@ class _TripDetailsState extends State<TripDetails> {
                   Positioned(
                     top: height * 0.066,
                     right: AppUtil.rtlDirection2(context)
-                        ? width * 0.85
-                        : width * 0.09,
+                        ? width * 0.7
+                        : width * 0.65,
                     height: 40,
                     child: Row(
                       children: [

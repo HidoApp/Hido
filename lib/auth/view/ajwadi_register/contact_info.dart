@@ -146,6 +146,11 @@ class _ContactInfoState extends State<ContactInfo> {
                             Get.offAll(() => const AjwadiBottomBar());
                             _storage.remove('localName');
                             storage.write('userRole', 'local');
+                            // if (!mounted)
+                            //   return; // Check if the widget is still mounted
+                            // _authController.checkLocalInfo(context: context);
+                          } else {
+                            return;
                           }
                         },
                         title: 'signUp'.tr,

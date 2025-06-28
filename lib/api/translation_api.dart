@@ -29,8 +29,13 @@ class TranslationApi {
 
         return HtmlUnescape().convert(translation['translatedText']);
       } else {
-        throw Exception();
+        return '';
       }
+    } catch (e) {
+      print('Translation failed: $e');
+      isTranslatingLoading.value = false;
+
+      return '';
     } finally {
       isTranslatingLoading.value = false;
     }

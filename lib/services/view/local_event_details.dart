@@ -329,7 +329,11 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                   ),
                                   CustomText(
                                     text: !widget.isLocal
-                                        ? address
+                                        ? address.isEmpty
+                                            ? AppUtil.rtlDirection2(context)
+                                                ? '${event!.regionAr}'
+                                                : event!.regionEn
+                                            : address
                                         : AppUtil.rtlDirection2(context)
                                             ? '${event!.regionAr}, ${widget.address}'
                                             : '${event!.regionEn}, ${widget.address}',
@@ -354,15 +358,21 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                     SizedBox(
                                       width: width * 0.012,
                                     ),
-                                    CustomText(
-                                      text: AppUtil.formatSelectedDaysInfo(
-                                          event!.daysInfo!, context),
-                                      color: colorDarkGrey,
-                                      fontSize: width * 0.038,
-                                      fontWeight: FontWeight.w300,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
+                                    Expanded(
+                                      child: CustomText(
+                                        text: AppUtil.formatSelectedDaysInfo(
+                                            event!.daysInfo!, context),
+                                        maxlines: 1,
+                                        textOverflow: TextOverflow.ellipsis,
+                                        softWrap: true,
+                                        color: colorDarkGrey,
+                                        fontSize: width * 0.038,
+                                        fontWeight: FontWeight.w300,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -427,6 +437,69 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                               SizedBox(
                                 height: width * 0.025,
                               ),
+                              if (event != null &&
+                                  ((event!.priceIncludesAr?.isNotEmpty ??
+                                          false) &&
+                                      (event!.priceIncludesEn?.isNotEmpty ??
+                                          false) &&
+                                      (event!.priceIncludesZh?.isNotEmpty ??
+                                          false))) ...[
+                                Align(
+                                    alignment: AppUtil.rtlDirection2(context)
+                                        ? Alignment.centerRight
+                                        : Alignment.centerLeft,
+                                    child: CustomText(
+                                      text: "priceInclude".tr,
+                                      fontSize: width * 0.043,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'HT Rakik',
+                                    )),
+                                SizedBox(
+                                  height: width * 0.021,
+                                ),
+                                Align(
+                                  alignment: AppUtil.rtlDirection2(context)
+                                      ? Alignment.centerRight
+                                      : Alignment.centerLeft,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: (AppUtil.rtlDirection2(context)
+                                            ? event!.priceIncludesAr
+                                            : event!.priceIncludesEn)!
+                                        .map((item) => Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(width: width * 0.021),
+                                                CustomText(
+                                                  text: '•   $item',
+                                                  fontSize: width * 0.039,
+                                                  fontFamily:
+                                                      AppUtil.SfFontType(
+                                                          context),
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ],
+                                            ))
+                                        .toList(),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: width * 0.012,
+                                ),
+                                SizedBox(
+                                  height: width * 0.025,
+                                ),
+                                const Divider(
+                                  color: lightGrey,
+                                ),
+                                SizedBox(
+                                  height: width * 0.025,
+                                ),
+                              ],
                               Align(
                                   alignment: AppUtil.rtlDirection2(context)
                                       ? Alignment.centerRight
@@ -676,7 +749,7 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                       Positioned(
                           top: height * 0.066,
                           right: AppUtil.rtlDirection2(context)
-                              ? width * 0.75
+                              ? width * 0.7
                               //  ? width * 0.82
                               //  :width * 0.72
                               : width * 0.065,

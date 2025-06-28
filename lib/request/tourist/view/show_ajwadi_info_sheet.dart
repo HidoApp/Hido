@@ -321,7 +321,7 @@ class _ShowAjwadiInfoSheetState extends State<ShowAjwadiInfoSheet>
                         ));
                   }
                 },
-                iconColor: colorDarkGreen,
+                iconColor: colorGreen,
                 italic: AppUtil.rtlDirection(context) ? false : true,
                 title: (_offerController.offerDetails.value.payment != null &&
                         _offerController

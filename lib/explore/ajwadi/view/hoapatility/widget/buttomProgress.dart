@@ -249,6 +249,17 @@ class _ButtomProgressState extends State<ButtomProgress> {
     return ""; // Add validation for other steps if needed
   }
 
+  Future<void> translateTitleIfChanged() async {
+    final current = hospitalityTitleControllerAr.text;
+
+    if (current.isNotEmpty &&
+        current != _hospitalityController.lastTranslatedTitleAr) {
+      final translated = await TranslationApi.translate(current, 'en');
+      hospitalityBioControllerEn.text = translated;
+      _hospitalityController.lastTranslatedTitleAr = current;
+    }
+  }
+
   Widget nextButton() {
     if (activeIndex != 0) {
       return Obx(() {
@@ -263,11 +274,12 @@ class _ButtomProgressState extends State<ButtomProgress> {
                     activeIndex++;
                   });
                 } else if (activeIndex == totalIndex - 1) {
-                  final translatedText = await TranslationApi.translate(
-                    hospitalityTitleControllerAr.text,
-                    'en',
-                  );
-                  hospitalityTitleControllerEn.text = translatedText;
+                  await translateTitleIfChanged();
+                  // final translatedText = await TranslationApi.translate(
+                  //   hospitalityTitleControllerAr.text,
+                  //   'en',
+                  // );
+                  // hospitalityTitleControllerEn.text = translatedText;
                   Get.to(() => HostInfoReview(
                         hospitalityTitleEn: hospitalityTitleControllerEn.text,
                         // hospitalityBioEn: hospitalityBioControllerEn.text,
@@ -2117,12 +2129,19 @@ class _SelectDateTimeState extends State<SelectDateTime> {
       if (_selectedRadio == 1) {
         widget.hospitalityController.selectedMealEn.value = "BREAKFAST";
         widget.hospitalityController.selectedMealAr.value = "إفطار";
+        widget.hospitalityController.selectedMealZh.value = "早餐";
       } else if (_selectedRadio == 3) {
         widget.hospitalityController.selectedMealEn.value = "Dinner";
         widget.hospitalityController.selectedMealAr.value = "عشاء";
+        widget.hospitalityController.selectedMealZh.value = '晚餐';
       } else if (_selectedRadio == 2) {
         widget.hospitalityController.selectedMealEn.value = "LUNCH";
         widget.hospitalityController.selectedMealAr.value = "غداء";
+        widget.hospitalityController.selectedMealZh.value = '午餐';
+      } else if (_selectedRadio == 4) {
+        widget.hospitalityController.selectedMealEn.value = "SNACK";
+        widget.hospitalityController.selectedMealAr.value = "وجبة خفيفة";
+        widget.hospitalityController.selectedMealZh.value = '小吃';
       }
 
       // widget.onGenderChanged(gender!);  // Call the callback with the new gender value
@@ -2877,6 +2896,40 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                       ),
                     ],
                   ),
+                  const SizedBox(width: 12),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Radio<int>(
+                        value: 4,
+                        groupValue: _selectedRadio,
+                        onChanged: _updateMeal,
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        visualDensity:
+                            const VisualDensity(horizontal: -4, vertical: -4),
+                        fillColor: WidgetStateProperty.resolveWith<Color>(
+                            (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.selected)) {
+                            return colorGreen;
+                          }
+                          return dotGreyColor;
+                        }),
+                      ),
+                      const SizedBox(width: 4),
+                      CustomText(
+                        text: 'snack'.tr,
+                        color: const Color(0xFF41404A),
+                        fontSize: 13,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ],
@@ -2988,7 +3041,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
         const SizedBox(height: 2),
         CustomText(
           text: 'changePrice'.tr,
-          color: starGreyColor,
+          color: grayDarkText,
           fontSize: 15,
           fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
           fontWeight: FontWeight.w500,
@@ -2996,44 +3049,38 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
         const SizedBox(height: 20),
         Container(
           width: double.infinity,
-          height: 121,
-          padding: const EdgeInsets.only(left: 16, right: 8, bottom: 20),
+          // height: 121,
+          padding: const EdgeInsets.only(
+            left: 16,
+            right: 8,
+            bottom: 30,
+          ),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: errorMessage.isNotEmpty ? Colors.red : Colors.white,
+              color: errorMessage.isNotEmpty ? colorRed : borderGreyColor,
             ),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x3FC7C7C7),
-                blurRadius: 15,
-                offset: Offset(0, 0),
-                spreadRadius: 0,
-              ),
-            ],
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 2),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    IconButton(
-                      icon: SvgPicture.asset('assets/icons/editPin.svg'),
-                      onPressed: () {
-                        setState(() {
-                          isEditing = !isEditing;
-                        });
-                      },
-                    ),
-                  ],
+              IconButton(
+                focusColor: null,
+                color: null,
+                highlightColor: null,
+                splashColor: null,
+                disabledColor: null,
+                icon: SvgPicture.asset(
+                  'assets/icons/editPin.svg',
                 ),
+                onPressed: () {
+                  setState(() {
+                    isEditing = !isEditing;
+                  });
+                },
               ),
               // const SizedBox(height: 1),
               SizedBox(
@@ -3059,7 +3106,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                             contentPadding: EdgeInsets.all(0),
                           ),
                           style: const TextStyle(
-                            color: Color(0xFF070708),
+                            color: black,
                             fontSize: 34,
                             fontFamily: 'HT Rakik',
                             fontWeight: FontWeight.w500,
@@ -3076,7 +3123,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                     else
                       CustomText(
                         text: widget.priceController.text,
-                        color: const Color(0xFF070708),
+                        color: black,
                         fontSize: 34,
                         fontFamily: 'HT Rakik',
                         fontWeight: FontWeight.w500,
@@ -3084,21 +3131,22 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                     const SizedBox(width: 4),
                     CustomText(
                       text: 'sar'.tr,
-                      color: const Color(0xFF070708),
+                      color: black,
                       fontSize: 34,
                       fontFamily: 'HT Rakik',
                       fontWeight: FontWeight.w500,
                     ),
                     const SizedBox(width: 4),
                     CustomText(
-                        text: 'Perperson'.tr,
-                        color: Graytext,
-                        fontSize: 12,
-                        fontFamily: AppUtil.rtlDirection2(context)
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                        fontWeight: FontWeight.w500,
-                        height: 3),
+                      text: 'Perperson'.tr,
+                      color: black,
+                      fontSize: 15,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                      fontWeight: FontWeight.w500,
+                      height: 2.1,
+                    ),
                   ],
                 ),
               ),
@@ -3107,25 +3155,25 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
         ),
         if (errorMessage.isNotEmpty && price != 150.0)
           Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.only(top: 4.0),
             child: CustomText(
               text: errorMessage,
-              color: Colors.red,
-              fontSize: 14,
+              color: colorRed,
+              fontSize: 11,
               fontFamily:
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
               fontWeight: FontWeight.w400,
             ),
           ),
-        const SizedBox(height: 50),
+        const SizedBox(height: 12),
         Container(
-          height: 130,
+          // height: 130,
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
           clipBehavior: Clip.antiAlias,
           decoration: ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(
-              side: const BorderSide(width: 1, color: Color(0xFFDCDCE0)),
+              side: const BorderSide(width: 1, color: borderGreyColor),
               borderRadius: BorderRadius.circular(8),
             ),
           ),
@@ -3141,7 +3189,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   children: [
                     CustomText(
                       text: 'Baseprice'.tr,
-                      color: graySmallText,
+                      color: medBlack,
                       fontSize: 15,
                       fontFamily: AppUtil.rtlDirection2(context)
                           ? 'SF Arabic'
@@ -3151,7 +3199,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                     const SizedBox(width: 8),
                     CustomText(
                       text: ' ${widget.priceController.text} ${'sar'.tr}',
-                      color: graySmallText,
+                      color: black,
                       fontSize: 15,
                       fontFamily: AppUtil.rtlDirection2(context)
                           ? 'SF Arabic'
@@ -3162,7 +3210,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 6,
               ),
               SizedBox(
                 width: double.infinity,
@@ -3193,15 +3241,15 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 2,
-              ),
+              // const SizedBox(
+              //   height: 2,
+              // ),
               const Divider(
                 color: lightGrey,
                 thickness: 1,
               ),
               const SizedBox(
-                height: 4,
+                height: 2,
               ),
               SizedBox(
                 width: double.infinity,
@@ -3217,7 +3265,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       fontFamily: AppUtil.rtlDirection2(context)
                           ? 'SF Arabic'
                           : 'SF Pro',
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w400,
                     ),
                     const SizedBox(width: 8),
                     CustomText(
@@ -3231,121 +3279,140 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   ],
                 ),
               ),
+              const SizedBox(
+                height: 2,
+              ),
             ],
           ),
         ),
-        // Column(
-        //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   children: [
-        //     // SizedBox(height: width * 0.060),
-        //     Padding(
-        //       padding: EdgeInsets.only(
-        //           left: width * 0.01,
-        //           top: width * 0.060,
-        //           bottom: width * 0.050,
-        //           right: width * 0.01),
-        //       child: CustomText(
-        //         text: 'price include'.tr,
-        //         color: black,
-        //         fontSize: 17,
-        //         fontFamily: AppUtil.SfFontType(context),
-        //         fontWeight: FontWeight.w500,
-        //       ),
-        //     ),
-        //     // SizedBox(height: width * 0.05),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // SizedBox(height: width * 0.060),
+            Padding(
+              padding: EdgeInsets.only(
+                  left: width * 0.01,
+                  top: width * 0.055,
+                  // bottom: width * 0.050,
+                  right: width * 0.01),
+              child: CustomText(
+                text: 'priceInclude'.tr,
+                color: black,
+                fontSize: 17,
+                fontFamily: AppUtil.SfFontType(context),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            SizedBox(
+              height: width * 0.020,
+            ),
+            CustomText(
+              text: 'priceIncludeDes'.tr,
+              textAlign: TextAlign.right,
+              color: const Color(0xFFB0B0B0) /* text-textTertiary */,
+              fontSize: 15,
+              fontFamily: AppUtil.SfFontType(context),
+              fontWeight: FontWeight.w500,
+            ),
+            // SizedBox(height: width * 0.05),
+            SizedBox(
+              height: width * 0.050,
+            ),
+            Obx(
+              () => ListView.separated(
+                separatorBuilder: (context, index) => SizedBox(
+                  height: width * 0.02,
+                ),
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                itemCount: _hospitalityController.reviewincludeItenrary.length,
+                itemBuilder: (context, index) => ReivewIncludeCard(
+                  indx: index,
+                  include: _hospitalityController.reviewincludeItenrary[index],
+                  experienceController: _hospitalityController,
+                ),
+              ),
+            ),
+            Obx(() => _hospitalityController.reviewincludeItenrary.isNotEmpty
+                ? SizedBox(
+                    height: width * 0.050,
+                  )
+                : const SizedBox.shrink()),
 
-        //     Obx(
-        //       () => ListView.separated(
-        //         separatorBuilder: (context, index) => SizedBox(
-        //           height: width * 0.03,
-        //         ),
-        //         shrinkWrap: true,
-        //         physics: const BouncingScrollPhysics(),
-        //         itemCount: _hospitalityController.reviewincludeItenrary.length,
-        //         itemBuilder: (context, index) => ReivewIncludeCard(
-        //           indx: index,
-        //           include: _hospitalityController.reviewincludeItenrary[index],
-        //           experienceController: _hospitalityController,
-        //         ),
-        //       ),
-        //     ),
-        //     Obx(() => _hospitalityController.reviewincludeItenrary.isNotEmpty
-        //         ? SizedBox(
-        //             height: width * 0.06,
-        //           )
-        //         : const SizedBox.shrink()),
+            Obx(() => ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  separatorBuilder: (context, index) =>
+                      SizedBox(height: width * 0.06),
+                  itemCount: _hospitalityController.includeList.length,
+                  itemBuilder: (context, index) {
+                    return _hospitalityController.includeList[index];
+                  },
+                )),
+            // SizedBox(height: width * 0.06),
 
-        //     Obx(() => ListView.separated(
-        //           shrinkWrap: true,
-        //           physics: const NeverScrollableScrollPhysics(),
-        //           separatorBuilder: (context, index) =>
-        //               SizedBox(height: width * 0.06),
-        //           itemCount: _hospitalityController.includeList.length,
-        //           itemBuilder: (context, index) {
-        //             return _hospitalityController.includeList[index];
-        //           },
-        //         )),
-        //     // SizedBox(height: width * 0.06),
-
-        //     // Add Button
-        //     GestureDetector(
-        //       onTap: () {
-        //         if (_hospitalityController.includeCount >= 1) {
-        //           return;
-        //         }
-        //         _hospitalityController.includeList.add(
-        //           IncludeCard(
-        //             indx: _hospitalityController.includeCount.value,
-        //             experienceController: _hospitalityController,
-        //           ),
-        //         );
-        //         _hospitalityController.includeCount++;
-        //       },
-        //       child: Obx(
-        //         () => Padding(
-        //           padding: EdgeInsets.only(
-        //               left: width * 0.01,
-        //               top: _hospitalityController.includeList.isEmpty
-        //                   ? 0
-        //                   : width * 0.051,
-        //               bottom: width * 0.06,
-        //               right: width * 0.01),
-        //           child: Row(
-        //             mainAxisSize: MainAxisSize.min,
-        //             mainAxisAlignment: MainAxisAlignment.start,
-        //             crossAxisAlignment: CrossAxisAlignment.center,
-        //             children: [
-        //               Container(
-        //                 height: width * 0.06,
-        //                 width: width * 0.06,
-        //                 alignment: Alignment.center,
-        //                 decoration: BoxDecoration(
-        //                   color: colorGreen,
-        //                   borderRadius: BorderRadius.circular(4),
-        //                 ),
-        //                 child: Icon(
-        //                   Icons.add,
-        //                   color: Colors.white,
-        //                   size: width * 0.06,
-        //                 ),
-        //               ),
-        //               SizedBox(width: width * 0.02),
-        //               CustomText(
-        //                 text: "addNewPoint".tr,
-        //                 fontSize: width * 0.038,
-        //                 fontFamily: AppUtil.rtlDirection2(context)
-        //                     ? 'SF Arabic'
-        //                     : 'SF Pro',
-        //                 fontWeight: FontWeight.w400,
-        //               ),
-        //             ],
-        //           ),
-        //         ),
-        //       ),
-        //     ),
-        //     SizedBox(height: width * 0.06),
-        //   ],
-        // )
+            // Add Button
+            GestureDetector(
+              onTap: () {
+                if (_hospitalityController.includeCount >= 1) {
+                  return;
+                }
+                _hospitalityController.includeList.add(
+                  IncludeCard(
+                    indx: _hospitalityController.includeCount.value,
+                    experienceController: _hospitalityController,
+                  ),
+                );
+                _hospitalityController.includeCount++;
+              },
+              child: Obx(
+                () => Padding(
+                  padding: EdgeInsets.only(
+                      left: width * 0.01,
+                      top: _hospitalityController.includeList.isEmpty
+                          ? 0
+                          : width * 0.050,
+                      bottom: width * 0.06,
+                      right: width * 0.01),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        // height: width * 0.06,
+                        // width: width * 0.06,
+                        alignment: Alignment.center,
+                        decoration: ShapeDecoration(
+                          color: colorGreen,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(9999),
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                          size: width * 0.06,
+                        ),
+                      ),
+                      SizedBox(width: width * 0.02),
+                      CustomText(
+                        text: "addNewPoint".tr,
+                        fontSize: width * 0.038,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: width * 0.06),
+          ],
+        )
       ],
     );
   }

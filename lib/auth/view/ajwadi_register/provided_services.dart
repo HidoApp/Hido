@@ -87,9 +87,8 @@ class _ProvidedServicesState extends State<ProvidedServices> {
                   : Colors.white,
               iconColor:
                   _authController.tourSelected.value ? colorGreen : black,
-              borderColor: _authController.tourSelected.value
-                  ? colorGreenBorder
-                  : borderGrey,
+              borderColor:
+                  _authController.tourSelected.value ? colorGreen : borderGrey,
             ),
           ),
           SizedBox(
@@ -114,7 +113,7 @@ class _ProvidedServicesState extends State<ProvidedServices> {
                   ? colorGreen
                   : black,
               borderColor: _authController.experiencesSelected.value
-                  ? colorGreenBorder
+                  ? colorGreen
                   : borderGrey,
             ),
           )

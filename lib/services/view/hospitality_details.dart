@@ -54,7 +54,7 @@ late double width, height;
 class _HospitalityDetailsState extends State<HospitalityDetails> {
   final _servicesController = Get.put(HospitalityController());
   final _profileController = Get.put(ProfileController());
-  final _rattingController = Get.put(RatingController());
+  // final _rattingController = Get.put(RatingController());
 
   int _currentIndex = 0;
   bool isExpanded = false;
@@ -416,8 +416,8 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       : Alignment.centerLeft,
                                   child: CustomText(
                                     text: "about".tr,
-                                    fontSize: width * 0.046,
-                                    fontWeight: FontWeight.w400,
+                                    fontSize: width * 0.043,
+                                    fontWeight: FontWeight.w500,
                                     fontFamily: 'HT Rakik',
                                   )),
                               SizedBox(
@@ -447,6 +447,68 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                               SizedBox(
                                 height: width * 0.025,
                               ),
+                              if (hospitalityObj != null &&
+                                  (hospitalityObj!.priceIncludesAr.isNotEmpty &&
+                                      hospitalityObj!
+                                          .priceIncludesEn.isNotEmpty &&
+                                      hospitalityObj!
+                                          .priceIncludesZh.isNotEmpty)) ...[
+                                Align(
+                                    alignment: AppUtil.rtlDirection2(context)
+                                        ? Alignment.centerRight
+                                        : Alignment.centerLeft,
+                                    child: CustomText(
+                                      text: "priceInclude".tr,
+                                      fontSize: width * 0.043,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'HT Rakik',
+                                    )),
+                                SizedBox(
+                                  height: width * 0.021,
+                                ),
+                                Align(
+                                  alignment: AppUtil.rtlDirection2(context)
+                                      ? Alignment.centerRight
+                                      : Alignment.centerLeft,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: (AppUtil.rtlDirection2(context)
+                                            ? hospitalityObj!.priceIncludesAr
+                                            : hospitalityObj!.priceIncludesEn)
+                                        .map((item) => Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(width: width * 0.021),
+                                                CustomText(
+                                                  text: '•   $item',
+                                                  fontSize: width * 0.039,
+                                                  fontFamily:
+                                                      AppUtil.SfFontType(
+                                                          context),
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ],
+                                            ))
+                                        .toList(),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: width * 0.012,
+                                ),
+                                SizedBox(
+                                  height: width * 0.025,
+                                ),
+                                const Divider(
+                                  color: lightGrey,
+                                ),
+                                SizedBox(
+                                  height: width * 0.025,
+                                ),
+                              ],
                               Align(
                                   alignment: AppUtil.rtlDirection2(context)
                                       ? Alignment.centerRight
@@ -457,8 +519,8 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                         : AppUtil.rtlDirection2(context)
                                             ? 'الموقع'
                                             : 'Location',
-                                    fontSize: width * 0.046,
-                                    fontWeight: FontWeight.w400,
+                                    fontSize: width * 0.043,
+                                    fontWeight: FontWeight.w500,
                                     fontFamily: 'HT Rakik',
                                   )),
                               SizedBox(

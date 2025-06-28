@@ -125,7 +125,7 @@ class _TrackSheetState extends State<TrackSheet> {
                                   ),
                                   CustomText(
                                     text: '2x soap',
-                                    color: darkGrey,
+                                    color: lightBlack,
                                     fontWeight: FontWeight.w600,
                                   ),
                                   SizedBox(
@@ -133,7 +133,7 @@ class _TrackSheetState extends State<TrackSheet> {
                                   ),
                                   CustomText(
                                     text: '4x neckless',
-                                    color: darkGrey,
+                                    color: lightBlack,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ]),
@@ -144,7 +144,7 @@ class _TrackSheetState extends State<TrackSheet> {
                         ),
                         const CustomText(
                           text: '07-08 Sep',
-                          color: darkGrey,
+                          color: lightBlack,
                           fontSize: 36,
                           fontWeight: FontWeight.w900,
                         ),

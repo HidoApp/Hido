@@ -9,12 +9,20 @@ class Hospitality {
   final String userId;
   final String bioAr;
   final String bioEn;
+  final String bioZh;
+
   final String mealTypeAr;
   final String mealTypeEn;
+  final String mealTypeZh;
   final String categoryAr;
   final String categoryEn;
+  final List<String> priceIncludesEn;
+  final List<String> priceIncludesAr;
+  final List<String> priceIncludesZh;
   final String titleAr;
   final String titleEn;
+  final String titleZh;
+
   final String email;
   final Coordinate coordinate;
   final List<HospitalityBooking>? booking;
@@ -39,12 +47,18 @@ class Hospitality {
     this.booking,
     required this.userId,
     required this.bioEn,
+    required this.bioZh,
     required this.mealTypeAr,
     required this.mealTypeEn,
+    required this.mealTypeZh,
     required this.categoryAr,
     required this.categoryEn,
     required this.titleAr,
     required this.titleEn,
+    required this.titleZh,
+    required this.priceIncludesAr,
+    required this.priceIncludesEn,
+    required this.priceIncludesZh,
     required this.email,
     required this.images,
     required this.iban,
@@ -64,12 +78,30 @@ class Hospitality {
       id: json['id'] ?? '',
       bioAr: json['bioAr'] ?? '',
       bioEn: json['bioEn'] ?? '',
+      bioZh: json['bioZh'] ?? '',
       mealTypeAr: json['mealTypeAr'] ?? '',
       mealTypeEn: json['mealTypeEn'] ?? '',
+      mealTypeZh: json['mealTypeZh'] ?? '',
+      priceIncludesAr: json['priceIncludesAr'] != null
+          ? (json['priceIncludesAr'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList()
+          : [],
+      priceIncludesEn: json['priceIncludesEn'] != null
+          ? (json['priceIncludesEn'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList()
+          : [],
+      priceIncludesZh: json['priceIncludesZh'] != null
+          ? (json['priceIncludesZh'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList()
+          : [],
       categoryAr: json['categoryAr'] ?? '',
       categoryEn: json['categoryEn'] ?? '',
       titleAr: json['titleAr'] ?? '',
       titleEn: json['titleEn'] ?? '',
+      titleZh: json['titleZh'] ?? '',
       email: json['email'] ?? '',
       coordinate: Coordinate.fromJson(json['coordinates'] ?? {}),
       userId: json['userId'] ?? '',
@@ -81,7 +113,9 @@ class Hospitality {
       rating: json['rating'] != null
           ? double.parse((json['rating'] as num).toStringAsFixed(1))
           : 0.0,
-      images: (json['image'] as List<dynamic>).map((e) => e as String).toList(),
+      images: json['image'] != null
+          ? (json['image'] as List<dynamic>).map((e) => e as String).toList()
+          : [],
       iban: json['iban'] ?? '',
       location: json['location'] ?? '',
       price: json['price'] ?? 0,
@@ -107,13 +141,19 @@ class Hospitality {
     String? userId,
     String? bioAr,
     String? bioEn,
+    String? bioZh,
     String? mealTypeAr,
     String? mealTypeEn,
+    String? mealTypeZh,
     String? categoryAr,
     String? categoryEn,
     String? titleAr,
     String? titleEn,
+    String? titleZh,
     String? email,
+    List<String>? priceIncludesEn,
+    List<String>? priceIncludesAr,
+    List<String>? priceIncludesZh,
     Coordinate? coordinate,
     List<HospitalityBooking>? booking,
     List<String>? images,
@@ -134,12 +174,18 @@ class Hospitality {
       userId: userId ?? this.userId,
       bioAr: bioAr ?? this.bioAr,
       bioEn: bioEn ?? this.bioEn,
+      bioZh: bioZh ?? this.bioZh,
       mealTypeAr: mealTypeAr ?? this.mealTypeAr,
       mealTypeEn: mealTypeEn ?? this.mealTypeEn,
+      mealTypeZh: mealTypeZh ?? this.mealTypeZh,
+      priceIncludesAr: priceIncludesAr ?? this.priceIncludesAr,
+      priceIncludesEn: priceIncludesEn ?? this.priceIncludesEn,
+      priceIncludesZh: priceIncludesZh ?? this.priceIncludesZh,
       categoryAr: categoryAr ?? this.categoryAr,
       categoryEn: categoryEn ?? this.categoryEn,
       titleAr: titleAr ?? this.titleAr,
       titleEn: titleEn ?? this.titleEn,
+      titleZh: titleZh ?? this.titleZh,
       email: email ?? this.email,
       coordinate: coordinate ?? this.coordinate,
       booking: booking ?? this.booking,

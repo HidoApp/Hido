@@ -109,7 +109,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     if (isSkiped!)
                       Padding(
                         padding: AppUtil.rtlDirection2(context)
-                            ? const EdgeInsets.only(left: 18, top: 4)
+                            ? const EdgeInsets.only(left: 16, bottom: 8)
                             : const EdgeInsets.only(right: 18, bottom: 4),
                         child: GestureDetector(
                           onTap: () {
@@ -127,7 +127,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                             text: "Skip".tr,
                             color: Graytext,
                             fontWeight: FontWeight.w400,
-                            fontSize: 16,
+                            fontSize: 15,
                             fontFamily: AppUtil.SfFontType(context),
                           ),
                         ),

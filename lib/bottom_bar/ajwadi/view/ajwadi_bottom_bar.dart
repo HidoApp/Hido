@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
+import 'package:ajwad_v4/auth/models/ajwadi_info.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/profile.dart';
 import 'package:ajwad_v4/request/ajwadi/view/new_request_screen.dart';
@@ -35,6 +36,7 @@ final storage = GetStorage();
 //int currentIndex = 0;
 List bottomScreens = [];
 var profile = Profile().obs;
+var localInfo = AjwadiInfo().obs;
 
 class _AjwadiBottomBarState extends State<AjwadiBottomBar>
     with SingleTickerProviderStateMixin {
@@ -91,6 +93,7 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
 
     if (_profileController.isInternetConnected.value) {
       getProfile();
+      // getLocalInfo();
     }
 
     // WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -104,8 +107,7 @@ class _AjwadiBottomBarState extends State<AjwadiBottomBar>
   Widget build(BuildContext context) {
     return Obx(
       () => _profileController.localBar.value == null
-          ? CircularProgressIndicator() // Or a fallback widget
-
+          ? const CircularProgressIndicator() // Or a fallback widget
           : !_profileController.isInternetConnected.value
               ? const OfflineScreen()
               : Scaffold(

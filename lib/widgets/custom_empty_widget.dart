@@ -21,7 +21,9 @@ class CustomEmptyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 50),
+      // padding: const EdgeInsets.only(bottom: 50),
+      padding: const EdgeInsets.only(bottom: 20),
+
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -35,7 +37,8 @@ class CustomEmptyWidget extends StatelessWidget {
               height: height,
             ),
           const SizedBox(
-            height: 22, // Set a meaningful height for spacing
+            height: 8,
+            // height: 22, // Set a meaningful height for spacing
           ),
           CustomText(
             text: title,
@@ -43,12 +46,13 @@ class CustomEmptyWidget extends StatelessWidget {
             fontSize: 17,
             fontFamily: 'HT Rakik',
             fontWeight: FontWeight.w500,
-            height: 0.10,
+            // height: 0.10,
+
             textAlign: TextAlign.center,
           ),
-          if (subtitle != '' || subtitle != null) ...[
+          if (subtitle != '') ...[
             const SizedBox(
-              height: 21, // Set a meaningful height for spacing
+              height: 6, // Set a meaningful height for spacing
             ),
             CustomText(
               text: subtitle!,

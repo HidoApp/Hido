@@ -220,7 +220,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 CustomText(
                                   text: "addNewCard".tr,
                                   fontSize: 16,
-                                  color: darkGrey,
+                                  color: lightBlack,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ],

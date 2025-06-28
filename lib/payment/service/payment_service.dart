@@ -197,16 +197,16 @@ class PaymentService {
         "InvoiceValue": price,
       }),
     );
+
+    log(response.body);
+    log(response.statusCode.toString());
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
-
       return Invoice.fromJson(data);
     } else {
-      String errorMessage = jsonDecode(response.body)['message'];
-
-      if (context.mounted) {
-        AppUtil.errorToast(context, errorMessage);
-      }
+      // if (context.mounted) {
+      //   AppUtil.errorToast(context, errorMessage);
+      // }
       return null;
     }
   }
@@ -301,14 +301,9 @@ class PaymentService {
           refreshToken: refreshToken, context: context);
       token = getStorage.read('accessToken');
     }
+
     final response = await http.get(
-      Uri.parse(
-        '$baseUrl/payment/$id',
-      ).replace(
-        queryParameters: {
-          'id': id,
-        },
-      ),
+      Uri.parse('$baseUrl/payment/$id'),
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -322,6 +317,7 @@ class PaymentService {
       return Invoice.fromJson(data);
     } else {
       String errorMessage = jsonDecode(response.body)['message'];
+      log(errorMessage.toString());
       // if (context.mounted) {
       //   AppUtil.errorToast(context, errorMessage);
       // }

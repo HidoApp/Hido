@@ -342,7 +342,7 @@ class _TouristChatScreenState extends State<TouristChatScreen> {
                         isDetailsTapped1
                             ? Icons.keyboard_arrow_up
                             : Icons.keyboard_arrow_down,
-                        color: darkGrey,
+                        color: lightBlack,
                         size: 24,
                       ),
                     ),

@@ -122,6 +122,17 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
     );
   }
 
+  Future<void> translateTitleIfChanged() async {
+    final current = AdventureTitleControllerAr.text;
+
+    if (current.isNotEmpty &&
+        current != _AdventureControllerController.lastTranslatedTitleAr) {
+      final translated = await TranslationApi.translate(current, 'en');
+      AdventureTitleControllerEn.text = translated;
+      _AdventureControllerController.lastTranslatedTitleAr = current;
+    }
+  }
+
   Widget nextStep() {
     switch (activeIndex) {
       case 0:
@@ -237,12 +248,12 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
                     activeIndex++;
                   });
                 } else if (activeIndex == totalIndex - 1) {
-                  final translatedText = await TranslationApi.translate(
-                    AdventureTitleControllerAr.text,
-                    'en',
-                  );
-                  AdventureTitleControllerEn.text = translatedText;
-
+                  // final translatedText = await TranslationApi.translate(
+                  //   AdventureTitleControllerAr.text,
+                  //   'en',
+                  // );
+                  // AdventureTitleControllerEn.text = translatedText;
+                  await translateTitleIfChanged();
                   Get.to(() => HostInfoReview(
                         hospitalityTitleEn: AdventureTitleControllerEn.text,
                         // hospitalityBioEn: AdventureBioControllerEn.text,

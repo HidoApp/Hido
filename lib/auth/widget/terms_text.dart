@@ -90,7 +90,7 @@ class _TermsAndConditionsTextState extends State<TermsAndConditionsText> {
                   TextSpan(
                     text: widget.title,
                     style: TextStyle(
-                      color: extradarkBlack,
+                      color: lightBlack,
                       fontSize: MediaQuery.of(context).size.width * 0.039,
                       fontFamily: AppUtil.SfFontType(context),
                       fontWeight: FontWeight.w400,

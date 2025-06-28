@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
+import 'package:ajwad_v4/auth/view/ajwadi_register/provided_services.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/phone_otp_new.dart';
 import 'package:ajwad_v4/auth/widget/local_calender.dart';
 import 'package:ajwad_v4/auth/widget/sign_in_text.dart';

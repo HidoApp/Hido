@@ -315,15 +315,15 @@ class _ServicesCardState extends State<ServicesCard> {
                     ),
                   ],
                 ),
-                if (!shouldBlur) ...[
-                  SizedBox(height: width * 0.029),
-                  CustomText(
-                    color: colorGreen,
-                    text: AppUtil.rtlDirection2(context)
-                        ? 'تم النشر'
-                        : 'Published',
-                  ),
-                ],
+                // if (!shouldBlur) ...[
+                //   SizedBox(height: width * 0.029),
+                //   CustomText(
+                //     color: colorGreen,
+                //     text: AppUtil.rtlDirection2(context)
+                //         ? 'تم النشر'
+                //         : 'Published',
+                //   ),
+                // ],
               ],
             ),
           ),

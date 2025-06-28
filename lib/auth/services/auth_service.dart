@@ -159,7 +159,7 @@ class AuthService {
           'nationalityId': nationalId,
           'phoneNumber': number.substring(1)
         }));
-    log("StatusCode");
+    log("StatusCode Signup rowd");
     log(response.statusCode.toString());
     log(response.body);
 
@@ -180,7 +180,17 @@ class AuthService {
       String errorMessage = jsonBody['message'];
       log(response.statusCode.toString());
       log(errorMessage);
-      AppUtil.errorToast(context, errorMessage);
+      if (context.mounted) {
+        if (errorMessage == "there is existing use for this national ID") {
+          if (AppUtil.rtlDirection2(context)) {
+            AppUtil.errorToast(context, 'رقم الهوية الوطنية مستخدم مسبقًا');
+          } else {
+            AppUtil.errorToast(context, errorMessage);
+          }
+        } else {
+          AppUtil.errorToast(context, errorMessage);
+        }
+      }
       return false;
     }
   }
@@ -959,6 +969,8 @@ class AuthService {
       },
     );
     log(response.statusCode.toString());
+    log('localInfo');
+
     log(response.body.toString());
     if (response.statusCode == 200) {
       Map<String, dynamic> ajwadiInfo = jsonDecode(response.body);
