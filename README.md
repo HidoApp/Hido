@@ -1,6 +1,6 @@
 # Hido App
 
-A new Flutter project.
+A new Flutter project for Hido.
 
 ## Getting Started
 
