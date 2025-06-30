@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:ajwad_v4/auth/models/image.dart';
 import 'package:ajwad_v4/payment/model/payment_result.dart';
+import 'package:ajwad_v4/request/ajwadi/view/widget/include_card.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/model/payment.dart';
 import 'package:ajwad_v4/services/service/hospitality_service.dart';
@@ -37,6 +38,7 @@ class HospitalityController extends GetxController {
   var selectedGender = ''.obs;
   var selectedMealAr = ''.obs;
   var selectedMealEn = ''.obs;
+  var selectedMealZh = ''.obs;
   var selectedDateIndex = (-1).obs;
   var selectedDateId = "".obs;
   var isHospitalityByIdLoading = false.obs;
@@ -58,6 +60,20 @@ class HospitalityController extends GetxController {
   var tabIndex = 0.obs;
   var addresHostCard = ''.obs;
   var startTime = ''.obs;
+  var titleAr = "".obs;
+  var titleEn = "".obs;
+  var titleZh = "".obs;
+
+  var bioAr = "".obs;
+  var bioEn = "".obs;
+  var bioZh = "".obs;
+  var includeList = <IncludeCard>[].obs;
+  var reviewincludeItenrary = <String>[].obs;
+  var isActivtyValid = true.obs;
+  var validSave = true.obs;
+  var includeCount = 0.obs;
+  String lastTranslatedTitleAr = '';
+
   // Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
   Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264, 46.544731).obs;
 
@@ -213,10 +229,16 @@ class HospitalityController extends GetxController {
   Future<bool> createHospitality({
     required String titleAr,
     required String titleEn,
+    required String titleZh,
     required String bioAr,
     required String bioEn,
+    required String bioZh,
+    List<String>? priceIncludesEn,
+    List<String>? priceIncludesAr,
+    List<String>? priceIncludesZh,
     required String mealTypeAr,
     required String mealTypeEn,
+    required String mealTypeZh,
     required String longitude,
     required String latitude,
     required String touristsGender,
@@ -237,10 +259,16 @@ class HospitalityController extends GetxController {
       final isSuccess = await HospitalityService.createHospitality(
           titleAr: titleAr,
           titleEn: titleEn,
+          titleZh: titleZh,
           bioAr: bioAr,
           bioEn: bioEn,
+          bioZh: bioZh,
+          priceIncludesAr: priceIncludesAr,
+          priceIncludesEn: priceIncludesEn,
+          priceIncludesZh: priceIncludesZh,
           mealTypeAr: mealTypeAr,
           mealTypeEn: mealTypeEn,
+          mealTypeZh: mealTypeZh,
           longitude: longitude,
           latitude: latitude,
           touristsGender: touristsGender,
@@ -290,10 +318,16 @@ class HospitalityController extends GetxController {
     required String id,
     required String titleAr,
     required String titleEn,
+    required String titleZh,
     required String bioAr,
     required String bioEn,
+    required String bioZh,
+    List<String>? priceIncludesEn,
+    List<String>? priceIncludesAr,
+    List<String>? priceIncludesZh,
     required String mealTypeAr,
     required String mealTypeEn,
+    required String mealTypeZh,
     required String longitude,
     required String latitude,
     required String touristsGender,
@@ -315,10 +349,16 @@ class HospitalityController extends GetxController {
           id: id,
           titleAr: titleAr,
           titleEn: titleEn,
+          titleZh: titleZh,
           bioAr: bioAr,
           bioEn: bioEn,
+          bioZh: bioZh,
+          priceIncludesAr: priceIncludesAr,
+          priceIncludesEn: priceIncludesEn,
+          priceIncludesZh: priceIncludesZh,
           mealTypeAr: mealTypeAr,
           mealTypeEn: mealTypeEn,
+          mealTypeZh: mealTypeZh,
           longitude: longitude,
           latitude: latitude,
           touristsGender: touristsGender,

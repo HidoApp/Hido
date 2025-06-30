@@ -149,8 +149,13 @@ class EventService {
   static Future<bool> createEvent({
     required String nameAr,
     required String nameEn,
+    required String nameZh,
     required String descriptionAr,
     required String descriptionEn,
+    required String descriptionZh,
+    List<String>? priceIncludesEn,
+    List<String>? priceIncludesAr,
+    List<String>? priceIncludesZh,
     required String longitude,
     required String latitude,
     required double price,
@@ -175,8 +180,13 @@ class EventService {
     Map<String, dynamic> body = {
       "nameAr": nameAr,
       "nameEn": nameEn,
+      "nameZh": nameZh,
       "descriptionAr": descriptionAr,
       "descriptionEn": descriptionEn,
+      "descriptionZh": descriptionZh,
+      if (priceIncludesAr != []) "priceIncludesAr": priceIncludesAr,
+      if (priceIncludesEn != []) "priceIncludesEn": priceIncludesEn,
+      if (priceIncludesZh != []) "priceIncludesZh": priceIncludesZh,
       "price": price,
       "image": image,
       "coordinates": {
@@ -226,8 +236,13 @@ class EventService {
     required String id,
     required String nameAr,
     required String nameEn,
+    required String nameZh,
     required String descriptionAr,
     required String descriptionEn,
+    required String descriptionZh,
+    List<String>? priceIncludesEn,
+    List<String>? priceIncludesAr,
+    List<String>? priceIncludesZh,
     required String longitude,
     required String latitude,
     required double price,
@@ -242,10 +257,15 @@ class EventService {
     final String? token = getStorage.read('accessToken');
 
     Map<String, dynamic> body = {
-      "nameAr": nameAr,
-      "nameEn": nameEn,
+      "nameAr": nameAr.trim(),
+      "nameEn": nameEn.trim(),
+      "nameZh": nameZh.trim(),
       "descriptionAr": descriptionAr,
       "descriptionEn": descriptionEn,
+      "descriptionZh": descriptionZh,
+      if (priceIncludesAr != []) "priceIncludesAr": priceIncludesAr,
+      if (priceIncludesEn != []) "priceIncludesEn": priceIncludesEn,
+      if (priceIncludesZh != []) "priceIncludesZh": priceIncludesZh,
       "price": price,
       "image": image,
       "coordinates": {
@@ -479,7 +499,7 @@ class EventService {
     http.StreamedResponse response = await request.send();
     log(response.statusCode.toString());
     log(response.toString());
-    late String id, filePath, publicId;
+    // late String id, filePath, publicId;
 
     if (response.statusCode == 200) {
       // Read the full response as a string
@@ -496,6 +516,9 @@ class EventService {
       }
     } else {
       log('Image upload failed with status: ${response.statusCode}');
+      if (context.mounted) {
+        AppUtil.errorToast(context, 'Image upload failed.');
+      }
     }
 
     return null;

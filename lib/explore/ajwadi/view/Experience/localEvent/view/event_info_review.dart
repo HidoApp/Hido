@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:ajwad_v4/amplitude_service.dart';
+import 'package:ajwad_v4/api/translation_api.dart';
 import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/request/widgets/AlertDialog.dart';
@@ -26,7 +27,7 @@ import 'package:image/image.dart' as img; // Import the image package
 
 class EventInfoReview extends StatefulWidget {
   final String hospitalityTitleEn;
-  final String hospitalityBioEn;
+  // final String hospitalityBioEn;
   final String hospitalityTitleAr;
   final String hospitalityBioAr;
   final String hospitalityLocation;
@@ -35,7 +36,7 @@ class EventInfoReview extends StatefulWidget {
   const EventInfoReview({
     super.key,
     required this.hospitalityBioAr,
-    required this.hospitalityBioEn,
+    // required this.hospitalityBioEn,
     required this.hospitalityTitleAr,
     required this.hospitalityTitleEn,
     required this.hospitalityLocation,
@@ -54,6 +55,8 @@ class _EventInfoReviewState extends State<EventInfoReview> {
   String endTime = '';
   List<String> imageUrls = [];
   List<Map<String, dynamic>> DaysInfo = [];
+  List<String> priceIncludesEn = [];
+  List<String> priceIncludesZh = [];
   // String ragionAr = '';
   // String ragionEn = '';
   final EventController _EventController = Get.put(EventController());
@@ -205,61 +208,157 @@ class _EventInfoReviewState extends State<EventInfoReview> {
   }
 
   Future<bool> uploadImages() async {
-    //List<String> uploadedImagePaths = [];
+    imageUrls.clear();
+
     bool allExtensionsValid = true;
+    bool allSizeValid = true;
 
     // Allowed formats
     final allowedFormats = ['jpg', 'jpeg', 'png'];
+    const maxFileSizeInBytes = 2 * 1024 * 1024; //  2 MB
 
     for (XFile imagePath in _EventController.selectedImages) {
       String fileExtension = imagePath.path.split('.').last.toLowerCase();
+
       if (!allowedFormats.contains(fileExtension)) {
         allExtensionsValid = false;
-        print(
-            'File ${imagePath.path} is not in an allowed format (${allowedFormats.join(', ')}).');
-      }
-      if (!allExtensionsValid) {
+        log('File ${imagePath.path} is not in an allowed format (${allowedFormats.join(', ')}).');
+
         if (context.mounted) {
           AppUtil.errorToast(context, 'uploadError'.tr);
           await Future.delayed(const Duration(seconds: 3));
         }
         return false;
-      } else {
+      }
+
+      final file = File(imagePath.path);
+      final fileSize = await file.length();
+      if (fileSize > maxFileSizeInBytes) {
+        allSizeValid = false;
+        if (context.mounted) {
+          AppUtil.errorToast(context, 'imageSizeValid'.tr);
+        }
+        return false;
+      }
+    }
+
+    //If all files passed validation, upload them
+    if (allExtensionsValid && allSizeValid) {
+      for (XFile imagePath in _EventController.selectedImages) {
         final image = await _EventController.uploadProfileImages(
           file: File(imagePath.path),
           fileType: "event",
           context: context,
         );
 
-        //  File file = await convertImageToJpg(File(imagePath.path));
-        //   final image = await _EventController.uploadProfileImages(
-        //     file:file,
-        //     fileType: "event",
-        //     context: context,
-        //   );
-
         if (image != null) {
-          log('vaalid');
-
+          log('Uploaded: ${image.filePath}');
           imageUrls.add(image.filePath);
-          log(image.filePath);
         } else {
-          log('not vaalid');
-          return false;
+          log('Upload failed for ${imagePath.path}');
+          // if (context.mounted) {
+          //   AppUtil.errorToast(context, 'Image upload failed.');
+          // }
+          // return false;
+        }
+      }
+    } else {
+      return false;
+    }
+    return true;
+  }
+
+  // Future<bool> uploadImages() async {
+  //   //List<String> uploadedImagePaths = [];
+  //   bool allExtensionsValid = true;
+
+  //   // Allowed formats
+  //   final allowedFormats = ['jpg', 'jpeg', 'png'];
+
+  //   for (XFile imagePath in _EventController.selectedImages) {
+  //     String fileExtension = imagePath.path.split('.').last.toLowerCase();
+  //     if (!allowedFormats.contains(fileExtension)) {
+  //       allExtensionsValid = false;
+  //       print(
+  //           'File ${imagePath.path} is not in an allowed format (${allowedFormats.join(', ')}).');
+  //     }
+  //     if (!allExtensionsValid) {
+  //       if (context.mounted) {
+  //         AppUtil.errorToast(context, 'uploadError'.tr);
+  //         await Future.delayed(const Duration(seconds: 3));
+  //       }
+  //       return false;
+  //     } else {
+  //       final image = await _EventController.uploadProfileImages(
+  //         file: File(imagePath.path),
+  //         fileType: "event",
+  //         context: context,
+  //       );
+
+  //       //  File file = await convertImageToJpg(File(imagePath.path));
+  //       //   final image = await _EventController.uploadProfileImages(
+  //       //     file:file,
+  //       //     fileType: "event",
+  //       //     context: context,
+  //       //   );
+
+  //       if (image != null) {
+  //         log('vaalid');
+
+  //         imageUrls.add(image.filePath);
+  //         log(image.filePath);
+  //       } else {
+  //         log('not vaalid');
+  //         return false;
+  //       }
+  //     }
+  //   }
+  //   return true;
+
+  //   // Handle the list of uploaded image paths as needed
+  // }
+
+  Future<void> translateReviewIncludeItinerary(dynamic controller) async {
+    if (controller!.reviewincludeItenrary.isNotEmpty) {
+      for (final item in controller!.reviewincludeItenrary) {
+        final translatedEn = await TranslationApi.translate(item, 'en');
+        final translatedZh = await TranslationApi.translate(item, 'zh');
+        if (translatedEn.trim().isNotEmpty) {
+          priceIncludesEn.add(translatedEn);
+        }
+        if (translatedZh.trim().isNotEmpty) {
+          priceIncludesZh.add(translatedZh);
         }
       }
     }
-    return true;
-
-    // Handle the list of uploaded image paths as needed
   }
 
-  static Future<File> convertImageToJpg(File file) async {
-    final image = img.decodeImage(await file.readAsBytes())!;
-    final jpg = img.encodeJpg(image);
-    final newFile = File('${file.path}.jpg');
-    await newFile.writeAsBytes(jpg);
-    return newFile;
+  Future<void> translateDescriptionFields() async {
+    try {
+      final arabicBioText = widget.hospitalityBioAr;
+      final arabicTitleText = widget.hospitalityTitleAr;
+
+      // Translate to English
+      final translatedBioEn =
+          await TranslationApi.translate(arabicBioText, 'en');
+      // Translate to English
+      final translatedTitleZh =
+          await TranslationApi.translate(arabicTitleText, 'zh');
+
+      // Translate to Chinese (Simplified)
+      final translatedBioZh =
+          await TranslationApi.translate(arabicBioText, 'zh');
+
+      // Set the translated text
+      _EventController.bioEn.value = translatedBioEn;
+      _EventController.bioZh.value = translatedBioZh;
+      _EventController.titleZh.value = translatedTitleZh;
+    } catch (e) {
+      log('Translation failed: $e');
+      // Optionally show a snackbar or message here
+    } finally {
+      TranslationApi.isTranslatingLoading.value = false;
+    }
   }
 
   @override
@@ -395,6 +494,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                         children: [
                           Obx(
                             () => _EventController.isImagesLoading.value ||
+                                    TranslationApi.isTranslatingLoading.value ||
                                     _EventController.isEventLoading.value
                                 ? const Center(
                                     child: CircularProgressIndicator.adaptive(),
@@ -428,17 +528,30 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                                   .then((value) async {
                                                 if (!value) {
                                                 } else {
+                                                  await translateDescriptionFields();
+                                                  await translateReviewIncludeItinerary(
+                                                      _EventController);
                                                   final isSuccess = await _EventController.createEvent(
                                                       nameAr: _EventController
                                                           .titleAr.value,
                                                       nameEn: _EventController
                                                           .titleEn.value,
-                                                      descriptionAr:
-                                                          _EventController
-                                                              .bioAr.value,
+                                                      nameZh: _EventController
+                                                          .titleZh.value,
+                                                      descriptionAr: _EventController
+                                                          .bioAr.value,
                                                       descriptionEn:
                                                           _EventController
                                                               .bioEn.value,
+                                                      descriptionZh:
+                                                          _EventController
+                                                              .bioZh.value,
+                                                      priceIncludesAr: _EventController
+                                                          .reviewincludeItenrary,
+                                                      priceIncludesEn:
+                                                          priceIncludesEn,
+                                                      priceIncludesZh:
+                                                          priceIncludesZh,
                                                       longitude: _EventController
                                                           .pickUpLocLatLang
                                                           .value
@@ -449,15 +562,12 @@ class _EventInfoReviewState extends State<EventInfoReview> {
                                                           .value
                                                           .latitude
                                                           .toString(),
-                                                      price: widget
-                                                          .adventurePrice!,
+                                                      price: widget.adventurePrice!,
                                                       image: imageUrls,
-                                                      regionAr: _EventController
-                                                          .ragionAr.value,
+                                                      regionAr: _EventController.ragionAr.value,
                                                       locationUrl: locationUrl,
                                                       daysInfo: DaysInfo,
-                                                      regionEn: _EventController
-                                                          .ragionEn.value,
+                                                      regionEn: _EventController.ragionEn.value,
                                                       context: context);
 
                                                   if (isSuccess) {

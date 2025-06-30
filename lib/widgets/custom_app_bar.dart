@@ -1,8 +1,12 @@
+import 'dart:developer';
+
+import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:get/get.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar(this.title,
@@ -15,6 +19,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.isAjwadi = false,
       this.isBack = false,
       this.isDeleteIcon = false,
+      this.isSkiped = false,
       this.isTimer = false})
       : preferredSize = const Size.fromHeight(75.0),
         super(key: key);
@@ -28,7 +33,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isBack;
   final bool isTimer;
   final VoidCallback? onPressedAction;
+
   final bool? isDeleteIcon;
+  final bool? isSkiped;
+
   @override
   final Size preferredSize;
 
@@ -96,6 +104,32 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                           ),
                           tooltip: "more",
                           onPressed: onPressedAction,
+                        ),
+                      ),
+                    if (isSkiped!)
+                      Padding(
+                        padding: AppUtil.rtlDirection2(context)
+                            ? const EdgeInsets.only(left: 16, bottom: 8)
+                            : const EdgeInsets.only(right: 18, bottom: 4),
+                        child: GestureDetector(
+                          onTap: () {
+                            final _authController = Get.put(AuthController());
+
+                            if (_authController.activeBar.value != 4) {
+                              _authController.activeBar.value++;
+                            } else {
+                              if (onPressedAction != null) {
+                                onPressedAction!();
+                              }
+                            }
+                          },
+                          child: CustomText(
+                            text: "Skip".tr,
+                            color: Graytext,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                            fontFamily: AppUtil.SfFontType(context),
+                          ),
                         ),
                       )
                   ],

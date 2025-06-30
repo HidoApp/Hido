@@ -48,22 +48,64 @@ class _ViewImagesState extends State<ViewImages> {
   List<XFile> _selectedImages = [];
   final ImagePicker _picker = ImagePicker();
 
+  // Future<void> _pickImage(ImageSource source) async {
+  //   try {
+  //     final List<XFile> pickedImages = await _picker.pickMultiImage();
+  //     if (pickedImages != null) {
+  //       if (AppUtil.isImageValidate(pickedImages.length)) {
+  //         log(" is asdded");
+  //         log(pickedImages.first.path);
+  //         setState(() {
+  //           // _selectedImages.addAll(pickedImages);
+  //           _ExperienceController.images.addAll(pickedImages);
+  //         });
+  //       } else {
+  //         AppUtil.errorToast(context, 'imageValidSize'.tr);
+  //       }
+  //     }
+  //   } catch (e) {}
+  // }
   Future<void> _pickImage(ImageSource source) async {
     try {
       final List<XFile> pickedImages = await _picker.pickMultiImage();
-      if (pickedImages != null) {
-        if (AppUtil.isImageValidate(pickedImages.length)) {
-          log(" is asdded");
-          log(pickedImages.first.path);
+
+      if (pickedImages.isNotEmpty) {
+        List<XFile> validImages = [];
+
+        for (final image in pickedImages) {
+          final String fileExtension = image.path.split('.').last.toLowerCase();
+
+          final bool imageSizeValidate =
+              AppUtil.isImageValidate(await image.length());
+          final bool imageFormatValidate =
+              AppUtil.isImageFormatValidate(fileExtension);
+
+          if (imageSizeValidate && imageFormatValidate) {
+            validImages.add(image);
+          } else {
+            if (!imageSizeValidate) {
+              if (context.mounted) {
+                AppUtil.errorToast(context, 'imageValidSize'.tr);
+              } else {
+                AppUtil.errorToast(context, 'uploadError'.tr);
+              }
+            }
+          }
+        }
+
+        if (validImages.isNotEmpty) {
           setState(() {
-            // _selectedImages.addAll(pickedImages);
-            _ExperienceController.images.addAll(pickedImages);
+            _ExperienceController.images.addAll(validImages);
           });
-        } else {
-          AppUtil.errorToast(context, 'imageValidSize'.tr);
+          log("Valid images added: ${validImages.length}");
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      log("Image picking error: $e");
+      if (context.mounted) {
+        AppUtil.errorToast(context, e.toString());
+      }
+    }
   }
 
   Future<void> _takePhoto() async {

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:ajwad_v4/api/translation_api.dart';
 import 'package:ajwad_v4/explore/ajwadi/controllers/ajwadi_explore_controller.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/widget/add_adventure_info.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/widget/add_guests.dart';
@@ -121,14 +122,25 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
     );
   }
 
+  Future<void> translateTitleIfChanged() async {
+    final current = AdventureTitleControllerAr.text;
+
+    if (current.isNotEmpty &&
+        current != _AdventureControllerController.lastTranslatedTitleAr) {
+      final translated = await TranslationApi.translate(current, 'en');
+      AdventureTitleControllerEn.text = translated;
+      _AdventureControllerController.lastTranslatedTitleAr = current;
+    }
+  }
+
   Widget nextStep() {
     switch (activeIndex) {
       case 0:
         return AddInfo(
           textField1ControllerAR: AdventureTitleControllerAr,
           textField2ControllerAR: AdventureBioControllerAr,
-          textField1ControllerEN: AdventureTitleControllerEn,
-          textField2ControllerEN: AdventureBioControllerEn,
+          // textField1ControllerEN: AdventureTitleControllerEn,
+          // textField2ControllerEN: AdventureBioControllerEn,
         );
       case 1:
         return AddLocation(
@@ -230,15 +242,21 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
           child: Opacity(
             opacity: _validateFields() ? 1.0 : 0.5,
             child: GestureDetector(
-              onTap: () {
+              onTap: () async {
                 if (activeIndex < totalIndex - 1) {
                   setState(() {
                     activeIndex++;
                   });
                 } else if (activeIndex == totalIndex - 1) {
+                  // final translatedText = await TranslationApi.translate(
+                  //   AdventureTitleControllerAr.text,
+                  //   'en',
+                  // );
+                  // AdventureTitleControllerEn.text = translatedText;
+                  await translateTitleIfChanged();
                   Get.to(() => HostInfoReview(
                         hospitalityTitleEn: AdventureTitleControllerEn.text,
-                        hospitalityBioEn: AdventureBioControllerEn.text,
+                        // hospitalityBioEn: AdventureBioControllerEn.text,
                         hospitalityTitleAr: AdventureTitleControllerAr.text,
                         hospitalityBioAr: AdventureBioControllerAr.text,
                         adventurePrice: int.parse(AdventurePrice.text),

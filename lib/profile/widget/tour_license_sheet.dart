@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:ajwad_v4/constants/colors.dart';
@@ -40,6 +41,18 @@ class _TourLicenseSheetState extends State<TourLicenseSheet> {
     // TODO: implement dispose
     _profileController.pdfName('');
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    _profileController.pdfName.value = _profileController
+            .profile.tourGuideLicense
+            ?.split('/')
+            .last
+            .split('.')
+            .first ??
+        '';
+    super.initState();
   }
 
   @override
@@ -100,7 +113,7 @@ class _TourLicenseSheetState extends State<TourLicenseSheet> {
                   fit: BoxFit.none,
                 ),
                 hintText: _profileController.pdfName.value.isEmpty
-                    ? "File.pdf"
+                    ? "UploadFile".tr
                     : _profileController.pdfName.value,
                 onChanged: (val) {},
               ),
@@ -108,7 +121,7 @@ class _TourLicenseSheetState extends State<TourLicenseSheet> {
 
             if (!_profileController.isPdfValidSize.value)
               CustomText(
-                text: 'imageValidSize'.tr,
+                text: 'fileValidSize'.tr,
                 color: colorRed,
                 fontSize: width * 0.028,
                 fontFamily: AppUtil.SfFontType(context),
@@ -131,7 +144,15 @@ class _TourLicenseSheetState extends State<TourLicenseSheet> {
                       child: CircularProgressIndicator.adaptive(),
                     )
                   : CustomButton(
-                      title: 'save'.tr,
+                      title: 'update'.tr,
+                      buttonColor: !(_profileController.isPdfValidSize.value &&
+                              pdfFile != null)
+                          ? colorlightGreen
+                          : colorGreen,
+                      borderColor: !(_profileController.isPdfValidSize.value &&
+                              pdfFile != null)
+                          ? textlightGreen
+                          : colorGreen,
                       onPressed: _profileController.isPdfValidSize.value ||
                               pdfFile != null
                           ? () async {

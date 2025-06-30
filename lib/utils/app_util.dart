@@ -1,7 +1,10 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/constants/transporation_method.dart';
 import 'package:ajwad_v4/explore/tourist/model/coordinates.dart';
+import 'package:ajwad_v4/request/widgets/confirm_dialog.dart';
 import 'package:ajwad_v4/services/model/days_info.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -86,6 +89,12 @@ class AppUtil {
 
   static bool isImageValidate(int size) {
     return size <= 2 * 1048576;
+  }
+
+  static bool isImageFormatValidate(String fileExtension) {
+    final List<String> allowedFormats = ['jpg', 'jpeg', 'png'];
+
+    return allowedFormats.contains(fileExtension);
   }
 
   static bool isNationalIdValidate(String id) {
@@ -1094,5 +1103,67 @@ class AppUtil {
       if (!aIsClosed && bIsClosed) return -1;
       return 0;
     });
+  }
+
+  static void showSaveChangesDialog(BuildContext context, VoidCallback onSave) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ConfirmDialog(
+          dialogWidth: 308,
+          dialogHight: 196,
+          title: 'CompleteSaving'.tr,
+          description: 'CompleteSavingDes'.tr,
+          buttonTitle1: 'SaveChanges'.tr,
+          buttonTitle2: 'return'.tr,
+          buttonAction2: () {
+            Get.back(); // Close dialog
+            onSave(); // Run the passed callback
+          },
+          buttonColor2: Colors.white.withOpacity(0.3),
+        );
+      },
+    );
+  }
+
+  static String transportationMethodToValue(TransportationMethod method) {
+    switch (method) {
+      case TransportationMethod.ownCar:
+        return "OWN_CAR";
+      case TransportationMethod.carPassenger:
+        return "CAR_PASSENGER";
+      case TransportationMethod.metro:
+        return "METRO";
+    }
+  }
+
+  static Future<List<String>> uploadImagesHelper(
+      {required List<String> imageUrl,
+      required List<dynamic> PickedImages,
+      required String fileType,
+      required BuildContext context,
+      required dynamic controller}) async {
+    imageUrl.clear();
+    for (var image in PickedImages) {
+      if (image is String && Uri.parse(image).isAbsolute) {
+        imageUrl.add(image);
+      } else {
+        // Local image, upload it
+        final uploaded = await controller.uploadProfileImages(
+          file: File(image.path),
+          fileType: fileType,
+          context: context,
+        );
+
+        if (uploaded != null) {
+          imageUrl.add(uploaded.filePath);
+          log('Uploaded: ${uploaded.filePath}');
+        } else {
+          log('Upload failed for ${image.path}');
+        }
+      }
+    }
+
+    return imageUrl;
   }
 }

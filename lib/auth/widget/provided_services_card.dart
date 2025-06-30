@@ -3,6 +3,8 @@ import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 class ProvidedServicesCard extends StatelessWidget {
   const ProvidedServicesCard(
@@ -10,16 +12,18 @@ class ProvidedServicesCard extends StatelessWidget {
       this.onTap,
       required this.title,
       required this.subtitle,
-      required this.iconPath,
+      this.iconPath,
       required this.color,
       required this.borderColor,
       this.height,
+      this.checkValue,
       required this.textColor,
       required this.iconColor});
   final void Function()? onTap;
   final String title;
   final String subtitle;
-  final String iconPath;
+  final String? iconPath;
+  final RxBool? checkValue;
   final Color color;
   final Color iconColor;
   final Color borderColor;
@@ -34,7 +38,7 @@ class ProvidedServicesCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         // width: double.infinity,
-        height: width * 0.282,
+        // height: width * 0.282,
         padding: const EdgeInsets.all(12),
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
@@ -55,15 +59,30 @@ class ProvidedServicesCard extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: width * 0.06,
-                    height: width * 0.06,
-                    child: RepaintBoundary(
-                      child: SvgPicture.asset(
-                        'assets/icons/$iconPath.svg',
-                        color: iconColor,
-                      ),
-                    ), // Use SvgPicture for SVG icons
+                    height: width * 0.15,
+                    child: iconPath == null
+                        ? Obx(
+                            () => Checkbox(
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              side:
+                                  const BorderSide(color: colorGreen, width: 1),
+                              overlayColor:
+                                  WidgetStateProperty.all(Colors.transparent),
+                              value: checkValue!.value,
+                              onChanged: (value) {
+                                checkValue!.value = value ?? false;
+                              },
+                            ),
+                          )
+                        : RepaintBoundary(
+                            child: SvgPicture.asset(
+                              'assets/icons/$iconPath.svg',
+                              color: iconColor,
+                            ),
+                          ), // Use SvgPicture for SVG icons
                   ),
-                  SizedBox(width: width * 0.041),
+                  SizedBox(width: width * 0.039),
                   Expanded(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -87,7 +106,7 @@ class ProvidedServicesCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // SizedBox(height: width * 0.010),
+                        SizedBox(height: width * 0.010),
                         Text(
                           subtitle,
                           style: TextStyle(

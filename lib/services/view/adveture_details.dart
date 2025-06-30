@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/edit_adventure.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
@@ -329,7 +331,11 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                   ),
                                   CustomText(
                                     text: !widget.isLocal
-                                        ? address
+                                        ? address.isEmpty
+                                            ? AppUtil.rtlDirection2(context)
+                                                ? '${adventure!.regionAr}'
+                                                : adventure!.regionEn
+                                            : address
                                         : AppUtil.rtlDirection2(context)
                                             ? '${adventure!.regionAr}, ${widget.address}'
                                             : '${adventure!.regionEn}, ${widget.address}',
@@ -357,15 +363,21 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                     SizedBox(
                                       width: width * 0.012,
                                     ),
-                                    CustomText(
-                                      text: AppUtil.formatSelectedDaysInfo(
-                                          adventure!.daysInfo!, context),
-                                      color: colorDarkGrey,
-                                      fontSize: width * 0.038,
-                                      fontWeight: FontWeight.w300,
-                                      fontFamily: AppUtil.rtlDirection2(context)
-                                          ? 'SF Arabic'
-                                          : 'SF Pro',
+                                    Expanded(
+                                      child: CustomText(
+                                        text: AppUtil.formatSelectedDaysInfo(
+                                            adventure!.daysInfo!, context),
+                                        color: colorDarkGrey,
+                                        maxlines: 1,
+                                        textOverflow: TextOverflow.ellipsis,
+                                        softWrap: true,
+                                        fontSize: width * 0.038,
+                                        fontWeight: FontWeight.w300,
+                                        fontFamily:
+                                            AppUtil.rtlDirection2(context)
+                                                ? 'SF Arabic'
+                                                : 'SF Pro',
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -424,83 +436,6 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                         ? adventure!.descriptionAr ?? ''
                                         : adventure!.descriptionEn ?? '',
                               ),
-                              // Align(
-                              //   alignment: AppUtil.rtlDirection2(context)
-                              //       ? Alignment.centerRight
-                              //       : Alignment.centerLeft,
-                              //   child: ConstrainedBox(
-                              //     constraints: isExpanded
-                              //         ? const BoxConstraints()
-                              //         : BoxConstraints(maxHeight: width * 0.1),
-                              //     child: CustomText(
-                              //       textDirection: AppUtil.rtlDirection(context)
-                              //           ? TextDirection.ltr
-                              //           : TextDirection.rtl,
-                              //       textOverflow: isExpanded
-                              //           ? TextOverflow.visible
-                              //           : TextOverflow.clip,
-                              //       fontFamily: AppUtil.rtlDirection2(context)
-                              //           ? 'SF Arabic'
-                              //           : 'SF Pro',
-                              //       maxlines: 600,
-                              //       color: starGreyColor,
-                              //       fontSize: width * 0.038,
-                              //       fontWeight: FontWeight.w400,
-                              //       text: AppUtil.rtlDirection2(context)
-                              //           ? adventure!.descriptionAr ?? ''
-                              //           : adventure!.descriptionEn ?? '',
-                              //     ),
-                              //   ),
-                              // ),
-                              // SizedBox(
-                              //   height: width * 0.012,
-                              // ),
-                              // isExpanded
-                              //     ? Align(
-                              //         alignment: AppUtil.rtlDirection2(context)
-                              //             ? Alignment.bottomRight
-                              //             : Alignment.bottomLeft,
-                              //         child: GestureDetector(
-                              //           onTap: () {
-                              //             setState(() => isExpanded = false);
-                              //           },
-                              //           child: Padding(
-                              //             padding:
-                              //                 const EdgeInsets.only(top: 8.0),
-                              //             child: CustomText(
-                              //               text: AppUtil.rtlDirection2(context)
-                              //                   ? "القليل"
-                              //                   : "Show less",
-                              //               color: blue,
-                              //               fontFamily:
-                              //                   AppUtil.rtlDirection2(context)
-                              //                       ? 'SF Arabic'
-                              //                       : 'SF Pro',
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       )
-                              //     : Align(
-                              //         alignment: AppUtil.rtlDirection2(context)
-                              //             ? Alignment.bottomRight
-                              //             : Alignment.bottomLeft,
-                              //         child: GestureDetector(
-                              //           onTap: () =>
-                              //               setState(() => isExpanded = true),
-                              //           child: Padding(
-                              //             padding:
-                              //                 const EdgeInsets.only(top: 8.0),
-                              //             child: CustomText(
-                              //               text: "readMore".tr,
-                              //               color: blue,
-                              //               fontFamily:
-                              //                   AppUtil.rtlDirection2(context)
-                              //                       ? 'SF Arabic'
-                              //                       : 'SF Pro',
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       ),
                               SizedBox(
                                 height: width * 0.025,
                               ),
@@ -510,6 +445,69 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               SizedBox(
                                 height: width * 0.025,
                               ),
+                              if (adventure != null &&
+                                  ((adventure!.priceIncludesAr?.isNotEmpty ??
+                                          false) &&
+                                      (adventure!.priceIncludesEn?.isNotEmpty ??
+                                          false) &&
+                                      (adventure!.priceIncludesZh?.isNotEmpty ??
+                                          false))) ...[
+                                Align(
+                                    alignment: AppUtil.rtlDirection2(context)
+                                        ? Alignment.centerRight
+                                        : Alignment.centerLeft,
+                                    child: CustomText(
+                                      text: "priceInclude".tr,
+                                      fontSize: width * 0.043,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: 'HT Rakik',
+                                    )),
+                                SizedBox(
+                                  height: width * 0.021,
+                                ),
+                                Align(
+                                  alignment: AppUtil.rtlDirection2(context)
+                                      ? Alignment.centerRight
+                                      : Alignment.centerLeft,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: (AppUtil.rtlDirection2(context)
+                                            ? adventure!.priceIncludesAr
+                                            : adventure!.priceIncludesEn)!
+                                        .map((item) => Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(width: width * 0.021),
+                                                CustomText(
+                                                  text: '•   $item',
+                                                  fontSize: width * 0.039,
+                                                  fontFamily:
+                                                      AppUtil.SfFontType(
+                                                          context),
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ],
+                                            ))
+                                        .toList(),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: width * 0.012,
+                                ),
+                                SizedBox(
+                                  height: width * 0.025,
+                                ),
+                                const Divider(
+                                  color: lightGrey,
+                                ),
+                                SizedBox(
+                                  height: width * 0.025,
+                                ),
+                              ],
                               Align(
                                   alignment: AppUtil.rtlDirection2(context)
                                       ? Alignment.centerRight
@@ -591,7 +589,6 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                               SizedBox(
                                 height: width * 0.028,
                               ),
-
                               if (widget.isLocal) ...[
                                 SizedBox(
                                   height: width * 0.028,

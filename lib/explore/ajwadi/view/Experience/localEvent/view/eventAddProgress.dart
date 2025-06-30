@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:ajwad_v4/api/translation_api.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/view/event_info_review.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/widget/add_event_info.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/widget/add_guests.dart';
@@ -34,8 +37,8 @@ class _EventAddProgressState extends State<EventAddProgress> {
   final int totalIndex = 6;
   int activeIndex = 0;
 
-  final TextEditingController EventTitleControllerEn = TextEditingController();
-  final TextEditingController EventBioControllerEn = TextEditingController();
+  // final TextEditingController EventTitleControllerEn = TextEditingController();
+  // final TextEditingController EventBioControllerEn = TextEditingController();
 
   final TextEditingController EventTitleControllerAr = TextEditingController();
   final TextEditingController EventBioControllerAr = TextEditingController();
@@ -115,9 +118,9 @@ class _EventAddProgressState extends State<EventAddProgress> {
       case 0:
         return AddInfo(
           textField1ControllerAR: EventTitleControllerAr,
-          textField1ControllerEN: EventTitleControllerEn,
+          // textField1ControllerEN: EventTitleControllerEn,
           textField2ControllerAR: EventBioControllerAr,
-          textField2ControllerEN: EventBioControllerEn,
+          // textField2ControllerEN: EventBioControllerEn,
         );
       case 1:
 
@@ -201,6 +204,17 @@ class _EventAddProgressState extends State<EventAddProgress> {
     return "";
   }
 
+  Future<void> translateTitleIfChanged() async {
+    final current = _EventController.titleAr.value;
+
+    if (current.isNotEmpty &&
+        current != _EventController.lastTranslatedTitleAr) {
+      final translated = await TranslationApi.translate(current, 'en');
+      _EventController.titleEn.value = translated;
+      _EventController.lastTranslatedTitleAr = current;
+    }
+  }
+
   Widget nextButton() {
     return Obx(
       () => IgnorePointer(
@@ -208,15 +222,21 @@ class _EventAddProgressState extends State<EventAddProgress> {
         child: Opacity(
           opacity: _validateFields() ? 1.0 : 0.5,
           child: GestureDetector(
-            onTap: () {
+            onTap: () async {
               if (activeIndex < totalIndex - 1) {
                 setState(() {
                   activeIndex++;
                 });
               } else if (activeIndex == totalIndex - 1) {
+                await translateTitleIfChanged();
+                // final translatedText = await TranslationApi.translate(
+                //   _EventController.titleAr.value,
+                //   'en',
+                // );
+                // _EventController.titleEn.value = translatedText;
                 Get.to(() => EventInfoReview(
                       hospitalityTitleEn: _EventController.titleEn.value,
-                      hospitalityBioEn: _EventController.bioEn.value,
+                      // hospitalityBioEn: _EventController.bioEn.value,
                       hospitalityTitleAr: _EventController.titleAr.value,
                       hospitalityBioAr: _EventController.bioAr.value,
                       adventurePrice: double.parse(EventPrice.text),

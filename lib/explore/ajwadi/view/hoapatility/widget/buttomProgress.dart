@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:ajwad_v4/api/translation_api.dart';
 import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
 import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
 import 'package:ajwad_v4/explore/ajwadi/view/add_event_calender_dialog.dart';
+import 'package:ajwad_v4/request/ajwadi/view/widget/include_card.dart';
+import 'package:ajwad_v4/request/ajwadi/view/widget/review_include_card.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 
@@ -149,8 +152,8 @@ class _ButtomProgressState extends State<ButtomProgress> {
         return AddHospitalityInfo(
           textField1ControllerAR: hospitalityTitleControllerAr,
           textField2ControllerAR: hospitalityBioControllerAr,
-          textField1ControllerEN: hospitalityTitleControllerEn,
-          textField2ControllerEN: hospitalityBioControllerEn,
+          // textField1ControllerEN: hospitalityTitleControllerEn,
+          // textField2ControllerEN: hospitalityBioControllerEn,
         );
       case 1:
         return AddHospitalityLocation(
@@ -246,6 +249,17 @@ class _ButtomProgressState extends State<ButtomProgress> {
     return ""; // Add validation for other steps if needed
   }
 
+  Future<void> translateTitleIfChanged() async {
+    final current = hospitalityTitleControllerAr.text;
+
+    if (current.isNotEmpty &&
+        current != _hospitalityController.lastTranslatedTitleAr) {
+      final translated = await TranslationApi.translate(current, 'en');
+      hospitalityBioControllerEn.text = translated;
+      _hospitalityController.lastTranslatedTitleAr = current;
+    }
+  }
+
   Widget nextButton() {
     if (activeIndex != 0) {
       return Obx(() {
@@ -254,15 +268,21 @@ class _ButtomProgressState extends State<ButtomProgress> {
           child: Opacity(
             opacity: _validateFields() ? 1.0 : 0.5,
             child: GestureDetector(
-              onTap: () {
+              onTap: () async {
                 if (activeIndex < totalIndex - 1) {
                   setState(() {
                     activeIndex++;
                   });
                 } else if (activeIndex == totalIndex - 1) {
+                  await translateTitleIfChanged();
+                  // final translatedText = await TranslationApi.translate(
+                  //   hospitalityTitleControllerAr.text,
+                  //   'en',
+                  // );
+                  // hospitalityTitleControllerEn.text = translatedText;
                   Get.to(() => HostInfoReview(
                         hospitalityTitleEn: hospitalityTitleControllerEn.text,
-                        hospitalityBioEn: hospitalityBioControllerEn.text,
+                        // hospitalityBioEn: hospitalityBioControllerEn.text,
                         hospitalityTitleAr: hospitalityTitleControllerAr.text,
                         hospitalityBioAr: hospitalityBioControllerAr.text,
                         hospitalityPrice: int.parse(hospitalityPrice.text),
@@ -375,14 +395,14 @@ class _ButtomProgressState extends State<ButtomProgress> {
 class AddHospitalityInfo extends StatefulWidget {
   const AddHospitalityInfo({
     Key? key,
-    required this.textField1ControllerEN,
-    required this.textField2ControllerEN,
+    // required this.textField1ControllerEN,
+    // required this.textField2ControllerEN,
     required this.textField1ControllerAR,
     required this.textField2ControllerAR,
   }) : super(key: key);
 
-  final TextEditingController textField1ControllerEN;
-  final TextEditingController textField2ControllerEN;
+  // final TextEditingController textField1ControllerEN;
+  // final TextEditingController textField2ControllerEN;
   final TextEditingController textField1ControllerAR;
   final TextEditingController textField2ControllerAR;
 
@@ -412,12 +432,12 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
 
     final TextEditingController textFieldTitleArController =
         widget.textField1ControllerAR;
-    final TextEditingController textFieldTitleEnController =
-        widget.textField1ControllerEN;
+    // final TextEditingController textFieldTitleEnController =
+    //     widget.textField1ControllerEN;
     final TextEditingController textFieldDescArController =
         widget.textField2ControllerAR;
-    final TextEditingController textFieldDescEnController =
-        widget.textField2ControllerEN;
+    // final TextEditingController textFieldDescEnController =
+    //     widget.textField2ControllerEN;
 
     return SingleChildScrollView(
       child: Column(
@@ -486,67 +506,67 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
                   ),
                 ],
               ),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomText(
-                    text: 'experienceTitleEn'.tr,
-                    color: const Color(0xFF070708),
-                    fontSize: 17,
-                    fontFamily: AppUtil.SfFontType(context),
-                    fontWeight: FontWeight.w500,
-                    height: 0,
-                  ),
-                  SizedBox(height: width * 0.0205),
-                  TextField(
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(
-                        RegExp(r'[a-zA-Z0-9\s]'),
-                      ), // Allow only English letters and spaces
-                    ],
-                    maxLength: 20,
-                    controller: textFieldTitleEnController,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontFamily: AppUtil.SfFontType(context),
-                      fontWeight: FontWeight.w400,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: 'example: Dana’s house',
-                      hintStyle: TextStyle(
-                        color: const Color(0xFFB9B8C1),
-                        fontSize: 15,
-                        fontFamily: AppUtil.SfFontType(context),
-                        fontWeight: FontWeight.w400,
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 0), // Adjust vertical padding for height
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                            width: 1, color: Color(0xFFB9B8C1)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(
-                            width: 1,
-                            color: Color(
-                                0xFFB9B8C1)), // Same color to remove focus color
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              // Column(
+              //   mainAxisSize: MainAxisSize.min,
+              //   mainAxisAlignment: MainAxisAlignment.start,
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     CustomText(
+              //       text: 'experienceTitleEn'.tr,
+              //       color: const Color(0xFF070708),
+              //       fontSize: 17,
+              //       fontFamily: AppUtil.SfFontType(context),
+              //       fontWeight: FontWeight.w500,
+              //       height: 0,
+              //     ),
+              //     SizedBox(height: width * 0.0205),
+              //     TextField(
+              //       inputFormatters: [
+              //         FilteringTextInputFormatter.allow(
+              //           RegExp(r'[a-zA-Z0-9\s]'),
+              //         ), // Allow only English letters and spaces
+              //       ],
+              //       maxLength: 20,
+              //       controller: textFieldTitleEnController,
+              //       style: TextStyle(
+              //         color: Colors.black,
+              //         fontSize: 15,
+              //         fontFamily: AppUtil.SfFontType(context),
+              //         fontWeight: FontWeight.w400,
+              //       ),
+              //       decoration: InputDecoration(
+              //         hintText: 'example: Dana’s house',
+              //         hintStyle: TextStyle(
+              //           color: const Color(0xFFB9B8C1),
+              //           fontSize: 15,
+              //           fontFamily: AppUtil.SfFontType(context),
+              //           fontWeight: FontWeight.w400,
+              //         ),
+              //         filled: true,
+              //         fillColor: Colors.white,
+              //         contentPadding: const EdgeInsets.symmetric(
+              //             horizontal: 12,
+              //             vertical: 0), // Adjust vertical padding for height
+              //         enabledBorder: OutlineInputBorder(
+              //           borderRadius: BorderRadius.circular(8),
+              //           borderSide: const BorderSide(
+              //               width: 1, color: Color(0xFFB9B8C1)),
+              //         ),
+              //         focusedBorder: OutlineInputBorder(
+              //           borderRadius: BorderRadius.circular(8),
+              //           borderSide: const BorderSide(
+              //               width: 1,
+              //               color: Color(
+              //                   0xFFB9B8C1)), // Same color to remove focus color
+              //         ),
+              //         border: OutlineInputBorder(
+              //           borderRadius: BorderRadius.circular(8),
+              //           borderSide: BorderSide.none,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
               Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -637,94 +657,119 @@ class _AddHospitalityInfoState extends State<AddHospitalityInfo> {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 12,
           ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomText(
-                text: 'descriptionEn'.tr,
-                color: const Color(0xFF070708),
-                fontSize: 17,
-                fontFamily: AppUtil.SfFontType(context),
-                fontWeight: FontWeight.w500,
-                height: 0,
-              ),
-              SizedBox(height: width * 0.0205),
-              Container(
-                width: double.infinity,
-                height: width * 0.34,
-                decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(width: 1, color: Color(0xFFB9B8C1)),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                  child: TextField(
-                    maxLines: 8,
-                    // minLines: 1,
-                    controller: textFieldDescEnController,
-                    focusNode: _focusNodeEn,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r'^(?:[a-zA-Z]|\P{L})+$', unicode: true)),
-                      TextInputFormatter.withFunction(
-                        (oldValue, newValue) {
-                          if (newValue.text
-                                  .split(RegExp(r'\s+'))
-                                  .where((word) => word.isNotEmpty)
-                                  .length >
-                              150) {
-                            return oldValue;
-                          }
-                          return newValue;
-                        },
-                      ),
-                    ],
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontFamily: AppUtil.SfFontType(context),
-                      fontWeight: FontWeight.w400,
-                    ),
-                    decoration: InputDecoration(
-                      hintText:
-                          'highlight what makes it unique and why tourists should visit',
-                      hintStyle: TextStyle(
-                        color: const Color(0xFFB9B8C1),
-                        fontSize: 15,
-                        fontFamily: AppUtil.SfFontType(context),
-                        fontWeight: FontWeight.w400,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 1.0, left: 8.0),
-                child: CustomText(
-                  text: AppUtil.rtlDirection2(context)
-                      ? '*يجب ألا يتجاوز الوصف 150 كلمة'
-                      : '*the description must not exceed 150 words',
-                  color: const Color(0xFFB9B8C1),
-                  fontSize: 11,
-                  fontFamily: AppUtil.SfFontType(context),
-                  fontWeight: FontWeight.w400,
-                ),
-              )
-            ],
-          ),
+          // Column(
+          //   mainAxisSize: MainAxisSize.min,
+          //   mainAxisAlignment: MainAxisAlignment.start,
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+          //   children: [
+          //     CustomText(
+          //       text: 'descriptionEn'.tr,
+          //       color: const Color(0xFF070708),
+          //       fontSize: 17,
+          //       fontFamily: AppUtil.SfFontType(context),
+          //       fontWeight: FontWeight.w500,
+          //       height: 0,
+          //     ),
+          //     SizedBox(height: width * 0.0205),
+          //     Container(
+          //       width: double.infinity,
+          //       height: width * 0.34,
+          //       decoration: ShapeDecoration(
+          //         color: Colors.white,
+          //         shape: RoundedRectangleBorder(
+          //           side: const BorderSide(width: 1, color: Color(0xFFB9B8C1)),
+          //           borderRadius: BorderRadius.circular(8),
+          //         ),
+          //       ),
+          //       child: Padding(
+          //         padding:
+          //             const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+          //         child: TextField(
+          //           maxLines: 8,
+          //           // minLines: 1,
+          //           controller: textFieldDescEnController,
+          //           focusNode: _focusNodeEn,
+          //           inputFormatters: [
+          //             FilteringTextInputFormatter.allow(
+          //                 RegExp(r'^(?:[a-zA-Z]|\P{L})+$', unicode: true)),
+          //             TextInputFormatter.withFunction(
+          //               (oldValue, newValue) {
+          //                 if (newValue.text
+          //                         .split(RegExp(r'\s+'))
+          //                         .where((word) => word.isNotEmpty)
+          //                         .length >
+          //                     150) {
+          //                   return oldValue;
+          //                 }
+          //                 return newValue;
+          //               },
+          //             ),
+          //           ],
+          //           style: TextStyle(
+          //             color: Colors.black,
+          //             fontSize: 15,
+          //             fontFamily: AppUtil.SfFontType(context),
+          //             fontWeight: FontWeight.w400,
+          //           ),
+          //           decoration: InputDecoration(
+          //             hintText:
+          //                 'highlight what makes it unique and why tourists should visit',
+          //             hintStyle: TextStyle(
+          //               color: const Color(0xFFB9B8C1),
+          //               fontSize: 15,
+          //               fontFamily: AppUtil.SfFontType(context),
+          //               fontWeight: FontWeight.w400,
+          //             ),
+          //             border: OutlineInputBorder(
+          //               borderRadius: BorderRadius.circular(8),
+          //               borderSide: BorderSide.none,
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //     Padding(
+          //       padding: const EdgeInsets.only(top: 1.0, left: 8.0),
+          //       child: CustomText(
+          //         text: AppUtil.rtlDirection2(context)
+          //             ? '*يجب ألا يتجاوز الوصف 150 كلمة'
+          //             : '*the description must not exceed 150 words',
+          //         color: const Color(0xFFB9B8C1),
+          //         fontSize: 11,
+          //         fontFamily: AppUtil.SfFontType(context),
+          //         fontWeight: FontWeight.w400,
+          //       ),
+          //     ),
+          // Obx(() {
+          //   return TranslationApi.isTranslatingLoading.value
+          //       ? const CircularProgressIndicator.adaptive()
+          //       : GestureDetector(
+          //           onTap: () async {
+          //             if (textFieldDescArController.text.isNotEmpty) {
+          //               final translatedText =
+          //                   await TranslationApi.translate(
+          //                 textFieldDescArController.text,
+          //                 'zh',
+          //               );
+          //               textFieldDescEnController.text = translatedText;
+          //             }
+          //           },
+          //           child: CustomText(
+          //             text: AppUtil.rtlDirection2(context)
+          //                 ? 'ترجمة المحتوى'
+          //                 : "Translate content",
+          //             color: colorRed,
+          //             fontSize: 12,
+          //             fontFamily: AppUtil.SfFontType(context),
+          //             fontWeight: FontWeight.w400,
+          //           ),
+          //         );
+          // }),
+          //   ],
+          // ),
         ],
       ),
     );
@@ -2084,12 +2129,19 @@ class _SelectDateTimeState extends State<SelectDateTime> {
       if (_selectedRadio == 1) {
         widget.hospitalityController.selectedMealEn.value = "BREAKFAST";
         widget.hospitalityController.selectedMealAr.value = "إفطار";
+        widget.hospitalityController.selectedMealZh.value = "早餐";
       } else if (_selectedRadio == 3) {
         widget.hospitalityController.selectedMealEn.value = "Dinner";
         widget.hospitalityController.selectedMealAr.value = "عشاء";
+        widget.hospitalityController.selectedMealZh.value = '晚餐';
       } else if (_selectedRadio == 2) {
         widget.hospitalityController.selectedMealEn.value = "LUNCH";
         widget.hospitalityController.selectedMealAr.value = "غداء";
+        widget.hospitalityController.selectedMealZh.value = '午餐';
+      } else if (_selectedRadio == 4) {
+        widget.hospitalityController.selectedMealEn.value = "SNACK";
+        widget.hospitalityController.selectedMealAr.value = "وجبة خفيفة";
+        widget.hospitalityController.selectedMealZh.value = '小吃';
       }
 
       // widget.onGenderChanged(gender!);  // Call the callback with the new gender value
@@ -2844,6 +2896,40 @@ class _SelectDateTimeState extends State<SelectDateTime> {
                       ),
                     ],
                   ),
+                  const SizedBox(width: 12),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Radio<int>(
+                        value: 4,
+                        groupValue: _selectedRadio,
+                        onChanged: _updateMeal,
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        visualDensity:
+                            const VisualDensity(horizontal: -4, vertical: -4),
+                        fillColor: WidgetStateProperty.resolveWith<Color>(
+                            (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.selected)) {
+                            return colorGreen;
+                          }
+                          return dotGreyColor;
+                        }),
+                      ),
+                      const SizedBox(width: 4),
+                      CustomText(
+                        text: 'snack'.tr,
+                        color: const Color(0xFF41404A),
+                        fontSize: 13,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ],
@@ -2868,7 +2954,8 @@ class PriceDecisionCard extends StatefulWidget {
 
 class _PriceDecisionCardState extends State<PriceDecisionCard> {
   int price = 0;
-
+  final HospitalityController _hospitalityController =
+      Get.put(HospitalityController());
   void _setPrice(int newPrice) {
     setState(() {
       price = newPrice;
@@ -2937,6 +3024,8 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -2952,7 +3041,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
         const SizedBox(height: 2),
         CustomText(
           text: 'changePrice'.tr,
-          color: starGreyColor,
+          color: grayDarkText,
           fontSize: 15,
           fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
           fontWeight: FontWeight.w500,
@@ -2960,44 +3049,38 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
         const SizedBox(height: 20),
         Container(
           width: double.infinity,
-          height: 121,
-          padding: const EdgeInsets.only(left: 16, right: 8, bottom: 20),
+          // height: 121,
+          padding: const EdgeInsets.only(
+            left: 16,
+            right: 8,
+            bottom: 30,
+          ),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: errorMessage.isNotEmpty ? Colors.red : Colors.white,
+              color: errorMessage.isNotEmpty ? colorRed : borderGreyColor,
             ),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x3FC7C7C7),
-                blurRadius: 15,
-                offset: Offset(0, 0),
-                spreadRadius: 0,
-              ),
-            ],
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 2),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    IconButton(
-                      icon: SvgPicture.asset('assets/icons/editPin.svg'),
-                      onPressed: () {
-                        setState(() {
-                          isEditing = !isEditing;
-                        });
-                      },
-                    ),
-                  ],
+              IconButton(
+                focusColor: null,
+                color: null,
+                highlightColor: null,
+                splashColor: null,
+                disabledColor: null,
+                icon: SvgPicture.asset(
+                  'assets/icons/editPin.svg',
                 ),
+                onPressed: () {
+                  setState(() {
+                    isEditing = !isEditing;
+                  });
+                },
               ),
               // const SizedBox(height: 1),
               SizedBox(
@@ -3023,7 +3106,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                             contentPadding: EdgeInsets.all(0),
                           ),
                           style: const TextStyle(
-                            color: Color(0xFF070708),
+                            color: black,
                             fontSize: 34,
                             fontFamily: 'HT Rakik',
                             fontWeight: FontWeight.w500,
@@ -3040,7 +3123,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                     else
                       CustomText(
                         text: widget.priceController.text,
-                        color: const Color(0xFF070708),
+                        color: black,
                         fontSize: 34,
                         fontFamily: 'HT Rakik',
                         fontWeight: FontWeight.w500,
@@ -3048,21 +3131,22 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                     const SizedBox(width: 4),
                     CustomText(
                       text: 'sar'.tr,
-                      color: const Color(0xFF070708),
+                      color: black,
                       fontSize: 34,
                       fontFamily: 'HT Rakik',
                       fontWeight: FontWeight.w500,
                     ),
                     const SizedBox(width: 4),
                     CustomText(
-                        text: 'Perperson'.tr,
-                        color: Graytext,
-                        fontSize: 12,
-                        fontFamily: AppUtil.rtlDirection2(context)
-                            ? 'SF Arabic'
-                            : 'SF Pro',
-                        fontWeight: FontWeight.w500,
-                        height: 3),
+                      text: 'Perperson'.tr,
+                      color: black,
+                      fontSize: 15,
+                      fontFamily: AppUtil.rtlDirection2(context)
+                          ? 'SF Arabic'
+                          : 'SF Pro',
+                      fontWeight: FontWeight.w500,
+                      height: 2.1,
+                    ),
                   ],
                 ),
               ),
@@ -3071,25 +3155,25 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
         ),
         if (errorMessage.isNotEmpty && price != 150.0)
           Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.only(top: 4.0),
             child: CustomText(
               text: errorMessage,
-              color: Colors.red,
-              fontSize: 14,
+              color: colorRed,
+              fontSize: 11,
               fontFamily:
                   AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
               fontWeight: FontWeight.w400,
             ),
           ),
-        const SizedBox(height: 50),
+        const SizedBox(height: 12),
         Container(
-          height: 130,
+          // height: 130,
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
           clipBehavior: Clip.antiAlias,
           decoration: ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(
-              side: const BorderSide(width: 1, color: Color(0xFFDCDCE0)),
+              side: const BorderSide(width: 1, color: borderGreyColor),
               borderRadius: BorderRadius.circular(8),
             ),
           ),
@@ -3105,7 +3189,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   children: [
                     CustomText(
                       text: 'Baseprice'.tr,
-                      color: graySmallText,
+                      color: medBlack,
                       fontSize: 15,
                       fontFamily: AppUtil.rtlDirection2(context)
                           ? 'SF Arabic'
@@ -3115,7 +3199,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                     const SizedBox(width: 8),
                     CustomText(
                       text: ' ${widget.priceController.text} ${'sar'.tr}',
-                      color: graySmallText,
+                      color: black,
                       fontSize: 15,
                       fontFamily: AppUtil.rtlDirection2(context)
                           ? 'SF Arabic'
@@ -3126,7 +3210,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 6,
               ),
               SizedBox(
                 width: double.infinity,
@@ -3157,15 +3241,15 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 2,
-              ),
+              // const SizedBox(
+              //   height: 2,
+              // ),
               const Divider(
                 color: lightGrey,
                 thickness: 1,
               ),
               const SizedBox(
-                height: 4,
+                height: 2,
               ),
               SizedBox(
                 width: double.infinity,
@@ -3181,7 +3265,7 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                       fontFamily: AppUtil.rtlDirection2(context)
                           ? 'SF Arabic'
                           : 'SF Pro',
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w400,
                     ),
                     const SizedBox(width: 8),
                     CustomText(
@@ -3195,9 +3279,140 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
                   ],
                 ),
               ),
+              const SizedBox(
+                height: 2,
+              ),
             ],
           ),
         ),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // SizedBox(height: width * 0.060),
+            Padding(
+              padding: EdgeInsets.only(
+                  left: width * 0.01,
+                  top: width * 0.055,
+                  // bottom: width * 0.050,
+                  right: width * 0.01),
+              child: CustomText(
+                text: 'priceInclude'.tr,
+                color: black,
+                fontSize: 17,
+                fontFamily: AppUtil.SfFontType(context),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            SizedBox(
+              height: width * 0.020,
+            ),
+            CustomText(
+              text: 'priceIncludeDes'.tr,
+              textAlign: TextAlign.right,
+              color: const Color(0xFFB0B0B0) /* text-textTertiary */,
+              fontSize: 15,
+              fontFamily: AppUtil.SfFontType(context),
+              fontWeight: FontWeight.w500,
+            ),
+            // SizedBox(height: width * 0.05),
+            SizedBox(
+              height: width * 0.050,
+            ),
+            Obx(
+              () => ListView.separated(
+                separatorBuilder: (context, index) => SizedBox(
+                  height: width * 0.02,
+                ),
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                itemCount: _hospitalityController.reviewincludeItenrary.length,
+                itemBuilder: (context, index) => ReivewIncludeCard(
+                  indx: index,
+                  include: _hospitalityController.reviewincludeItenrary[index],
+                  experienceController: _hospitalityController,
+                ),
+              ),
+            ),
+            Obx(() => _hospitalityController.reviewincludeItenrary.isNotEmpty
+                ? SizedBox(
+                    height: width * 0.050,
+                  )
+                : const SizedBox.shrink()),
+
+            Obx(() => ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  separatorBuilder: (context, index) =>
+                      SizedBox(height: width * 0.06),
+                  itemCount: _hospitalityController.includeList.length,
+                  itemBuilder: (context, index) {
+                    return _hospitalityController.includeList[index];
+                  },
+                )),
+            // SizedBox(height: width * 0.06),
+
+            // Add Button
+            GestureDetector(
+              onTap: () {
+                if (_hospitalityController.includeCount >= 1) {
+                  return;
+                }
+                _hospitalityController.includeList.add(
+                  IncludeCard(
+                    indx: _hospitalityController.includeCount.value,
+                    experienceController: _hospitalityController,
+                  ),
+                );
+                _hospitalityController.includeCount++;
+              },
+              child: Obx(
+                () => Padding(
+                  padding: EdgeInsets.only(
+                      left: width * 0.01,
+                      top: _hospitalityController.includeList.isEmpty
+                          ? 0
+                          : width * 0.050,
+                      bottom: width * 0.06,
+                      right: width * 0.01),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        // height: width * 0.06,
+                        // width: width * 0.06,
+                        alignment: Alignment.center,
+                        decoration: ShapeDecoration(
+                          color: colorGreen,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(9999),
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                          size: width * 0.06,
+                        ),
+                      ),
+                      SizedBox(width: width * 0.02),
+                      CustomText(
+                        text: "addNewPoint".tr,
+                        fontSize: width * 0.038,
+                        fontFamily: AppUtil.rtlDirection2(context)
+                            ? 'SF Arabic'
+                            : 'SF Pro',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: width * 0.06),
+          ],
+        )
       ],
     );
   }

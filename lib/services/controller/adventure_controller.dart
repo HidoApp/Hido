@@ -10,6 +10,8 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../request/ajwadi/view/widget/include_card.dart';
+
 class AdventureController extends GetxController {
   var adventureList = <Adventure>[].obs;
   var originalAdventureList = <Adventure>[].obs;
@@ -39,6 +41,13 @@ class AdventureController extends GetxController {
   var ragionAr = "".obs;
   var ragionEn = "".obs;
   var startDate = ''.obs;
+  var titleAr = "".obs;
+  var titleEn = "".obs;
+  var titleZh = "".obs;
+
+  var desAr = "".obs;
+  var desEn = "".obs;
+  var desZh = "".obs;
 
   var selectedImages = <XFile>[].obs;
   var images = <dynamic>[].obs;
@@ -50,6 +59,12 @@ class AdventureController extends GetxController {
   var showErrorGuests = false.obs;
   var person = 0.obs;
   var startTime = ''.obs;
+  var includeList = <IncludeCard>[].obs;
+  var reviewincludeItenrary = <String>[].obs;
+  var isActivtyValid = true.obs;
+  var validSave = true.obs;
+  var includeCount = 0.obs;
+  String lastTranslatedTitleAr = '';
 
   // Rx<LatLng> pickUpLocLatLang = const LatLng(24.9470921, 45.9903698).obs;
   //  Rx<LatLng> pickUpLocLatLang = const LatLng(24.6264,46.544731).obs;
@@ -136,8 +151,13 @@ class AdventureController extends GetxController {
   Future<bool> createAdventure({
     required String nameAr,
     required String nameEn,
+    required String nameZh,
     required String descriptionAr,
     required String descriptionEn,
+    required String descriptionZh,
+    List<String>? priceIncludesEn,
+    List<String>? priceIncludesAr,
+    List<String>? priceIncludesZh,
     required String longitude,
     required String latitude,
     //required String date,
@@ -159,10 +179,15 @@ class AdventureController extends GetxController {
       final isSuccess = await AdventureService.createAdventure(
           nameAr: nameAr,
           nameEn: nameEn,
+          nameZh: nameZh,
           daysInfo: daysInfo,
           //  date: date,
           descriptionAr: descriptionAr,
           descriptionEn: descriptionEn,
+          descriptionZh: descriptionZh,
+          priceIncludesAr: priceIncludesAr,
+          priceIncludesEn: priceIncludesEn,
+          priceIncludesZh: priceIncludesZh,
           longitude: longitude,
           latitude: latitude,
           price: price,
@@ -190,8 +215,13 @@ class AdventureController extends GetxController {
     required String id,
     required String nameAr,
     required String nameEn,
+    required String nameZh,
     required String descriptionAr,
     required String descriptionEn,
+    required String descriptionZh,
+    List<String>? priceIncludesEn,
+    List<String>? priceIncludesAr,
+    List<String>? priceIncludesZh,
     required String longitude,
     required String latitude,
     required int price,
@@ -212,8 +242,13 @@ class AdventureController extends GetxController {
           id: id,
           nameAr: nameAr,
           nameEn: nameEn,
+          nameZh: nameZh,
           descriptionAr: descriptionAr,
           descriptionEn: descriptionEn,
+          descriptionZh: descriptionZh,
+          priceIncludesAr: priceIncludesAr,
+          priceIncludesEn: priceIncludesEn,
+          priceIncludesZh: priceIncludesZh,
           longitude: longitude,
           latitude: latitude,
           price: price,

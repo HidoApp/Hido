@@ -130,6 +130,7 @@ class ProfileService {
     String? profileImage,
     String? descripttion,
     String? iban,
+    String? transportationMethod,
     String? nationality,
     List<String>? spokenLanguage,
     String? tourGuideLicense,
@@ -155,6 +156,8 @@ class ProfileService {
           if (spokenLanguage != null) "spokenLanguage": spokenLanguage,
           if (iban != null) "iban": iban.trim(),
           "gender": "MALE",
+          if (transportationMethod != null)
+            "transportationMethod": transportationMethod,
         }));
 
     log(response.statusCode.toString());

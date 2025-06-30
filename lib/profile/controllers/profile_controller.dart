@@ -30,6 +30,9 @@ class ProfileController extends GetxController {
   var pastTicket = <Booking>[].obs;
   var chatList = <ChatModel>[].obs;
   var actionsList = <ActivityProgress>[].obs;
+  var isDriveCar = false.obs;
+  var isNotDriveCar = false.obs;
+  var transporationMethod = ''.obs;
 
   var profile = Profile();
   var isEmailOtp = false.obs;
@@ -56,6 +59,36 @@ class ProfileController extends GetxController {
   var touriestBar = 0.obs;
 
   var isInternetConnected = true.obs;
+  var pdfFile = Rx<File?>(null);
+  var plateNumber1 = ''.obs;
+  var plateNumber2 = ''.obs;
+  var plateNumber3 = ''.obs;
+  var plateNumber4 = ''.obs;
+  var plateletter1 = ''.obs;
+  var plateletter2 = ''.obs;
+  var plateletter3 = ''.obs;
+  var selectedRide = ''.obs;
+  var drivingDateDay = ''.obs;
+  var drivingDate = ''.obs;
+
+  var agreeForTerms = false.obs;
+
+  void reset() {
+    plateNumber1.value = '';
+    plateNumber2.value = '';
+    plateNumber3.value = '';
+    plateNumber4.value = '';
+    plateletter1.value = '';
+    plateletter2.value = '';
+    plateletter3.value = '';
+    selectedRide.value = '';
+    pdfName('');
+    pdfFile(null);
+    drivingDateDay.value = '';
+    isDriveCar(false);
+    isNotDriveCar(false);
+    agreeForTerms(false);
+  }
 
   //------
   Future<Profile?> getProfile(
@@ -101,6 +134,7 @@ class ProfileController extends GetxController {
     String? descripttion,
     String? iban,
     String? nationality,
+    String? transportationMethod,
     List<String>? spokenLanguage,
     String? tourGuideLicense,
     required BuildContext context,
@@ -113,6 +147,7 @@ class ProfileController extends GetxController {
         profileImage: profileImage,
         descripttion: descripttion,
         iban: iban,
+        transportationMethod: transportationMethod,
         nationality: nationality,
         spokenLanguage: spokenLanguage,
         tourGuideLicense: tourGuideLicense,
