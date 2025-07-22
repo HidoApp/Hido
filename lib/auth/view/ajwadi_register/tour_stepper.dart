@@ -276,7 +276,6 @@ class _TourStepperState extends State<TourStepper> {
                           vertical: width * 0.030, horizontal: width * .041),
                       child: Obx(
                         () =>
-                            //_authController.isCreateAccountLoading.value ||
                             _authController.isVicheleOTPLoading.value ||
                                     _authController
                                         .isLienceseOTPLoading.value ||

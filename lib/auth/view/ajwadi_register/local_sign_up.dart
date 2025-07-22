@@ -205,9 +205,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                                 )),
                             child: Row(
                               children: [
-                                // SizedBox(
-                                //   width: width * 0.00,
-                                // ),
+                                
                                 Obx(
                                   () => CustomText(
                                     text: _authController.birthDate.isNotEmpty
@@ -257,9 +255,7 @@ class _LocalSignUpScreenState extends State<LocalSignUpScreen> {
                               _authController.isAgreeForTerms(false);
                               return;
                             } else {
-                              // AmplitudeService.amplitude.track(BaseEvent(
-                              //     "User doesn't agree for our terms",
-                              // ));
+                             
                               _authController.isAgreeForTerms(true);
                             }
                             log(_authController.birthDate.value);
