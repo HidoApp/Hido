@@ -34,10 +34,8 @@ class CarType extends StatefulWidget {
 
 class _CarTypeState extends State<CarType> {
   final storage = GetStorage();
-  // var tourSelected = false;
-  // var experiencesSelected = false;
+
   final _profileController = Get.put(ProfileController());
-  // final _authController = Get.put(AuthController());
 
   // @override
   // void dispose() {
@@ -89,9 +87,7 @@ class _CarTypeState extends State<CarType> {
                           .contains(driveType)) {
                         _profileController.transporationMethod.add(driveType);
                       }
-                      // _profileController.transporationMethod.add(
-                      //     AppUtil.transportationMethodToValue(
-                      //         TransportationMethod.ownCar));
+                     
                     },
                   ),
                 ),
@@ -148,48 +144,7 @@ class _CarTypeState extends State<CarType> {
           ],
         ),
       ),
-      // bottomNavigationBar: Padding(
-      //   padding: EdgeInsets.symmetric(
-      //       vertical: width * 0.09, horizontal: width * 0.041),
-      //   child: Obx(
-      //     () => _profileController.isImagesLoading.value ||
-      //             _profileController.isProfileLoading.value ||
-      //             _profileController.isEditProfileLoading.value
-      //         ? const Center(
-      //             child: CircularProgressIndicator.adaptive(),
-      //           )
-      //         : CustomButton(
-      //             title: 'next'.tr,
-      //             onPressed: (_profileController.isNotDriveCar.value ||
-      //                         _profileController.isDriveCar.value) &&
-      //                     _authController.agreeForTerms.value
-      //                 ? () async {
-      //                     // await _profileController.getProfile(context: context);
-      //                     Get.to(() => const TourStepper());
-      //                     // Get.back();
-      //                   }
-      //                 : null,
-      //             raduis: 8,
-      //             height: width * 0.123,
-      //             buttonColor: (!(_profileController.isNotDriveCar.value ||
-      //                         _profileController.isDriveCar.value) ||
-      //                     !_authController.agreeForTerms.value)
-      //                 ? textlightGreen
-      //                 : colorGreen,
-      //             borderColor: (!(_profileController.isNotDriveCar.value ||
-      //                         _profileController.isDriveCar.value) ||
-      //                     !_authController.agreeForTerms.value)
-      //                 ? textlightGreen
-      //                 : colorGreen,
-
-      //             // icon: const Icon(
-      //             //   Icons.keyboard_arrow_right,
-      //             // ),
-      //           ),
-      //   ),
-      //   //   ],
-      //   // ),
-      // ),
+     
     );
   }
 }

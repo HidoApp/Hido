@@ -128,7 +128,6 @@ class _ProvidedServicesState extends State<ProvidedServices> {
                 _authController.tourSelected.value) {
               AmplitudeService.amplitude
                   .track(BaseEvent('Local choose  to be tour guide'));
-              // Get.to(() => const TourStepper());
               Get.to(() => const ContactInfo());
             } else if (_authController.experiencesSelected.value) {
               AmplitudeService.amplitude
@@ -137,7 +136,6 @@ class _ProvidedServicesState extends State<ProvidedServices> {
             } else if (_authController.tourSelected.value) {
               AmplitudeService.amplitude
                   .track(BaseEvent('Local choose  to be tour guide'));
-              //  Get.to(() => const TourStepper());
               Get.to(() => const ContactInfo());
             } else {
               AppUtil.errorToast(context, 'pickService'.tr);
