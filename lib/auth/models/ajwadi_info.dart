@@ -2,8 +2,8 @@ class AjwadiInfo {
   final String? accountType;
   final bool? vehicle;
   final bool? drivingLicense;
-  // final List<String>? transportationMethod;
-  final String? transportationMethod;
+  final List<String>? transportationMethod;
+  // final String? transportationMethod;
 
   AjwadiInfo(
       {this.vehicle,
@@ -16,12 +16,11 @@ class AjwadiInfo {
       drivingLicense: json['drivingLicense'],
       vehicle: json['vehicle'],
       accountType: json['accountType'] ?? "",
-      transportationMethod: json['transportationMethod'] ?? "",
-      // transportationMethod: json['transportationMethod'] != null
-      //     ? (json['transportationMethod'] as List<dynamic>)
-      //         .map((e) => e as String)
-      //         .toList()
-      //     : [],
+      transportationMethod: json['transportationMethod'] != null
+          ? (json['transportationMethod'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList()
+          : [],
     );
   }
 

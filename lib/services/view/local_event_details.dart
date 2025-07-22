@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/Experience/localEvent/view/edit_event.dart';
+import 'package:ajwad_v4/explore/local/view/Experience/local_event/view/edit_event.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/bookmark.dart';
 import 'package:ajwad_v4/profile/services/bookmark_services.dart';
@@ -274,16 +274,24 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                       alignment: AppUtil.rtlDirection2(context)
                                           ? Alignment.centerRight
                                           : Alignment.centerLeft,
-                                      child: CustomText(
-                                        text: AppUtil.rtlDirection2(context)
-                                            ? event!.nameAr ?? ''
-                                            : event!.nameEn ?? '',
-                                        fontSize: width * 0.07,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily:
-                                            AppUtil.rtlDirection2(context)
-                                                ? 'SF Arabic'
-                                                : 'SF Pro',
+                                      child: ConstrainedBox(
+                                        constraints: BoxConstraints(
+                                          maxWidth: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.7,
+                                        ),
+                                        child: CustomText(
+                                          text: AppUtil.rtlDirection2(context)
+                                              ? event!.nameAr ?? ''
+                                              : event!.nameEn ?? '',
+                                          fontSize: width * 0.07,
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                        ),
                                       )),
                                   const Spacer(),
                                   InkWell(
@@ -474,13 +482,17 @@ class _LocalEventDetailsState extends State<LocalEventDetails> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 SizedBox(width: width * 0.021),
-                                                CustomText(
-                                                  text: '•   $item',
-                                                  fontSize: width * 0.039,
-                                                  fontFamily:
-                                                      AppUtil.SfFontType(
-                                                          context),
-                                                  fontWeight: FontWeight.w400,
+                                                Expanded(
+                                                  child: CustomText(
+                                                    text:
+                                                        '•   $item'.capitalize,
+                                                    fontSize: width * 0.039,
+                                                    maxlines: 4,
+                                                    fontFamily:
+                                                        AppUtil.SfFontType(
+                                                            context),
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
                                                 ),
                                               ],
                                             ))

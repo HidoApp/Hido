@@ -8,7 +8,7 @@ import 'package:ajwad_v4/auth/services/auth_service.dart';
 import 'package:ajwad_v4/auth/view/tourist_register/register/register_screen.dart';
 import 'package:ajwad_v4/auth/view/tourist_register/reset_password.dart';
 
-import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
+import 'package:ajwad_v4/bottom_bar/local/view/local_bottom_bar.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/notification/controller/notification_controller.dart';
@@ -266,8 +266,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                                 'Local Sign in',
                                               ));
 
-                                              Get.off(() =>
-                                                  const AjwadiBottomBar());
+                                              Get.off(
+                                                  () => const LocalBottomBar());
                                             }
                                           } else if (jwtToken.userRole ==
                                               'tourist') {

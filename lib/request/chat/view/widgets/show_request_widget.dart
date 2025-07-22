@@ -1,5 +1,5 @@
-import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
-import 'package:ajwad_v4/request/ajwadi/models/request_model.dart';
+import 'package:ajwad_v4/request/local/controllers/request_controller.dart';
+import 'package:ajwad_v4/request/local/models/request_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';

@@ -1166,4 +1166,24 @@ class AppUtil {
 
     return imageUrl;
   }
+
+  // In app_util.dart
+  static Map<String, List<String>> pickupRide = {
+    'sedan': [
+      'assets/icons/selected_sedan_icon.svg',
+      'assets/icons/unselected_sedan_icon.svg'
+    ],
+    'suv': [
+      'assets/icons/selected_suv_car.svg',
+      'assets/icons/unselected_suv_icon.svg'
+    ],
+    '4x4': [
+      'assets/icons/selected_4x4_icon.svg',
+      'assets/icons/unselected_4x4_icon.svg'
+    ],
+    'van': [
+      'assets/icons/selected_van_icon.svg',
+      'assets/icons/unselected_van_icon.svg'
+    ],
+  };
 }

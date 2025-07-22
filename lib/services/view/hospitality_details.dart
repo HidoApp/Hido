@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/hoapatility/view/edit_hospitality.dart';
+import 'package:ajwad_v4/explore/local/view/hoapatility/view/edit_hospitality.dart';
 import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/bookmark.dart';
@@ -55,7 +55,6 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
   final _servicesController = Get.put(HospitalityController());
   final _profileController = Get.put(ProfileController());
   // final _rattingController = Get.put(RatingController());
-
   int _currentIndex = 0;
   bool isExpanded = false;
   bool isAviailable = false;
@@ -174,6 +173,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
   Widget build(BuildContext context) {
     width = MediaQuery.sizeOf(context).width;
     height = MediaQuery.sizeOf(context).height;
+
     return Obx(
       () => _servicesController.isHospitalityByIdLoading.value
           ? const Scaffold(
@@ -282,16 +282,24 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                       alignment: AppUtil.rtlDirection2(context)
                                           ? Alignment.centerRight
                                           : Alignment.centerLeft,
-                                      child: CustomText(
-                                        text: AppUtil.rtlDirection2(context)
-                                            ? hospitalityObj!.titleAr
-                                            : hospitalityObj!.titleEn,
-                                        fontSize: width * 0.07,
-                                        fontWeight: FontWeight.w700,
-                                        fontFamily:
-                                            AppUtil.rtlDirection2(context)
-                                                ? 'SF Arabic'
-                                                : 'SF Pro',
+                                      child: ConstrainedBox(
+                                        constraints: BoxConstraints(
+                                          maxWidth: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.7,
+                                        ),
+                                        child: CustomText(
+                                          text: AppUtil.rtlDirection2(context)
+                                              ? hospitalityObj!.titleAr
+                                              : hospitalityObj!.titleEn,
+                                          fontSize: width * 0.07,
+                                          fontWeight: FontWeight.w700,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                        ),
                                       )),
                                   const Spacer(),
                                   InkWell(
@@ -483,13 +491,17 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 SizedBox(width: width * 0.021),
-                                                CustomText(
-                                                  text: '•   $item',
-                                                  fontSize: width * 0.039,
-                                                  fontFamily:
-                                                      AppUtil.SfFontType(
-                                                          context),
-                                                  fontWeight: FontWeight.w400,
+                                                Expanded(
+                                                  child: CustomText(
+                                                    text:
+                                                        '•   $item'.capitalize,
+                                                    fontSize: width * 0.039,
+                                                    maxlines: 4,
+                                                    fontFamily:
+                                                        AppUtil.SfFontType(
+                                                            context),
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
                                                 ),
                                               ],
                                             ))
@@ -753,7 +765,7 @@ class _HospitalityDetailsState extends State<HospitalityDetails> {
                       Positioned(
                           top: height * 0.066,
                           right: AppUtil.rtlDirection2(context)
-                              ? width * 0.75
+                              ? width * 0.7
                               //  ? width * 0.82
                               : width * 0.065,
                           child: Row(

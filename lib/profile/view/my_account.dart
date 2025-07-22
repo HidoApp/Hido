@@ -124,13 +124,19 @@ class _MyAccountState extends State<MyAccount> {
                             'TOUR_GUID') ...{
                       AccountTile(
                         title: 'providedServices'.tr,
+                        subtitle: widget.profileController.profile.accountType
+                                    ?.isNotEmpty ??
+                                false
+                            ? widget.profileController.profile.accountType
+                                ?.toLowerCase()
+                            : '',
                         onTap: () => Get.bottomSheet(
                             isScrollControlled: true,
                             const ProdvidedServicesSheet()),
                       ),
-                      SizedBox(
-                        height: width * 0.051,
-                      ),
+                      // SizedBox(
+                      //   height: width * 0.051,
+                      // ),
                       const Divider(
                         color: lightGrey,
                       ),

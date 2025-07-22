@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
 import 'package:ajwad_v4/auth/widget/provided_services_card.dart';
+import 'package:ajwad_v4/bottom_bar/local/view/local_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
+import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
+import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/bottom_sheet_indicator.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
 import 'package:ajwad_v4/widgets/custom_text.dart';
@@ -17,6 +22,10 @@ class ProdvidedServicesSheet extends StatefulWidget {
 
 class _ProdvidedServicesSheetState extends State<ProdvidedServicesSheet> {
   RxBool tourSelected = false.obs;
+  RxBool isSelected = true.obs;
+
+  final authController = Get.put(AuthController());
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
@@ -49,31 +58,50 @@ class _ProdvidedServicesSheetState extends State<ProdvidedServicesSheet> {
             SizedBox(
               height: width * 0.030,
             ),
-            ProvidedServicesCard(
-              onTap: () {
-                tourSelected.value = !tourSelected.value;
-              },
-              textColor: tourSelected.value ? colorGreen : black,
-              title: 'ajwady'.tr,
-              // iconPath: 'tourProvide',
-              subtitle: 'tourSub'.tr,
-              color: tourSelected.value ? lightGreen : Colors.white,
-              iconColor: tourSelected.value ? colorGreen : black,
-              borderColor: tourSelected.value ? colorGreen : borderGrey,
-              checkValue: tourSelected,
+            Obx(
+              () => ProvidedServicesCard(
+                onTap: () {
+                  tourSelected.value = !tourSelected.value;
+                },
+                textColor: tourSelected.value ? colorGreen : black,
+                title: 'ajwady'.tr,
+                // iconPath: 'tourProvide',
+                subtitle: 'tourSub'.tr,
+                color: tourSelected.value ? extralightGreen : Colors.white,
+                iconColor: tourSelected.value ? colorGreen : black,
+                borderColor: tourSelected.value
+                    ? colorGreen
+                    : isSelected.value
+                        ? borderGrey
+                        : colorRed,
+                checkValue: tourSelected,
+              ),
+            ),
+            Obx(
+              () => isSelected.value
+                  ? Container()
+                  : CustomText(
+                      text: 'pickService'.tr,
+                      color: colorRed,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: AppUtil.SfFontType(context),
+                    ),
             ),
             SizedBox(
               height: width * 0.061,
             ),
             CustomButton(
               title: 'save'.tr,
-              onPressed: () {
+              onPressed: () async {
                 if (tourSelected.value) {
-                  final authController = Get.put(AuthController());
+                  // final authController = Get.put(AuthController());
                   // authController.activeBar(2);
-                  authController.activeBar(1);
+                  // authController.activeBar(1);
 
                   Get.to((() => const TourStepper()));
+                } else {
+                  isSelected.value = !isSelected.value;
                 }
               },
             ),

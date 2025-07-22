@@ -5,7 +5,7 @@ import 'package:ajwad_v4/auth/services/auth_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
-import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
+import 'package:ajwad_v4/request/local/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/chat/controllers/chat_controller.dart';
 import 'package:ajwad_v4/request/chat/view/widgets/show_request_widget.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';

@@ -22,6 +22,7 @@ class Profile {
   final String? descriptionAboutMe;
   final List<String>? userInterests;
   final List<String>? spokenLanguage;
+  final List<String>? transportationMethod;
   final Vehicle? vehicle;
   final String? nationality;
   final String? accountType;
@@ -30,6 +31,11 @@ class Profile {
   final String? iban;
   final String? drivingLicenseExpiryDate;
   final String? vehicleIdNumber;
+  final double? tourPercentage;
+  final double? eventPercentage;
+  final double? hostPercentage;
+  final double? adventurePercentage;
+
   Profile(
       {this.spokenLanguage,
       this.id,
@@ -56,7 +62,12 @@ class Profile {
       this.iban,
       this.drivingLicenseExpiryDate,
       this.vehicleIdNumber,
-      this.vehicle
+      this.vehicle,
+      this.eventPercentage,
+      this.adventurePercentage,
+      this.hostPercentage,
+      this.tourPercentage,
+      this.transportationMethod
 
       //this.image,
       });
@@ -70,16 +81,26 @@ class Profile {
       id: json['id'] ?? '',
       name: json['name'] ?? '',
       // image: json['image']??'',
-      rating: json['rating'] != null ?double.parse((json['rating'] as num).toStringAsFixed(1)): 0.0,
-      tourNumber: json['tourNumber'] ??0,
-      tourRating: json['tourRating'] != null ? double.parse((json['tourRating'] as num).toStringAsFixed(1)): 0.0,
-      
+      rating: json['rating'] != null
+          ? double.parse((json['rating'] as num).toStringAsFixed(1))
+          : 0.0,
+      tourNumber: json['tourNumber'] ?? 0,
+      tourRating: json['tourRating'] != null
+          ? double.parse((json['tourRating'] as num).toStringAsFixed(1))
+          : 0.0,
+
       hostNumber: json['hostNumber'] ?? 0,
-      hostRating: json['hostRating']  != null ? double.parse((json['hostRating'] as num).toStringAsFixed(1)): 0.0,
+      hostRating: json['hostRating'] != null
+          ? double.parse((json['hostRating'] as num).toStringAsFixed(1))
+          : 0.0,
       adventureNumber: json['adventureNumber'] ?? 0,
-      adventureRating: json['adventureRating'] != null ?double.parse((json['adventureRating'] as num).toStringAsFixed(1)): 0.0,
+      adventureRating: json['adventureRating'] != null
+          ? double.parse((json['adventureRating'] as num).toStringAsFixed(1))
+          : 0.0,
       eventNumber: json['eventNumber'] ?? 0,
-      eventRating: json['eventRating'] != null ? double.parse((json['eventRating'] as num).toStringAsFixed(1)): 0.0,
+      eventRating: json['eventRating'] != null
+          ? double.parse((json['eventRating'] as num).toStringAsFixed(1))
+          : 0.0,
       //tripNumber: json['tripNumber'],
       tourGuideLicense: json['tourGuideLicense'] ?? "",
       profileImage: json['image'] ?? '',
@@ -91,9 +112,24 @@ class Profile {
       spokenLanguage: json["spokenLanguage"] == null
           ? []
           : List<String>.from(json["spokenLanguage"]!.map((x) => x)),
-       vehicle: json['vehicle'] == null
-          ? null
-          : Vehicle.fromJson(json['vehicle']),
+      vehicle:
+          json['vehicle'] == null ? null : Vehicle.fromJson(json['vehicle']),
+      eventPercentage: json['eventPercentage'] != null
+          ? double.parse((json['eventPercentage'] as num).toStringAsFixed(1))
+          : 0.0,
+      tourPercentage: json['tourPercentage'] != null
+          ? double.parse((json['tourPercentage'] as num).toStringAsFixed(1))
+          : 0.0,
+      hostPercentage: json['hostPercentage'] != null
+          ? double.parse((json['hostPercentage'] as num).toStringAsFixed(1))
+          : 0.0,
+      adventurePercentage: json['adventurePercentage'] != null
+          ? double.parse(
+              (json['adventurePercentage'] as num).toStringAsFixed(1))
+          : 0.0,
+      transportationMethod: json["transportationMethod"] == null
+          ? []
+          : List<String>.from(json["transportationMethod"]!.map((x) => x)),
     );
   }
 
@@ -120,10 +156,11 @@ class Profile {
       "spokenLanguage": spokenLanguage!.map((x) => x).toList(),
       //'userRole': userRole,
       "accountType": accountType,
-      "vehicle":  vehicle
+      "vehicle": vehicle
     };
   }
 }
+
 class Vehicle {
   final String plateText1;
   final String plateText2;

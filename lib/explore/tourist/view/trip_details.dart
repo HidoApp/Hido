@@ -1,7 +1,7 @@
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart';
-import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
+import 'package:ajwad_v4/explore/local/model/userLocation.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/tourist/view/view_trip_images.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
@@ -33,7 +33,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../profile/models/profile.dart';
-import '../../../request/ajwadi/controllers/request_controller.dart';
+import '../../../request/local/controllers/request_controller.dart';
 import '../../../request/tourist/view/booking_sheet.dart';
 import '../../../request/tourist/view/local_offer_info.dart';
 
@@ -729,7 +729,7 @@ class _TripDetailsState extends State<TripDetails> {
                     top: height * 0.066,
                     right: AppUtil.rtlDirection2(context)
                         ? width * 0.7
-                        : width * 0.65,
+                        : width * 0.065,
                     height: 40,
                     child: Row(
                       children: [

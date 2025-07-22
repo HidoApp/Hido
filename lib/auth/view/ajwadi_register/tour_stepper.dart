@@ -9,7 +9,7 @@ import 'package:ajwad_v4/auth/view/ajwadi_register/driving_license.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/guidance_license.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/vehicle_license.dart';
 import 'package:ajwad_v4/auth/view/sigin_in/phone_otp_new.dart';
-import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
+import 'package:ajwad_v4/bottom_bar/local/view/local_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/notification/controller/notification_controller.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
@@ -168,14 +168,16 @@ class _TourStepperState extends State<TourStepper> {
         tourGuideLicense: _profileController.pdfFile.value != null
             ? file?.filePath
             : _profileController.profile.tourGuideLicense,
-        transportationMethod: _profileController.transporationMethod.value,
+        transportationMethod: _profileController.transporationMethod.isEmpty
+            ? _profileController.profile.transportationMethod
+            : _profileController.transporationMethod,
         spokenLanguage: _profileController.profile.spokenLanguage,
       );
 
       if (result == null) {
         return;
       }
-
+      if (!mounted) return;
       // Step 3: Show Success Dialog
       await showDialog(
           context: context,
@@ -215,12 +217,15 @@ class _TourStepperState extends State<TourStepper> {
         _profileController.reset();
         _authController.activeBar(1);
 
-        await Get.offAll(() => const AjwadiBottomBar());
+        await Get.offAll(() => const LocalBottomBar());
+        if (!mounted) return;
 
         // await _profileController.getProfile(context: context);
         await _authController.checkLocalInfo(context: context);
       });
     } catch (e) {
+      if (!mounted) return;
+
       AppUtil.errorToast(context, e.toString());
     }
   }

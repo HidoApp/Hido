@@ -82,9 +82,16 @@ class _CarTypeState extends State<CarType> {
                     value: _profileController.isDriveCar.value,
                     onChanged: (value) {
                       _profileController.isDriveCar(value);
-                      _profileController.transporationMethod.value =
-                          AppUtil.transportationMethodToValue(
-                              TransportationMethod.ownCar);
+                      final driveType = AppUtil.transportationMethodToValue(
+                          TransportationMethod.ownCar);
+
+                      if (!_profileController.transporationMethod
+                          .contains(driveType)) {
+                        _profileController.transporationMethod.add(driveType);
+                      }
+                      // _profileController.transporationMethod.add(
+                      //     AppUtil.transportationMethodToValue(
+                      //         TransportationMethod.ownCar));
                     },
                   ),
                 ),
@@ -112,9 +119,13 @@ class _CarTypeState extends State<CarType> {
                     value: _profileController.isNotDriveCar.value,
                     onChanged: (value) {
                       _profileController.isNotDriveCar(value);
-                      _profileController.transporationMethod.value =
-                          AppUtil.transportationMethodToValue(
-                              TransportationMethod.carPassenger);
+                      final driveType = AppUtil.transportationMethodToValue(
+                          TransportationMethod.carPassenger);
+
+                      if (!_profileController.transporationMethod
+                          .contains(driveType)) {
+                        _profileController.transporationMethod.add(driveType);
+                      }
                     },
                   ),
                 ),

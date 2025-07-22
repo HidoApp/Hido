@@ -15,7 +15,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../explore/tourist/model/place.dart';
-import '../../request/ajwadi/controllers/request_controller.dart';
+import '../../request/local/controllers/request_controller.dart';
 import '../../request/tourist/controllers/offer_controller.dart';
 import '../../widgets/total_widget.dart';
 

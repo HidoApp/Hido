@@ -1,4 +1,4 @@
-import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
+import 'package:ajwad_v4/bottom_bar/local/view/local_bottom_bar.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/new-onboarding/view/intro_screen.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -53,7 +53,7 @@ class ErrorScreenWidget extends StatelessWidget {
                     if (userRole == 'tourist') {
                       Get.offAll(() => const TouristBottomBar());
                     } else if (userRole == 'local') {
-                      Get.offAll(() => const AjwadiBottomBar());
+                      Get.offAll(() => const LocalBottomBar());
                     } else {
                       Get.offAll(() => const OnboardingScreen());
                     }

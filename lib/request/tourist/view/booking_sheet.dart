@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/calender_dialog.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/set_location.dart';
+import 'package:ajwad_v4/explore/local/view/calender_dialog.dart';
+import 'package:ajwad_v4/explore/local/view/set_location.dart';
 import 'package:ajwad_v4/explore/tourist/model/place.dart';
-import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
+import 'package:ajwad_v4/explore/local/model/userLocation.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/request/tourist/view/find_ajwady.dart';
 import 'package:ajwad_v4/utils/app_util.dart';

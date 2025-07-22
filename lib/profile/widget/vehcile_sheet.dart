@@ -23,9 +23,20 @@ class _VehcileSheetState extends State<VehcileSheet> {
   final _formKey = GlobalKey<FormState>();
   final _authController = Get.put(AuthController());
   final _profileController = Get.put(ProfileController());
+  late String plateNumber;
 
+  @override
+  void initState() {
+    super.initState();
+    _profileController.selectedRide.value =
+        _profileController.profile.vehicle?.vehicleClassDescEn.toLowerCase() ??
+            '';
+    plateNumber =
+        _profileController.profile.vehicle?.plateNumber.toString() ?? '';
+  }
+
+  @override
   void dispose() {
-    // TODO: implement dispose
     _profileController.plateNumber1.value = '';
     _profileController.plateNumber2.value = '';
     _profileController.plateNumber3.value = '';
@@ -78,7 +89,12 @@ class _VehcileSheetState extends State<VehcileSheet> {
                 Form(
                   key: _formKey,
                   child: CustomTextField(
-                    hintText: 'vehicleHint'.tr,
+                    hintText: _profileController.profile.vehicle
+                                ?.vehicleSequenceNumber.isEmpty ??
+                            true
+                        ? 'vehicleHint'.tr
+                        : _profileController
+                            .profile.vehicle?.vehicleSequenceNumber,
                     inputFormatters: [
                       LengthLimitingTextInputFormatter(9),
                       FilteringTextInputFormatter.digitsOnly
@@ -116,7 +132,7 @@ class _VehcileSheetState extends State<VehcileSheet> {
                         validator: (p0) {
                           return null;
                         },
-                        hint: '1',
+                        hint: plateNumber.isNotEmpty ? plateNumber[0] : '1',
                         keyboardType: TextInputType.number,
                         formatter: FilteringTextInputFormatter.digitsOnly,
                       ),
@@ -133,7 +149,7 @@ class _VehcileSheetState extends State<VehcileSheet> {
                           return null;
                         },
                         keyboardType: TextInputType.number,
-                        hint: '2',
+                        hint: plateNumber.length > 1 ? plateNumber[1] : '2',
                         formatter: FilteringTextInputFormatter.digitsOnly,
                       ),
                       CustomOTPField(
@@ -149,7 +165,7 @@ class _VehcileSheetState extends State<VehcileSheet> {
                         validator: (p0) {
                           return null;
                         },
-                        hint: '3',
+                        hint: plateNumber.length > 2 ? plateNumber[2] : '3',
                         formatter: FilteringTextInputFormatter.digitsOnly,
                       ),
                       CustomOTPField(
@@ -165,7 +181,7 @@ class _VehcileSheetState extends State<VehcileSheet> {
                         validator: (p0) {
                           return null;
                         },
-                        hint: '4',
+                        hint: plateNumber.length > 3 ? plateNumber[3] : '4',
                         formatter: FilteringTextInputFormatter.digitsOnly,
                       ),
 
@@ -182,7 +198,12 @@ class _VehcileSheetState extends State<VehcileSheet> {
                         validator: (p0) {
                           return null;
                         },
-                        hint: 'A',
+                        hint: _profileController
+                                    .profile.vehicle?.plateText1.isNotEmpty ??
+                                false
+                            ? _profileController.profile.vehicle?.plateText1 ??
+                                ''
+                            : 'A',
                         formatter: FilteringTextInputFormatter.allow(
                             RegExp(r'[a-zA-Z]')), // Only allow English letters
                       ),
@@ -198,7 +219,12 @@ class _VehcileSheetState extends State<VehcileSheet> {
                         validator: (p0) {
                           return null;
                         },
-                        hint: 'B',
+                        hint: _profileController
+                                    .profile.vehicle?.plateText1.isNotEmpty ??
+                                false
+                            ? _profileController.profile.vehicle?.plateText2 ??
+                                ''
+                            : 'B',
                         formatter: FilteringTextInputFormatter.allow(
                             RegExp(r'[a-zA-Z]')), // Only allow English letters
                       ),
@@ -214,7 +240,12 @@ class _VehcileSheetState extends State<VehcileSheet> {
                         validator: (p0) {
                           return null;
                         },
-                        hint: 'C',
+                        hint: _profileController
+                                    .profile.vehicle?.plateText1.isNotEmpty ??
+                                false
+                            ? _profileController.profile.vehicle?.plateText3 ??
+                                ''
+                            : 'C',
                         formatter: FilteringTextInputFormatter.allow(
                           RegExp(r'[a-zA-Z]'),
                         ), // Only allow English letters

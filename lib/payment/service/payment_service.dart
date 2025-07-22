@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/constants/base_url.dart';
-import 'package:ajwad_v4/explore/ajwadi/model/wallet.dart';
+import 'package:ajwad_v4/explore/local/model/wallet.dart';
 import 'package:ajwad_v4/payment/model/credit_card.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/model/payment_result.dart';
@@ -197,7 +197,7 @@ class PaymentService {
         "InvoiceValue": price,
       }),
     );
-
+    log(paymentMethod);
     log(response.body);
     log(response.statusCode.toString());
     if (response.statusCode == 200) {
@@ -430,7 +430,7 @@ class PaymentService {
 
     if (response.statusCode == 200) {
       log(response.statusCode.toString());
-      log(response.body.toString());
+      // log(response.body.toString());
       var data = jsonDecode(response.body);
 
       return Wallet.fromJson(data);
