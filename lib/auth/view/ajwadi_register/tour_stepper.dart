@@ -85,13 +85,7 @@ class _TourStepperState extends State<TourStepper> {
       vehicleSerialNumber: _authController.vehicleLicense.value,
     );
     if (isSuccess) {
-      // final isSuccess =
-      //     await notificationController.sendDeviceToken(context: context);
-      // if (!isSuccess) {
-      //   AmplitudeService.amplitude
-      //       .track(BaseEvent('Local Sign up  Failed as tour guide'));
-      //   return;
-      // }
+    
       AmplitudeService.amplitude.track(
         BaseEvent(
           "Local add  vehicle details and create account as tour guide  successfully",
@@ -105,10 +99,7 @@ class _TourStepperState extends State<TourStepper> {
           },
         ),
       );
-      // // _authController.activeBar(1);
-      // // Get.offAll(() => const AjwadiBottomBar());
-      // storage.remove('localName');
-      // storage.write('userRole', 'local');
+    
     } else {
       AmplitudeService.amplitude.track(
         BaseEvent(
@@ -310,36 +301,7 @@ class _TourStepperState extends State<TourStepper> {
                                           if (validateScreens()) {
                                             switch (_authController
                                                 .activeBar.value) {
-                                              //contact info handle
-                                              // case 1:
-                                              //   AmplitudeService.amplitude.track(BaseEvent(
-                                              //       "Local  send iban & email  (as tour guide)"));
-                                              //   final isSuccess = await _authController
-                                              //       .createAccountInfo(
-                                              //           context: context,
-                                              //           email:
-                                              //               _authController.email.value,
-                                              //           iban:
-                                              //               _authController.iban.value,
-                                              //           type: 'TOUR_GUID');
-                                              //   log(isSuccess.toString());
-                                              //   if (isSuccess) {
-                                              //     AmplitudeService.amplitude.track(
-                                              //       BaseEvent(
-                                              //         "Local  send iban and email  successfully as tour guide",
-                                              //         eventProperties: {
-                                              //           'email':
-                                              //               _authController.email.value,
-                                              //           "iban":
-                                              //               _authController.iban.value,
-                                              //         },
-                                              //       ),
-                                              //     );
-                                              //     _authController.activeBar(2);
-                                              //   }
-
-                                              //   break;
-                                              // case 2:
+                                             
                                               case 1:
                                                 _authController.activeBar(2);
 
@@ -390,11 +352,6 @@ class _TourStepperState extends State<TourStepper> {
                                                   });
                                                 }
 
-                                                // AppUtil.showSaveChangesDialog(
-                                                //     context, () {
-                                                //   processTourGuideStepper(
-                                                //       context);
-                                                // });
 
                                                 break;
 
@@ -415,9 +372,7 @@ class _TourStepperState extends State<TourStepper> {
                                                     : 'next'.tr
                                                 : 'finish'.tr,
 
-                                        // icon: const Icon(
-                                        //   Icons.keyboard_arrow_right,
-                                        // ),
+                                        
                                       ),
                                     ),
                                   ),
@@ -436,7 +391,6 @@ class _TourStepperState extends State<TourStepper> {
   Widget nextStep() {
     switch (_authController.activeBar.value) {
       case 1:
-        // return const ContactInfo(isPageView: true);
         return const GuidanceLicense();
 
       case 2:
@@ -447,11 +401,8 @@ class _TourStepperState extends State<TourStepper> {
       case 4:
         return const VehicleLicenseScreen();
 
-      // return const DrivingLicense();
-      // case 3:
-      //   return const VehicleLicenseScreen();
       default:
-        return Container(); // Replace with your actual widget
+        return Container(); 
     }
   }
 
@@ -488,9 +439,7 @@ class _TourStepperState extends State<TourStepper> {
 
   bool validateScreens() {
     switch (_authController.activeBar.value) {
-      // case 1:
-      // return _authController.contactKey.currentState!.validate();
-      // case 2:
+     
       case 1:
         return _profileController.profile.tourGuideLicense != '' ||
             (_profileController.isPdfValidSize.value &&

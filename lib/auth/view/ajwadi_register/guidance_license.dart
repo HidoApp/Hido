@@ -123,57 +123,7 @@ class _GuidanceLicenseState extends State<GuidanceLicense> {
           ],
         ),
       )),
-      // bottomNavigationBar: Padding(
-      //   padding: EdgeInsets.symmetric(
-      //       vertical: width * 0.09, horizontal: width * 0.041),
-      //   child: Obx(
-      //     () => _profileController.isImagesLoading.value ||
-      //             _profileController.isProfileLoading.value ||
-      //             _profileController.isEditProfileLoading.value
-      //         ? const Center(
-      //             child: CircularProgressIndicator.adaptive(),
-      //           )
-      //         : CustomButton(
-      //             title: 'next'.tr,
-      //             onPressed: _profileController.isPdfValidSize.value &&
-      //                     pdfFile != null
-      //                 ? () async {
-      //                     final file =
-      //                         await _profileController.uploadProfileImages(
-      //                             file: pdfFile!,
-      //                             uploadOrUpdate: "upload",
-      //                             context: context);
-      //                     if (file == null) {
-      //                       return;
-      //                     }
-      //                     _profileController.editProfile(
-      //                         context: context,
-      //                         tourGuideLicense: file.filePath,
-      //                         spokenLanguage:
-      //                             _profileController.profile.spokenLanguage);
-      //                     // await _profileController.getProfile(context: context);
-      //                     Get.to(() => const CarType());
-
-      //                     // Get.back();
-      //                   }
-      //                 : null,
-      //             raduis: 8,
-      //             height: width * 0.123,
-      //             buttonColor: !(_profileController.isPdfValidSize.value &&
-      //                     pdfFile != null)
-      //                 ? textlightGreen
-      //                 : colorGreen,
-      //             borderColor: !(_profileController.isPdfValidSize.value &&
-      //                     pdfFile != null)
-      //                 ? textlightGreen
-      //                 : colorGreen,
-
-      //             // icon: const Icon(
-      //             //   Icons.keyboard_arrow_right,
-      //             // ),
-      //           ),
-      //   ),
-      // ),
+     
     );
   }
 }
