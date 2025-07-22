@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:ajwad_v4/auth/models/image.dart';
 import 'package:ajwad_v4/payment/model/payment_result.dart';
-import 'package:ajwad_v4/request/ajwadi/view/widget/include_card.dart';
+import 'package:ajwad_v4/request/local/view/widget/include_card.dart';
 import 'package:ajwad_v4/services/model/hospitality.dart';
 import 'package:ajwad_v4/services/model/payment.dart';
 import 'package:ajwad_v4/services/service/hospitality_service.dart';

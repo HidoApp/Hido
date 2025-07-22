@@ -54,7 +54,7 @@ class _GuidanceLicenseState extends State<GuidanceLicense> {
   // @override
   // void dispose() {
   //   // TODO: implement dispose
-  //   _profileController.pdfName('');
+  //   // _profileController.pdfName('');
   //   super.dispose();
   // }
 
@@ -104,7 +104,11 @@ class _GuidanceLicenseState extends State<GuidanceLicense> {
                   fit: BoxFit.none,
                 ),
                 hintText: _profileController.pdfName.value.isEmpty
-                    ? "UploadFile".tr
+                    ? _profileController.profile.tourGuideLicense != ''
+                        ? _profileController.profile.tourGuideLicense
+                            ?.split('/')
+                            .last
+                        : "UploadFile".tr
                     : _profileController.pdfName.value,
                 onChanged: (val) {},
               ),

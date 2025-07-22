@@ -3,8 +3,8 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/ajwadi/model/userLocation.dart';
-import 'package:ajwad_v4/explore/ajwadi/services/location_service.dart';
+import 'package:ajwad_v4/explore/local/model/userLocation.dart';
+import 'package:ajwad_v4/explore/local/services/location_service.dart';
 import 'package:ajwad_v4/explore/tourist/controller/tourist_explore_controller.dart';
 import 'package:ajwad_v4/explore/widget/guide_bottom_sheet.dart';
 import 'package:ajwad_v4/explore/widget/map_icons_widget.dart';

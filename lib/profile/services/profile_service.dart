@@ -24,55 +24,60 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 class ProfileService {
   static Future<Profile?> getProfile(
       {required BuildContext context, String profileId = ""}) async {
-    final getStorage = GetStorage();
-    String token = getStorage.read('accessToken');
-    late Token jwtToken;
-    late String id;
+    try {
+      final getStorage = GetStorage();
+      String token = getStorage.read('accessToken');
+      late Token jwtToken;
+      late String id;
 
-    if (JwtDecoder.isExpired(token)) {
-      final authController = Get.put(AuthController());
+      if (JwtDecoder.isExpired(token)) {
+        final authController = Get.put(AuthController());
 
-      String refreshToken = getStorage.read('refreshToken');
-      var user = await authController.refreshToken(
-          refreshToken: refreshToken, context: context);
-      refreshToken = getStorage.read('refreshToken');
-      token = getStorage.read('accessToken');
-      jwtToken = AuthService.jwtForToken(refreshToken)!;
-      //
-      id = jwtToken.id;
-    } else {
-      jwtToken = AuthService.jwtForToken(token)!;
-      //
+        String refreshToken = getStorage.read('refreshToken');
+        var user = await authController.refreshToken(
+            refreshToken: refreshToken, context: context);
+        refreshToken = getStorage.read('refreshToken');
+        token = getStorage.read('accessToken');
+        jwtToken = AuthService.jwtForToken(refreshToken)!;
+        //
+        id = jwtToken.id;
+      } else {
+        jwtToken = AuthService.jwtForToken(token)!;
+        //
 
-      id = jwtToken.id;
-    }
-    log("ID :$id");
-    log("Profile :$profileId");
-    if (profileId != "") {
-      id = profileId;
-    }
-
-    final response = await http.get(
-      Uri.parse('$baseUrl/profile/$id'),
-      headers: {
-        'Accept': 'application/json',
-        "Content-Type": "application/json",
-        'Authorization': 'Bearer $token',
-      },
-    );
-
-    log(response.statusCode.toString());
-
-    if (response.statusCode == 200) {
-      log(response.body.toString());
-      var profile = jsonDecode(response.body);
-
-      return Profile.fromJson(profile);
-    } else {
-      String errorMessage = jsonDecode(response.body)['message'];
-      if (context.mounted) {
-        AppUtil.errorToast(context, errorMessage);
+        id = jwtToken.id;
       }
+      log("ID :$id");
+      log("Profile :$profileId");
+      if (profileId != "") {
+        id = profileId;
+      }
+
+      final response = await http.get(
+        Uri.parse('$baseUrl/profile/$id'),
+        headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      log(response.statusCode.toString());
+
+      if (response.statusCode == 200) {
+        log(response.body.toString());
+        var profile = jsonDecode(response.body);
+        return Profile.fromJson(profile);
+      } else {
+        String errorMessage = jsonDecode(response.body)['message'];
+        if (context.mounted) {
+          AppUtil.errorToast(context, errorMessage);
+        }
+        return null;
+      }
+    } catch (e) {
+      log('Error in getProfile: $e');
+
       return null;
     }
   }
@@ -130,7 +135,7 @@ class ProfileService {
     String? profileImage,
     String? descripttion,
     String? iban,
-    String? transportationMethod,
+    List<String>? transportationMethod,
     String? nationality,
     List<String>? spokenLanguage,
     String? tourGuideLicense,

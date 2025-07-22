@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:ajwad_v4/constants/colors.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/Experience/adventure/view/edit_adventure.dart';
+import 'package:ajwad_v4/explore/local/view/Experience/adventure/view/edit_adventure.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/profile/models/bookmark.dart';
 import 'package:ajwad_v4/profile/services/bookmark_services.dart';
@@ -274,16 +274,24 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                       alignment: AppUtil.rtlDirection2(context)
                                           ? Alignment.centerRight
                                           : Alignment.centerLeft,
-                                      child: CustomText(
-                                        text: AppUtil.rtlDirection2(context)
-                                            ? adventure!.nameAr ?? ''
-                                            : adventure!.nameEn ?? '',
-                                        fontSize: width * 0.07,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily:
-                                            AppUtil.rtlDirection2(context)
-                                                ? 'SF Arabic'
-                                                : 'SF Pro',
+                                      child: ConstrainedBox(
+                                        constraints: BoxConstraints(
+                                          maxWidth: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.7,
+                                        ),
+                                        child: CustomText(
+                                          text: AppUtil.rtlDirection2(context)
+                                              ? adventure!.nameAr ?? ''
+                                              : adventure!.nameEn ?? '',
+                                          fontSize: width * 0.07,
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily:
+                                              AppUtil.rtlDirection2(context)
+                                                  ? 'SF Arabic'
+                                                  : 'SF Pro',
+                                        ),
                                       )),
                                   const Spacer(),
                                   InkWell(
@@ -482,13 +490,17 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 SizedBox(width: width * 0.021),
-                                                CustomText(
-                                                  text: '•   $item',
-                                                  fontSize: width * 0.039,
-                                                  fontFamily:
-                                                      AppUtil.SfFontType(
-                                                          context),
-                                                  fontWeight: FontWeight.w400,
+                                                Expanded(
+                                                  child: CustomText(
+                                                    text:
+                                                        '•   $item'.capitalize,
+                                                    fontSize: width * 0.039,
+                                                    maxlines: 4,
+                                                    fontFamily:
+                                                        AppUtil.SfFontType(
+                                                            context),
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
                                                 ),
                                               ],
                                             ))
@@ -760,7 +772,7 @@ class _AdventureDetailsState extends State<AdventureDetails> {
                       Positioned(
                           top: height * 0.066,
                           right: AppUtil.rtlDirection2(context)
-                              ? width * 0.75
+                              ? width * 0.7
                               //  ? width * 0.82
                               //  :width * 0.72
                               : width * 0.065,

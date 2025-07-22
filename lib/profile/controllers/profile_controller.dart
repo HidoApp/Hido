@@ -32,7 +32,7 @@ class ProfileController extends GetxController {
   var actionsList = <ActivityProgress>[].obs;
   var isDriveCar = false.obs;
   var isNotDriveCar = false.obs;
-  var transporationMethod = ''.obs;
+  var transporationMethod = <String>[].obs;
 
   var profile = Profile();
   var isEmailOtp = false.obs;
@@ -83,7 +83,8 @@ class ProfileController extends GetxController {
     plateletter3.value = '';
     selectedRide.value = '';
     pdfName('');
-    pdfFile(null);
+    pdfFile.value = null;
+    isPdfValidSize(true);
     drivingDateDay.value = '';
     isDriveCar(false);
     isNotDriveCar(false);
@@ -134,7 +135,7 @@ class ProfileController extends GetxController {
     String? descripttion,
     String? iban,
     String? nationality,
-    String? transportationMethod,
+    List<String>? transportationMethod,
     List<String>? spokenLanguage,
     String? tourGuideLicense,
     required BuildContext context,

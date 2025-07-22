@@ -192,36 +192,48 @@ class _CustomTicketCardState extends State<CustomTicketCard> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            CustomText(
-                              text: !AppUtil.rtlDirection2(context)
-                                  ? widget.booking.bookingType == "place"
-                                      ? widget.booking.place!.nameEn!
-                                      : widget.booking.bookingType ==
-                                              "hospitality"
-                                          ? widget.booking.hospitality!.titleEn
-                                          : widget.booking.bookingType ==
-                                                  'event'
-                                              ? widget.booking.event!.nameEn ??
-                                                  ""
-                                              : widget.booking.adventure!
-                                                      .nameEn ??
-                                                  ''
-                                  : widget.booking.bookingType == "place"
-                                      ? widget.booking.place!.nameAr!
-                                      : widget.booking.bookingType ==
-                                              "hospitality"
-                                          ? widget.booking.hospitality!.titleAr
-                                          : widget.booking.bookingType ==
-                                                  'event'
-                                              ? widget.booking.event!.nameAr!
-                                              : widget.booking.adventure!
-                                                      .nameAr ??
-                                                  '',
-                              fontSize: width * 0.041,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: !AppUtil.rtlDirection2(context)
-                                  ? 'SF Pro'
-                                  : 'SF Arabic',
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(height: width * 0.01),
+                                  CustomText(
+                                    text: !AppUtil.rtlDirection2(context)
+                                        ? widget.booking.bookingType == "place"
+                                            ? widget.booking.place!.nameEn!
+                                            : widget.booking.bookingType ==
+                                                    "hospitality"
+                                                ? widget.booking.hospitality!
+                                                    .titleEn
+                                                : widget.booking.bookingType ==
+                                                        'event'
+                                                    ? widget.booking.event!
+                                                            .nameEn ??
+                                                        ""
+                                                    : widget.booking.adventure!
+                                                            .nameEn ??
+                                                        ''
+                                        : widget.booking.bookingType == "place"
+                                            ? widget.booking.place!.nameAr!
+                                            : widget.booking.bookingType ==
+                                                    "hospitality"
+                                                ? widget.booking.hospitality!
+                                                    .titleAr
+                                                : widget.booking.bookingType ==
+                                                        'event'
+                                                    ? widget
+                                                        .booking.event!.nameAr!
+                                                    : widget.booking.adventure!
+                                                            .nameAr ??
+                                                        '',
+                                    fontSize: width * 0.041,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: !AppUtil.rtlDirection2(context)
+                                        ? 'SF Pro'
+                                        : 'SF Arabic',
+                                  ),
+                                ],
+                              ),
                             ),
                             Row(
                               textDirection: AppUtil.rtlDirection2(context)

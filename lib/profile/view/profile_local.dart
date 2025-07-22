@@ -174,23 +174,33 @@ class _LocalProfileState extends State<LocalProfile> {
                         borderRadius: BorderRadius.circular(50.0),
                         child: _profileController.isImagesLoading.value
                             ? const CircularProgressIndicator.adaptive()
-                            : _profileController.profile.profileImage != "" &&
-                                    _profileController.profile.profileImage !=
-                                        null
+                            : newProfileImage?.isNotEmpty ?? false
                                 ? ImageCacheWidget(
-                                    image: _profileController
-                                        .profile.profileImage!,
+                                    image: newProfileImage ?? '',
                                     height: 100,
                                     width: 100,
                                     placeholder:
                                         "assets/images/profile_image.png",
                                   )
-                                : Image.asset(
-                                    "assets/images/profile_image.png",
-                                    height: 100,
-                                    width: 100,
-                                    fit: BoxFit.cover,
-                                  ),
+                                : _profileController.profile.profileImage !=
+                                            "" &&
+                                        _profileController
+                                                .profile.profileImage !=
+                                            null
+                                    ? ImageCacheWidget(
+                                        image: _profileController
+                                            .profile.profileImage!,
+                                        height: 100,
+                                        width: 100,
+                                        placeholder:
+                                            "assets/images/profile_image.png",
+                                      )
+                                    : Image.asset(
+                                        "assets/images/profile_image.png",
+                                        height: 100,
+                                        width: 100,
+                                        fit: BoxFit.cover,
+                                      ),
                       ),
                     ),
                     if (_profileController.isEditing.value)

@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:ajwad_v4/explore/ajwadi/model/wallet.dart';
+import 'package:ajwad_v4/explore/local/model/wallet.dart';
 import 'package:ajwad_v4/payment/model/coupon.dart';
 import 'package:ajwad_v4/payment/model/credit_card.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
@@ -111,6 +111,7 @@ class PaymentController extends GetxController {
   }) async {
     try {
       isPaymentGatewayLoading(true);
+
       final data = await PaymentService.paymentGateway(
           context: context,
           language: language,

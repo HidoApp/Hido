@@ -49,32 +49,42 @@ class _LegalDocumentState extends State<LegalDocument> {
                     },
                   ),
           ),
-          if (_profileController.profile.drivingLicenseExpiryDate!.isNotEmpty)
+          // if (_profileController.profile.drivingLicenseExpiryDate!.isNotEmpty)
+          const Divider(
+            color: lightGrey,
+          ),
+          SizedBox(
+            height: width * 0.05,
+          ),
+          Obx(
+            () => _profileController.isProfileLoading.value
+                ? Container()
+                : AccountTile(
+                    newAddtion: _profileController.profile.vehicle
+                                ?.vehicleSequenceNumber.isEmpty ??
+                            true
+                        ? true
+                        : false,
+                    title: 'vehicleLicense'.tr,
+                    subtitle: _profileController.profile.vehicle
+                                ?.vehicleSequenceNumber.isEmpty ??
+                            true
+                        ? 'vehicleLicenseHint'.tr
+                        : _profileController
+                            .profile.vehicle?.vehicleSequenceNumber,
+                    onTap: () => Get.bottomSheet(const VehcileSheet()),
+                  ),
+          ),
+          // if (_profileController
+          //         .profile.vehicle?.vehicleSequenceNumber.isNotEmpty ??
+          //     false)
+          if (_profileController.profile.tourGuideLicense!.isNotEmpty)
             const Divider(
               color: lightGrey,
             ),
           SizedBox(
-            height: width * 0.05,
+            height: width * 0.050,
           ),
-          // Obx(
-          //   () => _profileController.isProfileLoading.value
-          //       ? Container()
-          //       : AccountTile(
-          //           newAddtion:
-          //               _profileController.profile.vehicleIdNumber!.isEmpty
-          //                   ? true
-          //                   : false,
-          //           title: 'vehicleLicense'.tr,
-          //           subtitle: _profileController.profile.vehicleIdNumber,
-          //           onTap: () => Get.bottomSheet(const VehcileSheet()),
-          //         ),
-          // ),
-          // const Divider(
-          //   color: lightGrey,
-          // ),
-          // SizedBox(
-          //   height: width * 0.050,
-          // ),
           if (_profileController.profile.tourGuideLicense!.isNotEmpty)
             AccountTile(
                 title: 'tourLicense'.tr,

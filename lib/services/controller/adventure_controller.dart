@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../request/ajwadi/view/widget/include_card.dart';
+import '../../request/local/view/widget/include_card.dart';
 
 class AdventureController extends GetxController {
   var adventureList = <Adventure>[].obs;

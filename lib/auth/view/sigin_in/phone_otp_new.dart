@@ -4,7 +4,7 @@ import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/provided_services.dart';
 import 'package:ajwad_v4/auth/view/tourist_register/new_password_screen.dart';
 import 'package:ajwad_v4/auth/widget/countdown_timer.dart';
-import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
+import 'package:ajwad_v4/bottom_bar/local/view/local_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/notification/controller/notification_controller.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';

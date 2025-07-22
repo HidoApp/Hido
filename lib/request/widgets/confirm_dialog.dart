@@ -1,6 +1,6 @@
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
-import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
+import 'package:ajwad_v4/bottom_bar/local/view/local_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/widgets/custom_button.dart';
@@ -110,7 +110,7 @@ class ConfirmDialog extends StatelessWidget {
                 onPressed: () {
                   profileController.reset();
                   authController.activeBar(1);
-                  Get.offAll(() => const AjwadiBottomBar());
+                  Get.offAll(() => const LocalBottomBar());
                 },
                 title: buttonTitle2,
                 buttonColor: buttonColor2,

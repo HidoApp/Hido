@@ -1,4 +1,3 @@
-
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
@@ -25,7 +24,7 @@ import 'package:get/get.dart';
 import 'package:ajwad_v4/explore/tourist/model/booking.dart' as book;
 
 import '../../explore/tourist/model/place.dart';
-import '../../request/ajwadi/controllers/request_controller.dart';
+import '../../request/local/controllers/request_controller.dart';
 import '../../request/tourist/controllers/offer_controller.dart';
 import '../../request/tourist/models/schedule.dart';
 import '../../widgets/schedule_container_widget.dart';

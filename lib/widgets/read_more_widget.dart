@@ -31,9 +31,9 @@ class ReadMoreWidget extends StatelessWidget {
         textDirection: AppUtil.rtlDirection2(context)
             ? TextDirection.rtl
             : TextDirection.ltr,
-        colorClickableText: moreColor ?? blue,
+        colorClickableText: moreColor ?? starGreyColor,
         moreStyle: TextStyle(
-          color: moreColor ?? Color(0xFFA0A0A0),
+          color: moreColor ?? starGreyColor,
           fontFamily: AppUtil.rtlDirection2(context) ? 'SF Arabic' : 'SF Pro',
         ),
         trimExpandedText: '  ${'showLess'.tr}',

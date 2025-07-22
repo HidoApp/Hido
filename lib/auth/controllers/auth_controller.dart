@@ -8,7 +8,7 @@ import 'package:ajwad_v4/auth/models/user.dart';
 import 'package:ajwad_v4/auth/services/auth_service.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/provided_services.dart';
 import 'package:ajwad_v4/auth/view/ajwadi_register/tour_stepper.dart';
-import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
+import 'package:ajwad_v4/bottom_bar/local/view/local_bottom_bar.dart';
 import 'package:ajwad_v4/request/widgets/app_version_dialog.dart';
 import 'package:ajwad_v4/share/services/dynamic_link_service.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -48,7 +48,7 @@ class AuthController extends GetxController {
   var isResendOtp = true.obs;
   var isResetPasswordOtpLoading = false.obs;
   var isGetAppVersionLoading = false.obs;
-  var isNotCompleteLocalInfo = false.obs;
+  // var isNotCompleteLocalInfo = false.obs;
   //valditon vars
   var hidePassword = true.obs;
   var isEmailValid = false.obs;
@@ -554,11 +554,11 @@ class AuthController extends GetxController {
       final data = await AuthService.checkLocalInfo(context: context);
       localInfo = data!;
 
-      if ((localInfo.transportationMethod ?? '').isEmpty) {
-        isNotCompleteLocalInfo(true);
-      } else {
-        isNotCompleteLocalInfo(false);
-      }
+      // if ((localInfo.transportationMethod ?? []).isEmpty) {
+      //   isNotCompleteLocalInfo(true);
+      // } else {
+      //   isNotCompleteLocalInfo(false);
+      // }
       return localInfo;
     } catch (e) {
       log(e.toString());
@@ -611,7 +611,7 @@ class AuthController extends GetxController {
       if (local.accountType == 'TOUR_GUID') {
         AmplitudeService.amplitude
             .track(BaseEvent('Local Signed in as tour guide '));
-        Get.offAll(() => const AjwadiBottomBar());
+        Get.offAll(() => const LocalBottomBar());
       }
       //  else if (local.accountType == 'TOUR_GUID' &&
       //     local.drivingLicense == false) {
@@ -630,7 +630,7 @@ class AuthController extends GetxController {
       else if (local.accountType == 'EXPERIENCES') {
         AmplitudeService.amplitude
             .track(BaseEvent('Local Signed in as experience '));
-        Get.offAll(() => const AjwadiBottomBar());
+        Get.offAll(() => const LocalBottomBar());
       } else if (local.accountType == null || local.accountType!.isEmpty) {
         AmplitudeService.amplitude.track(BaseEvent(
             "Local Signed is tour guide but doesn't have accountType "));

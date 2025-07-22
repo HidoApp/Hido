@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
-import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
+import 'package:ajwad_v4/bottom_bar/local/view/local_bottom_bar.dart';
 import 'package:ajwad_v4/notification/controller/notification_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
 import 'package:ajwad_v4/widgets/custom_app_bar.dart';
@@ -143,7 +143,7 @@ class _ContactInfoState extends State<ContactInfo> {
                               BaseEvent(
                                   "Local create account as experience successfully "),
                             );
-                            Get.offAll(() => const AjwadiBottomBar());
+                            Get.offAll(() => const LocalBottomBar());
                             _storage.remove('localName');
                             storage.write('userRole', 'local');
                             // if (!mounted)

@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:ajwad_v4/auth/controllers/auth_controller.dart';
 import 'package:ajwad_v4/auth/models/image.dart';
-import 'package:ajwad_v4/bottom_bar/ajwadi/view/ajwadi_bottom_bar.dart';
+import 'package:ajwad_v4/bottom_bar/local/view/local_bottom_bar.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/profile/controllers/profile_controller.dart';
 import 'package:ajwad_v4/utils/app_util.dart';
@@ -28,6 +28,7 @@ class VehicleLicenseScreen extends StatefulWidget {
 class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
   final _authController = Get.put(AuthController());
   final _profileController = Get.put(ProfileController());
+  late String plateNumber;
 
   final Map _pickupRide = {
     'sedan': [
@@ -48,6 +49,15 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
     ]
   };
   // var selectedRide = "";
+  @override
+  void initState() {
+    super.initState();
+    _profileController.selectedRide.value =
+        _profileController.profile.vehicle?.vehicleClassDescEn.toLowerCase() ??
+            '';
+    plateNumber =
+        _profileController.profile.vehicle?.plateNumber.toString() ?? '';
+  }
 
   @override
   void dispose() {
@@ -86,13 +96,16 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
         tourGuideLicense: _profileController.pdfFile.value != null
             ? file?.filePath
             : _profileController.profile.tourGuideLicense,
-        transportationMethod: _profileController.transporationMethod.value,
+        transportationMethod: _profileController.transporationMethod.isEmpty
+            ? _profileController.profile.transportationMethod
+            : _profileController.transporationMethod,
         spokenLanguage: _profileController.profile.spokenLanguage,
       );
 
       if (result == null) {
         return;
       }
+      if (!mounted) return;
 
       // Step 3: Show Success Dialog
       await showDialog(
@@ -133,11 +146,15 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
         _profileController.reset();
         _authController.activeBar(1);
 
-        Get.offAll(() => const AjwadiBottomBar());
+        Get.offAll(() => const LocalBottomBar());
         // await _profileController.getProfile(context: context);
+        if (!mounted) return;
+
         await _authController.checkLocalInfo(context: context);
       });
     } catch (e) {
+      if (!mounted) return;
+
       AppUtil.errorToast(context, e.toString());
     }
   }
@@ -179,7 +196,12 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                     height: width * 0.0205,
                   ),
                   CustomTextField(
-                    hintText: 'vehicleHint'.tr,
+                    hintText: _profileController.profile.vehicle
+                                ?.vehicleSequenceNumber.isEmpty ??
+                            true
+                        ? 'vehicleHint'.tr
+                        : _profileController
+                            .profile.vehicle?.vehicleSequenceNumber,
                     inputFormatters: [
                       LengthLimitingTextInputFormatter(9),
                       FilteringTextInputFormatter.digitsOnly
@@ -218,7 +240,7 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                           validator: (p0) {
                             return null;
                           },
-                          hint: '1',
+                          hint: plateNumber.isNotEmpty ? plateNumber[0] : '1',
                           keyboardType: TextInputType.number,
                           formatter: FilteringTextInputFormatter.digitsOnly,
                         ),
@@ -235,7 +257,7 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                             return null;
                           },
                           keyboardType: TextInputType.number,
-                          hint: '2',
+                          hint: plateNumber.length > 1 ? plateNumber[1] : '2',
                           formatter: FilteringTextInputFormatter.digitsOnly,
                         ),
                         CustomOTPField(
@@ -251,7 +273,7 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                           validator: (p0) {
                             return null;
                           },
-                          hint: '3',
+                          hint: plateNumber.length > 2 ? plateNumber[2] : '3',
                           formatter: FilteringTextInputFormatter.digitsOnly,
                         ),
                         CustomOTPField(
@@ -267,7 +289,7 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                           validator: (p0) {
                             return null;
                           },
-                          hint: '4',
+                          hint: plateNumber.length > 3 ? plateNumber[3] : '4',
                           formatter: FilteringTextInputFormatter.digitsOnly,
                         ),
 
@@ -284,7 +306,13 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                           validator: (p0) {
                             return null;
                           },
-                          hint: 'A',
+                          hint: _profileController
+                                      .profile.vehicle?.plateText1.isNotEmpty ??
+                                  false
+                              ? _profileController
+                                      .profile.vehicle?.plateText1 ??
+                                  ''
+                              : 'A',
                           formatter: FilteringTextInputFormatter.allow(RegExp(
                               r'[a-zA-Z]')), // Only allow English letters
                         ),
@@ -300,7 +328,13 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                           validator: (p0) {
                             return null;
                           },
-                          hint: 'B',
+                          hint: _profileController
+                                      .profile.vehicle?.plateText1.isNotEmpty ??
+                                  false
+                              ? _profileController
+                                      .profile.vehicle?.plateText2 ??
+                                  ''
+                              : 'B',
                           formatter: FilteringTextInputFormatter.allow(RegExp(
                               r'[a-zA-Z]')), // Only allow English letters
                         ),
@@ -316,7 +350,13 @@ class _VehicleLicenseScreenState extends State<VehicleLicenseScreen> {
                           validator: (p0) {
                             return null;
                           },
-                          hint: 'C',
+                          hint: _profileController
+                                      .profile.vehicle?.plateText1.isNotEmpty ??
+                                  false
+                              ? _profileController
+                                      .profile.vehicle?.plateText3 ??
+                                  ''
+                              : 'C',
                           formatter: FilteringTextInputFormatter.allow(
                             RegExp(r'[a-zA-Z]'),
                           ), // Only allow English letters

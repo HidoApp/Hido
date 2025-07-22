@@ -1,10 +1,10 @@
 import 'dart:developer';
 
 import 'package:ajwad_v4/bottom_bar/tourist/view/tourist_bottom_bar.dart';
-import 'package:ajwad_v4/explore/ajwadi/controllers/trip_controller.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/local_ticket_screen.dart';
+import 'package:ajwad_v4/explore/local/controllers/trip_controller.dart';
+import 'package:ajwad_v4/explore/local/view/local_ticket_screen.dart';
 import 'package:ajwad_v4/notification/controller/notification_controller.dart';
-import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
+import 'package:ajwad_v4/request/local/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/tourist/view/offers_screen.dart';
 import 'package:ajwad_v4/request/widgets/PushNotificationCard.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';

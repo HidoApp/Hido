@@ -10,7 +10,7 @@ import 'package:ajwad_v4/payment/controller/payment_controller.dart';
 import 'package:ajwad_v4/payment/model/invoice.dart';
 import 'package:ajwad_v4/payment/widget/webview_sheet.dart';
 import 'package:ajwad_v4/profile/view/ticket_details_screen.dart';
-import 'package:ajwad_v4/request/ajwadi/controllers/request_controller.dart';
+import 'package:ajwad_v4/request/local/controllers/request_controller.dart';
 import 'package:ajwad_v4/request/tourist/controllers/offer_controller.dart';
 import 'package:ajwad_v4/request/tourist/models/offer_details.dart';
 import 'package:ajwad_v4/services/controller/adventure_controller.dart';

@@ -4,7 +4,7 @@ import 'package:ajwad_v4/amplitude_service.dart';
 import 'package:ajwad_v4/constants/app_constants.dart';
 import 'package:ajwad_v4/constants/colors.dart';
 import 'package:ajwad_v4/event/model/event.dart';
-import 'package:ajwad_v4/explore/ajwadi/view/calender_dialog.dart';
+import 'package:ajwad_v4/explore/local/view/calender_dialog.dart';
 import 'package:ajwad_v4/services/controller/event_controller.dart';
 import 'package:ajwad_v4/services/view/event_review.dart';
 import 'package:ajwad_v4/utils/app_util.dart';

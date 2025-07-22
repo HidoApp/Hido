@@ -112,7 +112,14 @@ class _DrivingLicenseState extends State<DrivingLicense> {
                       CustomText(
                         text: _profileController.drivingDateDay.isNotEmpty
                             ? _profileController.drivingDateDay.value
-                            : 'mm/dd/yyy'.tr,
+                            : _profileController
+                                    .profile.drivingLicenseExpiryDate!.isEmpty
+                                ? 'mm/dd/yyy'.tr
+                                : AppUtil.convertHijriToGregorian(
+                                    AppUtil.convertIsoDateToFormattedDate(
+                                        _profileController.profile
+                                                .drivingLicenseExpiryDate ??
+                                            '')),
                         color: Graytext,
                         fontSize: MediaQuery.of(context).size.width * 0.038,
                         fontWeight: FontWeight.w400,
