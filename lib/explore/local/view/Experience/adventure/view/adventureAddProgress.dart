@@ -248,11 +248,7 @@ class _AdventureAddProgressState extends State<AdventureAddProgress> {
                     activeIndex++;
                   });
                 } else if (activeIndex == totalIndex - 1) {
-                  // final translatedText = await TranslationApi.translate(
-                  //   AdventureTitleControllerAr.text,
-                  //   'en',
-                  // );
-                  // AdventureTitleControllerEn.text = translatedText;
+                 
                   await translateTitleIfChanged();
                   Get.to(() => HostInfoReview(
                         hospitalityTitleEn: AdventureTitleControllerEn.text,

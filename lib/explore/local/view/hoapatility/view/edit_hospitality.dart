@@ -326,8 +326,6 @@ class _EditHospitalityState extends State<EditHospitality> {
 
       guestEmpty = guestNum == 0;
 
-      //  DateErrorMessage = !_servicesController.isHospatilityDateSelcted.value;
-      // TimeErrorMessage = !_servicesController.isHospatilityTimeSelcted.value;
       _servicesController.EmptyDateErrorMessage.value =
           !_servicesController.isHospatilityDateSelcted.value ||
               _servicesController.selectedDates.isEmpty;

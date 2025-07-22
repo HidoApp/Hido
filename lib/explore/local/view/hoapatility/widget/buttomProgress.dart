@@ -171,8 +171,7 @@ class _ButtomProgressState extends State<ButtomProgress> {
         return SelectDateTime(hospitalityController: _hospitalityController);
       case 5:
 
-        // print(
-        //  'Selected Start Time: ${_hospitalityController.selectedDate.value}');
+       
 
         return PriceDecisionCard(priceController: hospitalityPrice);
 
@@ -276,11 +275,7 @@ class _ButtomProgressState extends State<ButtomProgress> {
                   });
                 } else if (activeIndex == totalIndex - 1) {
                   await translateTitleIfChanged();
-                  // final translatedText = await TranslationApi.translate(
-                  //   hospitalityTitleControllerAr.text,
-                  //   'en',
-                  // );
-                  // hospitalityTitleControllerEn.text = translatedText;
+                
                   Get.to(() => HostInfoReview(
                         hospitalityTitleEn: hospitalityTitleControllerEn.text,
                         // hospitalityBioEn: hospitalityBioControllerEn.text,
@@ -3021,7 +3016,6 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
     setState(() {
       int price = int.tryParse(widget.priceController.text) ?? 0;
       earn = (_profileController.profile.hostPercentage ?? 0.0) == 0.0
-          // ? price * 0.1
           ? price * 0.75
           : price * ((_profileController.profile.hostPercentage ?? 0.0) / 100);
       hidoFee = price - earn;

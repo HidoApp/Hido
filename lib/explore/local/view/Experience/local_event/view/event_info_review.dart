@@ -112,7 +112,6 @@ class _EventInfoReviewState extends State<EventInfoReview> {
   void daysInfo() {
     // Format for combining date and time
     var formatter = intl.DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-    //DateTime date = DateTime.parse(_EventController.selectedDate.value);
 
     for (var date in _EventController.selectedDates) {
       DateTime newStartTime = DateTime(
@@ -144,44 +143,9 @@ class _EventInfoReviewState extends State<EventInfoReview> {
       DaysInfo.add(newEntry);
     }
 
-    // Print the new dates list
   }
 
-  //   for (var date in widget.hospitalityController.selectedDates) {
-  //     DateTime newStartTime = DateTime(
-  //         date.year,
-  //         date.month,
-  //         date.day,
-  //         widget.hospitalityController.selectedStartTime.value.hour,
-  //         widget.hospitalityController.selectedStartTime.value.minute,
-  //         widget.hospitalityController.selectedStartTime.value.second,
-  //         widget.hospitalityController.selectedStartTime.value.millisecond);
-  //     DateTime newEndTime = DateTime(
-  //         date.year,
-  //         date.month,
-  //         date.day,
-  //         widget.hospitalityController.selectedEndTime.value.hour,
-  //         widget.hospitalityController.selectedEndTime.value.minute,
-  //         widget.hospitalityController.selectedEndTime.value.second,
-  //         widget.hospitalityController.selectedEndTime.value.millisecond);
-
-  //     startTime = formatter.format(newStartTime);
-  //     endTime = formatter.format(newEndTime);
-
-  //     var newEntry = {
-  //       "startTime": formatter.format(newStartTime),
-  //       "endTime": formatter.format(newEndTime),
-  //       "seats": widget.hospitalityController.seletedSeat
-  //     };
-
-  //     DaysInfo.add(newEntry);
-  //   }
-
-  //   // Print the new dates list
-  //
-  // }
-
-  // Function to generate the Google Maps URL
+  
   String getLocationUrl(LatLng location) {
     return 'https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}';
   }
@@ -268,56 +232,7 @@ class _EventInfoReviewState extends State<EventInfoReview> {
     return true;
   }
 
-  // Future<bool> uploadImages() async {
-  //   //List<String> uploadedImagePaths = [];
-  //   bool allExtensionsValid = true;
-
-  //   // Allowed formats
-  //   final allowedFormats = ['jpg', 'jpeg', 'png'];
-
-  //   for (XFile imagePath in _EventController.selectedImages) {
-  //     String fileExtension = imagePath.path.split('.').last.toLowerCase();
-  //     if (!allowedFormats.contains(fileExtension)) {
-  //       allExtensionsValid = false;
-  //       print(
-  //           'File ${imagePath.path} is not in an allowed format (${allowedFormats.join(', ')}).');
-  //     }
-  //     if (!allExtensionsValid) {
-  //       if (context.mounted) {
-  //         AppUtil.errorToast(context, 'uploadError'.tr);
-  //         await Future.delayed(const Duration(seconds: 3));
-  //       }
-  //       return false;
-  //     } else {
-  //       final image = await _EventController.uploadProfileImages(
-  //         file: File(imagePath.path),
-  //         fileType: "event",
-  //         context: context,
-  //       );
-
-  //       //  File file = await convertImageToJpg(File(imagePath.path));
-  //       //   final image = await _EventController.uploadProfileImages(
-  //       //     file:file,
-  //       //     fileType: "event",
-  //       //     context: context,
-  //       //   );
-
-  //       if (image != null) {
-  //         log('vaalid');
-
-  //         imageUrls.add(image.filePath);
-  //         log(image.filePath);
-  //       } else {
-  //         log('not vaalid');
-  //         return false;
-  //       }
-  //     }
-  //   }
-  //   return true;
-
-  //   // Handle the list of uploaded image paths as needed
-  // }
-
+  
   Future<void> translateReviewIncludeItinerary(dynamic controller) async {
     if (controller!.reviewincludeItenrary.isNotEmpty) {
       for (final item in controller!.reviewincludeItenrary) {
@@ -355,7 +270,6 @@ class _EventInfoReviewState extends State<EventInfoReview> {
       _EventController.titleZh.value = translatedTitleZh;
     } catch (e) {
       log('Translation failed: $e');
-      // Optionally show a snackbar or message here
     } finally {
       TranslationApi.isTranslatingLoading.value = false;
     }

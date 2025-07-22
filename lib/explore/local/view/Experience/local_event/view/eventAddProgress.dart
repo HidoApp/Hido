@@ -229,11 +229,7 @@ class _EventAddProgressState extends State<EventAddProgress> {
                 });
               } else if (activeIndex == totalIndex - 1) {
                 await translateTitleIfChanged();
-                // final translatedText = await TranslationApi.translate(
-                //   _EventController.titleAr.value,
-                //   'en',
-                // );
-                // _EventController.titleEn.value = translatedText;
+               
                 Get.to(() => EventInfoReview(
                       hospitalityTitleEn: _EventController.titleEn.value,
                       // hospitalityBioEn: _EventController.bioEn.value,

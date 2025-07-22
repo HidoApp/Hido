@@ -82,11 +82,9 @@ class _PriceDecisionCardState extends State<PriceDecisionCard> {
     if (!mounted) return; // Check if the widget is still mounted
     setState(() {
       int price = int.tryParse(widget.priceController.text) ?? 0;
-      // hidoFee = price * 0.3;
       earn = (_profileController.profile.eventPercentage ?? 0.0) == 0.0
           ? price * 0.7
           : price * ((_profileController.profile.eventPercentage ?? 0.0) / 100);
-      // earn = price - hidoFee;
       hidoFee = price - earn;
     });
   }

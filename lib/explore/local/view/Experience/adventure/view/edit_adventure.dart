@@ -402,11 +402,7 @@ class _EditAdventureState extends State<EditAdventure> {
           AppUtil.areAllDatesTimeBefore(_servicesController.selectedDates,
               _servicesController.selectedStartTime.value);
 
-      // _servicesController.DateErrorMessage.value =
-      //     AppUtil.isDateBefore24Hours(_servicesController.selectedDate.value);
-      // _servicesController.newRangeTimeErrorMessage.value =
-      //     AppUtil.isDateTimeBefore(_servicesController.selectedDate.value,
-      //         _servicesController.selectedStartTime.value);
+     
 
       PriceEmpty = _priceController.text.isEmpty;
       if (_priceController.text.isNotEmpty) {

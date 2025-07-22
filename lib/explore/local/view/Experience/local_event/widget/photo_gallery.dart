@@ -31,8 +31,7 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
   @override
   void initState() {
     super.initState();
-    // _selectedImages = _EventrController.selectedImages.map((path) => XFile(path)).toList();
-    //  _selectedImages = _EventrController.selectedImages;
+  
   }
 
   Future<void> _showImagePickerOptions(BuildContext context) async {
@@ -71,48 +70,6 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
     } catch (e) {}
   }
 
-  // Future<void> _pickImage(ImageSource source) async {
-  //   try {
-  //     final List<XFile> pickedImages = await _picker.pickMultiImage();
-
-  //     if (pickedImages.isNotEmpty) {
-  //       List<XFile> validImages = [];
-
-  //       for (final image in pickedImages) {
-  //         final String fileExtension = image.path.split('.').last.toLowerCase();
-
-  //         final bool imageSizeValidate =
-  //             AppUtil.isImageValidate(await image.length());
-  //         final bool imageFormatValidate =
-  //             AppUtil.isImageFormatValidate(fileExtension);
-
-  //         if (imageSizeValidate && imageFormatValidate) {
-  //           validImages.add(image);
-  //         } else {
-  //           if (!imageSizeValidate) {
-  //             if (context.mounted) {
-  //               AppUtil.errorToast(context, 'imageValidSize'.tr);
-  //             } else {
-  //               AppUtil.errorToast(context, 'uploadError'.tr);
-  //             }
-  //           }
-  //         }
-  //       }
-
-  //       if (validImages.isNotEmpty) {
-  //         setState(() {
-  //           _EventrController.selectedImages.addAll(validImages);
-  //         });
-  //         log("Valid images added: ${validImages.length}");
-  //       }
-  //     }
-  //   } catch (e) {
-  //     log("Image picking error: $e");
-  //     if (context.mounted) {
-  //       AppUtil.errorToast(context, e.toString());
-  //     }
-  //   }
-  // }
 
   Future<void> _takePhoto() async {
     try {
@@ -132,33 +89,6 @@ class _PhotoGalleryPageState extends State<PhotoGalleryPage> {
     } catch (e) {}
   }
 
-  // Future<void> _takePhoto() async {
-  //   try {
-  //     final XFile? photo =
-  //         await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
-  //     if (photo != null) {
-  //       final String fileExtension = photo.path.split('.').last.toLowerCase();
-
-  //       final bool imageSizeValidate =
-  //           AppUtil.isImageValidate(await photo.length());
-  //       final bool imageFormatValidate =
-  //           AppUtil.isImageFormatValidate(fileExtension);
-  //       if (imageSizeValidate && imageFormatValidate) {
-  //         setState(() {
-  //           _EventrController.selectedImages.add(photo);
-  //         });
-  //       } else {
-  //         if (!imageSizeValidate) {
-  //           if (context.mounted) {
-  //             AppUtil.errorToast(context, 'imageValidSize'.tr);
-  //           } else {
-  //             AppUtil.errorToast(context, 'uploadError'.tr);
-  //           }
-  //         }
-  //       }
-  //     }
-  //   } catch (e) {}
-  // }
 
   Future<void> _showImageOptions(BuildContext context, int index) async {
     showModalBottomSheet(
@@ -521,48 +451,7 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
     } catch (e) {}
   }
 
-  // Future<void> _pickImages() async {
-  //   try {
-  //     final List<XFile> pickedImages = await _picker.pickMultiImage();
-
-  //     if (pickedImages.isNotEmpty) {
-  //       List<XFile> validImages = [];
-
-  //       for (final image in pickedImages) {
-  //         final String fileExtension = image.path.split('.').last.toLowerCase();
-
-  //         final bool imageSizeValidate =
-  //             AppUtil.isImageValidate(await image.length());
-  //         final bool imageFormatValidate =
-  //             AppUtil.isImageFormatValidate(fileExtension);
-
-  //         if (imageSizeValidate && imageFormatValidate) {
-  //           validImages.add(image);
-  //         } else {
-  //           if (!imageSizeValidate) {
-  //             if (context.mounted) {
-  //               AppUtil.errorToast(context, 'imageValidSize'.tr);
-  //             } else {
-  //               AppUtil.errorToast(context, 'uploadError'.tr);
-  //             }
-  //           }
-  //         }
-  //       }
-
-  //       if (validImages.isNotEmpty) {
-  //         setState(() {
-  //           _selectedImages = [...validImages];
-  //         });
-  //         log("Valid images added: ${validImages.length}");
-  //       }
-  //     }
-  //   } catch (e) {
-  //     log("Image picking error: $e");
-  //     if (context.mounted) {
-  //       AppUtil.errorToast(context, e.toString());
-  //     }
-  //   }
-  // }
+  
   Future<void> _takePhoto() async {
     try {
       final XFile? photo =
@@ -580,43 +469,7 @@ class _ImagePickerBottomSheetState extends State<ImagePickerBottomSheet> {
       }
     } catch (e) {}
   }
-  // Future<void> _takePhoto() async {
-  //   try {
-  //     final XFile? photo =
-  //         await _picker.pickImage(source: ImageSource.camera, imageQuality: 30);
-
-  //     if (photo != null) {
-  //       // for (final image in pickedImages) {
-  //       final String fileExtension = photo.path.split('.').last.toLowerCase();
-
-  //       final bool imageSizeValidate =
-  //           AppUtil.isImageValidate(await photo.length());
-  //       final bool imageFormatValidate =
-  //           AppUtil.isImageFormatValidate(fileExtension);
-
-  //       if (imageSizeValidate && imageFormatValidate) {
-  //         setState(() {
-  //           _selectedImages = _selectedImages != null
-  //               ? [..._selectedImages!, photo]
-  //               : [photo];
-  //         });
-  //       } else {
-  //         if (!imageSizeValidate) {
-  //           if (context.mounted) {
-  //             AppUtil.errorToast(context, 'imageValidSize'.tr);
-  //           } else {
-  //             AppUtil.errorToast(context, 'uploadError'.tr);
-  //           }
-  //         }
-  //       }
-  //     }
-  //   } catch (e) {
-  //     log("Image picking error: $e");
-  //     if (context.mounted) {
-  //       AppUtil.errorToast(context, e.toString());
-  //     }
-  //   }
-  // }
+  
 
   @override
   void initState() {

@@ -48,23 +48,6 @@ class _ViewImagesState extends State<ViewImages> {
   List<XFile> _selectedImages = [];
   final ImagePicker _picker = ImagePicker();
 
-  // Future<void> _pickImage(ImageSource source) async {
-  //   try {
-  //     final List<XFile> pickedImages = await _picker.pickMultiImage();
-  //     if (pickedImages != null) {
-  //       if (AppUtil.isImageValidate(pickedImages.length)) {
-  //         log(" is asdded");
-  //         log(pickedImages.first.path);
-  //         setState(() {
-  //           // _selectedImages.addAll(pickedImages);
-  //           _ExperienceController.images.addAll(pickedImages);
-  //         });
-  //       } else {
-  //         AppUtil.errorToast(context, 'imageValidSize'.tr);
-  //       }
-  //     }
-  //   } catch (e) {}
-  // }
   Future<void> _pickImage(ImageSource source) async {
     try {
       final List<XFile> pickedImages = await _picker.pickMultiImage();
@@ -128,12 +111,7 @@ class _ViewImagesState extends State<ViewImages> {
 
   void _deleteImage(int index) {
     setState(() {
-      //final imageToDelete = _EventrController.images[index];
-
-      // Check if the image exists in the original URL list
-      // if (widget.tripImageUrl.contains(imageToDelete)) {
-      //   widget.tripImageUrl.removeAt(index);
-      // }
+    
 
       _ExperienceController.images.removeAt(index);
     });
@@ -141,13 +119,7 @@ class _ViewImagesState extends State<ViewImages> {
 
   void _insetRemoveImage(int index) {
     setState(() {
-      // final image = _EventrController.images[index];
-
-      // Check if the image exists in the original URL list
-      // if (widget.tripImageUrl.contains(image)) {
-      //   final removedImage1 = widget.tripImageUrl.removeAt(index);
-      //   widget.tripImageUrl.insert(0, removedImage1);
-      // }
+     
 
       final removedImage2 = _ExperienceController.images.removeAt(index);
       _ExperienceController.images.insert(0, removedImage2);
